@@ -196,19 +196,58 @@ public interface Options {
 
 Back-end External API: CommandParser.java, ErrorChecker.java
 
-* Features supported:
-* Resources used: Maybe generics,
-* Usage of this API
-* Extension for additional requirements
+* Features supported: Interpreting commands, throwing errors, generating results
+* Resources used: Maybe generics, internal back end API
+* Usage of this API: The back-end external API communicates with the front-end external API in order to transfer data such as commands, results, errors, and other variables from the back end to the front end.
+* Extension for additional requirements: This could be extended through the implementation of more helper classes and objects, with little change to the ones currently listed. This would help when new features are added in order to smoothly integrate them with the front end.
 * Justification of classes listed
+	* CommandParser.java: This class interprets each command passed in from the Console, and generates Command objects and parse trees in order to fetch results.
+```
+public interface CommandParser {
+    public CommandParser();
 
+    public void createParseTree();
+
+    public void getTreeResults();
+
+    public void passResultToGUI();
+}
+```
+* ErrorChecker.java: This class checks each command for errors in formatting, logic, arithmetic, and syntax. It communicates with the console in the front end.
+```
+public interface ErrorChecker {
+    public ErrorChecker();
+
+    public void checkForErrors();
+}
+```
 Back end Internal API: Command.java, ParseTree.java
 
-* Features supported:
-* Resources used: Reflections
-* Usage of this API
-* Extension for additional requirements
+* Features supported: Interpreting commands, recursive parsing work, determining whether errors exist
+* Resources used: Reflections, tree structure, recursion, error checking
+* Usage of this API: The back end internal API communicates with the back end external API through these helper classes. It does the "busy" work such as parsing each command letter by letter and analyzing its meaning through parseTrees.
+* Extension for additional requirements: Since this API is all helper classes anyway, creating more helper classes in order to implement additional features would not be so hard. Minimal amounts of code in the front end external API may need to be modified in order to account for changes here.
 * Justification of classes listed
+	* Command.java: This class takes a string parameter and converts it through the use of a ParseTree into a usable object that stores each portion of the inputted command. This allows string inputs to be organized as commands which can be added to lists and easily sorted through, without having to convert a string into a command every time it is needed.
+```
+public interface Command {
+    public Command(String userInput);
+
+    public void makeActionFromCommand();
+
+    public void getCommandType();
+}
+```
+* ParseTree.java: This class interprets each command by setting up a tree structure and finding out how many iterations are required to get from the leaf nodes to the root node. This determines the values of variables such as distances in commands.
+```
+public interface ParseTree {
+    public ParseTree(Command c);
+
+    public void getLeaves();
+
+    public int returnNewParam();
+}
+```
 
 ##API Example Code
 
@@ -257,10 +296,3 @@ Use cases:
 
 * Ezra
 	* Ezra will be working on the back-end component of the project with Robert. Specifically, he will be in charge of error handling and throwing errors back to the front end for the user to deal with.
-
-
-
-
-
-
-
