@@ -1,6 +1,7 @@
+package FrontEndExternalAPI;
 
 public interface GUIController {
-    public GUIController();
+//    public GUIController();
 
     public void init();
 

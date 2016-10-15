@@ -1,6 +1,7 @@
+package FrontEndExternalAPI;
 
 public interface StartMenu {
-    public StartMenu();
+//    public StartMenu();
 
     public void setParameters();
 

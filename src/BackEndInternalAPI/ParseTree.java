@@ -1,5 +1,7 @@
+package BackEndInternalAPI;
+
 public interface ParseTree {
-    public ParseTree(Command c);
+//    public ParseTree(Command c);
 
     public void getLeaves();
 

@@ -1,5 +1,7 @@
+package FrontEndInternalAPI;
+
 public interface Options {
-    public Options();
+//    public Options();
 
     public void changeBackgroundColor();
 
