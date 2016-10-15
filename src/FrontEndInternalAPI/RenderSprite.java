@@ -1,5 +1,7 @@
+package FrontEndInternalAPI;
+
 public interface RenderSprite {
-    public RenderSprite();
+//    public RenderSprite();
 
     public void updateNodes();
 

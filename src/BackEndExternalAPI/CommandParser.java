@@ -1,5 +1,6 @@
+package BackEndExternalAPI;
+
 public interface CommandParser {
-    public CommandParser();
 
     public void createParseTree();
 

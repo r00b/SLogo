@@ -1,5 +1,7 @@
+package BackEndInternalAPI;
+
 public interface Command {
-    public Command(String userInput);
+//    public Command(String userInput);
 
     public void makeActionFromCommand();
 
