@@ -35,6 +35,8 @@ public class GUIConsole implements Console {
         backdrop.setTranslateY(350);
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
+        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
         window.getChildren().add(backdrop);
     }
 

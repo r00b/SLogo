@@ -30,6 +30,8 @@ public class GUIHistory implements History {
         backdrop.setTranslateY(660);
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
+        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
         window.getChildren().add(backdrop);
     }
     private void addTextLabel(){

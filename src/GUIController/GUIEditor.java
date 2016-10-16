@@ -30,6 +30,8 @@ public class GUIEditor implements Editor {
         backdrop.setTranslateY(600);
         backdrop.setTranslateX(620);
         backdrop.opacityProperty().setValue(0.5);
+        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
         window.getChildren().add(backdrop);
     }
 
