@@ -1,6 +1,7 @@
 package GUIController;
 
 import FrontEndExternalAPI.GUIController;
+import GUI.GUIButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,11 +15,18 @@ import javafx.stage.Stage;
  */
 public class GUIManager implements GUIController{
     public static final int IDE_WIDTH = 1600;
-    public static final int IDE_HEIGHT = 1000;
+    public static final int IDE_HEIGHT = 900;
     private Paint penColor;
     private ImageView background, turtle;
     private Stage stage;
     private Pane window;
+
+    private GUIConsole myConsole;
+    private GUIEditor myEditor;
+    private GUIHistory myHistory;
+    private GUIVariables myVariables;
+    private GUIDisplay myDisplay;
+    private GUIButtonMenu myButtonMenu;
 
     public GUIManager(Paint penColor, String background, String turtle){
 
@@ -48,6 +56,12 @@ public class GUIManager implements GUIController{
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
         window.getChildren().add(background);
+        myConsole = new GUIConsole(window, penColor);
+        myEditor = new GUIEditor(window, penColor);
+        myHistory = new GUIHistory(window, penColor);
+        myVariables = new GUIVariables(window, penColor);
+        myDisplay = new GUIDisplay(window, turtle);
+        myButtonMenu = new GUIButtonMenu(window, penColor);
         return window;
     }
 
