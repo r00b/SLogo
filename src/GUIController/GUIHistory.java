@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -17,6 +20,7 @@ public class GUIHistory implements History {
         this.window = p;
         this.border = bordercoloir;
         drawHistory();
+        addTextLabel();
     }
 
     private void drawHistory(){
@@ -28,6 +32,14 @@ public class GUIHistory implements History {
         backdrop.opacityProperty().setValue(0.5);
         window.getChildren().add(backdrop);
     }
+    private void addTextLabel(){
+        Text label = new Text("History");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setTranslateX(20);
+        label.setTranslateY(680);
+        window.getChildren().add(label);
+    }
+
 
     @Override
     public void addCommand() {

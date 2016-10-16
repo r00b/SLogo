@@ -125,7 +125,7 @@ public class GUIStartMenu implements StartMenu {
     }
 
     private void selectPenColor(){
-        penColor = generateColorPicker(Color.LIMEGREEN, DROP_DOWN_X_VALUE, 300);
+        penColor = generateColorPicker(Color.MEDIUMPURPLE, DROP_DOWN_X_VALUE, 300);
         Label penLabel = generateLabel("Select pen color", 125, 300);
         startWindow.getChildren().add(penColor);
         startWindow.getChildren().add(penLabel);

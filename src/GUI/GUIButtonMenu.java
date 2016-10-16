@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -17,6 +20,7 @@ public class GUIButtonMenu implements ButtonMenu{
         this.window = p;
         this.border = borderColor;
         drawButtonMenu();
+        addTextLabel();
     }
 
     private void drawButtonMenu(){
@@ -27,6 +31,14 @@ public class GUIButtonMenu implements ButtonMenu{
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
         window.getChildren().add(backdrop);
+    }
+
+    private void addTextLabel(){
+        Text label = new Text("Options");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setTranslateX(20);
+        label.setTranslateY(30);
+        window.getChildren().add(label);
     }
 
     @Override

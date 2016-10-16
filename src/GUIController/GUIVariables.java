@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ public class GUIVariables implements Variables {
         this.window = p;
         this.border = bodercolor;
         drawVariables();
+        addTextLabel();
     }
 
     private void drawVariables(){
@@ -29,6 +33,14 @@ public class GUIVariables implements Variables {
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
         window.getChildren().add(backdrop);
+    }
+
+    private void addTextLabel(){
+        Text label = new Text("Declared Variables");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setTranslateX(20);
+        label.setTranslateY(130);
+        window.getChildren().add(label);
     }
 
     @Override

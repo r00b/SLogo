@@ -6,6 +6,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -19,6 +22,7 @@ public class GUIDisplay implements RenderSprite {
         this.window = p;
         this.myTurtle = turtle;
         drawDisplay();
+        addTextLabel();
         addTurtle();
     }
 
@@ -40,6 +44,14 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
         window.getChildren().add(myTurtle);
+    }
+
+    private void addTextLabel(){
+        Text label = new Text("Display");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setTranslateX(630);
+        label.setTranslateY(130);
+        window.getChildren().add(label);
     }
 
     @Override

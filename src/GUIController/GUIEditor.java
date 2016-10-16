@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -17,6 +20,7 @@ public class GUIEditor implements Editor {
         this.window = p;
         this.border = borderColor;
         drawEditor();
+        addTextLabel();
     }
 
     private void drawEditor(){
@@ -29,6 +33,13 @@ public class GUIEditor implements Editor {
         window.getChildren().add(backdrop);
     }
 
+    private void addTextLabel(){
+        Text label = new Text("Editor");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setTranslateX(630);
+        label.setTranslateY(620);
+        window.getChildren().add(label);
+    }
 
     @Override
     public void enterPressed() {
