@@ -24,8 +24,11 @@ public class GUIStartMenu implements StartMenu {
     private Stage stage, stageNew;
     private ColorPicker penColor, colorB;
     private Spinner<ImageView> backgroundSpinner, turtleSpinner;
-    private ComboBox backgroundBox, turtleBox;
+    private ComboBox<String> backgroundBox, turtleBox;
     private Pane startWindow;
+
+    public GUIManager myGUI;
+
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
             CycleMethod.NO_CYCLE,
             new Stop[]{
@@ -88,7 +91,37 @@ public class GUIStartMenu implements StartMenu {
 
     @Override
     public void setParameters() {
+        String chosenBackground = "";
+        String chosenTurtle = "";
 
+        switch (backgroundBox.getValue()){
+            case "Circuits":
+                chosenBackground = "background.jpg";
+                break;
+            case "Floating Cubes":
+                chosenBackground = "floatingCubes.jpg";
+                break;
+            case "Nebula":
+                chosenBackground = "nebula.jpg";
+                break;
+            case "Metal Sheets":
+                chosenBackground = "dark-wallpaper-2.jpg";
+                break;
+            case "Spinning Screens":
+                chosenBackground = "spinningScreens.jpg";
+                break;
+        }
+
+        switch (turtleBox.getValue()){
+            case "Drake":
+                chosenTurtle = "drake.png";
+                break;
+            case "Heart":
+                chosenTurtle = "heart.png";
+        }
+
+        myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle);
+        initIDE();
     }
 
     private void selectPenColor(){
@@ -118,6 +151,7 @@ public class GUIStartMenu implements StartMenu {
     private void selectBackgroundImage(){
         System.setProperty("glass.accessible.force", "false");
         backgroundBox = new ComboBox(backgroundOptions);
+        backgroundBox.setValue("Floating Cubes");
         backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
         backgroundBox.setTranslateY(350);
         Label backgroundLabel = generateLabel("Select background image", 125, 350);
@@ -128,6 +162,7 @@ public class GUIStartMenu implements StartMenu {
     private void selectTurtleImage(){
         System.setProperty("glass.accessible.force", "false");
         turtleBox = new ComboBox(turtleOptions);
+        turtleBox.setValue("Drake");
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(400);
         Label turtleLabel = generateLabel("Select turtle image", 125, 400);
@@ -143,6 +178,7 @@ public class GUIStartMenu implements StartMenu {
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(300);
         newButton.setTranslateY(450);
+        newButton.setOnMouseClicked(e -> setParameters());
         startWindow.getChildren().add(newButton);
     }
 
@@ -156,7 +192,7 @@ public class GUIStartMenu implements StartMenu {
 
     @Override
     public void initIDE() {
-
+        myGUI.init();
     }
 
     private static class BigNameText extends StackPane {
