@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -31,7 +32,7 @@ public class GUIStartMenu implements StartMenu {
                     new Stop(0, Color.WHITE),
                     new Stop(0.15, Color.HONEYDEW),
                     new Stop(0.3, Color.LIGHTBLUE),
-                    new Stop(0.45, Color.SLATEBLUE),
+                    new Stop(0.45, Color.LIGHTSTEELBLUE),
                     new Stop(0.6, Color.LIGHTBLUE),
                     new Stop(0.75, Color.HONEYDEW),
                     new Stop(1, Color.WHITE)
@@ -76,6 +77,7 @@ public class GUIStartMenu implements StartMenu {
         title.setTranslateX(125);
         title.setTranslateY(125);
         startWindow.getChildren().add(title);
+        addRectangle();
         selectPenColor();
         selectBackgroundImage();
         selectTurtleImage();
@@ -91,7 +93,7 @@ public class GUIStartMenu implements StartMenu {
 
     private void selectPenColor(){
         penColor = generateColorPicker(Color.CORAL, DROP_DOWN_X_VALUE, 300);
-        Label penLabel = generateLabel("Choose pen color", 125, 300);
+        Label penLabel = generateLabel("Select pen color", 125, 300);
         startWindow.getChildren().add(penColor);
         startWindow.getChildren().add(penLabel);
     }
@@ -136,12 +138,20 @@ public class GUIStartMenu implements StartMenu {
 
     private void addLaunchButton(){
         Button newButton = new Button("Launch SLogo");
-        newButton.setStyle(buttonFill);
+        newButton.setStyle(overButton);
         newButton.setOnMouseEntered(e -> newButton.setStyle(buttonFill));
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(300);
         newButton.setTranslateY(450);
         startWindow.getChildren().add(newButton);
+    }
+
+    private void addRectangle(){
+        Rectangle backdrop = new Rectangle(500, 200, Color.MIDNIGHTBLUE);
+        backdrop.setTranslateY(280);
+        backdrop.setTranslateX(100);
+        backdrop.opacityProperty().setValue(0.5);
+        startWindow.getChildren().add(backdrop);
     }
 
     @Override
