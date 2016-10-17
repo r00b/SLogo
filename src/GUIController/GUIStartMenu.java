@@ -50,8 +50,12 @@ public class GUIStartMenu implements StartMenu {
             );
     private ObservableList<String> turtleOptions =
             FXCollections.observableArrayList(
+                    "Turtle",
                     "Drake",
-                    "Heart"
+                    "Heart",
+                    "Young Rob",
+                    "Prof. Duvall"
+                    
             );
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -70,7 +74,7 @@ public class GUIStartMenu implements StartMenu {
         startWindow = new Pane();
         startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("background.jpg"));
+                .getResourceAsStream("images/background.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
@@ -96,28 +100,39 @@ public class GUIStartMenu implements StartMenu {
 
         switch (backgroundBox.getValue()){
             case "Circuits":
-                chosenBackground = "background.jpg";
+                chosenBackground = "images/background.jpg";
                 break;
             case "Floating Cubes":
-                chosenBackground = "floatingCubes.jpg";
+                chosenBackground = "images/floatingCubes.jpg";
                 break;
             case "Nebula":
-                chosenBackground = "nebula.jpg";
+                chosenBackground = "images/nebula.jpg";
                 break;
             case "Metal Sheets":
-                chosenBackground = "dark-wallpaper-2.jpg";
+                chosenBackground = "images/dark-wallpaper-2.jpg";
                 break;
             case "Spinning Screens":
-                chosenBackground = "spinningScreens.jpg";
+                chosenBackground = "images/spinningScreens.jpg";
                 break;
         }
 
         switch (turtleBox.getValue()){
+            case "Turtle":
+                chosenTurtle = "images/turtle.png";
+                break;
             case "Drake":
-                chosenTurtle = "drake.png";
+                chosenTurtle = "images/drake.png";
                 break;
             case "Heart":
-                chosenTurtle = "heart.png";
+                chosenTurtle = "images/heart.png";
+                break;
+            case "Young Rob":
+                chosenTurtle = "images/robby.png";
+                break;
+            case "Prof. Duvall":
+                chosenTurtle = "images/duvall.png";
+                break;
+            
         }
 
         myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle);
@@ -162,7 +177,7 @@ public class GUIStartMenu implements StartMenu {
     private void selectTurtleImage(){
         System.setProperty("glass.accessible.force", "false");
         turtleBox = new ComboBox(turtleOptions);
-        turtleBox.setValue("Drake");
+        turtleBox.setValue("Turtle");
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(400);
         Label turtleLabel = generateLabel("Select turtle image", 125, 400);

@@ -28,7 +28,7 @@ public class GUIDisplay implements RenderSprite {
 
     private void drawDisplay(){
         Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream("graphPaper.gif"));
+                .getResourceAsStream("images/graphPaper.gif"));
         ImageView displayGraph = new ImageView(newImg);
         displayGraph.setFitWidth(970);
         displayGraph.setFitHeight(480);

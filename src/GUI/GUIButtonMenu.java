@@ -2,6 +2,8 @@ package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -52,8 +54,13 @@ public class GUIButtonMenu implements ButtonMenu{
     }
 
     public void addButtons(){
+        Image playButton = new Image(getClass().getClassLoader()
+                                     .getResourceAsStream("images/play.png"));
+        Button play = new Button("Play", new ImageView(playButton));
         Button options = newButton("Options", 30, 40);
+        window.getChildren().add(play);
         window.getChildren().add(options);
+        
     }
 
     @Override
