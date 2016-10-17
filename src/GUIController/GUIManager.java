@@ -64,6 +64,7 @@ public class GUIManager implements GUIController{
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
+//        myButtonMenu.setDefaults(penColor, background, turtle, language);
         setBindings();
         return window;
     }
