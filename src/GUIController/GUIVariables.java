@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class GUIVariables implements Variables {
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
 
     public GUIVariables(Pane p, Paint bodercolor){
         this.window = p;
@@ -26,7 +27,7 @@ public class GUIVariables implements Variables {
     }
 
     private void drawVariables(){
-        Rectangle backdrop = new Rectangle(600, 230, Color.WHITE);
+        backdrop = new Rectangle(600, 230, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(110);
@@ -40,6 +41,7 @@ public class GUIVariables implements Variables {
     private void addTextLabel(){
         Text label = new Text("Declared Variables");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(20);
         label.setTranslateY(130);
         window.getChildren().add(label);

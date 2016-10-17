@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 public class GUIDisplay implements RenderSprite {
     private static final int TURTLE_FIT_SIZE = 100;
     private Pane window;
-    private ImageView myTurtle;
+    private ImageView myTurtle, displayGraph;
 
     public GUIDisplay(Pane p, ImageView turtle){
         this.window = p;
@@ -28,8 +28,8 @@ public class GUIDisplay implements RenderSprite {
 
     private void drawDisplay(){
         Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream("graphPaper.gif"));
-        ImageView displayGraph = new ImageView(newImg);
+                .getResourceAsStream("images/graphPaper.gif"));
+        displayGraph = new ImageView(newImg);
         displayGraph.setFitWidth(970);
         displayGraph.setFitHeight(480);
         displayGraph.setTranslateY(110);
@@ -52,6 +52,10 @@ public class GUIDisplay implements RenderSprite {
         label.setTranslateX(630);
         label.setTranslateY(130);
         window.getChildren().add(label);
+    }
+
+    public ImageView getGraph(){
+        return displayGraph;
     }
 
     @Override

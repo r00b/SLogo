@@ -24,7 +24,7 @@ public class GUIStartMenu implements StartMenu {
     private Stage stage, stageNew;
     private ColorPicker penColor, colorB;
     private Spinner<ImageView> backgroundSpinner, turtleSpinner;
-    private ComboBox<String> backgroundBox, turtleBox;
+    private ComboBox<String> backgroundBox, turtleBox, languageBox;
     private Pane startWindow;
 
     public GUIManager myGUI;
@@ -50,8 +50,25 @@ public class GUIStartMenu implements StartMenu {
             );
     private ObservableList<String> turtleOptions =
             FXCollections.observableArrayList(
+                    "Turtle",
                     "Drake",
-                    "Heart"
+                    "Heart",
+                    "Young Rob",
+                    "Prof. Duvall"
+                    
+            );
+    private ObservableList<String> languageOptions =
+            FXCollections.observableArrayList(
+                    "Chinese",
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Portuguese",
+                    "Russian",
+                    "Spanish",
+                    "Syntax"
+
             );
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -70,7 +87,7 @@ public class GUIStartMenu implements StartMenu {
         startWindow = new Pane();
         startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("background.jpg"));
+                .getResourceAsStream("images/background.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
@@ -84,6 +101,7 @@ public class GUIStartMenu implements StartMenu {
         selectPenColor();
         selectBackgroundImage();
         selectTurtleImage();
+        selectLanguage();
         addLaunchButton();
 
         return startWindow;
@@ -96,31 +114,42 @@ public class GUIStartMenu implements StartMenu {
 
         switch (backgroundBox.getValue()){
             case "Circuits":
-                chosenBackground = "background.jpg";
+                chosenBackground = "images/background.jpg";
                 break;
             case "Floating Cubes":
-                chosenBackground = "floatingCubes.jpg";
+                chosenBackground = "images/floatingCubes.jpg";
                 break;
             case "Nebula":
-                chosenBackground = "nebula.jpg";
+                chosenBackground = "images/nebula.jpg";
                 break;
             case "Metal Sheets":
-                chosenBackground = "dark-wallpaper-2.jpg";
+                chosenBackground = "images/dark-wallpaper-2.jpg";
                 break;
             case "Spinning Screens":
-                chosenBackground = "spinningScreens.jpg";
+                chosenBackground = "images/spinningScreens.jpg";
                 break;
         }
 
         switch (turtleBox.getValue()){
+            case "Turtle":
+                chosenTurtle = "images/turtle.png";
+                break;
             case "Drake":
-                chosenTurtle = "drake.png";
+                chosenTurtle = "images/drake.png";
                 break;
             case "Heart":
-                chosenTurtle = "heart.png";
+                chosenTurtle = "images/heart.png";
+                break;
+            case "Young Rob":
+                chosenTurtle = "images/robby.png";
+                break;
+            case "Prof. Duvall":
+                chosenTurtle = "images/duvall.png";
+                break;
+            
         }
 
-        myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle);
+        myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle, languageBox.getValue());
         initIDE();
     }
 
@@ -162,13 +191,23 @@ public class GUIStartMenu implements StartMenu {
     private void selectTurtleImage(){
         System.setProperty("glass.accessible.force", "false");
         turtleBox = new ComboBox(turtleOptions);
-        turtleBox.setValue("Drake");
+        turtleBox.setValue("Turtle");
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(400);
         Label turtleLabel = generateLabel("Select turtle image", 125, 400);
         startWindow.getChildren().add(turtleLabel);
         startWindow.getChildren().add(turtleBox);
+    }
 
+    private void selectLanguage(){
+        System.setProperty("glass.accessible.force", "false");
+        languageBox = new ComboBox(languageOptions);
+        languageBox.setValue("English");
+        languageBox.setTranslateX(DROP_DOWN_X_VALUE);
+        languageBox.setTranslateY(450);
+        Label languageLabel = generateLabel("Select language", 125, 450);
+        startWindow.getChildren().add(languageLabel);
+        startWindow.getChildren().add(languageBox);
     }
 
     private void addLaunchButton(){
@@ -177,13 +216,13 @@ public class GUIStartMenu implements StartMenu {
         newButton.setOnMouseEntered(e -> newButton.setStyle(buttonFill));
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(300);
-        newButton.setTranslateY(450);
+        newButton.setTranslateY(500);
         newButton.setOnMouseClicked(e -> setParameters());
         startWindow.getChildren().add(newButton);
     }
 
     private void addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 200, Color.MIDNIGHTBLUE);
+        Rectangle backdrop = new Rectangle(500, 240, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(280);
         backdrop.setTranslateX(100);
         backdrop.opacityProperty().setValue(0.5);

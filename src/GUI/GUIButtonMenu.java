@@ -2,6 +2,9 @@ package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,6 +19,7 @@ import javafx.scene.text.Text;
 public class GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -32,40 +36,110 @@ public class GUIButtonMenu implements ButtonMenu{
     }
 
     private void drawButtonMenu(){
-        Rectangle backdrop = new Rectangle(1580, 90, Color.WHITE);
+        backdrop = new Rectangle(1580, 90, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(10);
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
+//        backdrop.setOnMouseMoved(e -> handle(e));
         backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
         window.getChildren().add(backdrop);
     }
 
+//    private void handle(MouseEvent e){
+//        if(e.getX() > backdrop.getTranslateX()
+//                && e.getX() < backdrop.getWidth()
+//                && e.getY() > backdrop.getTranslateY()
+//                && e.getY() < backdrop.getHeight()){
+//            backdrop.opacityProperty().setValue(0.8);
+//        }
+////        if(e.getX() > 10
+////                && e.getX() < 1580
+////                && e.getY() > 10
+////                && e.getY() < 90){
+////            backdrop.opacityProperty().setValue(0.8);
+////        }
+//        else backdrop.opacityProperty().setValue(0.5);
+//    }
+
     private void addTextLabel(){
         Text label = new Text("Options");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(20);
         label.setTranslateY(30);
         window.getChildren().add(label);
     }
 
-    public void addButtons(){
-        Button options = newButton("Options", 30, 40);
+    public void addButtons(){ 
+        Button play = newButton("PLAY", 30, 40);
+        Button pause = newButton("PAUSE", 130, 40);
+        Button stop = newButton("STOP", 240, 40);
+        Button options = newButton("OPTIONS", 340, 50);
+        Button help = newButton("HELP", 420, 50);
+        window.getChildren().add(play);
+        window.getChildren().add(pause);
+        window.getChildren().add(stop);
         window.getChildren().add(options);
+        window.getChildren().add(help);
+        
     }
 
     @Override
     public Button newButton(String text, int x, int y) {
-        Button newButton = new Button("Options");
+       
+        ImageView newImage = loadImage(text);
+        Button newButton;
+        if(text.equals("PLAY")){
+            newButton = new Button(text, newImage);
+        }
+        else if(text.equals("PAUSE")){
+            newButton = new Button(text, newImage);  
+        }
+        else if(text.equals("STOP")){
+            newButton = new Button(text, newImage);
+        }
+        else
+        {
+            newButton = new Button(text);
+        }
         newButton.setStyle(overButton);
-        newButton.setOnMouseEntered(e -> newButton.setStyle(buttonFill));
+        newButton.setOnMouseEntered(e -> {
+                newButton.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(x);
         newButton.setTranslateY(y);
-
         return newButton;
+    }
 
+    private ImageView loadImage (String text) {
+        Image newImage = new Image(getClass().getClassLoader()
+                                   .getResourceAsStream("images/play.png"));
+        if(text.equals("PLAY")){
+         newImage = new Image(getClass().getClassLoader()
+                                     .getResourceAsStream("images/play.png"));
+        }
+        else if(text.equals("PAUSE")){
+             newImage = new Image(getClass().getClassLoader()
+                                       .getResourceAsStream("images/pause.png"));
+        }
+        else if(text.equals("STOP")){
+             newImage = new Image(getClass().getClassLoader()
+                                       .getResourceAsStream("images/stop.png"));
+        }
+        else{
+        }
+        ImageView imgV = new ImageView(newImage);
+        imgV.setFitWidth(40);
+        imgV.setFitHeight(40);
+        return imgV;
+    }
+
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 }
