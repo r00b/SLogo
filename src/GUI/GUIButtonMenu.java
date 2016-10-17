@@ -80,7 +80,12 @@ public class GUIButtonMenu implements ButtonMenu{
         playImg.setFitWidth(40);
         playImg.setFitHeight(40);
         Button play = new Button("Play", playImg);
-        play.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        play.setStyle(overButton);
+        play.setOnMouseEntered(e -> {
+            play.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        play.setOnMouseExited(e -> play.setStyle(overButton));
         play.setTranslateX(30);
         play.setTranslateY(40);
         Button options = newButton("Options", 150, 45);
