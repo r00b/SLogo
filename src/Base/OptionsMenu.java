@@ -23,10 +23,11 @@ public abstract class OptionsMenu implements Options {
     private static final int START_MENU_WIDTH = 700;
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
-    public Pane startWindow;
+
+    private Pane startWindow;
     private Stage stage;
-    public ColorPicker penColor;
-    public ComboBox<String> backgroundBox, turtleBox, languageBox;
+    private ColorPicker penColor;
+    private ComboBox<String> backgroundBox, turtleBox, languageBox;
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",
@@ -153,6 +154,34 @@ public abstract class OptionsMenu implements Options {
         startWindow.getChildren().add(turtleLabel);
         startWindow.getChildren().add(turtleBox);
 
+    }
+
+    public ColorPicker getPenColor(){
+        return penColor;
+    }
+
+    public Pane getStartWindow() {
+        return startWindow;
+    }
+
+    public ComboBox<String> getBackgroundBox() {
+        return backgroundBox;
+    }
+
+    public ComboBox<String> getTurtleBox() {
+        return turtleBox;
+    }
+
+    public ComboBox<String> getLanguageBox() {
+        return languageBox;
+    }
+
+    public String getOverButton() {
+        return overButton;
+    }
+
+    public String getButtonFill() {
+        return buttonFill;
     }
 
     public abstract void addTitle();
