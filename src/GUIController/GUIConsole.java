@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 public class GUIConsole implements Console {
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
 
     public GUIConsole(Pane p, Paint borderColor){
         this.window = p;
@@ -29,7 +30,7 @@ public class GUIConsole implements Console {
     }
 
     private void drawConsole(){
-        Rectangle backdrop = new Rectangle(600, 300, Color.WHITE);
+        backdrop = new Rectangle(600, 300, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(350);
@@ -43,6 +44,7 @@ public class GUIConsole implements Console {
     private void addTextLabel(){
         Text label = new Text("Console");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(20);
         label.setTranslateY(370);
         window.getChildren().add(label);

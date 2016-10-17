@@ -38,6 +38,7 @@ public class GUIHistory implements History {
     private void addTextLabel(){
         Text label = new Text("History");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(20);
         label.setTranslateY(680);
         window.getChildren().add(label);
