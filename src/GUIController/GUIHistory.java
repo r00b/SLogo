@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 public class GUIHistory implements History {
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
 
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
@@ -24,7 +25,7 @@ public class GUIHistory implements History {
     }
 
     private void drawHistory(){
-        Rectangle backdrop = new Rectangle(600, 220, Color.WHITE);
+        backdrop = new Rectangle(600, 220, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(660);
@@ -40,6 +41,10 @@ public class GUIHistory implements History {
         label.setTranslateX(20);
         label.setTranslateY(680);
         window.getChildren().add(label);
+    }
+
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 
 
