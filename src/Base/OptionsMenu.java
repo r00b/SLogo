@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -28,6 +29,10 @@ public abstract class OptionsMenu implements Options {
     private Stage stage;
     private ColorPicker penColor;
     private ComboBox<String> backgroundBox, turtleBox, languageBox;
+    private Color defaultPen = Color.MIDNIGHTBLUE;
+    private String defaultBackground = "Nebula";
+    private String defaultTurtle = "Turtle";
+    private String defaultLanguage = "English";
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",
@@ -91,12 +96,19 @@ public abstract class OptionsMenu implements Options {
         return startWindow;
     }
 
+    public void setDefaults(Color paint, String background, String turtle, String language){
+        defaultPen = paint;
+        defaultBackground = background;
+        defaultTurtle = turtle;
+        defaultLanguage = language;
+    }
+
     @Override
     public void changeBackground() {
 
         System.setProperty("glass.accessible.force", "false");
         backgroundBox = new ComboBox(backgroundOptions);
-        backgroundBox.setValue("Floating Cubes");
+        backgroundBox.setValue(defaultBackground);
         backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
         backgroundBox.setTranslateY(350);
         Label backgroundLabel = generateLabel("Select background image", 125, 350);
@@ -107,7 +119,7 @@ public abstract class OptionsMenu implements Options {
     @Override
     public void changePenColor() {
 
-        penColor = generateColorPicker(Color.MEDIUMPURPLE, DROP_DOWN_X_VALUE, 300);
+        penColor = generateColorPicker(defaultPen, DROP_DOWN_X_VALUE, 300);
         Label penLabel = generateLabel("Select pen color", 125, 300);
         startWindow.getChildren().add(penColor);
         startWindow.getChildren().add(penLabel);
@@ -134,7 +146,7 @@ public abstract class OptionsMenu implements Options {
     public void changeLanguage() {
         System.setProperty("glass.accessible.force", "false");
         languageBox = new ComboBox(languageOptions);
-        languageBox.setValue("English");
+        languageBox.setValue(defaultLanguage);
         languageBox.setTranslateX(DROP_DOWN_X_VALUE);
         languageBox.setTranslateY(450);
         Label languageLabel = generateLabel("Select language", 125, 450);
@@ -147,7 +159,7 @@ public abstract class OptionsMenu implements Options {
     public void changeSpriteImage() {
         System.setProperty("glass.accessible.force", "false");
         turtleBox = new ComboBox(turtleOptions);
-        turtleBox.setValue("Turtle");
+        turtleBox.setValue(defaultTurtle);
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(400);
         Label turtleLabel = generateLabel("Select turtle image", 125, 400);
@@ -182,6 +194,10 @@ public abstract class OptionsMenu implements Options {
 
     public String getButtonFill() {
         return buttonFill;
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
     public abstract void addTitle();

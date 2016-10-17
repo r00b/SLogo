@@ -12,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -20,6 +21,7 @@ public class GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private OptionsPopup myOptions;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -48,22 +50,6 @@ public class GUIButtonMenu implements ButtonMenu{
         window.getChildren().add(backdrop);
     }
 
-//    private void handle(MouseEvent e){
-//        if(e.getX() > backdrop.getTranslateX()
-//                && e.getX() < backdrop.getWidth()
-//                && e.getY() > backdrop.getTranslateY()
-//                && e.getY() < backdrop.getHeight()){
-//            backdrop.opacityProperty().setValue(0.8);
-//        }
-////        if(e.getX() > 10
-////                && e.getX() < 1580
-////                && e.getY() > 10
-////                && e.getY() < 90){
-////            backdrop.opacityProperty().setValue(0.8);
-////        }
-//        else backdrop.opacityProperty().setValue(0.5);
-//    }
-
     private void addTextLabel(){
         Text label = new Text("Options");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -78,6 +64,7 @@ public class GUIButtonMenu implements ButtonMenu{
         Button pause = newButton("PAUSE", 130, 40);
         Button stop = newButton("STOP", 240, 40);
         Button options = newButton("OPTIONS", 340, 50);
+        options.setOnMouseClicked(e -> optionsHandler());
         Button help = newButton("HELP", 420, 50);
         window.getChildren().add(play);
         window.getChildren().add(pause);
@@ -137,6 +124,16 @@ public class GUIButtonMenu implements ButtonMenu{
         imgV.setFitWidth(40);
         imgV.setFitHeight(40);
         return imgV;
+    }
+
+    public void setDefaults(Color paint, String background, String turtle, String language){
+
+    }
+
+    private void optionsHandler(){
+        Stage s = new Stage();
+        myOptions = new OptionsPopup(s);
+        myOptions.initPopup();
     }
 
     public Rectangle getBackdrop(){
