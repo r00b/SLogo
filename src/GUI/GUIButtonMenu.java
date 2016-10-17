@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 public class GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -34,7 +35,7 @@ public class GUIButtonMenu implements ButtonMenu{
     }
 
     private void drawButtonMenu(){
-        Rectangle backdrop = new Rectangle(1580, 90, Color.WHITE);
+        backdrop = new Rectangle(1580, 90, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(10);
@@ -56,29 +57,14 @@ public class GUIButtonMenu implements ButtonMenu{
     public void addButtons(){
         Image playButton = new Image(getClass().getClassLoader()
                                      .getResourceAsStream("images/play.png"));
-        ImageView playView = new ImageView(playButton);
-        Image pauseButton = new Image(getClass().getClassLoader()
-                                     .getResourceAsStream("images/pause.png"));
-        ImageView pauseView = new ImageView(pauseButton);
-        Image stopButton = new Image(getClass().getClassLoader()
-                                     .getResourceAsStream("images/stop.png"));
-        ImageView stopView = new ImageView(stopButton);
-        playView.setX(40);
-        playView.setY(40);
-        playView.setFitHeight(50);
-        playView.setFitWidth(50);
-        pauseView.setX(100);
-        pauseView.setY(40);
-        pauseView.setFitHeight(50);
-        pauseView.setFitWidth(50);
-        stopView.setX(160);
-        stopView.setY(40);
-        stopView.setFitHeight(50);
-        stopView.setFitWidth(50);
-        Button options = newButton("Options", 220, 52);
-        window.getChildren().add(playView);
-        window.getChildren().add(pauseView);
-        window.getChildren().add(stopView);
+        ImageView playImg = new ImageView(playButton);
+        playImg.setFitWidth(40);
+        playImg.setFitHeight(40);
+        Button play = new Button("Play", playImg);
+        play.setTranslateX(30);
+        play.setTranslateY(40);
+        Button options = newButton("Options", 150, 45);
+        window.getChildren().add(play);
         window.getChildren().add(options);
         
     }
@@ -94,5 +80,9 @@ public class GUIButtonMenu implements ButtonMenu{
 
         return newButton;
 
+    }
+
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 }
