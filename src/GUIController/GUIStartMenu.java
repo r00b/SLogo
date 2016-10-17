@@ -1,5 +1,6 @@
 package GUIController;
 
+import Base.OptionsMenu;
 import FrontEndExternalAPI.StartMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,16 +17,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class GUIStartMenu implements StartMenu {
+public class GUIStartMenu extends OptionsMenu {
 
     private static final int START_MENU_WIDTH = 700;
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
     private Stage stage, stageNew;
-    private ColorPicker penColor, colorB;
-    private Spinner<ImageView> backgroundSpinner, turtleSpinner;
-    private ComboBox<String> backgroundBox, turtleBox, languageBox;
-    private Pane startWindow;
+//    private ColorPicker penColor;
+//    private ComboBox<String> backgroundBox, turtleBox, languageBox;
+//    private Pane startWindow;
 
     public GUIManager myGUI;
 
@@ -40,36 +40,36 @@ public class GUIStartMenu implements StartMenu {
                     new Stop(0.75, Color.HONEYDEW),
                     new Stop(1, Color.WHITE)
             });
-    private ObservableList<String> backgroundOptions =
-            FXCollections.observableArrayList(
-                    "Circuits",
-                    "Floating Cubes",
-                    "Nebula",
-                    "Metal Sheets",
-                    "Spinning Screens"
-            );
-    private ObservableList<String> turtleOptions =
-            FXCollections.observableArrayList(
-                    "Turtle",
-                    "Drake",
-                    "Heart",
-                    "Young Rob",
-                    "Prof. Duvall"
-                    
-            );
-    private ObservableList<String> languageOptions =
-            FXCollections.observableArrayList(
-                    "Chinese",
-                    "English",
-                    "French",
-                    "German",
-                    "Italian",
-                    "Portuguese",
-                    "Russian",
-                    "Spanish",
-                    "Syntax"
-
-            );
+//    private ObservableList<String> backgroundOptions =
+//            FXCollections.observableArrayList(
+//                    "Circuits",
+//                    "Floating Cubes",
+//                    "Nebula",
+//                    "Metal Sheets",
+//                    "Spinning Screens"
+//            );
+//    private ObservableList<String> turtleOptions =
+//            FXCollections.observableArrayList(
+//                    "Turtle",
+//                    "Drake",
+//                    "Heart",
+//                    "Young Rob",
+//                    "Prof. Duvall"
+//
+//            );
+//    private ObservableList<String> languageOptions =
+//            FXCollections.observableArrayList(
+//                    "Chinese",
+//                    "English",
+//                    "French",
+//                    "German",
+//                    "Italian",
+//                    "Portuguese",
+//                    "Russian",
+//                    "Spanish",
+//                    "Syntax"
+//
+//            );
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-font: 35 arial;" +
@@ -80,34 +80,39 @@ public class GUIStartMenu implements StartMenu {
             "-fx-text-fill: white;";
 
     public GUIStartMenu(Stage s) {
-        stage = s;
+        super(s);
     }
 
-    public Parent setUpWindow(){
-        startWindow = new Pane();
-        startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
-        Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/background.jpg"));
-        ImageView backgroundImageMainScreen = new ImageView(background);
-        backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
-        backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
-        startWindow.getChildren().add(backgroundImageMainScreen);
-
+    @Override
+    public void addTitle() {
         BigNameText title = new BigNameText("Welcome to \n\tSLogo");
         title.setTranslateX(125);
         title.setTranslateY(125);
         startWindow.getChildren().add(title);
-        addRectangle();
-        selectPenColor();
-        selectBackgroundImage();
-        selectTurtleImage();
-        selectLanguage();
-        addLaunchButton();
 
-        return startWindow;
     }
 
-    @Override
+//    public Parent setUpWindow(){
+//        startWindow = new Pane();
+//        startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
+//        Image background = new Image(getClass().getClassLoader()
+//                .getResourceAsStream("images/background.jpg"));
+//        ImageView backgroundImageMainScreen = new ImageView(background);
+//        backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
+//        backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
+//        startWindow.getChildren().add(backgroundImageMainScreen);
+//        addTitle();
+//        addRectangle();
+//        selectPenColor();
+//        selectBackgroundImage();
+//        selectTurtleImage();
+//        selectLanguage();
+//        addLaunchButton();
+//
+//        return startWindow;
+//    }
+
+//    @Override
     public void setParameters() {
         String chosenBackground = "";
         String chosenTurtle = "";
@@ -153,64 +158,64 @@ public class GUIStartMenu implements StartMenu {
         initIDE();
     }
 
-    private void selectPenColor(){
-        penColor = generateColorPicker(Color.MEDIUMPURPLE, DROP_DOWN_X_VALUE, 300);
-        Label penLabel = generateLabel("Select pen color", 125, 300);
-        startWindow.getChildren().add(penColor);
-        startWindow.getChildren().add(penLabel);
-    }
+//    private void selectPenColor(){
+//        penColor = generateColorPicker(Color.MEDIUMPURPLE, DROP_DOWN_X_VALUE, 300);
+//        Label penLabel = generateLabel("Select pen color", 125, 300);
+//        startWindow.getChildren().add(penColor);
+//        startWindow.getChildren().add(penLabel);
+//    }
+//
+//    private Label generateLabel(String text, int x, int y){
+//        Label penLabel = new Label(text);
+//        penLabel.setTranslateX(x);
+//        penLabel.setTranslateY(y);
+//        penLabel.setTextFill(Color.WHITE);
+//        penLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+//        return penLabel;
+//    }
+//
+//    private ColorPicker generateColorPicker(Color defaultColor, int x, int y){
+//        penColor = new ColorPicker();
+//        penColor.setTranslateX(x);
+//        penColor.setTranslateY(y);
+//        penColor.setValue(defaultColor);
+//        return penColor;
+//    }
+//
+//    private void selectBackgroundImage(){
+//        System.setProperty("glass.accessible.force", "false");
+//        backgroundBox = new ComboBox(backgroundOptions);
+//        backgroundBox.setValue("Floating Cubes");
+//        backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
+//        backgroundBox.setTranslateY(350);
+//        Label backgroundLabel = generateLabel("Select background image", 125, 350);
+//        startWindow.getChildren().add(backgroundLabel);
+//        startWindow.getChildren().add(backgroundBox);
+//    }
+//
+//    private void selectTurtleImage(){
+//        System.setProperty("glass.accessible.force", "false");
+//        turtleBox = new ComboBox(turtleOptions);
+//        turtleBox.setValue("Turtle");
+//        turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
+//        turtleBox.setTranslateY(400);
+//        Label turtleLabel = generateLabel("Select turtle image", 125, 400);
+//        startWindow.getChildren().add(turtleLabel);
+//        startWindow.getChildren().add(turtleBox);
+//    }
+//
+//    private void selectLanguage(){
+//        System.setProperty("glass.accessible.force", "false");
+//        languageBox = new ComboBox(languageOptions);
+//        languageBox.setValue("English");
+//        languageBox.setTranslateX(DROP_DOWN_X_VALUE);
+//        languageBox.setTranslateY(450);
+//        Label languageLabel = generateLabel("Select language", 125, 450);
+//        startWindow.getChildren().add(languageLabel);
+//        startWindow.getChildren().add(languageBox);
+//    }
 
-    private Label generateLabel(String text, int x, int y){
-        Label penLabel = new Label(text);
-        penLabel.setTranslateX(x);
-        penLabel.setTranslateY(y);
-        penLabel.setTextFill(Color.WHITE);
-        penLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        return penLabel;
-    }
-
-    private ColorPicker generateColorPicker(Color defaultColor, int x, int y){
-        penColor = new ColorPicker();
-        penColor.setTranslateX(x);
-        penColor.setTranslateY(y);
-        penColor.setValue(defaultColor);
-        return penColor;
-    }
-
-    private void selectBackgroundImage(){
-        System.setProperty("glass.accessible.force", "false");
-        backgroundBox = new ComboBox(backgroundOptions);
-        backgroundBox.setValue("Floating Cubes");
-        backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
-        backgroundBox.setTranslateY(350);
-        Label backgroundLabel = generateLabel("Select background image", 125, 350);
-        startWindow.getChildren().add(backgroundLabel);
-        startWindow.getChildren().add(backgroundBox);
-    }
-
-    private void selectTurtleImage(){
-        System.setProperty("glass.accessible.force", "false");
-        turtleBox = new ComboBox(turtleOptions);
-        turtleBox.setValue("Turtle");
-        turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
-        turtleBox.setTranslateY(400);
-        Label turtleLabel = generateLabel("Select turtle image", 125, 400);
-        startWindow.getChildren().add(turtleLabel);
-        startWindow.getChildren().add(turtleBox);
-    }
-
-    private void selectLanguage(){
-        System.setProperty("glass.accessible.force", "false");
-        languageBox = new ComboBox(languageOptions);
-        languageBox.setValue("English");
-        languageBox.setTranslateX(DROP_DOWN_X_VALUE);
-        languageBox.setTranslateY(450);
-        Label languageLabel = generateLabel("Select language", 125, 450);
-        startWindow.getChildren().add(languageLabel);
-        startWindow.getChildren().add(languageBox);
-    }
-
-    private void addLaunchButton(){
+    public void addLaunchButton(){
         Button newButton = new Button("Launch SLogo");
         newButton.setStyle(overButton);
         newButton.setOnMouseEntered(e -> newButton.setStyle(buttonFill));
@@ -221,7 +226,7 @@ public class GUIStartMenu implements StartMenu {
         startWindow.getChildren().add(newButton);
     }
 
-    private void addRectangle(){
+    public void addRectangle(){
         Rectangle backdrop = new Rectangle(500, 240, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(280);
         backdrop.setTranslateX(100);
@@ -229,7 +234,7 @@ public class GUIStartMenu implements StartMenu {
         startWindow.getChildren().add(backdrop);
     }
 
-    @Override
+//    @Override
     public void initIDE() {
         myGUI.init();
     }
@@ -245,4 +250,5 @@ public class GUIStartMenu implements StartMenu {
             getChildren().add(titleText);
         }
     }
+
 }
