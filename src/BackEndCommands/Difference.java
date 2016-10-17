@@ -4,18 +4,18 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Forward implements Command {
-	private static final int ARGS = 1;
+public class Difference implements Command {
 
 	@Override
 	public double executeCommand(List<Double> args) {
-		//Need to update line and image position
-		return args.get(0);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int numArguments() {
-		return ARGS;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

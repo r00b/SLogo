@@ -1,9 +1,10 @@
 package BackEndInternalAPI;
 
+import java.util.List;
+
 public interface Command {
 //    public Command(String userInput);
 
-    public void makeActionFromCommand();
-
-    public void getCommandType();
+    public double executeCommand(List<Double> args);
+    public int numArguments();
 }
