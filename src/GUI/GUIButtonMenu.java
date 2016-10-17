@@ -56,9 +56,29 @@ public class GUIButtonMenu implements ButtonMenu{
     public void addButtons(){
         Image playButton = new Image(getClass().getClassLoader()
                                      .getResourceAsStream("images/play.png"));
-        Button play = new Button("Play", new ImageView(playButton));
-        Button options = newButton("Options", 30, 40);
-        window.getChildren().add(play);
+        ImageView playView = new ImageView(playButton);
+        Image pauseButton = new Image(getClass().getClassLoader()
+                                     .getResourceAsStream("images/pause.png"));
+        ImageView pauseView = new ImageView(pauseButton);
+        Image stopButton = new Image(getClass().getClassLoader()
+                                     .getResourceAsStream("images/stop.png"));
+        ImageView stopView = new ImageView(stopButton);
+        playView.setX(40);
+        playView.setY(40);
+        playView.setFitHeight(50);
+        playView.setFitWidth(50);
+        pauseView.setX(100);
+        pauseView.setY(40);
+        pauseView.setFitHeight(50);
+        pauseView.setFitWidth(50);
+        stopView.setX(160);
+        stopView.setY(40);
+        stopView.setFitHeight(50);
+        stopView.setFitWidth(50);
+        Button options = newButton("Options", 220, 52);
+        window.getChildren().add(playView);
+        window.getChildren().add(pauseView);
+        window.getChildren().add(stopView);
         window.getChildren().add(options);
         
     }
