@@ -56,6 +56,8 @@ public class GUIManager implements GUIController{
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
         window.getChildren().add(background);
+        background.fitWidthProperty().bind(window.widthProperty());
+        background.fitHeightProperty().bind(window.heightProperty());
         myConsole = new GUIConsole(window, penColor);
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
