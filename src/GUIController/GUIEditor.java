@@ -39,6 +39,7 @@ public class GUIEditor implements Editor {
     private void addTextLabel(){
         Text label = new Text("Editor");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(630);
         label.setTranslateY(620);
         window.getChildren().add(label);
