@@ -20,6 +20,7 @@ public class GUIManager implements GUIController{
     private ImageView background, turtle;
     private Stage stage;
     private Pane window;
+    private String language;
 
     private GUIConsole myConsole;
     private GUIEditor myEditor;
@@ -28,7 +29,7 @@ public class GUIManager implements GUIController{
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
 
-    public GUIManager(Paint penColor, String background, String turtle){
+    public GUIManager(Paint penColor, String background, String turtle, String language){
 
         this.penColor = penColor;
         Image newImg = new Image(getClass().getClassLoader()
@@ -41,6 +42,7 @@ public class GUIManager implements GUIController{
                 .getResourceAsStream(turtle));
         ImageView turtleImageIDE = new ImageView(newImg);
         this.turtle = turtleImageIDE;
+        this.language = language;
     }
 
     @Override
@@ -56,15 +58,24 @@ public class GUIManager implements GUIController{
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
         window.getChildren().add(background);
-        background.fitWidthProperty().bind(window.widthProperty());
-        background.fitHeightProperty().bind(window.heightProperty());
         myConsole = new GUIConsole(window, penColor);
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
+        setBindings();
         return window;
+    }
+
+    private void setBindings(){
+        background.fitWidthProperty().bind(window.widthProperty());
+        background.fitHeightProperty().bind(window.heightProperty());
+        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
+        myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
+        myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
+        myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class GUIStartMenu implements StartMenu {
     private Stage stage, stageNew;
     private ColorPicker penColor, colorB;
     private Spinner<ImageView> backgroundSpinner, turtleSpinner;
-    private ComboBox<String> backgroundBox, turtleBox;
+    private ComboBox<String> backgroundBox, turtleBox, languageBox;
     private Pane startWindow;
 
     public GUIManager myGUI;
@@ -57,6 +57,19 @@ public class GUIStartMenu implements StartMenu {
                     "Prof. Duvall"
                     
             );
+    private ObservableList<String> languageOptions =
+            FXCollections.observableArrayList(
+                    "Chinese",
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Portuguese",
+                    "Russian",
+                    "Spanish",
+                    "Syntax"
+
+            );
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-font: 35 arial;" +
@@ -88,6 +101,7 @@ public class GUIStartMenu implements StartMenu {
         selectPenColor();
         selectBackgroundImage();
         selectTurtleImage();
+        selectLanguage();
         addLaunchButton();
 
         return startWindow;
@@ -135,7 +149,7 @@ public class GUIStartMenu implements StartMenu {
             
         }
 
-        myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle);
+        myGUI = new GUIManager(penColor.getValue(), chosenBackground, chosenTurtle, languageBox.getValue());
         initIDE();
     }
 
@@ -183,7 +197,17 @@ public class GUIStartMenu implements StartMenu {
         Label turtleLabel = generateLabel("Select turtle image", 125, 400);
         startWindow.getChildren().add(turtleLabel);
         startWindow.getChildren().add(turtleBox);
+    }
 
+    private void selectLanguage(){
+        System.setProperty("glass.accessible.force", "false");
+        languageBox = new ComboBox(languageOptions);
+        languageBox.setValue("English");
+        languageBox.setTranslateX(DROP_DOWN_X_VALUE);
+        languageBox.setTranslateY(450);
+        Label languageLabel = generateLabel("Select language", 125, 450);
+        startWindow.getChildren().add(languageLabel);
+        startWindow.getChildren().add(languageBox);
     }
 
     private void addLaunchButton(){
@@ -192,13 +216,13 @@ public class GUIStartMenu implements StartMenu {
         newButton.setOnMouseEntered(e -> newButton.setStyle(buttonFill));
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(300);
-        newButton.setTranslateY(450);
+        newButton.setTranslateY(500);
         newButton.setOnMouseClicked(e -> setParameters());
         startWindow.getChildren().add(newButton);
     }
 
     private void addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 200, Color.MIDNIGHTBLUE);
+        Rectangle backdrop = new Rectangle(500, 240, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(280);
         backdrop.setTranslateX(100);
         backdrop.opacityProperty().setValue(0.5);

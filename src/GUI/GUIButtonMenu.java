@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 public class GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -34,7 +35,7 @@ public class GUIButtonMenu implements ButtonMenu{
     }
 
     private void drawButtonMenu(){
-        Rectangle backdrop = new Rectangle(1580, 90, Color.WHITE);
+        backdrop = new Rectangle(1580, 90, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(10);
@@ -56,8 +57,13 @@ public class GUIButtonMenu implements ButtonMenu{
     public void addButtons(){
         Image playButton = new Image(getClass().getClassLoader()
                                      .getResourceAsStream("images/play.png"));
-        Button play = new Button("Play", new ImageView(playButton));
-        Button options = newButton("Options", 30, 40);
+        ImageView playImg = new ImageView(playButton);
+        playImg.setFitWidth(40);
+        playImg.setFitHeight(40);
+        Button play = new Button("Play", playImg);
+        play.setTranslateX(30);
+        play.setTranslateY(40);
+        Button options = newButton("Options", 150, 45);
         window.getChildren().add(play);
         window.getChildren().add(options);
         
@@ -74,5 +80,9 @@ public class GUIButtonMenu implements ButtonMenu{
 
         return newButton;
 
+    }
+
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 }

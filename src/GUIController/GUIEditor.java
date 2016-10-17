@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 public class GUIEditor implements Editor {
     private Pane window;
     private Paint border;
+    private Rectangle backdrop;
 
     public GUIEditor(Pane p, Paint borderColor){
         this.window = p;
@@ -24,7 +25,7 @@ public class GUIEditor implements Editor {
     }
 
     private void drawEditor(){
-        Rectangle backdrop = new Rectangle(970, 280, Color.WHITE);
+        backdrop = new Rectangle(970, 280, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(600);
@@ -41,6 +42,10 @@ public class GUIEditor implements Editor {
         label.setTranslateX(630);
         label.setTranslateY(620);
         window.getChildren().add(label);
+    }
+
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 
     @Override
