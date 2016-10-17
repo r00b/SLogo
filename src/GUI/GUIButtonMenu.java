@@ -73,41 +73,70 @@ public class GUIButtonMenu implements ButtonMenu{
         window.getChildren().add(label);
     }
 
-    public void addButtons(){
-        Image playButton = new Image(getClass().getClassLoader()
-                                     .getResourceAsStream("images/play.png"));
-        ImageView playImg = new ImageView(playButton);
-        playImg.setFitWidth(40);
-        playImg.setFitHeight(40);
-        Button play = new Button("Play", playImg);
-        play.setStyle(overButton);
-        play.setOnMouseEntered(e -> {
-            play.setStyle(buttonFill);
-            backdrop.opacityProperty().setValue(0.8);
-        });
-        play.setOnMouseExited(e -> play.setStyle(overButton));
-        play.setTranslateX(30);
-        play.setTranslateY(40);
-        Button options = newButton("Options", 150, 45);
+    public void addButtons(){ 
+        Button play = newButton("PLAY", 30, 40);
+        Button pause = newButton("PAUSE", 130, 40);
+        Button stop = newButton("STOP", 240, 40);
+        Button options = newButton("OPTIONS", 340, 50);
+        Button help = newButton("HELP", 420, 50);
         window.getChildren().add(play);
+        window.getChildren().add(pause);
+        window.getChildren().add(stop);
         window.getChildren().add(options);
+        window.getChildren().add(help);
         
     }
 
     @Override
     public Button newButton(String text, int x, int y) {
-        Button newButton = new Button("Options");
+       
+        ImageView newImage = loadImage(text);
+        Button newButton;
+        if(text.equals("PLAY")){
+            newButton = new Button(text, newImage);
+        }
+        else if(text.equals("PAUSE")){
+            newButton = new Button(text, newImage);  
+        }
+        else if(text.equals("STOP")){
+            newButton = new Button(text, newImage);
+        }
+        else
+        {
+            newButton = new Button(text);
+        }
         newButton.setStyle(overButton);
         newButton.setOnMouseEntered(e -> {
-            newButton.setStyle(buttonFill);
+                newButton.setStyle(buttonFill);
             backdrop.opacityProperty().setValue(0.8);
         });
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
         newButton.setTranslateX(x);
         newButton.setTranslateY(y);
-
         return newButton;
+    }
 
+    private ImageView loadImage (String text) {
+        Image newImage = new Image(getClass().getClassLoader()
+                                   .getResourceAsStream("images/play.png"));
+        if(text.equals("PLAY")){
+         newImage = new Image(getClass().getClassLoader()
+                                     .getResourceAsStream("images/play.png"));
+        }
+        else if(text.equals("PAUSE")){
+             newImage = new Image(getClass().getClassLoader()
+                                       .getResourceAsStream("images/pause.png"));
+        }
+        else if(text.equals("STOP")){
+             newImage = new Image(getClass().getClassLoader()
+                                       .getResourceAsStream("images/stop.png"));
+        }
+        else{
+        }
+        ImageView imgV = new ImageView(newImage);
+        imgV.setFitWidth(40);
+        imgV.setFitHeight(40);
+        return imgV;
     }
 
     public Rectangle getBackdrop(){
