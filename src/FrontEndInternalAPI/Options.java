@@ -3,7 +3,7 @@ package FrontEndInternalAPI;
 public interface Options {
 //    public Options();
 
-    public void changeBackgroundColor();
+    public void changeBackground();
 
     public void changePenColor();
 

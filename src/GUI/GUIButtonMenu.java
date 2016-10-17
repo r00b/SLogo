@@ -107,7 +107,7 @@ public class GUIButtonMenu implements ButtonMenu{
         }
         newButton.setStyle(overButton);
         newButton.setOnMouseEntered(e -> {
-                newButton.setStyle(buttonFill);
+            newButton.setStyle(buttonFill);
             backdrop.opacityProperty().setValue(0.8);
         });
         newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
