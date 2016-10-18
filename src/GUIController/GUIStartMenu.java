@@ -50,52 +50,6 @@ public class GUIStartMenu extends OptionsMenu {
 
     }
 
-//    @Override
-    public void setParameters() {
-        String chosenBackground = "";
-        String chosenTurtle = "";
-
-        switch (getBackgroundBox().getValue()){
-            case "Circuits":
-                chosenBackground = "images/background.jpg";
-                break;
-            case "Floating Cubes":
-                chosenBackground = "images/floatingCubes.jpg";
-                break;
-            case "Nebula":
-                chosenBackground = "images/nebula.jpg";
-                break;
-            case "Metal Sheets":
-                chosenBackground = "images/dark-wallpaper-2.jpg";
-                break;
-            case "Spinning Screens":
-                chosenBackground = "images/spinningScreens.jpg";
-                break;
-        }
-
-        switch (getTurtleBox().getValue()){
-            case "Turtle":
-                chosenTurtle = "images/turtle.png";
-                break;
-            case "Drake":
-                chosenTurtle = "images/drake.png";
-                break;
-            case "Heart":
-                chosenTurtle = "images/heart.png";
-                break;
-            case "Young Rob":
-                chosenTurtle = "images/robby.png";
-                break;
-            case "Prof. Duvall":
-                chosenTurtle = "images/duvall.png";
-                break;
-            
-        }
-
-        myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
-        initIDE();
-    }
-
     public void addLaunchButton(){
         Button newButton = new Button("Launch SLogo");
         newButton.setStyle(getOverButton());
@@ -116,7 +70,8 @@ public class GUIStartMenu extends OptionsMenu {
     }
 
 //    @Override
-    public void initIDE() {
+    public void initIDE(String chosenBackground, String chosenTurtle) {
+        myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
         myGUI.init();
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -16,11 +17,11 @@ import javafx.stage.Stage;
 public class GUIManager implements GUIController{
     public static final int IDE_WIDTH = 1600;
     public static final int IDE_HEIGHT = 900;
-    private Paint penColor;
+    private Color penColor;
     private ImageView background, turtle;
     private Stage stage;
     private Pane window;
-    private String language;
+    private String backgroundStr, turtleStr, language;
 
     private GUIConsole myConsole;
     private GUIEditor myEditor;
@@ -29,9 +30,11 @@ public class GUIManager implements GUIController{
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
 
-    public GUIManager(Paint penColor, String background, String turtle, String language){
+    public GUIManager(Color penColor, String background, String turtle, String language){
 
         this.penColor = penColor;
+        this.backgroundStr = background;
+        this.turtleStr = turtle;
         Image newImg = new Image(getClass().getClassLoader()
                 .getResourceAsStream(background));
         ImageView backgroundImageIDE = new ImageView(newImg);
@@ -64,12 +67,19 @@ public class GUIManager implements GUIController{
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
-//        myButtonMenu.setDefaults(penColor, background, turtle, language);
-        setBindings();
+        myButtonMenu.setDefaults(penColor, backgroundStr, turtleStr, language);
+//        setParamBindings(); //How should I make this work
+        setSizeBindings();
         return window;
     }
 
-    private void setBindings(){
+    //don't think i understand binding that well yet but this doesn't work for some reason
+    private void setParamBindings(){
+        background.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenBackground().imageProperty());
+        turtle.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenTurtle().imageProperty());
+    }
+
+    private void setSizeBindings(){
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
         myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));

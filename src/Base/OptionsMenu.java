@@ -1,6 +1,7 @@
 package Base;
 
 import FrontEndInternalAPI.Options;
+import GUIController.GUIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -33,6 +34,8 @@ public abstract class OptionsMenu implements Options {
     private String defaultBackground = "Nebula";
     private String defaultTurtle = "Turtle";
     private String defaultLanguage = "English";
+    private String chosenBackground = "";
+    private String chosenTurtle = "";
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",
@@ -94,6 +97,46 @@ public abstract class OptionsMenu implements Options {
         addLaunchButton();
 
         return startWindow;
+    }
+
+    public void setParameters() {
+        switch (getBackgroundBox().getValue()){
+            case "Circuits":
+                chosenBackground = "images/background.jpg";
+                break;
+            case "Floating Cubes":
+                chosenBackground = "images/floatingCubes.jpg";
+                break;
+            case "Nebula":
+                chosenBackground = "images/nebula.jpg";
+                break;
+            case "Metal Sheets":
+                chosenBackground = "images/dark-wallpaper-2.jpg";
+                break;
+            case "Spinning Screens":
+                chosenBackground = "images/spinningScreens.jpg";
+                break;
+        }
+
+        switch (getTurtleBox().getValue()){
+            case "Turtle":
+                chosenTurtle = "images/turtle.png";
+                break;
+            case "Drake":
+                chosenTurtle = "images/drake.png";
+                break;
+            case "Heart":
+                chosenTurtle = "images/heart.png";
+                break;
+            case "Young Rob":
+                chosenTurtle = "images/robby.png";
+                break;
+            case "Prof. Duvall":
+                chosenTurtle = "images/duvall.png";
+                break;
+
+        }
+        initIDE(chosenBackground, chosenTurtle);
     }
 
     public void setDefaults(Color paint, String background, String turtle, String language){
@@ -200,9 +243,26 @@ public abstract class OptionsMenu implements Options {
         return stage;
     }
 
+    public ImageView getChosenTurtle(){
+        Image newImg = new Image(getClass().getClassLoader()
+                .getResourceAsStream(chosenTurtle));
+        ImageView backgroundImageIDE = new ImageView(newImg);
+        return backgroundImageIDE;
+    }
+
+    public ImageView getChosenBackground(){
+        Image newImg = new Image(getClass().getClassLoader()
+                .getResourceAsStream(chosenBackground));
+        ImageView backgroundImageIDE = new ImageView(newImg);
+        return backgroundImageIDE;
+    }
+
+
     public abstract void addTitle();
 
     public abstract void addRectangle();
 
     public abstract void addLaunchButton();
+
+    public abstract void initIDE(String background, String turtle);
 }
