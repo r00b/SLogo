@@ -22,17 +22,19 @@ public class CommandParser {
 		// root is now the parser tree
 		printTree(root);
 	}
-	
+
 	public static void printTree(ParserTreeNode r) {
 		System.out.println(r.value);
 		if (r.children.isEmpty()) {
 			return;
 		}
-		printTree(r.children.get(0));
-
+		for (int i = 0; i < r.numChildren; i++) {
+			System.out.println("CHILD " + i);
+			printTree(r.children.get(i));
+		}
 	}
 
 	public static void main(String[] args) {
-		getAction("fd 3 rt 2");
+		getAction("sum 2 fd sum 4 5");
 	}
 }

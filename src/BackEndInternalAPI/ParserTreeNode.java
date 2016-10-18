@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Robert H. Steilber II
+ * @author Robert H. Steilberg II
  *
  */
 public class ParserTreeNode {
 	public String value;
-	int numChildren;
+	public int numChildren;
 	Command cmdObj;
 	public ArrayList<ParserTreeNode> children;
 	
