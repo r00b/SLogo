@@ -67,6 +67,6 @@ public class CommandParser {
 	}
 
 	public static void main(String[] args) {
-		getAction("sum 232 3");
+		getAction("minus -6");
 	}
 }
