@@ -56,6 +56,7 @@ public class TreeParser {
 		String currCmd = cmdIter.next();
 		ParserTreeNode newChild = new ParserTreeNode(currCmd, getCommandObj(currCmd));
 		if (newChild.numChildren == 0) {
+			newChild.setConstant(true);
 			return newChild;
 		}
 		for (int i = 0; i < newChild.cmdObj.numArguments(); i++) {

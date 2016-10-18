@@ -12,6 +12,7 @@ public class ParserTreeNode {
 	public int numChildren;
 	Command cmdObj;
 	public ArrayList<ParserTreeNode> children;
+	boolean constant;
 	
 	
 	ParserTreeNode(String val, Command commandObj) {
@@ -21,5 +22,24 @@ public class ParserTreeNode {
 		numChildren = cmdObj.numArguments();
 	}
 	
+	public boolean isConstant() {
+		return constant;
+	}
+	
+	public void setConstant(boolean makeConstant) {
+		constant = makeConstant;
+	}
+	
+	public String getValue() {
+		return value;
+	}
+	
+	public void setValue(String newValue) {
+		value = newValue;
+	}
+	
+	public Command getCmdObj() {
+		return cmdObj;
+	}
 	
 }
