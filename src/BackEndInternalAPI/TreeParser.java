@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import BackEndCommands.Sum;
 
 /**
  * 
@@ -16,9 +15,9 @@ public class TreeParser {
 
 	private static Command getCommandObj(String cmd) {
 		CommandDetector detector = new CommandDetector();
-		detector.addPatterns("resources/languages/English"); // TODO get current
-																// language from
-																// GUI here
+		// TODO get current language from GUI
+		String language = "English";
+		detector.addPatterns("resources/languages/" + language);
 		detector.addPatterns("resources/languages/Syntax");
 		String commandName = detector.getSymbol(cmd);
 		System.out.println(commandName);
@@ -30,6 +29,7 @@ public class TreeParser {
 				Method numArgumentsMethod = o.getClass().getMethod("numArguments", new Class[] {});
 				int numArguments = (Integer) numArgumentsMethod.invoke(o, new Object[] {});
 				System.out.println(numArguments);
+				return (Command) o;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -37,19 +37,18 @@ public class TreeParser {
 			System.out.println("class not found");
 			e.printStackTrace();
 		}
-
-		return new Sum();
-
+		// Error has occurred, QUESTION do we throw here?
+		return null;
 	}
 
 	public static void main(String[] args) {
-		getCommandObj("sum");
+		Command s = getCommandObj("sum");
 	}
 
 	private ParserTreeNode buildParserTree(Iterator<String> cmdIter) {
 		String currCmd = cmdIter.next();
 		ParserTreeNode newChild = new ParserTreeNode(currCmd, getCommandObj(currCmd));
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < newChild.cmdObj.numArguments(); i++) {
 			if (cmdIter.hasNext()) { // base case
 				newChild.children.add(buildParserTree(cmdIter));
 			}
