@@ -17,8 +17,9 @@ public class OptionsPopup extends OptionsMenu {
 
 //    private Stage stage;
 
-    public OptionsPopup(Stage s){//Color penColor, String background, String turtle, String language){
+    public OptionsPopup(Stage s, Color penColor, String background, String turtle, String language){
         super(s);
+        super.setDefaults(penColor, background, turtle, language);
 //        setDefaults(penColor, background, turtle, language);
     }
 
@@ -68,6 +69,11 @@ public class OptionsPopup extends OptionsMenu {
         newButton.setTranslateY(500);
 //        newButton.setOnMouseClicked(e -> setParameters());
         getStartWindow().getChildren().add(newButton);
+
+    }
+
+    @Override
+    public void initIDE(String background, String turtle) {
 
     }
 }

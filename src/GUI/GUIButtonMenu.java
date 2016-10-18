@@ -21,6 +21,7 @@ public class GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private Stage s = new Stage();
     private OptionsPopup myOptions;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -128,12 +129,15 @@ public class GUIButtonMenu implements ButtonMenu{
 
     public void setDefaults(Color paint, String background, String turtle, String language){
 
+        myOptions = new OptionsPopup(s, paint, background, turtle, language);
     }
 
     private void optionsHandler(){
-        Stage s = new Stage();
-        myOptions = new OptionsPopup(s);
         myOptions.initPopup();
+    }
+
+    public OptionsPopup getOptionsPopup(){
+        return myOptions;
     }
 
     public Rectangle getBackdrop(){
