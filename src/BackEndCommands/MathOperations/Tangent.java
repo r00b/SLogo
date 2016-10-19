@@ -10,7 +10,7 @@ public class Tangent implements Command {
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Still need to account for zero input
-		return Math.tan(args.get(0));
+		return Math.tan( args.get(0));
 	}
 
 	@Override

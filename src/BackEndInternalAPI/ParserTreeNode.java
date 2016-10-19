@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class ParserTreeNode {
 //	public String value;
+	public String command;
 	public Double value;
 	public int numChildren;
 	Command cmdObj;
@@ -41,6 +42,14 @@ public class ParserTreeNode {
 	
 	public Command getCmdObj() {
 		return cmdObj;
+	}
+	
+	public String getCommand() {
+		return command;
+	}
+	
+	public void setCommand(String newCommand) {
+		command = newCommand;
 	}
 	
 }

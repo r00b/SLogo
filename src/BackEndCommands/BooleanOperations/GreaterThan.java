@@ -9,11 +9,10 @@ public class GreaterThan implements Command {
 	
 	@Override
 	public double executeCommand(List<Double> args) {
-		double answer = 0;
 		if (args.get(0) > args.get(1)) {
-			answer++;
+			return 1;
 		}
-		return answer;
+		return 0;
 	}
 
 	@Override
