@@ -9,11 +9,10 @@ public class Equal implements Command {
 	
 	@Override
 	public double executeCommand(List<Double> args) {
-		double answer = 0;
-		if (args.get(0) == args.get(1)) {
-			answer++;
+		if (args.get(0).equals(args.get(1))) {
+			return 1;
 		}
-		return answer;
+		return 0;
 	}
 
 	@Override

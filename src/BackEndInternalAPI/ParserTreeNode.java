@@ -8,15 +8,16 @@ import java.util.ArrayList;
  *
  */
 public class ParserTreeNode {
-	public String value;
+//	public String value;
+	public Double value;
 	public int numChildren;
 	Command cmdObj;
 	public ArrayList<ParserTreeNode> children;
 	boolean constant;
 	
 	
-	ParserTreeNode(String val, Command commandObj) {
-		value = val;
+	ParserTreeNode(Double newValue, Command commandObj) {
+		value = newValue;
 		children = new ArrayList<ParserTreeNode>();
 		cmdObj = commandObj;
 		numChildren = cmdObj.numArguments();
@@ -30,11 +31,11 @@ public class ParserTreeNode {
 		constant = makeConstant;
 	}
 	
-	public String getValue() {
+	public Double getValue() {
 		return value;
 	}
 	
-	public void setValue(String newValue) {
+	public void setValue(Double newValue) {
 		value = newValue;
 	}
 	

@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Pow implements Command {
+public class Power implements Command {
 	private static final int ARGS = 2;
 	
 	@Override

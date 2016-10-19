@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class ATan implements Command {
+public class ArcTangent implements Command {
 	private static final int ARGS = 1;
 	
 	@Override

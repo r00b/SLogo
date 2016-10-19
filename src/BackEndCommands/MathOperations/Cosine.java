@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Cos implements Command {
+public class Cosine implements Command {
 	private static final int ARGS = 1;
 	
 	@Override

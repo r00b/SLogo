@@ -1,15 +1,19 @@
-package BackEndCommands.MathOperations;
+package BackEndCommands.BooleanOperations;
 
 import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Quoitent implements Command {
+public class LessThan implements Command {
 	private static final int ARGS = 2;
 	
 	@Override
 	public double executeCommand(List<Double> args) {
-		return args.get(0) / args.get(1);
+		double answer = 0;
+		if (args.get(0) < args.get(1)) {
+			answer++;
+		}
+		return answer;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Tan implements Command {
+public class Tangent implements Command {
 	private static final int ARGS = 1;
 	
 	@Override

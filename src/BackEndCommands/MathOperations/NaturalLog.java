@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Log implements Command {
+public class NaturalLog implements Command {
 	private static final int ARGS = 1;
 	
 	@Override

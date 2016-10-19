@@ -4,7 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
-public class Sin implements Command {
+public class Sine implements Command {
 	private static final int ARGS = 1;
 	
 	@Override
