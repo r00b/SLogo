@@ -1,18 +1,15 @@
-package BackEndCommands.TurtleCommands;
+package BackEndCommands.TurtleQueries;
 
 import java.util.List;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ObservableProperties;
 
-public class PenUp implements Command {
+public class XCor implements Command {
 	private static final int ARGS = 0;
-
 	@Override
 	public double executeCommand(List<Double> args) {
-		//Need to make pen boolean true
-		ObservableProperties.pathVisibleProperty.set(true);
-		return 1;
+		return ObservableProperties.xProperty.get();
 	}
 
 	@Override
