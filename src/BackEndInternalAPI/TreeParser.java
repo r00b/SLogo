@@ -28,7 +28,7 @@ public class TreeParser {
 		String commandName = detector.getSymbol(cmd);
 		// System.out.println(commandName);
 		try {
-			Class<?> cmdObj = Class.forName("BackEndCommands." + commandName);
+			Class<?> cmdObj = Class.forName("BackEndCommands.MathOperations." + commandName);
 			try {
 				Constructor<?> commandObjCtor = cmdObj.getDeclaredConstructor();
 				Object o = commandObjCtor.newInstance();
