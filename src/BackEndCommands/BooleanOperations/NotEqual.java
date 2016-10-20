@@ -4,9 +4,17 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
+/**
+ * Executes the NotEqual command
+ * @author ezra
+ *
+ */
 public class NotEqual implements Command{
 	private static final int ARGS = 2;
 	
+	/**
+	 * Returns 1 if the two commands are not equal 0 otherwise
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
 		double answer = 0;

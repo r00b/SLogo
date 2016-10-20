@@ -4,9 +4,17 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 
+/**
+ * Executes the Not command
+ * @author ezra
+ *
+ */
 public class Not implements Command{
 	private static final int ARGS = 1;
 	
+	/**
+	 * Returns 1 if the arg is zero 0 otherwise
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
 		double answer = 0;
