@@ -1,10 +1,16 @@
 package BackEndCommands.MathOperations;
 
-import java.util.List;
-
 import BackEndInternalAPI.Command;
 
+import java.util.List;
+
+/**
+ * @author Ezra Lieblich
+ *         <p>
+ *         This command instance represents the log command in Logo.
+ */
 public class NaturalLog implements Command {
+
     private static final int ARGS = 1;
 
     @Override
@@ -16,5 +22,4 @@ public class NaturalLog implements Command {
     public int numArguments() {
         return ARGS;
     }
-
 }

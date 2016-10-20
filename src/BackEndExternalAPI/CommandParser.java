@@ -1,107 +1,59 @@
 package BackEndExternalAPI;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import BackEndInternalAPI.ParseTreeExecutor;
+import BackEndInternalAPI.ParseTreeNode;
+import BackEndInternalAPI.ParseTreeBuilder;
 
-import BackEndCommands.Constant;
-import BackEndCommands.ControlOperations.MakeVariable;
-import BackEndCommands.ControlOperations.Variable;
-import BackEndInternalAPI.ParserTreeNode;
-import BackEndInternalAPI.TreeParser;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 
 /**
- * 
  * @author Robert H. Steilberg II
- *
+ *         <p>
+ *         This class interprets a Logo commandType and executes the action associated with it
+ *         using the specified arguments. This is done by recursively creating a parse tree
+ *         and executing down the nodes of the parse tree, checking for errors along the way.
  */
 public class CommandParser {
-	
-	private static HashMap<String,Double> variables = new HashMap<String,Double>();
 
-	private static double executeTree(ParserTreeNode currNode) {
-	// 			sum 2 3
-	// 			sum 
-		//		/  \
-		//	   2    3
-		// start at head; if head is a function, get its children, and execute the function with the children, set value of curr to be resulting value
-		// if a child is a function, recursively execute that until it is equivalent to something, then pop back up
-		// CHECK IS IF THE VALUE IS NULL
+    protected static HashMap<String, Double> variables = new HashMap<String, Double>();
 
-//               make
-//              /   \
-//          :name   double
+    /**
+     * Executes the cumulative action associated with a Logo commandType issued
+     * from the editor
+     *
+     * @param command a string containing the commandType issued from the editor
+     */
+    public static void getAction(String command) {
+        ResourceBundle settings = ResourceBundle.getBundle("resources/internal/Settings");
+        String[] commands = command.split(settings.getString("Delimiter"));
+        ParseTreeBuilder builder = new ParseTreeBuilder();
+        ParseTreeExecutor executor = new ParseTreeExecutor();
+//      executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
-		ArrayList<Double> arguments = new ArrayList<Double>();
 
-		
-		if (currNode.numChildren == 0) {
-			// i want to execute the command objects SUCH THAT the value WILL BE RETURNED
-			// for a constant, value = the constant we want to return
-			// BUT if its a command with no args, value = null; the value we want is located in executeCommand
-			// SO we want a way to call execute command that will return the constant when we need it to		
-
-//			if (currNode.getCmdObj().getClass() == Variable.class) {
-//			}
-			
-			arguments.add(currNode.getValue()); // for a variable, value needs to be the string
-			double value = currNode.getCmdObj().executeCommand(arguments);
-			currNode.setValue(value);
-			return value;
-		}
-		// otherwise, we must have a function, get children values, execute
-		// get args, put into arraylist
-		
-
-        if (currNode.getCmdObj().getClass() == MakeVariable.class) { // we're dealing with variables
-            Double value = executeTree(currNode.children.get(1));  // get the final value
-            String name = currNode.children.get(0).getCommand();
-            variables.put(name,value);
-            currNode.setValue(value);
-            return value;
-        } else {
-            for (int i = 0; i < currNode.numChildren; i++) {
-                arguments.add(executeTree(currNode.children.get(i)));
-            }
-        }
-
-		Double result = currNode.getCmdObj().executeCommand(arguments); // we have the result
-		currNode.setValue(result); // update value of node
-		return result;
-	}
-	
-	
-	/**
-	 * 
-	 * @param command
-	 *            a string containing the command issued from the editor
-	 */
-	public static void getAction(String command) {
-		String[] commands = command.split("\\p{Space}"); // replace with delimiter
-		TreeParser parser = new TreeParser();
-		ParserTreeNode root = parser.makeParserTree(commands);
-		// root is now the parser tree, execute
-
-		executeTree(root);
-        System.out.println("--------- PRINTING TREE ----------");
-		printTree(root);
+        ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
+        executor.executeTree(root); // TODO DEBUGGING
+        System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
+        printTree(root);
         System.out.println("----------------------------------");
-
     }
 
-	public static void printTree(ParserTreeNode r) {
-		System.out.println("VALUE: " + r.value);
-        System.out.println("COMMAND: " + r.command);
-		if (r.children.isEmpty()) {
-			return;
-		}
-		for (int i = 0; i < r.numChildren; i++) {
-			System.out.println("CHILD " + i);
-			printTree(r.children.get(i));
-		}
-	}
+    public static void printTree(ParseTreeNode r) { // TODO DEBUGGING
+        System.out.println("VALUE: " + r.getValue());
+        System.out.println("COMMAND: " + r.getCommandType());
+        if (r.hasNoChildren()) {
+            return;
+        }
+        for (int i = 0; i < r.getNumChildren(); i++) {
+            System.out.println("CHILD " + i);
+            printTree(r.getChild(i));
+        }
+    }
 
-	public static void main(String[] args) {
-		getAction("make :shit sum 4 minus 2");
-        System.out.println(variables.get(":shit"));
-	}
+    public static void main(String[] args) { // TODO DEBUGGING
+//        getAction("make :shitter 92");
+//        getAction("product :shitter 2");
+        getAction("tan 90");
+    }
 }
