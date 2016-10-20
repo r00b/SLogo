@@ -1,11 +1,17 @@
 package BackEndCommands.MathOperations;
 
-import java.util.List;
-
 import BackEndInternalAPI.Command;
 
-public class Quoitent implements Command {
-	private static final int ARGS = 2;
+import java.util.List;
+
+/**
+ * @author Ezra Lieblich
+ *         <p>
+ *         This command instance represents the quotient command in Logo.
+ */
+public class Quotient implements Command {
+
+    private static final int ARGS = 2;
 	
 	@Override
 	public double executeCommand(List<Double> args) {
@@ -16,5 +22,4 @@ public class Quoitent implements Command {
 	public int numArguments() {
 		return ARGS;
 	}
-
 }

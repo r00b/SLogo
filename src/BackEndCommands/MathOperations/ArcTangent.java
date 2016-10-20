@@ -7,15 +7,15 @@ import java.util.List;
 /**
  * @author Ezra Lieblich
  *         <p>
- *         This command instance represents the pi command in Logo.
+ *         This command instance represents the atan command in Logo.
  */
-public class Pi implements Command {
-
-    private static final int ARGS = 0;
+public class ArcTangent implements Command {
+    private static final int ARGS = 1;
 
     @Override
     public double executeCommand(List<Double> args) {
-        return Math.PI;
+        //Still need to account for zero argument
+        return Math.atan(args.get(0));
     }
 
     @Override

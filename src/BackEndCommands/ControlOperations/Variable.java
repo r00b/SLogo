@@ -1,16 +1,15 @@
-package BackEndCommands;
-
-import BackEndInternalAPI.Command;
+package BackEndCommands.ControlOperations;
 
 import java.util.List;
+
+import BackEndInternalAPI.Command;
 
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents a constant in Logo.
+ *         This command instance represents a variable in Logo.
  */
-public class Constant implements Command {
-
+public class Variable implements Command {
     private static final int ARGS = 0;
 
     @Override

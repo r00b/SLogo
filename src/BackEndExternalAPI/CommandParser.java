@@ -1,72 +1,59 @@
 package BackEndExternalAPI;
 
-import java.util.ArrayList;
+import BackEndInternalAPI.ParseTreeExecutor;
+import BackEndInternalAPI.ParseTreeNode;
+import BackEndInternalAPI.ParseTreeBuilder;
 
-import BackEndInternalAPI.ParserTreeNode;
-import BackEndInternalAPI.TreeParser;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 
 /**
- * 
  * @author Robert H. Steilberg II
- *
+ *         <p>
+ *         This class interprets a Logo commandType and executes the action associated with it
+ *         using the specified arguments. This is done by recursively creating a parse tree
+ *         and executing down the nodes of the parse tree, checking for errors along the way.
  */
 public class CommandParser {
 
-	private static double executeTree(ParserTreeNode currNode) {
-	// 			sum 2 3
-	// 			sum 
-		//		/  \
-		//	   2    3
-		// start at head; if head is a function, get its children, and execute the function with the children, set value of curr to be resulting value
-		// if a child is a function, recursively execute that until it is equivalent to something, then pop back up
-		// CHECK IS IF THE VALUE IS NULL
+    protected static HashMap<String, Double> variables = new HashMap<String, Double>();
 
-		if (currNode.isConstant()) {
-			return Double.parseDouble(currNode.getValue());
-		}
-		// otherwise, we must have a function!! get children values, execute
-		// get args, put into arraylist
-		
-		ArrayList<Double> arguments = new ArrayList<Double>();
-		
-		for (int i = 0; i < currNode.numChildren; i++) {
-			arguments.add(  executeTree(currNode.children.get(i))  );
-		}
-		
-		Double result = currNode.getCmdObj().executeCommand(arguments); // we have the result
-		currNode.setValue(Double.toString(result)); // update value of node
-		currNode.setConstant(true);
-		return result;
-	}
-	
-	
-	/**
-	 * 
-	 * @param command
-	 *            a string containing the command issued from the editor
-	 */
-	public static void getAction(String command) {
-		String[] commands = command.split(" ");
-		TreeParser parser = new TreeParser();
-		ParserTreeNode root = parser.makeParserTree(commands);
-		// root is now the parser tree, execute
-		executeTree(root);
-//		System.out.println(root.numChildren);
-		printTree(root);
-	}
+    /**
+     * Executes the cumulative action associated with a Logo commandType issued
+     * from the editor
+     *
+     * @param command a string containing the commandType issued from the editor
+     */
+    public static void getAction(String command) {
+        ResourceBundle settings = ResourceBundle.getBundle("resources/internal/Settings");
+        String[] commands = command.split(settings.getString("Delimiter"));
+        ParseTreeBuilder builder = new ParseTreeBuilder();
+        ParseTreeExecutor executor = new ParseTreeExecutor();
+//      executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
-	public static void printTree(ParserTreeNode r) {
-		System.out.println(r.value);
-		if (r.children.isEmpty()) {
-			return;
-		}
-		for (int i = 0; i < r.numChildren; i++) {
-			System.out.println("CHILD " + i);
-			printTree(r.children.get(i));
-		}
-	}
 
-	public static void main(String[] args) {
-		getAction("sum 232 3");
-	}
+        ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
+        executor.executeTree(root); // TODO DEBUGGING
+        System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
+        printTree(root);
+        System.out.println("----------------------------------");
+    }
+
+    public static void printTree(ParseTreeNode r) { // TODO DEBUGGING
+        System.out.println("VALUE: " + r.getValue());
+        System.out.println("COMMAND: " + r.getCommandType());
+        if (r.hasNoChildren()) {
+            return;
+        }
+        for (int i = 0; i < r.getNumChildren(); i++) {
+            System.out.println("CHILD " + i);
+            printTree(r.getChild(i));
+        }
+    }
+
+    public static void main(String[] args) { // TODO DEBUGGING
+//        getAction("make :shitter 92");
+//        getAction("product :shitter 2");
+        getAction("tan 90");
+    }
 }

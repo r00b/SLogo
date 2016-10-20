@@ -1,4 +1,4 @@
-package BackEndCommands.MathOperations;
+package BackEndCommands.BooleanOperations;
 
 import BackEndInternalAPI.Command;
 
@@ -7,15 +7,18 @@ import java.util.List;
 /**
  * @author Ezra Lieblich
  *         <p>
- *         This command instance represents the sum command in Logo.
+ *         This command instance represents the greater? command in Logo.
  */
-public class Sum implements Command {
+public class GreaterThan implements Command {
 
     private static final int ARGS = 2;
 
     @Override
     public double executeCommand(List<Double> args) {
-        return args.get(0) + args.get(1);
+        if (args.get(0) > args.get(1)) {
+            return 1;
+        }
+        return 0;
     }
 
     @Override
