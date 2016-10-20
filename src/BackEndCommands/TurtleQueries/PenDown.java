@@ -4,10 +4,18 @@ import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 
-
+/**
+ * Executes the PenDown command
+ * @author ezra
+ *
+ */
 public class PenDown extends TurtleCommand {
 	private static final int ARGS = 0;
 	@Override
+	
+	/**
+	 * Gets the path visible property and return 1 if its true and 0 if its false
+	 */
 	public double executeCommand(List<Double> args) {
 		double answer = 0;
 		if (properties.getPathVisibleProperty().get()) {

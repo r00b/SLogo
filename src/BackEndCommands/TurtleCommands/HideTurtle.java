@@ -4,10 +4,18 @@ import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 
-
+/**
+ * Executes the HideTurtle command
+ * @author ezra
+ *
+ */
 public class HideTurtle extends TurtleCommand {
 	private static final int ARGS = 0;
-	//Note needs to be binded value passed from the controller
+	
+	/**
+	 *Sets image visible property to false
+	 *Returns 0
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to update imageview visible property

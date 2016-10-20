@@ -4,14 +4,21 @@ import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 
-
+/**
+ * Executes the ShowTurtle Command
+ * @author ezra
+ *
+ */
 public class ShowTurtle extends TurtleCommand {
 	private static final int ARGS = 0;
 
+	/**
+	 * Sets imageView visible property to true
+	 * Returns 1
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
-		//Need to update imageview visible property
-		properties.getImageVisibleProperty().set(false);
+		properties.getImageVisibleProperty().set(true);
 		return 1;
 	}
 

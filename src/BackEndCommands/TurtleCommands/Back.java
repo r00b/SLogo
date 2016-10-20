@@ -4,9 +4,18 @@ import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 
+/**
+ * Executes the back command
+ * @author ezra
+ *
+ */
 public class Back extends TurtleCommand {
 	private static final int ARGS = 1;
 
+	/**
+	 * Performs the same update as forward command except it subtracts distance instead of adding it
+	 * Returns the distance moved
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to update line and image position

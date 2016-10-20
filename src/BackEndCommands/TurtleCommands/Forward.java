@@ -14,6 +14,7 @@ public class Forward extends TurtleCommand {
 
 	/**
 	 * Calculates the distance moved and changes x and y property. Also lets front end now needs a new line
+	 * Returns the distance moved
 	 */
 	@Override
 	public double executeCommand(List<Double> args) {
