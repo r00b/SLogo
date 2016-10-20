@@ -54,6 +54,9 @@ public class CommandParser {
     public static void main(String[] args) { // TODO DEBUGGING
 //        getAction("make :shitter 92");
 //        getAction("product :shitter 2");
-        getAction("tan 90");
+        getAction("fd 90");
+        getAction("sin 90");
+        getAction("or 1.0 0.0");
+        getAction("equal? 0 0.0");
     }
 }
