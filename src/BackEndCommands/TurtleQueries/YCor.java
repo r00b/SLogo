@@ -2,14 +2,14 @@ package BackEndCommands.TurtleQueries;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
-public class YCor implements Command {
+
+public class YCor extends TurtleCommand {
 	private static final int ARGS = 0;
 	@Override
 	public double executeCommand(List<Double> args) {
-		return ObservableProperties.yProperty.get();
+		return properties.getYProperty().get();
 	}
 
 	@Override

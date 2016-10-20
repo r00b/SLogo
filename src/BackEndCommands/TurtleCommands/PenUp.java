@@ -2,16 +2,15 @@ package BackEndCommands.TurtleCommands;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
-public class PenUp implements Command {
+public class PenUp extends TurtleCommand {
 	private static final int ARGS = 0;
 
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to make pen boolean true
-		ObservableProperties.pathVisibleProperty.set(true);
+		properties.getPathVisibleProperty().set(true);
 		return 1;
 	}
 

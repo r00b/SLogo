@@ -2,17 +2,17 @@ package BackEndCommands.TurtleCommands;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
 
-public class Left implements Command {
+
+public class Left extends TurtleCommand {
 	private static final int ARGS = 1;
 
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to update imageview rotation
-		ObservableProperties.rotateProperty.set(ObservableProperties.rotateProperty.get()-args.get(0));
+		properties.getRotateProperty().set(properties.getRotateProperty().get() % 360 - args.get(0));
 		return args.get(0);
 
 	}

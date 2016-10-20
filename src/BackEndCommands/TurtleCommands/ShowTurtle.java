@@ -2,16 +2,16 @@ package BackEndCommands.TurtleCommands;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
-public class ShowTurtle implements Command {
+
+public class ShowTurtle extends TurtleCommand {
 	private static final int ARGS = 0;
 
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to update imageview visible property
-		ObservableProperties.imageVisibleProperty.set(false);
+		properties.getImageVisibleProperty().set(false);
 		return 1;
 	}
 

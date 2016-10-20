@@ -2,14 +2,26 @@ package BackEndCommands.TurtleCommands;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
+import BackEndCommands.TurtleCommand;
 
-public class Forward implements Command {
+/**
+ * Executes the forward command
+ * @author ezra
+ *
+ */
+public class Forward extends TurtleCommand {
 	private static final int ARGS = 1;
 
+	/**
+	 * Calculates the distance moved and changes x and y property. Also lets front end now needs a new line
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
-		//Need to update line and image position
+		double xDistance = calculateXDistance(args.get(0));
+		double yDistance = calculateYDistance(args.get(0));
+		properties.getXProperty().set(properties.getXProperty().get() + xDistance);
+		properties.getYProperty().set(properties.getXProperty().get() + yDistance);
+		properties.getNewLineProperty().set(true);
 		return args.get(0);
 	}
 
@@ -17,7 +29,4 @@ public class Forward implements Command {
 	public int numArguments() {
 		return ARGS;
 	}
-
-
-
 }

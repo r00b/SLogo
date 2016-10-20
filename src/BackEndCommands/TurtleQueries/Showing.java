@@ -2,15 +2,15 @@ package BackEndCommands.TurtleQueries;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
-public class Showing implements Command {
+
+public class Showing extends TurtleCommand {
 	private static final int ARGS = 0;
 	@Override
 	public double executeCommand(List<Double> args) {
 		double answer = 0;
-		if (ObservableProperties.imageVisibleProperty.get()) {
+		if (properties.getImageVisibleProperty().get()) {
 			answer++;
 		}
 		return answer;

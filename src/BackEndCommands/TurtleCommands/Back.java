@@ -2,16 +2,21 @@ package BackEndCommands.TurtleCommands;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
+import BackEndCommands.TurtleCommand;
 
-public class Back implements Command {
+public class Back extends TurtleCommand {
 	private static final int ARGS = 1;
 
 	@Override
 	public double executeCommand(List<Double> args) {
 		//Need to update line and image position
-		return args.get(0);
-	}
+		double xDistance = calculateXDistance(args.get(0));
+		double yDistance = calculateYDistance(args.get(0));
+		properties.getXProperty().set(properties.getXProperty().get() - xDistance);
+		properties.getYProperty().set(properties.getXProperty().get() - yDistance);
+		properties.getNewLineProperty().set(true);
+		return args.get(0);	
+		}
 
 	@Override
 	public int numArguments() {

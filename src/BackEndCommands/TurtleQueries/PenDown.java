@@ -2,15 +2,15 @@ package BackEndCommands.TurtleQueries;
 
 import java.util.List;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndCommands.TurtleCommand;
 
-public class PenDown implements Command {
+
+public class PenDown extends TurtleCommand {
 	private static final int ARGS = 0;
 	@Override
 	public double executeCommand(List<Double> args) {
 		double answer = 0;
-		if (ObservableProperties.pathVisibleProperty.get()) {
+		if (properties.getPathVisibleProperty().get()) {
 			answer++;
 		}
 		return answer;
