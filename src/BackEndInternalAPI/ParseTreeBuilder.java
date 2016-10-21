@@ -2,6 +2,8 @@ package BackEndInternalAPI;
 
 import BackEndCommands.Constant;
 import BackEndCommands.ControlOperations.Variable;
+import BackEndCommands.ListEnd;
+import BackEndCommands.ListStart;
 import BackEndExternalAPI.CommandParser;
 
 import java.util.Arrays;
@@ -17,6 +19,11 @@ import java.util.Iterator;
 public class ParseTreeBuilder extends CommandParser {
 
     CommandTypeDetector myDetector;
+    private String nextCommand;
+
+    private String[] myCommands;
+    private int index;
+
 
     /**
      * Recursively builds a parse tree using an iterator that points to the
@@ -27,8 +34,9 @@ public class ParseTreeBuilder extends CommandParser {
      * @return a ParseTreeNode corresponding to the root of a parse tree
      * initialized on the given commandType
      */
-    private ParseTreeNode buildParseTree(Iterator<String> commandIterator) {
-        String currCommand = commandIterator.next();
+    private ParseTreeNode buildParseTree() {
+        String currCommand = myCommands[index];
+
         ParseTreeNode newChild = new ParseTreeNode();
         newChild.setCommand(currCommand); // TODO debugging
         newChild.setCommandType(myDetector.getCommandType(currCommand));
@@ -37,6 +45,17 @@ public class ParseTreeBuilder extends CommandParser {
 
 
         // TODO REFACTOR THIS OUT ---------------------------------------------------------
+
+        if (newChild.getCommandObj().getClass() == ListStart.class) {
+            while (!myCommands[index+1].equals("]")) {
+                System.out.println("CURR " + currCommand);
+                index++;
+                newChild.addChild(buildParseTree());
+            }
+            index++;
+            return newChild;
+        }
+
         if (commandObj.getClass() == Variable.class) { // trying to access a variable
             Double variableVal = variables.get(currCommand);
             if (variableVal == null) {
@@ -51,14 +70,12 @@ public class ParseTreeBuilder extends CommandParser {
         // TODO REFACTOR THIS OUT ---------------------------------------------------------
 
 
-
-
-
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }
         for (int i = 0; i < newChild.getCommandObj().numArguments(); i++) { // create all children
-            newChild.addChild(buildParseTree(commandIterator));
+            index++;
+            newChild.addChild(buildParseTree());
         }
         return newChild;
     }
@@ -72,8 +89,9 @@ public class ParseTreeBuilder extends CommandParser {
      */
     public ParseTreeNode initParseTree(String[] commands) {
         myDetector = new CommandTypeDetector();
-        Iterator<String> commandIterator = Arrays.asList(commands).iterator();
-        ParseTreeNode parseTreeRoot = buildParseTree(commandIterator);
+        myCommands = commands;
+        index = 0;
+        ParseTreeNode parseTreeRoot = buildParseTree();
         return parseTreeRoot;
     }
 }

@@ -6,6 +6,7 @@ import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
 import BackEndInternalAPI.ParseTreeBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -55,32 +56,38 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        double result = executor.executeTree(root); // TODO DEBUGGING
+    //    double result = executor.executeTree(root); // TODO DEBUGGING
         System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
         printTree(root);
         System.out.println("----------------------------------");
-        return result;
+     //      return result;
+        return 0;
     }
 
     public static void printTree(ParseTreeNode r) { // TODO DEBUGGING
+        r = r.getChild(1);
         System.out.println("VALUE: " + r.getValue());
         System.out.println("COMMAND: " + r.getCommand());
         System.out.println("COMMAND TYPE: " + r.getCommandType());
-        if (r.hasNoChildren()) {
-            return;
-        }
-        for (int i = 0; i < r.getNumChildren(); i++) {
-            System.out.println("CHILD " + i);
-            printTree(r.getChild(i));
-        }
+//        if (r.hasNoChildren()) {
+//            return;
+//        }
+//        for (int i = 0; i < r.getNumChildren(); i++) {
+//            System.out.println("CHILD " + i);
+//            printTree(r.getChild(i));
+//        }
     }
+
 
     public static void main(String[] args) { // TODO DEBUGGING
 //        getAction("make :shitter 92");
 //        getAction("product :shitter 2");
-        double result = getAction("#shit");
-        System.out.println(result);
-        System.out.println("G".equals("G"));
+//        double result = getAction("[ sum 2 3 ]");
+          System.out.println(getAction("IF 1 [ sum 2 3 ]"));
+//        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
+//        System.out.println(result);
+//        System.out.println("G".equals("G"));
+
 
     }
 }

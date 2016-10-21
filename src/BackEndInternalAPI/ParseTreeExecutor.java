@@ -31,9 +31,6 @@ public class ParseTreeExecutor extends CommandParser {
             return value;
         }
 
-
-
-
         if (currNode.getCommandObj().getClass() == MakeVariable.class) { // making a variable
             Double value = executeTree(currNode.getChild(1));  // get the final value
             String name = currNode.getChild(0).getCommand();
@@ -41,9 +38,13 @@ public class ParseTreeExecutor extends CommandParser {
             currNode.setValue(value);
             return value;
         } else { // executing a normal command
-            for (int i = 0; i < currNode.getNumChildren(); i++) {
-                arguments.add(executeTree(currNode.getChild(i)));
+
+
+
+            for (ParseTreeNode child : currNode.children) {
+                arguments.add(executeTree(child));
             }
+
         }
 
         Double result = currNode.getCommandObj().executeCommand(arguments); // we have the result
