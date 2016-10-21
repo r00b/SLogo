@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ParseTreeNode {
 
     private Double value;
+    private String command;
     private String commandType;
     private Command commandObj;
     private ArrayList<ParseTreeNode> children;
@@ -21,11 +22,10 @@ public class ParseTreeNode {
      * @param newValue      is the value that the node takes
      * @param newCommandObj is the Command instance associated with the commandType
      */
-    ParseTreeNode(Double newValue, Command newCommandObj) {
-        value = newValue;
-        commandObj = newCommandObj;
+    ParseTreeNode() {
+//        value = newValue;
+//        commandObj = newCommandObj;
         children = new ArrayList<ParseTreeNode>();
-        numChildren = commandObj.numArguments();
     }
 
     /**
@@ -44,6 +44,24 @@ public class ParseTreeNode {
      */
     public void setValue(Double newValue) {
         value = newValue;
+    }
+
+    /**
+     * Returns the command associated with the node
+     *
+     * @return the command as a String
+     */
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Sets the command associated with the node
+     *
+     * @param newCommand is the new command
+     */
+    public void setCommand(String newCommand) {
+        command = newCommand;
     }
 
     /**
@@ -80,6 +98,7 @@ public class ParseTreeNode {
      */
     public void setCommandObj(Command newCommandObj) {
         commandObj = newCommandObj;
+        numChildren = commandObj.numArguments();
     }
 
     /**

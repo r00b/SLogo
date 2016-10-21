@@ -23,48 +23,24 @@ public class ParseTreeExecutor extends CommandParser {
      * @return the result of the action as a Double
      */
     public static double executeTree(ParseTreeNode currNode) {
-        // 			sum 2 3
-        // 			sum
-        //		/  \
-        //	   2    3
-        // start at head; if head is a function, get its children, and execute the function with the children, set value of curr to be resulting value
-        // if a child is a function, recursively execute that until it is equivalent to something, then pop back up
-        // CHECK IS IF THE VALUE IS NULL
-
-//               make
-//              /   \
-//          :name   double
-
         ArrayList<Double> arguments = new ArrayList<Double>();
-
-
-        if (currNode.getCommandObj().getClass() == Variable.class) { // we're trying to access a variable
-            currNode.setValue(variables.get(currNode.getCommandType()));
-        }
-
-        if (currNode.getNumChildren() == 0) {
-            // i want to execute the commandType objects SUCH THAT the value WILL BE RETURNED
-            // for a constant, value = the constant we want to return
-            // BUT if its a commandType with no args, value = null; the value we want is located in executeCommand
-            // SO we want a way to call execute commandType that will return the constant when we need it to
-
-
-            arguments.add(currNode.getValue()); // for a variable, value needs to be the string
+        if (currNode.getNumChildren() == 0) { // base case, execute the command
+            arguments.add(currNode.getValue());
             double value = currNode.getCommandObj().executeCommand(arguments);
             currNode.setValue(value);
             return value;
         }
-        // otherwise, we must have a function, get children values, execute
-        // get args, put into arraylist
 
 
-        if (currNode.getCommandObj().getClass() == MakeVariable.class) { // we're dealing with variables
+
+
+        if (currNode.getCommandObj().getClass() == MakeVariable.class) { // making a variable
             Double value = executeTree(currNode.getChild(1));  // get the final value
-            String name = currNode.getChild(0).getCommandType();
+            String name = currNode.getChild(0).getCommand();
             variables.put(name, value);
             currNode.setValue(value);
             return value;
-        } else {
+        } else { // executing a normal command
             for (int i = 0; i < currNode.getNumChildren(); i++) {
                 arguments.add(executeTree(currNode.getChild(i)));
             }
