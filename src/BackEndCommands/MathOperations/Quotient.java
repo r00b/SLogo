@@ -11,8 +11,11 @@ import java.util.List;
  */
 public class Quotient implements Command {
 
-    private static final int ARGS = 2;
+	private static final int ARGS = 2;
 	
+	/**
+	 * Returns the first argument divided by the second argument
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
 		return args.get(0) / args.get(1);

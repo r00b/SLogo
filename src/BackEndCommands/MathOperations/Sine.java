@@ -13,9 +13,12 @@ public class Sine implements Command {
 
     private static final int ARGS = 1;
 
+    /**
+	 * Returns the sin with angle being the arg given
+	 */
     @Override
     public double executeCommand(List<Double> args) {
-        return Math.sin(args.get(0));
+        return Math.sin(Math.toRadians(args.get(0)));
     }
 
     @Override

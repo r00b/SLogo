@@ -5,20 +5,24 @@ import BackEndInternalAPI.Command;
 import java.util.List;
 
 /**
- * @author Ezra Lieblich
- *         <p>
- *         This command instance represents the notequal? command in Logo.
+ * Executes the NotEqual command
+ * @author ezra
+ *
  */
-public class NotEqual implements Command {
-    private static final int ARGS = 2;
-
-    @Override
-    public double executeCommand(List<Double> args) {
-        if (!(args.get(0).equals(args.get(1)))) {
-            return 1;
-        }
-        return 0;
-    }
+public class NotEqual implements Command{
+	private static final int ARGS = 2;
+	
+	/**
+	 * Returns 1 if the two commands are not equal 0 otherwise
+	 */
+	@Override
+	public double executeCommand(List<Double> args) {
+		double answer = 0;
+		if (!(args.get(0).equals(args.get(1)))) {
+			answer++;
+		}
+		return answer;
+	}
 
     @Override
     public int numArguments() {

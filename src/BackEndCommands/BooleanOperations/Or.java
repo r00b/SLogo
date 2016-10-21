@@ -1,28 +1,32 @@
 package BackEndCommands.BooleanOperations;
 
-import BackEndInternalAPI.Command;
-
 import java.util.List;
 
+import BackEndInternalAPI.Command;
+
 /**
- * @author Ezra Lieblich
- *         <p>
- *         This command instance represents the or command in Logo.
+ * Executes the Or command
+ * @author ezra
+ *
  */
 public class Or implements Command{
-
-    private static final int ARGS = 2;
+	private static final int ARGS = 2;
 	
+	/**
+	 * Returns 1 if one of the arguments doesn't equal 0, 0 otherwise
+	 */
 	@Override
 	public double executeCommand(List<Double> args) {
-		if (args.get(0).equals(1.0) || args.get(1).equals(1.0)) {
-			return 1;
+		double answer = 0;
+		if (args.get(0) != 0 || args.get(1) != 0) {
+			answer++;
 		}
-		return 0;
+		return answer;
 	}
 
 	@Override
 	public int numArguments() {
 		return ARGS;
 	}
+
 }

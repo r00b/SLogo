@@ -1,22 +1,24 @@
 package BackEndCommands.MathOperations;
 
-import BackEndInternalAPI.Command;
-
 import java.util.List;
 
+import BackEndInternalAPI.Command;
+
 /**
- * @author Ezra Lieblich
- *         <p>
- *         This command instance represents the pi command in Logo.
+ * Executes the Pi command
+ * @author ezra
+ *
  */
 public class Pi implements Command {
-
-    private static final int ARGS = 0;
-
-    @Override
-    public double executeCommand(List<Double> args) {
-        return Math.PI;
-    }
+	private static final int ARGS = 0;
+	
+	/**
+	 * Returns the value of Pi
+	 */
+	@Override
+	public double executeCommand(List<Double> args) {
+		return Math.PI;
+	}
 
     @Override
     public int numArguments() {
