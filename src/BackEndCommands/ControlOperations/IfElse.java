@@ -9,18 +9,18 @@ import java.util.List;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents an if statement in Logo.
+ *         This command instance represents an else if statement in Logo.
  */
-public class If extends ControlCommand {
+public class IfElse extends ControlCommand {
 
-    private static final int ARGS = 2;
+    private static final int ARGS = 3;
 
     @Override
     public double executeCommand(List<Double> args) {
+        ParseTreeExecutor executor = new ParseTreeExecutor();
         if (args.get(0) == 0) {
-            return 0;
+            return executor.executeTree(executables.get(2));
         } else {
-            ParseTreeExecutor executor = new ParseTreeExecutor();
             return executor.executeTree(executables.get(1));
         }
     }
