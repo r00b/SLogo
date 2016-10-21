@@ -56,14 +56,15 @@ public class ParseTreeBuilder extends CommandParser {
             return newChild;
         }
 
-        if (commandObj.getClass() == Variable.class) { // trying to access a variable
-            Double variableVal = variables.get(currCommand);
-            if (variableVal == null) {
-                newChild.setValue(0.0);
-            } else {
-                newChild.setValue(variableVal);
-            }
-        }
+//        if (commandObj.getClass() == Variable.class) { // trying to access a variable
+//            Double variableVal = variables.get(currCommand);
+//            if (variableVal == null) {
+//                newChild.setValue(0.0);
+//            } else {
+//                newChild.setValue(variableVal);
+//            }
+//        }
+
         if (commandObj.getClass() == Constant.class) { // this commandType is a constant
             newChild.setValue(Double.parseDouble(currCommand));
         }
