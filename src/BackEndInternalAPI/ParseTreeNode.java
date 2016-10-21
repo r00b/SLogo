@@ -13,18 +13,14 @@ public class ParseTreeNode {
     private String command;
     private String commandType;
     private Command commandObj;
-    private ArrayList<ParseTreeNode> children;
+    public ArrayList<ParseTreeNode> children;
     private int numChildren;
+    private ParseTreeNode subTree;
 
     /**
      * Initialize the parse tree node
-     *
-     * @param newValue      is the value that the node takes
-     * @param newCommandObj is the Command instance associated with the commandType
      */
     ParseTreeNode() {
-//        value = newValue;
-//        commandObj = newCommandObj;
         children = new ArrayList<ParseTreeNode>();
     }
 
@@ -136,5 +132,23 @@ public class ParseTreeNode {
      */
     public int getNumChildren() {
         return numChildren;
+    }
+
+    /**
+     * Returns the node's subtree
+     *
+     * @return the root of the subtree
+     */
+    public ParseTreeNode getSubTree() {
+        return subTree;
+    }
+
+    /**
+     * Sets the subtree associated with the node
+     *
+     * @param newSubTree is the root of the subtree to add
+     */
+    public void setSubTree(ParseTreeNode newSubTree) {
+        subTree = newSubTree;
     }
 }
