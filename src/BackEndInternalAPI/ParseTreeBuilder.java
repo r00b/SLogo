@@ -1,6 +1,8 @@
 package BackEndInternalAPI;
 
 import BackEndCommands.Constant;
+import BackEndCommands.ControlOperations.Variable;
+import BackEndExternalAPI.CommandParser;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -12,7 +14,9 @@ import java.util.Iterator;
  *         by reducing the Logo commandType down into its subparts and then recursively
  *         building a tree where each tree node is a irreducible Logo commandType.
  */
-public class ParseTreeBuilder {
+public class ParseTreeBuilder extends CommandParser {
+
+    CommandTypeDetector myDetector;
 
     /**
      * Recursively builds a parse tree using an iterator that points to the
@@ -25,21 +29,35 @@ public class ParseTreeBuilder {
      */
     private ParseTreeNode buildParseTree(Iterator<String> commandIterator) {
         String currCommand = commandIterator.next();
-        CommandTypeDetector detector = new CommandTypeDetector();
-        Command commandObj = detector.getCommandObj(currCommand);
-        ParseTreeNode newChild;
+        ParseTreeNode newChild = new ParseTreeNode();
+        newChild.setCommand(currCommand); // TODO debugging
+        newChild.setCommandType(myDetector.getCommandType(currCommand));
+        Command commandObj = myDetector.getCommandObj(currCommand);
+        newChild.setCommandObj(commandObj);
 
 
-        if (commandObj.getClass() == Constant.class) { // this commandType is actually a constant
-            newChild = new ParseTreeNode(Double.parseDouble(currCommand), commandObj);
-        } else {
-            newChild = new ParseTreeNode(null, commandObj); // un-executed function calls have a null value
+        // TODO REFACTOR THIS OUT ---------------------------------------------------------
+        if (commandObj.getClass() == Variable.class) { // trying to access a variable
+            Double variableVal = variables.get(currCommand);
+            if (variableVal == null) {
+                newChild.setValue(0.0);
+            } else {
+                newChild.setValue(variableVal);
+            }
         }
-        newChild.setCommandType(currCommand); // TODO determine if this is actually necessary
-        if (newChild.getNumChildren() == 0) { // no more commands to add to the tree
+        if (commandObj.getClass() == Constant.class) { // this commandType is a constant
+            newChild.setValue(Double.parseDouble(currCommand));
+        }
+        // TODO REFACTOR THIS OUT ---------------------------------------------------------
+
+
+
+
+
+        if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }
-        for (int i = 0; i < newChild.getCommandObj().numArguments(); i++) {
+        for (int i = 0; i < newChild.getCommandObj().numArguments(); i++) { // create all children
             newChild.addChild(buildParseTree(commandIterator));
         }
         return newChild;
@@ -53,6 +71,7 @@ public class ParseTreeBuilder {
      * @return the root of the newly built ParseTree
      */
     public ParseTreeNode initParseTree(String[] commands) {
+        myDetector = new CommandTypeDetector();
         Iterator<String> commandIterator = Arrays.asList(commands).iterator();
         ParseTreeNode parseTreeRoot = buildParseTree(commandIterator);
         return parseTreeRoot;

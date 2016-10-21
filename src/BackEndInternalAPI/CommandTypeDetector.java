@@ -21,8 +21,11 @@ public class CommandTypeDetector {
 
     private List<Entry<String, Pattern>> mySymbols;
 
-    CommandTypeDetector() {
+    public CommandTypeDetector() {
         mySymbols = new ArrayList<>();
+        String language = "English"; // TODO get current language from GUI
+        addPatterns("resources/languages/" + language);
+        addPatterns("resources/languages/Syntax"); // Logo syntax
     }
 
     /**
@@ -34,9 +37,6 @@ public class CommandTypeDetector {
      */
     public Command getCommandObj(String command) {
         ResourceBundle resources = ResourceBundle.getBundle("resources/internal/ClassLocations");
-        String language = "English"; // TODO get current language from GUI
-        addPatterns("resources/languages/" + language);
-        addPatterns("resources/languages/Syntax"); // Logo syntax
         String commandType = getCommandType(command);
         System.out.println(commandType); // TODO DEBUGGING
         try {
@@ -78,7 +78,7 @@ public class CommandTypeDetector {
      * @return the String's Logo commandType type, or "ERROR"
      * if no match is found
      */
-    private String getCommandType(String command) {
+    public String getCommandType(String command) {
         for (Entry<String, Pattern> mapping : mySymbols) {
             if (isMatch(command, mapping.getValue())) {
                 return mapping.getKey();
