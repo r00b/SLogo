@@ -1,11 +1,14 @@
 package GUIController;
 
+import BackEndInternalAPI.Command;
+import BackEndInternalAPI.CommandTypeDetector;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -29,6 +32,8 @@ public class GUIManager implements GUIController{
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
+    private CommandTypeDetector commandMaker = new CommandTypeDetector();
+    private Command newCommand;
 
     public GUIManager(Color penColor, String background, String turtle, String language){
 
@@ -53,7 +58,9 @@ public class GUIManager implements GUIController{
         //create histoy, console, editor, display, variables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
-        stage.setScene(new Scene(setUpWindow()));
+        Scene myScene = new Scene(setUpWindow());
+        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        stage.setScene(myScene);
         stage.show();
     }
 
@@ -87,6 +94,17 @@ public class GUIManager implements GUIController{
         myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
+    }
+
+    private void handleKeyInput (KeyCode code){
+        switch (code) {
+            case ENTER:
+                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
+                myEditor.startNewCommand();
+                turtle.setTranslateX(turtle.getTranslateX() - 10);
+                break;
+            default:
+        }
     }
 
     @Override
