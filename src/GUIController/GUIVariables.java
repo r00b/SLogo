@@ -93,7 +93,7 @@ public class GUIVariables implements Variables {
 
     @Override
     public void addVariable(String name, String value) {
-        table.
+//        table.
     }
 
     @Override
