@@ -1,5 +1,6 @@
 package GUI;
 
+import FrontEndInternalAPI.ButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ public class HelpMenu {
     private static final int X_POS_BUTTON = 150;
     private Stage myStage;
     private Pane helpWindow;
+    private EditorHelp editorHelp;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -48,6 +50,12 @@ public class HelpMenu {
         backgroundImageMainScreen.setFitWidth(HELP_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(HELP_MENU_HEIGHT);
         helpWindow.getChildren().add(backgroundImageMainScreen);
+
+        addNodes();
+        return helpWindow;
+    }
+
+    public void addNodes(){
         helpWindow.getChildren().addAll(addButton("IDE Style and color", X_POS_BUTTON, 200),
                 addButton("Editor", X_POS_BUTTON, 250),
                 addButton("Variables", X_POS_BUTTON, 300),
@@ -61,22 +69,22 @@ public class HelpMenu {
         titleText.setFill(Color.WHITE);
         titleText.setTranslateX(100);
         titleText.setTranslateY(100);
-
+        Button editor = addButton("Editor", X_POS_BUTTON, 250);
+        editor.setOnMouseClicked(e -> editorHandler());
 
         helpWindow.getChildren().add(addRectangle());
         helpWindow.getChildren().add(titleText);
         helpWindow.getChildren().addAll(addButton("IDE Style and color", X_POS_BUTTON, 200),
-                addButton("Editor", X_POS_BUTTON, 250),
+                editor,
                 addButton("Variables", X_POS_BUTTON, 300),
                 addButton("History", X_POS_BUTTON, 350),
                 addButton("Commands", X_POS_BUTTON + 300, 200),
                 addButton("Display", X_POS_BUTTON + 300, 250),
                 addButton("Controls", X_POS_BUTTON + 300, 300));
 
-        return helpWindow;
     }
 
-    private Button addButton(String text, int x, int y){
+    public Button addButton(String text, int x, int y){
         Button newButton;
         newButton = new Button(text);
         newButton.setStyle(overButton);
@@ -90,10 +98,24 @@ public class HelpMenu {
     }
 
     public Rectangle addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 400, Color.MIDNIGHTBLUE);
+        Rectangle backdrop = new Rectangle(520, 400, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(70);
         backdrop.setTranslateX(80);
         backdrop.opacityProperty().setValue(0.5);
         return backdrop;
+    }
+
+    private void editorHandler(){
+        Stage s = new Stage();
+        editorHelp = new EditorHelp(s);
+        editorHelp.init();
+    }
+
+    public Stage getStage(){
+        return myStage;
+    }
+
+    public Pane getWindow(){
+        return helpWindow;
     }
 }
