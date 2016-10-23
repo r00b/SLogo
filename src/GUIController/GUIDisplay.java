@@ -8,25 +8,35 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 /**
  * Created by Delia on 10/15/2016.
  */
 public class GUIDisplay implements RenderSprite {
     private static final int TURTLE_FIT_SIZE = 40;
+    private static final int X_POS = 620;
+    private static final int Y_POS = 110;
+    private int numSteps = 0;
     private Pane window;
     private ImageView helpButton;
     private ImageView myTurtle, displayGraph;
     private DisplayHelp helpWindow;
+    private Color pathColor;
+    private ArrayList<Line> turtleMotion = new ArrayList<>();
 
-    public GUIDisplay(Pane p, ImageView turtle){
+    public GUIDisplay(Pane p, ImageView turtle, Color pathColor){
         this.window = p;
         this.myTurtle = turtle;
+        this.pathColor = pathColor;
         drawDisplay();
         addTextLabel();
         addTurtle();
@@ -39,15 +49,15 @@ public class GUIDisplay implements RenderSprite {
         displayGraph = new ImageView(newImg);
         displayGraph.setFitWidth(770);
         displayGraph.setFitHeight(480);
-        displayGraph.setTranslateY(110);
-        displayGraph.setTranslateX(620);
-        displayGraph.opacityProperty().setValue(0.8);
+        displayGraph.setTranslateY(Y_POS);
+        displayGraph.setTranslateX(X_POS);
+        displayGraph.opacityProperty().setValue(0.9);
         window.getChildren().add(displayGraph);
     }
 
     private void addTurtle(){
-        myTurtle.setTranslateX(700);
-        myTurtle.setTranslateY(200);
+        myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
         window.getChildren().add(myTurtle);
@@ -81,6 +91,24 @@ public class GUIDisplay implements RenderSprite {
 
     public void bindNodes(ReadOnlyDoubleProperty width){
         helpButton.translateXProperty().bind(width.subtract(50));
+    }
+
+    public void moveTurtle(int x, int y){
+        numSteps++;
+        drawNewLine(new Point((int)myTurtle.getTranslateX(),
+                (int)myTurtle.getTranslateY()), new Point(x, y));
+        myTurtle.setTranslateX(X_POS + x);
+        myTurtle.setTranslateY(Y_POS + y);
+    }
+
+    private void drawNewLine(Point origin, Point destination){
+        Line newLine = new Line(X_POS + origin.getX(), Y_POS + origin.getY(),
+                X_POS + destination.getX(), Y_POS + destination.getY());
+        newLine.setFill(pathColor);
+        newLine.setStrokeWidth(5);
+        newLine.setId("Step" + numSteps);
+        turtleMotion.add(newLine);
+        window.getChildren().add(newLine);
     }
 
     public ImageView getGraph(){
