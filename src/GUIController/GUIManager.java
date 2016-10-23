@@ -64,7 +64,7 @@ public class GUIManager implements GUIController{
 
     @Override
     public void init() {
-        //create histoy, console, editor, display, variables, button menu
+        //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
         Scene myScene = new Scene(setUpWindow());

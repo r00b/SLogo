@@ -6,8 +6,6 @@ import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
 import BackEndInternalAPI.ParseTreeBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -19,9 +17,7 @@ import java.util.ResourceBundle;
  */
 public class CommandParser { // TODO DE STATIC EVERYTHING
 
-    protected static HashMap<String, Double> variables = new HashMap<String, Double>();
-
-    protected static ResourceBundle commandTypes;
+    private static final String SETTINGS_PATH = "resources/internal/Settings";
 
     /**
      * Determines if a specified command is indeed an executable Command
@@ -47,8 +43,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
      * @param command a string containing the commandType issued from the editor
      */
     public static double getAction(String command) {
-        ResourceBundle settings = ResourceBundle.getBundle("resources/internal/Settings");
-
+        ResourceBundle settings = ResourceBundle.getBundle(SETTINGS_PATH);
         String[] commands = command.trim().split(settings.getString("Delimiter"));
         if (notCommand(commands)) {
             return 0.0;
@@ -89,7 +84,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
         getAction("make :shitter 5");
         System.out.println(getAction("for [ :shitter 0 5 2 ] [ sum :shitter 0 ]"));
 
-//        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
+        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
 //        System.out.println(result);
 //        System.out.println("G".equals("G"));
 
