@@ -18,7 +18,7 @@ public class For extends ControlCommand {
     @Override
     public double executeCommand(List<Double> args) {
         ParseTreeExecutor executor = new ParseTreeExecutor();
-
+        // TODO ENSURE THAT WE ARE DOING AN INCLUSIVE FOR
         String variable = executables.get(0).getChild(0).getCommand();
         double start = executor.executeTree(executables.get(0).getChild(1));
         double end = executor.executeTree(executables.get(0).getChild(2));

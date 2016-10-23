@@ -1,13 +1,7 @@
 package BackEndInternalAPI;
 
 import BackEndCommands.Constant;
-import BackEndCommands.ControlOperations.Variable;
-import BackEndCommands.ListEnd;
 import BackEndCommands.ListStart;
-import BackEndExternalAPI.CommandParser;
-
-import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * @author Robert H. Steilberg II
@@ -16,74 +10,72 @@ import java.util.Iterator;
  *         by reducing the Logo commandType down into its subparts and then recursively
  *         building a tree where each tree node is a irreducible Logo commandType.
  */
-public class ParseTreeBuilder extends CommandParser {
+public class ParseTreeBuilder {
 
     CommandTypeDetector myDetector;
-    private String nextCommand;
-
     private String[] myCommands;
-    private int index;
+    private int myCommandIndex;
+
+    /**
+     * Create a new ParseTreeNode and initialize the command, command type,
+     * and command object for the node
+     *
+     * @param currCommand is a String representing the command with which to make the node
+     * @return the newly initialized ParseTreeNode
+     */
+    private ParseTreeNode initParseTreeNode(String currCommand) {
+        ParseTreeNode newNode = new ParseTreeNode();
+        newNode.setCommand(currCommand);
+        newNode.setCommandType(myDetector.getCommandType(currCommand));
+        newNode.setCommandObj(myDetector.getCommandObj(currCommand)); // sets the associated Command
+        return newNode;
+    }
+
+    /**
+     * Builds the subtrees for commands within a list
+     *
+     * @param listNode is the node containing the beginning of the list
+     * @return listNode holding all of its subtrees as children
+     */
+    private ParseTreeNode buildList(ParseTreeNode listNode) {
+        while (!myCommands[myCommandIndex + 1].equals("]")) {
+            myCommandIndex++;
+            listNode.addChild(buildParseTree()); // create subtrees for each element in the list
+        }
+        myCommandIndex++; // increment so we can execute anything after the list
+        return listNode;
+    }
 
 
     /**
-     * Recursively builds a parse tree using an iterator that points to the
-     * current commandType to be added to the tree
+     * Recursively builds a parse tree by iterating through a String array
+     * of issued commands
      *
-     * @param commandIterator is an iterator set to the commandType to be added
-     *                        to the tree
      * @return a ParseTreeNode corresponding to the root of a parse tree
      * initialized on the given commandType
      */
     private ParseTreeNode buildParseTree() {
-        String currCommand = myCommands[index];
-
-        ParseTreeNode newChild = new ParseTreeNode();
-        newChild.setCommand(currCommand); // TODO debugging
-        newChild.setCommandType(myDetector.getCommandType(currCommand));
-        Command commandObj = myDetector.getCommandObj(currCommand);
-        newChild.setCommandObj(commandObj);
-
-
-        // TODO REFACTOR THIS OUT ---------------------------------------------------------
-
-        if (newChild.getCommandObj().getClass() == ListStart.class) {
-            while (!myCommands[index+1].equals("]")) {
-                System.out.println("CURR " + currCommand);
-                index++;
-                newChild.addChild(buildParseTree());
-            }
-            index++;
-            return newChild;
+        String currCommand = myCommands[myCommandIndex];
+        ParseTreeNode newChild = initParseTreeNode(currCommand);
+        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
+            return buildList(newChild);
         }
-
-//        if (commandObj.getClass() == Variable.class) { // trying to access a variable
-//            Double variableVal = variables.get(currCommand);
-//            if (variableVal == null) {
-//                newChild.setValue(0.0);
-//            } else {
-//                newChild.setValue(variableVal);
-//            }
-//        }
-
-        if (commandObj.getClass() == Constant.class) { // this commandType is a constant
+        if (newChild.getCommandObj().getClass() == Constant.class) {
             newChild.setValue(Double.parseDouble(currCommand));
         }
-        // TODO REFACTOR THIS OUT ---------------------------------------------------------
-
-
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }
         for (int i = 0; i < newChild.getCommandObj().numArguments(); i++) { // create all children
-            index++;
+            myCommandIndex++;
             newChild.addChild(buildParseTree());
         }
         return newChild;
     }
 
     /**
-     * Initializes an iterator for the String array of commands and calls the recursive
-     * function buildParseTree which returns the root of the parse tree
+     * Initializes the recursive function buildParseTree which returns the
+     * root of the parse tree
      *
      * @param commands is a String array containing the commands issued from the GUI
      * @return the root of the newly built ParseTree
@@ -91,8 +83,7 @@ public class ParseTreeBuilder extends CommandParser {
     public ParseTreeNode initParseTree(String[] commands) {
         myDetector = new CommandTypeDetector();
         myCommands = commands;
-        index = 0;
-        ParseTreeNode parseTreeRoot = buildParseTree();
-        return parseTreeRoot;
+        myCommandIndex = 0;
+        return buildParseTree();
     }
 }
