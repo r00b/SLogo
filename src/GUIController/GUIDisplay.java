@@ -1,6 +1,7 @@
 package GUIController;
 
 import FrontEndInternalAPI.RenderSprite;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 public class GUIDisplay implements RenderSprite {
     private static final int TURTLE_FIT_SIZE = 100;
     private Pane window;
+    private ImageView helpButton;
     private ImageView myTurtle, displayGraph;
 
     public GUIDisplay(Pane p, ImageView turtle){
@@ -31,7 +33,7 @@ public class GUIDisplay implements RenderSprite {
         Image newImg = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/graphPaper.gif"));
         displayGraph = new ImageView(newImg);
-        displayGraph.setFitWidth(970);
+        displayGraph.setFitWidth(770);
         displayGraph.setFitHeight(480);
         displayGraph.setTranslateY(110);
         displayGraph.setTranslateX(620);
@@ -58,12 +60,16 @@ public class GUIDisplay implements RenderSprite {
     private void addHelpButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        helpButton = new ImageView(newImage);
         helpButton.setTranslateX(displayGraph.getTranslateX() + displayGraph.getFitWidth() - 35);
         helpButton.setTranslateY(displayGraph.getTranslateY() + 10);
         helpButton.setFitWidth(30);
         helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
+    }
+
+    public void bindNodes(ReadOnlyDoubleProperty width){
+        helpButton.translateXProperty().bind(width.subtract(50));
     }
 
     public ImageView getGraph(){

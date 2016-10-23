@@ -20,8 +20,8 @@ import javafx.stage.Stage;
  * Created by Delia on 10/15/2016.
  */
 public class GUIManager implements GUIController{
-    public static final int IDE_WIDTH = 1600;
-    public static final int IDE_HEIGHT = 900;
+    public static final int IDE_WIDTH = 1400;
+    public static final int IDE_HEIGHT = 800;
     private Color penColor;
     private ImageView background, turtle;
     private Stage stage;
@@ -100,7 +100,8 @@ public class GUIManager implements GUIController{
     private void setSizeBindings(){
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
-        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
+        myDisplay.bindNodes(window.widthProperty());
+//        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
         myEditor.bindNodes(window.widthProperty(), window.heightProperty());
@@ -191,8 +192,10 @@ public class GUIManager implements GUIController{
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         for(int i = 0; i < splitCommands.length; i++){
-            myHistory.addCommand(splitCommands[i].substring(2));
-            commandParser.getAction(splitCommands[i]);
+            if(splitCommands[i].length() > 0) {
+                myHistory.addCommand(splitCommands[i]);
+//                commandParser.getAction(splitCommands[i].substring(2));
+            }
         }
     }
     
@@ -205,7 +208,7 @@ public class GUIManager implements GUIController{
         int startIndex = -1;
         for(int i = fullText.length() - 1; i >= 0; i--){
             if(fullText.charAt(i) == '>') {
-                startIndex = i;
+                startIndex = i + 2;
                 break;
             }
         }
