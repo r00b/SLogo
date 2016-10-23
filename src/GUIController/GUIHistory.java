@@ -1,6 +1,7 @@
 package GUIController;
 
 import FrontEndExternalAPI.History;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,7 @@ public class GUIHistory implements History {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private static int numCommands = 0;
 
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
@@ -65,8 +67,12 @@ public class GUIHistory implements History {
 
 
     @Override
-    public void addCommand() {
-
+    public void addCommand(String text) {
+        numCommands++;
+        Button newCommand = new Button(text);
+        newCommand.setTranslateX(40);
+        newCommand.setTranslateY(700 + numCommands * 5);
+        window.getChildren().add(newCommand);
     }
 
     @Override

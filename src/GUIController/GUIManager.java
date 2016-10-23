@@ -1,11 +1,13 @@
 package GUIController;
 
+import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.CommandTypeDetector;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,6 +36,13 @@ public class GUIManager implements GUIController{
     private GUIButtonMenu myButtonMenu;
     private CommandTypeDetector commandMaker = new CommandTypeDetector();
     private Command newCommand;
+    private CommandParser commandParser = new CommandParser();
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     public GUIManager(Color penColor, String background, String turtle, String language){
 
@@ -59,7 +68,7 @@ public class GUIManager implements GUIController{
         stage = new Stage();
         stage.setTitle("Slogo");
         Scene myScene = new Scene(setUpWindow());
-        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+//        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         stage.setScene(myScene);
         stage.show();
     }
@@ -74,6 +83,7 @@ public class GUIManager implements GUIController{
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
+        addRunButton();
         myButtonMenu.setDefaults(penColor, backgroundStr, turtleStr, language);
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
@@ -96,15 +106,34 @@ public class GUIManager implements GUIController{
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
 
-    private void handleKeyInput (KeyCode code){
-        switch (code) {
-            case ENTER:
-                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
-                myEditor.startNewCommand();
-                turtle.setTranslateX(turtle.getTranslateX() - 10);
-                break;
-            default:
-        }
+//    private void handleKeyInput (KeyCode code){
+//        switch (code) {
+//            case ENTER:
+//                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
+//                myEditor.startNewCommand();
+//                turtle.setTranslateX(turtle.getTranslateX() - 10);
+//                break;
+//            default:
+//        }
+//    }
+
+    private void addRunButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/play.png"));
+        ImageView imgV = new ImageView(newImage);
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button("Run", imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setOnMouseClicked(e -> returnAction());
+        run.setTranslateX(700);
+        run.setTranslateY(600);
+        window.getChildren().add(run);
     }
 
     @Override
@@ -139,6 +168,24 @@ public class GUIManager implements GUIController{
 
     @Override
     public void returnAction() {
+        String fullText = myEditor.getCurrentText();
+        myEditor.startNewCommand();
+        String newCommands = fullText.substring(lookForLatest(fullText));
+        String[] splitCommands = newCommands.split("\n");
+        for(int i = 0; i < splitCommands.length; i++){
+            myHistory.addCommand(splitCommands[i]);
+            commandParser.getAction(splitCommands[i]);
+        }
+    }
 
+    private int lookForLatest(String fullText){
+        int startIndex = -1;
+        for(int i = fullText.length() - 1; i >= 0; i--){
+            if(fullText.charAt(i) == '>') {
+                startIndex = i;
+                break;
+            }
+        }
+        return startIndex;
     }
 }
