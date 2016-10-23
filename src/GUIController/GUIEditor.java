@@ -144,4 +144,8 @@ public class GUIEditor implements Editor {
     public String getCurrentText() {
         return textArea.getText();
     }
+    
+    public void redoCommand(String str) {
+        textArea.setText("\n> " + str);
+    }
 }
