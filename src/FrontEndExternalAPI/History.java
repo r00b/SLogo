@@ -5,5 +5,5 @@ public interface History {
 
     public void addCommand(String text);
 
-    public void callCommand();
+    public void callCommand(String text);
 }

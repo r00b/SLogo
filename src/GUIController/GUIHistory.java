@@ -81,18 +81,24 @@ public class GUIHistory implements History {
     public void addCommand(String text) {
         numCommands++;
         Button newCommand = new Button(text);
+        newCommand.setOnMouseClicked(e -> callCommand(newCommand.getText()));
         oldCommands.add(newCommand);
         list.setItems(oldCommands);
         list.setTranslateX(20);
         list.setTranslateY(685);
         list.setPrefHeight(50);
-        list.setPrefWidth(550);
+        list.setPrefWidth(500);
         window.getChildren().add(list);
         
     }
 
     @Override
-    public void callCommand() {
-        
+    public void callCommand(String str) {
+        redoCommand = str;
+        //System.out.println(redoCommand);
+    }
+    
+    public String getRedoCommand(){
+        return redoCommand;
     }
 }
