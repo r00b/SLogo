@@ -84,6 +84,7 @@ public class GUIManager implements GUIController{
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
+        addHistoryButton();
         myButtonMenu.setDefaults(penColor, backgroundStr, turtleStr, language);
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
@@ -136,6 +137,22 @@ public class GUIManager implements GUIController{
         run.setTranslateY(600);
         window.getChildren().add(run);
     }
+    
+    
+    private void addHistoryButton(){ 
+   
+                       Button hist = new Button("Load");
+                       hist.setStyle(overButton);
+                       hist.setOnMouseEntered(e -> {
+                           hist.setStyle(buttonFill);
+                           myEditor.getBackdrop().opacityProperty().setValue(0.8);
+                       });
+                       hist.setOnMouseExited(e -> hist.setStyle(overButton));
+                       hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
+                       hist.setTranslateX(528);
+                       hist.setTranslateY(705);
+                       window.getChildren().add(hist);
+    }
 
     @Override
     public void getInitialParams() {
@@ -177,6 +194,11 @@ public class GUIManager implements GUIController{
             myHistory.addCommand(splitCommands[i].substring(2));
             commandParser.getAction(splitCommands[i]);
         }
+    }
+    
+    private void getAndLoadHistoryCommand(){
+        String redoCommand = myHistory.getRedoCommand();
+        myEditor.redoCommand(redoCommand);
     }
 
     private int lookForLatest(String fullText){
