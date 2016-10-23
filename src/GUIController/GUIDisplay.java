@@ -1,6 +1,8 @@
 package GUIController;
 
 import FrontEndInternalAPI.RenderSprite;
+import GUI.ConsoleHelp;
+import GUI.DisplayHelp;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -19,6 +22,7 @@ public class GUIDisplay implements RenderSprite {
     private Pane window;
     private ImageView helpButton;
     private ImageView myTurtle, displayGraph;
+    private DisplayHelp helpWindow;
 
     public GUIDisplay(Pane p, ImageView turtle){
         this.window = p;
@@ -61,11 +65,18 @@ public class GUIDisplay implements RenderSprite {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         helpButton = new ImageView(newImage);
+        helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setTranslateX(displayGraph.getTranslateX() + displayGraph.getFitWidth() - 35);
         helpButton.setTranslateY(displayGraph.getTranslateY() + 10);
         helpButton.setFitWidth(30);
         helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
+    }
+    
+    private void helpHandler(){
+        Stage s = new Stage();
+        helpWindow = new DisplayHelp(s);
+        helpWindow.init();
     }
 
     public void bindNodes(ReadOnlyDoubleProperty width){
