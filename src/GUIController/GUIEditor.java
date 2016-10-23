@@ -2,6 +2,7 @@ package GUIController;
 
 import FrontEndExternalAPI.Editor;
 import GUI.EditorHelp;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -25,6 +26,7 @@ public class GUIEditor implements Editor {
     private String defaultCommand = "Enter command here";
     private TextArea textArea;
     private EditorHelp helpWindow;
+    private ImageView helpButton;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -88,7 +90,7 @@ public class GUIEditor implements Editor {
     private void addHelpButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        helpButton = new ImageView(newImage);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
@@ -132,6 +134,11 @@ public class GUIEditor implements Editor {
         textArea.setText(textArea.getText() + "\n> ");
     }
 
+    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
+        textArea.prefWidthProperty().bind(width.subtract(650));
+        textArea.prefHeightProperty().bind(height.subtract(660));
+        helpButton.translateXProperty().bind(width.subtract(50));
+    }
 
     @Override
     public String getCurrentText() {
