@@ -1,6 +1,8 @@
 package GUIController;
 
 import FrontEndExternalAPI.Variables;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -24,6 +26,7 @@ public class GUIVariables implements Variables {
         this.border = bodercolor;
         drawVariables();
         addTextLabel();
+        addHelpButton();
     }
 
     private void drawVariables(){
@@ -45,6 +48,18 @@ public class GUIVariables implements Variables {
         label.setTranslateX(20);
         label.setTranslateY(130);
         window.getChildren().add(label);
+    }
+
+    private void addHelpButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
+        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
+        helpButton.setFitWidth(30);
+        helpButton.setFitHeight(30);
+        window.getChildren().add(helpButton);
     }
 
     @Override

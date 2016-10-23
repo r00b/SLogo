@@ -1,6 +1,9 @@
 package GUIController;
 
 import FrontEndExternalAPI.Editor;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,12 +19,16 @@ public class GUIEditor implements Editor {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private String defaultCommand = "Enter command here";
+    private TextArea textArea;
 
-    public GUIEditor(Pane p, Paint borderColor){
+    public GUIEditor(Pane p, Paint borderColor) {
         this.window = p;
         this.border = borderColor;
         drawEditor();
         addTextLabel();
+        addTextArea();
+        addHelpButton();
     }
 
     private void drawEditor(){
@@ -45,12 +52,48 @@ public class GUIEditor implements Editor {
         window.getChildren().add(label);
     }
 
+    private void addTextArea(){
+        textArea = new TextArea();
+        textArea.setTranslateX(630);
+        textArea.setTranslateY(640);
+        textArea.setPrefSize(940, 240);
+        textArea.setText("> " + defaultCommand);
+        textArea.setOnMouseClicked(e -> {
+            if (textArea.getText().equals("> " + defaultCommand))
+                textArea.setText("> ");
+        });
+        textArea.opacityProperty().setValue(0.5);
+        textArea.setOnMouseEntered(e -> {
+            backdrop.opacityProperty().setValue(0.8);
+            textArea.opacityProperty().setValue(0.8);
+        });
+        textArea.setOnMouseExited(e -> textArea.opacityProperty().setValue(0.5));
+        window.getChildren().add(textArea);
+    }
+
+    private void addHelpButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
+        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
+        helpButton.setFitWidth(30);
+        helpButton.setFitHeight(30);
+        window.getChildren().add(helpButton);
+    }
+
     public Rectangle getBackdrop(){
         return backdrop;
     }
 
     @Override
-    public void enterPressed() {
+    public String enterPressed() {
+        return textArea.getText(); //WE ONLY WANT THE LATEST COMMAND, NOT THE WHOLE THING.
+        //MUST IMPROVE THIS LATER
+    }
 
+    public void startNewCommand(){
+        textArea.setText(textArea.getText() + "\n + > ");
     }
 }

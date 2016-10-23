@@ -23,6 +23,7 @@ public class GUIButtonMenu implements ButtonMenu{
     private Rectangle backdrop;
     private Stage s = new Stage();
     private OptionsPopup myOptions;
+    private HelpMenu myHelpMenu;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -67,6 +68,7 @@ public class GUIButtonMenu implements ButtonMenu{
         Button options = newButton("OPTIONS", 340, 50);
         options.setOnMouseClicked(e -> optionsHandler());
         Button help = newButton("HELP", 420, 50);
+        help.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(play);
         window.getChildren().add(pause);
         window.getChildren().add(stop);
@@ -134,6 +136,11 @@ public class GUIButtonMenu implements ButtonMenu{
 
     private void optionsHandler(){
         myOptions.initPopup();
+    }
+
+    private void helpHandler(){
+        myHelpMenu = new HelpMenu(s);
+        myHelpMenu.init();
     }
 
     public OptionsPopup getOptionsPopup(){
