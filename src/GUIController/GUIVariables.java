@@ -1,6 +1,10 @@
 package GUIController;
 
 import FrontEndExternalAPI.Variables;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,12 +22,15 @@ public class GUIVariables implements Variables {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private TableView table = new TableView();
 
     public GUIVariables(Pane p, Paint bodercolor){
         this.window = p;
         this.border = bodercolor;
         drawVariables();
         addTextLabel();
+        addHelpButton();
+        createTableView();
     }
 
     private void drawVariables(){
@@ -47,9 +54,46 @@ public class GUIVariables implements Variables {
         window.getChildren().add(label);
     }
 
-    @Override
-    public void addVariable() {
+    private void addHelpButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
+        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
+        helpButton.setFitWidth(30);
+        helpButton.setFitHeight(30);
+        window.getChildren().add(helpButton);
+    }
 
+    private void createTableView(){
+
+        table.setEditable(true);
+
+        TableColumn variableNameCol = new TableColumn("Variable Name");
+        variableNameCol.setPrefWidth(200);
+        TableColumn variableTypeCol = new TableColumn("Variable Type");
+        variableTypeCol.setPrefWidth(200);
+        TableColumn valueCol = new TableColumn("Value");
+        valueCol.setPrefWidth(170);
+
+        table.getColumns().addAll(variableNameCol, variableTypeCol, valueCol);
+        table.setTranslateX(20);
+        table.setTranslateY(140);
+        table.setPrefSize(570, 190);
+        table.opacityProperty().setValue(0.5);
+        table.setOnMouseEntered(e -> {
+            table.opacityProperty().setValue(0.8);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        table.setOnMouseExited(e -> table.opacityProperty().setValue(0.5));
+
+        window.getChildren().add(table);
+    }
+
+    @Override
+    public void addVariable(String name, String value) {
+//        table.
     }
 
     @Override

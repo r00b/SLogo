@@ -9,14 +9,19 @@ import BackEndCommands.TurtleCommands.SetHeading;
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndCommands.TurtleCommands.Towards;
 import BackEndInternalAPI.ObservableProperties;
+import BackEndExternalAPI.CommandParser;
+import BackEndInternalAPI.Command;
+import BackEndInternalAPI.CommandTypeDetector;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -26,8 +31,8 @@ import javafx.stage.Stage;
  * Created by Delia on 10/15/2016.
  */
 public class GUIManager implements GUIController{
-    public static final int IDE_WIDTH = 1600;
-    public static final int IDE_HEIGHT = 900;
+    public static final int IDE_WIDTH = 1400;
+    public static final int IDE_HEIGHT = 800;
     private Color penColor;
     private ImageView background, turtle;
     private Stage stage;
@@ -40,6 +45,15 @@ public class GUIManager implements GUIController{
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
+    private CommandTypeDetector commandMaker = new CommandTypeDetector();
+    private Command newCommand;
+    private CommandParser commandParser = new CommandParser();
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     public GUIManager(Color penColor, String background, String turtle, String language){
 
@@ -61,7 +75,7 @@ public class GUIManager implements GUIController{
 
     @Override
     public void init() {
-        //create histoy, console, editor, display, variables, button menu
+        //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
         stage.setScene(new Scene(setUpWindow()));
@@ -77,6 +91,9 @@ public class GUIManager implements GUIController{
         System.out.println(turtle.getX());
         System.out.println(turtle.getY());
         System.out.println(turtle.getRotate());
+        Scene myScene = new Scene(setUpWindow());
+//        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        stage.setScene(myScene);
         stage.show();
     }
 
@@ -90,6 +107,8 @@ public class GUIManager implements GUIController{
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle);
         myButtonMenu = new GUIButtonMenu(window, penColor);
+        addRunButton();
+        addHistoryButton();
         myButtonMenu.setDefaults(penColor, backgroundStr, turtleStr, language);
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
@@ -105,9 +124,11 @@ public class GUIManager implements GUIController{
     private void setSizeBindings(){
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
-        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
+        myDisplay.bindNodes(window.widthProperty());
+//        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myEditor.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
@@ -161,7 +182,53 @@ public class GUIManager implements GUIController{
 		return;
 	}
 
-	@Override
+//    private void handleKeyInput (KeyCode code){
+//        switch (code) {
+//            case ENTER:
+//                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
+//                myEditor.startNewCommand();
+//                turtle.setTranslateX(turtle.getTranslateX() - 10);
+//                break;
+//            default:
+//        }
+//    }
+
+    private void addRunButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/play.png"));
+        ImageView imgV = new ImageView(newImage);
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button("Run", imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setOnMouseClicked(e -> returnAction());
+        run.setTranslateX(700);
+        run.setTranslateY(600);
+        window.getChildren().add(run);
+    }
+    
+    
+    private void addHistoryButton(){ 
+   
+                       Button hist = new Button("Load");
+                       hist.setStyle(overButton);
+                       hist.setOnMouseEntered(e -> {
+                           hist.setStyle(buttonFill);
+                           myEditor.getBackdrop().opacityProperty().setValue(0.8);
+                       });
+                       hist.setOnMouseExited(e -> hist.setStyle(overButton));
+                       hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
+                       hist.setTranslateX(528);
+                       hist.setTranslateY(705);
+                       window.getChildren().add(hist);
+    }
+
+    @Override
     public void getInitialParams() {
 
     }
@@ -193,6 +260,31 @@ public class GUIManager implements GUIController{
 
     @Override
     public void returnAction() {
+        String fullText = myEditor.getCurrentText();
+        myEditor.startNewCommand();
+        String newCommands = fullText.substring(lookForLatest(fullText));
+        String[] splitCommands = newCommands.split("\n");
+        for(int i = 0; i < splitCommands.length; i++){
+            if(splitCommands[i].length() > 0) {
+                myHistory.addCommand(splitCommands[i]);
+//                commandParser.getAction(splitCommands[i].substring(2));
+            }
+        }
+    }
+    
+    private void getAndLoadHistoryCommand(){
+        String redoCommand = myHistory.getRedoCommand();
+        myEditor.redoCommand(redoCommand);
+    }
 
+    private int lookForLatest(String fullText){
+        int startIndex = -1;
+        for(int i = fullText.length() - 1; i >= 0; i--){
+            if(fullText.charAt(i) == '>') {
+                startIndex = i + 2;
+                break;
+            }
+        }
+        return startIndex;
     }
 }
