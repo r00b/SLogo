@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
  * Created by Delia on 10/15/2016.
  */
 public class GUIDisplay implements RenderSprite {
-    private static final int TURTLE_FIT_SIZE = 100;
+    private static final int TURTLE_FIT_SIZE = 40;
     private Pane window;
     private ImageView helpButton;
     private ImageView myTurtle, displayGraph;

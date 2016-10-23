@@ -23,7 +23,7 @@ public class HelpMenu {
     private static final int X_POS_BUTTON = 150;
     private Stage myStage;
     private Pane helpWindow;
-    private EditorHelp editorHelp;
+    private HelpMenu editorHelp, historyHelp, variablesHelp;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -71,13 +71,17 @@ public class HelpMenu {
         titleText.setTranslateY(100);
         Button editor = addButton("Editor", X_POS_BUTTON, 250);
         editor.setOnMouseClicked(e -> editorHandler());
+        Button history = addButton("History", X_POS_BUTTON, 350);
+        history.setOnMouseClicked(e -> historyHandler());
+        Button variables = addButton("Variables", X_POS_BUTTON, 300);
+        variables.setOnMouseClicked(e -> variablesHandler());
 
         helpWindow.getChildren().add(addRectangle());
         helpWindow.getChildren().add(titleText);
         helpWindow.getChildren().addAll(addButton("IDE Style and color", X_POS_BUTTON, 200),
                 editor,
-                addButton("Variables", X_POS_BUTTON, 300),
-                addButton("History", X_POS_BUTTON, 350),
+                variables,
+                history,
                 addButton("Commands", X_POS_BUTTON + 300, 200),
                 addButton("Display", X_POS_BUTTON + 300, 250),
                 addButton("Controls", X_POS_BUTTON + 300, 300));
@@ -98,7 +102,7 @@ public class HelpMenu {
     }
 
     public Rectangle addRectangle(){
-        Rectangle backdrop = new Rectangle(520, 400, Color.MIDNIGHTBLUE);
+        Rectangle backdrop = new Rectangle(520, 410, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(70);
         backdrop.setTranslateX(80);
         backdrop.opacityProperty().setValue(0.5);
@@ -109,6 +113,18 @@ public class HelpMenu {
         Stage s = new Stage();
         editorHelp = new EditorHelp(s);
         editorHelp.init();
+    }
+
+    private void historyHandler(){
+        Stage s = new Stage();
+        historyHelp = new HistoryHelp(s);
+        historyHelp.init();
+    }
+
+    private void variablesHandler(){
+        Stage s = new Stage();
+        variablesHelp = new VariablesHelp(s);
+        variablesHelp.init();
     }
 
     public Stage getStage(){
