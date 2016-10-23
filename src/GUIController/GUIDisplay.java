@@ -24,6 +24,7 @@ public class GUIDisplay implements RenderSprite {
         drawDisplay();
         addTextLabel();
         addTurtle();
+        addHelpButton();
     }
 
     private void drawDisplay(){
@@ -52,6 +53,17 @@ public class GUIDisplay implements RenderSprite {
         label.setTranslateX(630);
         label.setTranslateY(130);
         window.getChildren().add(label);
+    }
+
+    private void addHelpButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        ImageView helpButton = new ImageView(newImage);
+        helpButton.setTranslateX(displayGraph.getTranslateX() + displayGraph.getFitWidth() - 35);
+        helpButton.setTranslateY(displayGraph.getTranslateY() + 10);
+        helpButton.setFitWidth(30);
+        helpButton.setFitHeight(30);
+        window.getChildren().add(helpButton);
     }
 
     public ImageView getGraph(){

@@ -2,6 +2,8 @@ package GUIController;
 
 import FrontEndExternalAPI.Editor;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -26,6 +28,7 @@ public class GUIEditor implements Editor {
         drawEditor();
         addTextLabel();
         addTextArea();
+        addHelpButton();
     }
 
     private void drawEditor(){
@@ -66,6 +69,18 @@ public class GUIEditor implements Editor {
         });
         textArea.setOnMouseExited(e -> textArea.opacityProperty().setValue(0.5));
         window.getChildren().add(textArea);
+    }
+
+    private void addHelpButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
+        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
+        helpButton.setFitWidth(30);
+        helpButton.setFitHeight(30);
+        window.getChildren().add(helpButton);
     }
 
     public Rectangle getBackdrop(){
