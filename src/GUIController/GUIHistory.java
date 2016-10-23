@@ -1,7 +1,12 @@
 package GUIController;
 
+import java.util.ArrayList;
 import FrontEndExternalAPI.History;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -20,10 +25,16 @@ public class GUIHistory implements History {
     private Paint border;
     private Rectangle backdrop;
     private static int numCommands = 0;
+    private ListView<Button> list;
+    private ObservableList<Button> oldCommands;
+    private String redoCommand;
 
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
         this.border = bordercoloir;
+        list = new ListView<Button>();
+        list.setOrientation(Orientation.HORIZONTAL);
+        oldCommands = FXCollections.observableArrayList();
         drawHistory();
         addTextLabel();
         addHelpButton();
@@ -70,13 +81,18 @@ public class GUIHistory implements History {
     public void addCommand(String text) {
         numCommands++;
         Button newCommand = new Button(text);
-        newCommand.setTranslateX(40);
-        newCommand.setTranslateY(700 + numCommands * 5);
-        window.getChildren().add(newCommand);
+        oldCommands.add(newCommand);
+        list.setItems(oldCommands);
+        list.setTranslateX(20);
+        list.setTranslateY(685);
+        list.setPrefHeight(50);
+        list.setPrefWidth(550);
+        window.getChildren().add(list);
+        
     }
 
     @Override
     public void callCommand() {
-
+        
     }
 }
