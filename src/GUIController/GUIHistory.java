@@ -2,6 +2,8 @@ package GUIController;
 
 import java.util.ArrayList;
 import FrontEndExternalAPI.History;
+import GUI.EditorHelp;
+import GUI.HistoryHelp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -16,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -27,6 +30,7 @@ public class GUIHistory implements History {
     private static int numCommands = 0;
     private ListView<Button> list;
     private ObservableList<Button> oldCommands;
+    private HistoryHelp helpWindow;
     private String redoCommand;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -73,12 +77,19 @@ public class GUIHistory implements History {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
         helpButton.setTranslateY(backdrop.getTranslateY() + 10);
         helpButton.setFitWidth(30);
         helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
+    }
+
+    private void helpHandler(){
+        Stage s = new Stage();
+        helpWindow = new HistoryHelp(s);
+        helpWindow.init();
     }
     
     private void addClearButton(){

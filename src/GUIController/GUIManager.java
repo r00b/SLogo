@@ -109,17 +109,6 @@ public class GUIManager implements GUIController{
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
 
-//    private void handleKeyInput (KeyCode code){
-//        switch (code) {
-//            case ENTER:
-//                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
-//                myEditor.startNewCommand();
-//                turtle.setTranslateX(turtle.getTranslateX() - 10);
-//                break;
-//            default:
-//        }
-//    }
-
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
@@ -194,7 +183,7 @@ public class GUIManager implements GUIController{
         for(int i = 0; i < splitCommands.length; i++){
             if(splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
-//                commandParser.getAction(splitCommands[i].substring(2));
+                commandParser.getAction(splitCommands[i]);
             }
         }
     }
