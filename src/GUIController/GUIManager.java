@@ -102,6 +102,7 @@ public class GUIManager implements GUIController{
         myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
         myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myEditor.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
@@ -173,7 +174,7 @@ public class GUIManager implements GUIController{
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         for(int i = 0; i < splitCommands.length; i++){
-            myHistory.addCommand(splitCommands[i]);
+            myHistory.addCommand(splitCommands[i].substring(2));
             commandParser.getAction(splitCommands[i]);
         }
     }
