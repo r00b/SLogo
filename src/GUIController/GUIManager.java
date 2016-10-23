@@ -81,7 +81,7 @@ public class GUIManager implements GUIController{
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
-        myDisplay = new GUIDisplay(window, turtle);
+        myDisplay = new GUIDisplay(window, turtle, penColor);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
@@ -181,10 +181,15 @@ public class GUIManager implements GUIController{
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         for(int i = 0; i < splitCommands.length; i++){
+            if(splitCommands[i].contains("move")){
+                myDisplay.moveTurtle(Integer.parseInt(splitCommands[i].substring(5, 6)),
+                        Integer.parseInt(splitCommands[i].substring(7, 8)));
+            }
             if(splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
                 commandParser.getAction(splitCommands[i]);
             }
+
         }
     }
     
