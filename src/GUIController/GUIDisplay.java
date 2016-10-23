@@ -39,8 +39,11 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addTurtle(){
-        myTurtle.setTranslateX(700);
-        myTurtle.setTranslateY(200);
+    	//NEED TO SET TRANSLATE SO THE TURTLE STARTS IN THE MIDDLE OF THE DISPLAY
+    	//Also consider using JavaFX object like a pane and putting the turtle in there so display doesn't get resized
+        myTurtle.setTranslateX(1000);
+        myTurtle.setTranslateY(275);
+        //myTurtle.setX(100);
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
         window.getChildren().add(myTurtle);
