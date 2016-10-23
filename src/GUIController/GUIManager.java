@@ -208,7 +208,7 @@ public class GUIManager implements GUIController{
         int startIndex = -1;
         for(int i = fullText.length() - 1; i >= 0; i--){
             if(fullText.charAt(i) == '>') {
-                startIndex = i;
+                startIndex = i + 2;
                 break;
             }
         }

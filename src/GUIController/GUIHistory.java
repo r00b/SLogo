@@ -34,17 +34,19 @@ public class GUIHistory implements History {
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+    private String buttonClicked = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;" +
+            "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
 
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
         this.border = bordercoloir;
-        list = new ListView<Button>();
-        list.setOrientation(Orientation.HORIZONTAL);
-        oldCommands = FXCollections.observableArrayList();
         drawHistory();
         addTextLabel();
         addHelpButton();
         addClearButton();
+        addListView();
     }
 
     private void drawHistory(){
@@ -102,15 +104,36 @@ public class GUIHistory implements History {
     public void addCommand(String text) {
         numCommands++;
         Button newCommand = new Button(text);
-        newCommand.setOnMouseClicked(e -> callCommand(newCommand.getText()));
+        newCommand.setStyle(overButton);
+        newCommand.setOnMouseEntered(e -> {
+            newCommand.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        newCommand.setOnMouseExited(e -> newCommand.setStyle(overButton));
+        newCommand.setOnMouseClicked(e -> {
+            unBold();
+            newCommand.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+            callCommand(newCommand.getText());
+        });
         oldCommands.add(0, newCommand);
         list.setItems(oldCommands);
+//        window.getChildren().add(list);
+    }
+
+    private void unBold(){
+        for(int i = 0; i < list.getItems().size(); i++){
+            list.getItems().get(i).setFont(Font.font("Verdana", 15));
+        }
+    }
+
+    private void addListView(){
+        list = new ListView<Button>();
+        list.setOrientation(Orientation.HORIZONTAL);
         list.setTranslateX(20);
         list.setTranslateY(685);
-        list.setPrefHeight(50);
-        list.setPrefWidth(500);
+        list.setPrefSize(500, 95);
+        oldCommands = FXCollections.observableArrayList();
         window.getChildren().add(list);
-        
     }
 
     @Override
