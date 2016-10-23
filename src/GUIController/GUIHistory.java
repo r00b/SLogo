@@ -28,6 +28,12 @@ public class GUIHistory implements History {
     private ListView<Button> list;
     private ObservableList<Button> oldCommands;
     private String redoCommand;
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
@@ -38,6 +44,7 @@ public class GUIHistory implements History {
         drawHistory();
         addTextLabel();
         addHelpButton();
+        addClearButton();
     }
 
     private void drawHistory(){
@@ -71,6 +78,20 @@ public class GUIHistory implements History {
         helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
     }
+    
+    private void addClearButton(){
+        Button clearButton = new Button("Clear");
+        clearButton.setStyle(overButton);
+        clearButton.setOnMouseEntered(e -> {
+            clearButton.setStyle(buttonFill);
+        });
+        clearButton.setOnMouseExited(e -> clearButton.setStyle(overButton));
+        
+        clearButton.setTranslateX(525);
+        clearButton.setTranslateY(670);
+        clearButton.setOnMouseClicked(e -> clear());
+        window.getChildren().add(clearButton);
+    }
 
     public Rectangle getBackdrop(){
         return backdrop;
@@ -82,7 +103,7 @@ public class GUIHistory implements History {
         numCommands++;
         Button newCommand = new Button(text);
         newCommand.setOnMouseClicked(e -> callCommand(newCommand.getText()));
-        oldCommands.add(newCommand);
+        oldCommands.add(0, newCommand);
         list.setItems(oldCommands);
         list.setTranslateX(20);
         list.setTranslateY(685);
@@ -100,5 +121,9 @@ public class GUIHistory implements History {
     
     public String getRedoCommand(){
         return redoCommand;
+    }
+    
+    private void clear(){
+        oldCommands.clear();
     }
 }
