@@ -86,8 +86,9 @@ public class GUIManager implements GUIController{
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
-        //System.out.println(turtle.getY());
-        //fd.executeCommand(list);
+        System.out.println(turtle.getX());
+        System.out.println(turtle.getY());
+        fd.executeCommand(list);
         System.out.println(turtle.getX());
         System.out.println(turtle.getY());
         System.out.println(turtle.getRotate());
