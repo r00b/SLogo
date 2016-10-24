@@ -19,14 +19,8 @@ import java.util.stream.Collectors;
 public class ParseTreeExecutor extends CommandParser {
 
     private static String COMMANDTYPES_PATH = "resources/internal/CommandTypes";
-    private static ResourceBundle myCommandTypes;
-    private static ObservableProperties myProperties;
-
-    public ParseTreeExecutor(ObservableProperties properties) {
-        super(properties);
-        myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
-        myProperties = properties;
-    }
+    private static ResourceBundle myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
+//    private static ObservableProperties myProperties;
 
 //    public static void setProperties(ObservableProperties properties) {
 //        myProperties = properties;
