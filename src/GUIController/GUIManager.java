@@ -136,9 +136,6 @@ public class GUIManager implements GUIController {
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
 
-//<<<<<<< HEAD
-//    private void addRunButton() {
-//=======
     private ObservableProperties setupBindings() {
     	ObservableProperties answer = new ObservableProperties(turtle);
     	answer.getNewLineProperty().addListener(new ChangeListener<Boolean>() {
@@ -146,7 +143,7 @@ public class GUIManager implements GUIController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					addNewLine();
+					myDisplay.drawNewLine();
 				}
 			}
     	});
@@ -195,7 +192,6 @@ public class GUIManager implements GUIController {
 
 
     private void addRunButton(){
-//>>>>>>> 05aaff135c1b5e8ec4d6e15ccf12b807d0cdeace
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
         ImageView imgV = new ImageView(newImage);
@@ -265,14 +261,12 @@ public class GUIManager implements GUIController {
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         for (int i = 0; i < splitCommands.length; i++) {
-            if (splitCommands[i].contains("move")) {
-                myDisplay.moveTurtle(Integer.parseInt(splitCommands[i].substring(5, 6)),
-                        Integer.parseInt(splitCommands[i].substring(7, 8)));
-            }
             if (splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
                 commandParser.getAction(splitCommands[i]);
             }
+
+            myConsole.addConsole("" + commandParser.getMyResult());
         }
     }
 

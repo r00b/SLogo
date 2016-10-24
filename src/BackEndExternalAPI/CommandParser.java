@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class CommandParser { // TODO DE STATIC EVERYTHING
 
     private static final String SETTINGS_PATH = "resources/internal/Settings";
-
+    private static double myResult = 0;
     protected static HashMap<String, Double> myVariables = new HashMap<String, Double>();
     public static HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
     public static HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
@@ -67,12 +67,12 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
         //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        double result = executor.executeTree(root); // TODO DEBUGGING
+        myResult = executor.executeTree(root); // TODO DEBUGGING
         myMethodVariables.clear();
         System.out.println("===============================================================");
-        System.out.println(result);
+        System.out.println(myResult);
         System.out.println("===============================================================");
-        return result;
+        return myResult;
     }
 
     public void printTree(ParseTreeNode r) { // TODO DEBUGGING
@@ -82,6 +82,9 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
     }
 
+    public double getMyResult(){
+        return myResult;
+    }
 
 //    public static void main(String[] args) { // TODO DEBUGGING
 ////        System.out.println(getAction("TO fuck [ :a :b ] [ product :a :b ]"));
