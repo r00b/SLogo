@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIManager implements GUIController{
+public class GUIManager implements GUIController {
     public static final int IDE_WIDTH = 1400;
     public static final int IDE_HEIGHT = 800;
     private Color penColor;
@@ -44,7 +44,7 @@ public class GUIManager implements GUIController{
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
-    public GUIManager(Color penColor, String background, String turtle, String language){
+    public GUIManager(Color penColor, String background, String turtle, String language) {
 
         this.penColor = penColor;
         this.backgroundStr = background;
@@ -73,7 +73,7 @@ public class GUIManager implements GUIController{
         stage.show();
     }
 
-    private Parent setUpWindow(){
+    private Parent setUpWindow() {
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
         window.getChildren().add(background);
@@ -92,12 +92,12 @@ public class GUIManager implements GUIController{
     }
 
     //don't think i understand binding that well yet but this doesn't work for some reason
-    private void setParamBindings(){
+    private void setParamBindings() {
         background.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenBackground().imageProperty());
         turtle.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenTurtle().imageProperty());
     }
 
-    private void setSizeBindings(){
+    private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
         myDisplay.bindNodes(window.widthProperty());
@@ -109,7 +109,7 @@ public class GUIManager implements GUIController{
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
     }
 
-    private void addRunButton(){
+    private void addRunButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
         ImageView imgV = new ImageView(newImage);
@@ -127,21 +127,19 @@ public class GUIManager implements GUIController{
         run.setTranslateY(600);
         window.getChildren().add(run);
     }
-    
-    
-    private void addHistoryButton(){ 
-   
-                       Button hist = new Button("Load");
-                       hist.setStyle(overButton);
-                       hist.setOnMouseEntered(e -> {
-                           hist.setStyle(buttonFill);
-                           myEditor.getBackdrop().opacityProperty().setValue(0.8);
-                       });
-                       hist.setOnMouseExited(e -> hist.setStyle(overButton));
-                       hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
-                       hist.setTranslateX(528);
-                       hist.setTranslateY(705);
-                       window.getChildren().add(hist);
+
+    private void addHistoryButton() {
+        Button hist = new Button("Load");
+        hist.setStyle(overButton);
+        hist.setOnMouseEntered(e -> {
+            hist.setStyle(buttonFill);
+            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+        });
+        hist.setOnMouseExited(e -> hist.setStyle(overButton));
+        hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
+        hist.setTranslateX(528);
+        hist.setTranslateY(705);
+        window.getChildren().add(hist);
     }
 
     @Override
@@ -180,27 +178,27 @@ public class GUIManager implements GUIController{
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
-        for(int i = 0; i < splitCommands.length; i++){
-            if(splitCommands[i].contains("move")){
+        for (int i = 0; i < splitCommands.length; i++) {
+            if (splitCommands[i].contains("move")) {
                 myDisplay.moveTurtle(Integer.parseInt(splitCommands[i].substring(5, 6)),
                         Integer.parseInt(splitCommands[i].substring(7, 8)));
             }
-            if(splitCommands[i].length() > 0) {
+            if (splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
                 commandParser.getAction(splitCommands[i]);
             }
         }
     }
-    
-    private void getAndLoadHistoryCommand(){
+
+    private void getAndLoadHistoryCommand() {
         String redoCommand = myHistory.getRedoCommand();
         myEditor.redoCommand(redoCommand);
     }
 
-    private int lookForLatest(String fullText){
+    private int lookForLatest(String fullText) {
         int startIndex = -1;
-        for(int i = fullText.length() - 1; i >= 0; i--){
-            if(fullText.charAt(i) == '>') {
+        for (int i = fullText.length() - 1; i >= 0; i--) {
+            if (fullText.charAt(i) == '>') {
                 startIndex = i + 2;
                 break;
             }

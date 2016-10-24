@@ -97,8 +97,11 @@ public class GUIDisplay implements RenderSprite {
         numSteps++;
         drawNewLine(new Point((int)myTurtle.getTranslateX(),
                 (int)myTurtle.getTranslateY()), new Point(x, y));
+        System.out.println((int) myTurtle.getTranslateX() + X_POS);
         myTurtle.setTranslateX(X_POS + x);
         myTurtle.setTranslateY(Y_POS + y);
+        window.getChildren().remove(myTurtle);
+        window.getChildren().add(myTurtle);
     }
 
     private void drawNewLine(Point origin, Point destination){
