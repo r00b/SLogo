@@ -4,6 +4,8 @@ import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 
+import static BackEndExternalAPI.CommandParser.myProperties;
+
 /**
  * Executes the Home command
  * @author ezra
@@ -19,7 +21,7 @@ public class Home extends TurtleCommand {
 	@Override
 	public double executeCommand(List<Double> args) {
 		double answer = calculateTotalDistance(properties.getXProperty().get(), 0,
-												properties.getYProperty(), 0);
+				properties.getYProperty(), 0);
 		properties.getXProperty().set(0);
 		properties.setYProperty(0);
 		properties.getNewLineProperty().set(true);

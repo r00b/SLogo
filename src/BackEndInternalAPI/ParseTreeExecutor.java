@@ -1,5 +1,6 @@
 package BackEndInternalAPI;
 
+import BackEndCommands.Constant;
 import BackEndCommands.ControlCommand;
 import BackEndCommands.ControlOperations.MakeVariable;
 import BackEndCommands.ControlOperations.Variable;
@@ -117,8 +118,13 @@ public class ParseTreeExecutor extends CommandParser {
         if (currNode.getCommandObj().getClass() == MakeVariable.class) { // trying to make a variable
             return makeVariable(currNode);
         }
+        if (myCommandTypes.getString(currNode.getCommandType()).equals("Turtle")) {
+            addTurtleProperties(currNode);
+        }
         if (currNode.hasNoChildren()) { // base case, execute the command associated with the tree
-            arguments.add(currNode.getValue());
+            if (currNode.getCommandObj().numArguments() != 0 || currNode.getCommandObj().getClass() == Constant.class) {
+                arguments.add(currNode.getValue());
+            }
             double finalValue = currNode.getCommandObj().executeCommand(arguments);
             currNode.setValue(finalValue);
             return finalValue;
@@ -126,9 +132,7 @@ public class ParseTreeExecutor extends CommandParser {
         if (myCommandTypes.getString(currNode.getCommandType()).equals("Control")) { // control command
             return executeControlCommand(currNode, arguments);
         }
-        if (myCommandTypes.getString(currNode.getCommandType()).equals("Turtle")) {
-            addTurtleProperties(currNode);
-        }
+
         // execute all child nodes and add to argument list for parent node
 //        arguments.addAll(currNode.getChildren().stream()
 //                .map(ParseTreeExecutor::executeTree)
