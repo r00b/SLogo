@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents
+ *         This command instance represents non-conventional commands in Logo
+ *         (i.e. method calls for user-defined functions).
  */
 public class NoType implements Command {
 
@@ -15,7 +16,7 @@ public class NoType implements Command {
 
     @Override
     public double executeCommand(List<Double> args) {
-        return args.get(args.size() - 1);
+        return 0.0;
     }
 
     @Override

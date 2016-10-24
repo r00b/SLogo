@@ -4,11 +4,8 @@ import BackEndCommands.Constant;
 import BackEndCommands.ListStart;
 import BackEndCommands.NoType;
 
-import java.util.ArrayList;
-
 import static BackEndExternalAPI.CommandParser.myMethodVariables;
 import static BackEndExternalAPI.CommandParser.myMethods;
-import static BackEndExternalAPI.CommandParser.myVariables;
 
 /**
  * @author Robert H. Steilberg II
@@ -53,18 +50,46 @@ public class ParseTreeBuilder {
         return listNode;
     }
 
-
+    /**
+     * Calls a user-set Logo method by binding inputted arguments to variables
+     * and returning a ParseTreeNode containing the function to call
+     *
+     * @param method is the LogoMethod containing information about the
+     *               previously defined Logo function
+     *
+     * @return a ParseTreeNode holding the defined method
+     */
     private ParseTreeNode buildMethodTree(LogoMethod method) {
-        ParseTreeNode p = method.getMethod(); // this has sum a
         myCommandIndex++;
         for (int i = 0; i < method.numArguments(); i ++) {
-
             myMethodVariables.put(method.getArgument(i),Double.parseDouble(myCommands[myCommandIndex]));
             myCommandIndex++;
         }
-//        System.out.println("@#&RH@#*&F@#*&HF@#*&FH@#F " + p.getChild(0).getChild(1).getCommand());
-        return p;
+        return method.getMethod();
     }
+
+    /**
+     * Determine if the command object type of a node is Constant
+     * (i.e. represents a double)
+     *
+     * @param node is the node with the command object to test
+     * @return true if the node represents a Constant, false otherwise
+     */
+    private boolean isConstant(ParseTreeNode node) {
+        return node.getCommandObj().getClass() == Constant.class;
+    }
+
+    /**
+     * Determine if the command object type of a node is NoType
+     * (i.e. not any conventional Logo command)
+     *
+     * @param node is the node with the command object to test
+     * @return true if the node represents a NoType, false otherwise
+     */
+    private boolean isNoType(ParseTreeNode node) {
+        return node.getCommandObj().getClass() == NoType.class;
+    }
+
 
     /**
      * Recursively builds a parse tree by iterating through a String array
@@ -76,21 +101,16 @@ public class ParseTreeBuilder {
     private ParseTreeNode buildParseTree() {
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
-
-        if (newChild.getCommandObj().getClass() == NoType.class && myMethods.get(newChild.getCommand()) != null) { // calling a method
-            ParseTreeNode p = buildMethodTree(myMethods.get(currCommand));
-            System.out.println("><><<><><><><><><>><>< " + p.getChild(0).getChild(0).getCommand());
-
-            return p;
+        if (isNoType(newChild) && myMethods.get(newChild.getCommand()) != null) { // calling a method
+            return buildMethodTree(myMethods.get(currCommand));
         }
-
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }
-        if (newChild.getCommandObj().getClass() == Constant.class) {
+        if (isConstant(newChild)) {
             newChild.setValue(Double.parseDouble(currCommand));
         }
-        if (newChild.getCommandObj().getClass() == NoType.class) {
+        if (isNoType(newChild)) { // part of a TO call
             newChild.setValue(0.0);
         }
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
@@ -105,15 +125,15 @@ public class ParseTreeBuilder {
 
     /**
      * Initializes the recursive function buildParseTree which returns the
-     * root of the parse tree
+     * root of the parse tree representing the inputted command
      *
      * @param commands is a String array containing the commands issued from the GUI
-     * @return the root of the newly built ParseTree
+     * @return the root of the newly built parse tree
      */
     public ParseTreeNode initParseTree(String[] commands) {
         myDetector = new CommandTypeDetector();
         myCommands = commands;
-        myCommandIndex = 0;
+        myCommandIndex = 0; // indexes current command
         return buildParseTree();
     }
 }

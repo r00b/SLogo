@@ -80,10 +80,11 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
 
     public static void main(String[] args) { // TODO DEBUGGING
-        System.out.println(getAction("TO fuck [ :a :b ] [ product :a :b ]"));
-        System.out.println("===============================================================");
-          System.out.println(getAction("fuck 2 3"));
-        System.out.println(getAction("fuck 5 3"));
+//        System.out.println(getAction("TO fuck [ :a :b ] [ product :a :b ]"));
+//        System.out.println("===============================================================");
+//          System.out.println(getAction("fuck 2 3"));
+//        System.out.println(getAction("fuck 5 3"));
+//    System.out.println(getAction("FOR [ :i 10 20 2 ] [ sum :i 0 ]"));
 
     }
 }

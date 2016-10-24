@@ -6,7 +6,6 @@ import BackEndCommands.ControlOperations.Variable;
 import BackEndExternalAPI.CommandParser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -56,12 +55,12 @@ public class ParseTreeExecutor extends CommandParser {
         if (myVariables.get(currNode.getCommand()) == null && myMethodVariables.get(currNode.getCommand()) == null) {
             currNode.setValue(0.0); // set to 0 if no variable
             return 0.0;
-        } else if (myVariables.get(currNode.getCommand()) == null) {
-             variableVal = myMethodVariables.get(currNode.getCommand());
-            currNode.setValue(variableVal); // otherwise set value of node to value of variable
-        } else { // if (myMethodVariables.get(currNode.getCommand()) == null) {
-             variableVal = myVariables.get(currNode.getCommand());
-            currNode.setValue(variableVal); // otherwise set value of node to value of variable
+        } else if (myVariables.get(currNode.getCommand()) == null) { // check if regular variable
+            variableVal = myMethodVariables.get(currNode.getCommand());
+            currNode.setValue(variableVal);
+        } else {
+            variableVal = myVariables.get(currNode.getCommand()); // check if function-defined variable
+            currNode.setValue(variableVal);
         }
         return variableVal;
     }
@@ -73,7 +72,7 @@ public class ParseTreeExecutor extends CommandParser {
      * @return the value of the newly bound variable
      */
     private static double makeVariable(ParseTreeNode currNode) {
-        Double variableValue = executeTree(currNode.getChild(1));  // get the final value
+        Double variableValue = executeTree(currNode.getChild(1)); // get the final value
         String variableName = currNode.getChild(0).getCommand();
         myVariables.put(variableName, variableValue);
         currNode.setValue(variableValue);
@@ -106,15 +105,12 @@ public class ParseTreeExecutor extends CommandParser {
      */
     public static double executeTree(ParseTreeNode currNode) {
         ArrayList<Double> arguments = new ArrayList<Double>(); // arguments used to execute the node
-
         if (currNode.getCommandObj().getClass() == Variable.class) { // trying to access a variable
             return accessVariable(currNode);
         }
         if (currNode.getCommandObj().getClass() == MakeVariable.class) { // trying to make a variable
             return makeVariable(currNode);
         }
-
-
         if (currNode.hasNoChildren()) { // base case, execute the command associated with the tree
             arguments.add(currNode.getValue());
             double finalValue = currNode.getCommandObj().executeCommand(arguments);
@@ -128,6 +124,11 @@ public class ParseTreeExecutor extends CommandParser {
         arguments.addAll(currNode.getChildren().stream()
                 .map(ParseTreeExecutor::executeTree)
                 .collect(Collectors.toList()));
+
+//        for (ParseTreeNode child : currNode.children) { //TODO LOL
+//            arguments.add(executeTree(child));
+//        }
+
         double result = currNode.getCommandObj().executeCommand(arguments); // execute parent node to get overall result
         currNode.setValue(result);
         return result;
