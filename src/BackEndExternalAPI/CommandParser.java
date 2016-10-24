@@ -26,6 +26,10 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 //        myProperties = properties;
 //    }
 
+    public HashMap<String, Double> getVariables() {
+        return myVariables;
+    }
+
     public void setProperties(ObservableProperties properties) {
         myProperties = properties;
     }
