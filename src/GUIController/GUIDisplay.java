@@ -25,6 +25,7 @@ public class GUIDisplay implements RenderSprite {
     private static final int TURTLE_FIT_SIZE = 40;
     private static final int X_POS = 620;
     private static final int Y_POS = 110;
+    private static boolean visibility = true;
     private int numSteps = 0;
     private Pane window;
     private ImageView helpButton;
@@ -56,6 +57,7 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addTurtle(){
+
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
@@ -110,8 +112,13 @@ public class GUIDisplay implements RenderSprite {
         newLine.setFill(pathColor);
         newLine.setStrokeWidth(5);
         newLine.setId("Step" + numSteps);
+        newLine.setVisible(visibility);
         turtleMotion.add(newLine);
         window.getChildren().add(newLine);
+    }
+
+    public void setVisibility(boolean isVisible){
+        visibility = isVisible;
     }
 
     public ImageView getGraph(){

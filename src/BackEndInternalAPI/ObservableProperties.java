@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.image.ImageView;
 
 /**
  * A class that contains all the observable properties from the front end and is passed 
@@ -20,14 +21,18 @@ public class ObservableProperties {
 	private BooleanProperty newLineProperty;
 	private BooleanProperty clearScreenProperty;
 
-	public ObservableProperties() {
+	public ObservableProperties(ImageView turtle) {
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
-		xProperty = new SimpleDoubleProperty(0);
-		yProperty = new SimpleDoubleProperty(0);
+		xProperty = new SimpleDoubleProperty(turtle.getX());
+		yProperty = new SimpleDoubleProperty(turtle.getY());
 		pathVisibleProperty = new SimpleBooleanProperty(true);
 		newLineProperty = new SimpleBooleanProperty(false);
 		clearScreenProperty = new SimpleBooleanProperty(false);
+		turtle.xProperty().bind(xProperty);
+		turtle.yProperty().bind(yProperty);
+		turtle.rotateProperty().bind(rotateProperty);
+		turtle.visibleProperty().bind(imageVisibleProperty);
 	}
 
 	public BooleanProperty getNewLineProperty() {
@@ -49,11 +54,16 @@ public class ObservableProperties {
 	public DoubleProperty getXProperty() {
 		return xProperty;
 	}
-
-	public DoubleProperty getYProperty() {
-		return yProperty;
+	public void setXProperty(double value) {
+		xProperty.set(value);
 	}
-
+	public double getYProperty() {
+		return -yProperty.get();
+	}
+	
+	public void setYProperty(double value) {
+		yProperty.set(-value);
+	}
 	public BooleanProperty getPathVisibleProperty() {
 		return pathVisibleProperty;
 	}

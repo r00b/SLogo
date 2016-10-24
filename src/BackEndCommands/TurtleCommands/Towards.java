@@ -35,9 +35,10 @@ public class Towards extends TurtleCommand{
 	private double calculateDegrees(double x, double y) {
 		double answer;
 		double angle = Math.atan(x / y);
+		angle = Math.toDegrees(angle);
 		// Second quadrant
 		if (x > 0 && y < 0) {
-			answer = 180 - angle;
+			answer = 90 - angle;
 		}
 		// Third quadrant
 		else if (x < 0 && y < 0) {
@@ -45,7 +46,7 @@ public class Towards extends TurtleCommand{
 		}
 		// Fourth quadrant
 		else if (x < 0 && y > 0) {
-			answer = 360 - angle;
+			answer = 270 - angle;
 		}
 		// Default is first quadrant
 		else {

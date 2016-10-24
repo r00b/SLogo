@@ -17,7 +17,7 @@ public class YCor extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(List<Double> args) {
-		return properties.getYProperty().get();
+		return properties.getYProperty();
 	}
 
 	@Override

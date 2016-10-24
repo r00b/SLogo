@@ -19,9 +19,9 @@ public class SetXY extends TurtleCommand{
 	@Override
 	public double executeCommand(List<Double> args) {
 		double distance = calculateTotalDistance(args.get(0), properties.getXProperty().get(),
-													args.get(1), properties.getYProperty().get());
+													args.get(1), properties.getYProperty());
 		properties.getXProperty().set(args.get(0));
-		properties.getYProperty().set(args.get(1));
+		properties.setYProperty(args.get(1));
 		properties.getNewLineProperty().set(true);
 		return distance;
 	}
