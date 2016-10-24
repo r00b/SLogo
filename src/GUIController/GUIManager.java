@@ -189,7 +189,6 @@ public class GUIManager implements GUIController{
                 myHistory.addCommand(splitCommands[i]);
                 commandParser.getAction(splitCommands[i]);
             }
-
         }
     }
     
