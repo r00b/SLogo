@@ -1,8 +1,14 @@
 package GUIController;
 
+import BackEndExternalAPI.CommandParser;
 import FrontEndExternalAPI.Console;
 import GUI.ConsoleHelp;
 import GUI.EditorHelp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -22,18 +28,49 @@ public class GUIConsole implements Console{
     private Paint border;
     private Rectangle backdrop;
     private ConsoleHelp helpWindow;
+    private ListView<String> list;
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonClicked = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;" +
+            "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
+    private ObservableList<String> listOfCommands;
 
+    
     public GUIConsole(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
         drawConsole();
         addTextLabel();
         addHelpButton();
+        addListView();
+    }
+    
+    public void addConsole(String text) {
+        
+        listOfCommands.add(text);
+        list.setItems(listOfCommands);
+    }
+
+
+    private void addListView(){
+        list = new ListView<String>();
+        list.setOrientation(Orientation.VERTICAL);
+        list.setTranslateX(20);
+        list.setTranslateY(400);
+        list.setPrefSize(550, 200);
+        listOfCommands = FXCollections.observableArrayList();
+        window.getChildren().add(list);
     }
 
     @Override
     public void printResult() {
-
+        
     }
 
     private void drawConsole(){
