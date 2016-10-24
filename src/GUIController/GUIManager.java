@@ -144,7 +144,7 @@ public class GUIManager implements GUIController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.drawNewLine();
+					myDisplay.drawNewLine(answer.getNewLineProperty());
 				}
 			}
     	});
@@ -161,24 +161,14 @@ public class GUIManager implements GUIController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					clearScreen();
+					myDisplay.clearScreen(answer.getClearScreenProperty());
 				}
 			}
     	});
     	return answer;
     }
     
-    //Method to clear screen. Needs to remove all lines from the view.
-    //Also need to set ClearScreenProperty to false after we are done
-    private void clearScreen() {
-    	return;
-    }
-    
-    //Method to add new Line to View. Also need to set NewLineProperty to false after we are done
-    private void addNewLine() {
-		// TODO Auto-generated method stub
-		return;
-	}
+
 
 //    private void handleKeyInput (KeyCode code){
 //        switch (code) {

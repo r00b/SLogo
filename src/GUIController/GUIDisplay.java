@@ -3,6 +3,7 @@ package GUIController;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.ConsoleHelp;
 import GUI.DisplayHelp;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -106,22 +107,46 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(myTurtle);
     }
 
-    public void drawNewLine(){
-        Point origin = new Point();
-        if(turtleMotion.size() < 1){
-            origin = new Point((int)(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2)),
-                    (int)(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2)));
-        }
-
-        else{
-            origin = new Point((int)turtleMotion.get(turtleMotion.size() - 1).getEndX(),
-                    (int)turtleMotion.get(turtleMotion.size() - 1).getEndY());
-        }
-        Point destination = new Point((int)myTurtle.getTranslateX(),
-                (int)myTurtle.getTranslateY());
-        drawNewLine(origin, destination);
+    public void drawNewLine(BooleanProperty bool ){
+//        Point origin = new Point();
+//        if(turtleMotion.size() < 1){
+//            origin = new Point((int)(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2)),
+//                    (int)(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2)));
+//        }
+//
+//        else{
+//            origin = new Point((int)turtleMotion.get(turtleMotion.size() - 1).getEndX(),
+//                    (int)turtleMotion.get(turtleMotion.size() - 1).getEndY());
+//        }
+//        Point destination = new Point((int)myTurtle.getTranslateX(),
+//                (int)myTurtle.getTranslateY());
+//        drawNewLine(origin, destination);
+    	
+    	
+    	//Still NEED TO CENTER IT
+    	double centerX =  0;
+		double centerY = 0;
+		Line a;
+    	if (turtleMotion.size() < 1) {
+    		
+    		a = new Line(centerX + myTurtle.getTranslateX(), centerY + myTurtle.getTranslateY(), 
+    							myTurtle.getX() + myTurtle.getTranslateX() + centerX, myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+    	}
+    	else{
+    		a = new Line(turtleMotion.get(turtleMotion.size()-1).getEndX() , turtleMotion.get(turtleMotion.size()-1).getEndY(),
+    				myTurtle.getX() + myTurtle.getTranslateX() + centerX, myTurtle.getY() + myTurtle.getTranslateY() + centerY); 
+    	}
+    	turtleMotion.add(a);
+    	a.setFill(pathColor);
+        a.setStrokeWidth(5);
+        a.setId("Step" + numSteps);
+        a.setVisible(visibility);
+        window.getChildren().add(a);
+    	
+    	bool.set(false);
     }
 
+    //DONT NEED IT ANYMORE
     public void drawNewLine(Point origin, Point destination){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
@@ -136,6 +161,11 @@ public class GUIDisplay implements RenderSprite {
         turtleMotion.add(newLine);
         window.getChildren().add(newLine);
     }
+    
+	public void clearScreen(BooleanProperty clearScreenProperty) {
+		window.getChildren().removeAll(turtleMotion);
+		clearScreenProperty.set(false);
+	}
 
     public void setVisibility(boolean isVisible){
         visibility = isVisible;
@@ -164,4 +194,6 @@ public class GUIDisplay implements RenderSprite {
     public void resetIDE() {
 
     }
+
+
 }
