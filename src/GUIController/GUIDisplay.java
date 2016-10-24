@@ -160,6 +160,11 @@ public class GUIDisplay implements RenderSprite {
         turtleMotion.add(newLine);
         window.getChildren().add(newLine);
     }
+    
+	public void clearScreen(BooleanProperty clearScreenProperty) {
+		window.getChildren().removeAll(turtleMotion);
+		clearScreenProperty.set(false);
+	}
 
     public void setVisibility(boolean isVisible){
         visibility = isVisible;
@@ -188,4 +193,6 @@ public class GUIDisplay implements RenderSprite {
     public void resetIDE() {
 
     }
+
+
 }
