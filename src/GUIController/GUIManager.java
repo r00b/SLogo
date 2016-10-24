@@ -47,7 +47,7 @@ public class GUIManager implements GUIController {
     private GUIButtonMenu myButtonMenu;
     private CommandTypeDetector commandMaker = new CommandTypeDetector();
     private Command newCommand;
-    private CommandParser commandParser = new CommandParser();
+    private CommandParser commandParser;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -80,6 +80,8 @@ public class GUIManager implements GUIController {
         stage.setTitle("Slogo");
         stage.setScene(new Scene(setUpWindow()));
         ObservableProperties properties = setupBindings();
+        commandParser = new CommandParser();
+        commandParser.setProperties(properties);
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
         fd.setProperties(properties);
