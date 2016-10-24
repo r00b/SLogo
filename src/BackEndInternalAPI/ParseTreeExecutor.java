@@ -52,19 +52,18 @@ public class ParseTreeExecutor extends CommandParser {
      * @return the value that the node was set to
      */
     private static double accessVariable(ParseTreeNode currNode) { // TODO REFACTOR
-
-        if (myVariables.get(currNode.getCommand()) == null && myVariables.get(currNode.getCommand()) == null) {
+        double variableVal;
+        if (myVariables.get(currNode.getCommand()) == null && myMethodVariables.get(currNode.getCommand()) == null) {
             currNode.setValue(0.0); // set to 0 if no variable
             return 0.0;
         } else if (myVariables.get(currNode.getCommand()) == null) {
-            double variableVal = myMethodVariables.get(currNode.getCommand());
+             variableVal = myMethodVariables.get(currNode.getCommand());
             currNode.setValue(variableVal); // otherwise set value of node to value of variable
-            return variableVal;
         } else { // if (myMethodVariables.get(currNode.getCommand()) == null) {
-            double variableVal = myVariables.get(currNode.getCommand());
+             variableVal = myVariables.get(currNode.getCommand());
             currNode.setValue(variableVal); // otherwise set value of node to value of variable
-            return variableVal;
         }
+        return variableVal;
     }
 
     /**

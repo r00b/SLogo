@@ -3,7 +3,6 @@ package BackEndInternalAPI;
 import BackEndCommands.Constant;
 import BackEndCommands.ListStart;
 import BackEndCommands.NoType;
-import org.apache.velocity.runtime.directive.Parse;
 
 import java.util.ArrayList;
 
@@ -56,16 +55,14 @@ public class ParseTreeBuilder {
 
 
     private ParseTreeNode buildMethodTree(LogoMethod method) {
-//        System.out.println("@#&RH@#*&F@#*&HF@#*&FH@#F " + method.getMethod().getChild(0).getChild(1).getCommand());
         ParseTreeNode p = method.getMethod(); // this has sum a
-
         myCommandIndex++;
         for (int i = 0; i < method.numArguments(); i ++) {
 
             myMethodVariables.put(method.getArgument(i),Double.parseDouble(myCommands[myCommandIndex]));
             myCommandIndex++;
         }
-
+//        System.out.println("@#&RH@#*&F@#*&HF@#*&FH@#F " + p.getChild(0).getChild(1).getCommand());
         return p;
     }
 
@@ -81,7 +78,10 @@ public class ParseTreeBuilder {
         ParseTreeNode newChild = initParseTreeNode(currCommand);
 
         if (newChild.getCommandObj().getClass() == NoType.class && myMethods.get(newChild.getCommand()) != null) { // calling a method
-            return buildMethodTree(myMethods.get(currCommand));
+            ParseTreeNode p = buildMethodTree(myMethods.get(currCommand));
+            System.out.println("><><<><><><><><><>><>< " + p.getChild(0).getChild(0).getCommand());
+
+            return p;
         }
 
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list

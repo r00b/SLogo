@@ -50,23 +50,23 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
         ResourceBundle settings = ResourceBundle.getBundle(SETTINGS_PATH);
         String[] commands = command.trim().split(settings.getString("Delimiter"));
 
-//        if (notCommand(commands)) {
-//            return 0.0;
-//        }
-        System.out.println(command);
+        if (notCommand(commands)) {
+            return 0.0;
+        }
         ParseTreeBuilder builder = new ParseTreeBuilder();
         ParseTreeExecutor executor = new ParseTreeExecutor();
         //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        printTree(root);
+
+//        printTree(root);
 
 
         double result = executor.executeTree(root); // TODO DEBUGGING
         myMethodVariables.clear();
         //   System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
-        System.out.println("----------------------------------");
+//        System.out.println("----------------------------------");
         return result;
 //        return 0;
     }
@@ -75,31 +75,15 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
           r = r.getChild(0);
 //        System.out.println("VALUE: " + r.getValue()); // make sure workign
         System.out.println("COMMAND: " + r.getCommand());
-//        System.out.println("COMMAND TYPE: " + r.getCommandType());
-//        if (r.hasNoChildren()) {
-//            return;
-//        }
-//        for (int i = 0; i < r.getNumChildren(); i++) {
-//            System.out.println("CHILD " + i);
-//            printTree(r.getChild(i));
-//        }
+
     }
 
 
     public static void main(String[] args) { // TODO DEBUGGING
-//        getAction("make :shitter 92");
-//        getAction("product :shitter 2");
-//        double result = getAction("[ sum 2 3 ]");
-//        getAction("make :shitter 5");
-//        System.out.println(getAction("for [ :shitter 0 5 2 ] [ sum :shitter 0 ]"));
-
-//        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
-//        System.out.println(result);
-//        System.out.println("G".equals("G"));
-//            System.out.println(getAction("sum :shit 3"));
-        System.out.println(getAction("TO fuck [ :a :b ] [ sum :a :b ]"));
+        System.out.println(getAction("TO fuck [ :a :b ] [ product :a :b ]"));
         System.out.println("===============================================================");
           System.out.println(getAction("fuck 2 3"));
+        System.out.println(getAction("fuck 5 3"));
 
     }
 }
