@@ -57,7 +57,6 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addTurtle(){
-
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
@@ -99,16 +98,36 @@ public class GUIDisplay implements RenderSprite {
         numSteps++;
         drawNewLine(new Point((int)myTurtle.getTranslateX(),
                 (int)myTurtle.getTranslateY()), new Point(x, y));
-        System.out.println((int) myTurtle.getTranslateX() + X_POS);
+//        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
+//        System.out.println("translate x of the editor" + X_POS);
         myTurtle.setTranslateX(X_POS + x);
         myTurtle.setTranslateY(Y_POS + y);
         window.getChildren().remove(myTurtle);
         window.getChildren().add(myTurtle);
     }
 
-    private void drawNewLine(Point origin, Point destination){
-        Line newLine = new Line(X_POS + origin.getX(), Y_POS + origin.getY(),
-                X_POS + destination.getX(), Y_POS + destination.getY());
+    public void drawNewLine(){
+        Point origin = new Point();
+        if(turtleMotion.size() < 1){
+            origin = new Point((int)(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2)),
+                    (int)(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2)));
+        }
+
+        else{
+            origin = new Point((int)turtleMotion.get(turtleMotion.size() - 1).getEndX(),
+                    (int)turtleMotion.get(turtleMotion.size() - 1).getEndY());
+        }
+        Point destination = new Point((int)myTurtle.getTranslateX(),
+                (int)myTurtle.getTranslateY());
+        drawNewLine(origin, destination);
+    }
+
+    public void drawNewLine(Point origin, Point destination){
+//        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
+//                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
+
+        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
+                destination.getX() + 20, destination.getY() + 20);
         newLine.setFill(pathColor);
         newLine.setStrokeWidth(5);
         newLine.setId("Step" + numSteps);
@@ -123,6 +142,11 @@ public class GUIDisplay implements RenderSprite {
 
     public ImageView getGraph(){
         return displayGraph;
+    }
+
+
+    public Point getTurtleLocation(){
+        return new Point((int)myTurtle.getTranslateX(), (int)myTurtle.getTranslateY());
     }
 
     @Override

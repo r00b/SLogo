@@ -148,4 +148,6 @@ public class GUIEditor implements Editor {
     public void redoCommand(String str) {
         textArea.setText(textArea.getText() + "\n> " + str);
     }
+
+
 }
