@@ -125,7 +125,8 @@ public class GUIDisplay implements RenderSprite {
     public void drawNewLine(Point origin, Point destination){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-
+        System.out.println("my origin: " + origin.getX() + " " + origin.getY());
+        System.out.println("my destination: " + destination.getX() + " " + destination.getY());
         Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
                 destination.getX() + 20, destination.getY() + 20);
         newLine.setFill(pathColor);
