@@ -1,8 +1,11 @@
 package GUIController;
 
 import FrontEndExternalAPI.Variables;
-import GUI.EditorHelp;
 import GUI.VariablesHelp;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -27,6 +30,7 @@ public class GUIVariables implements Variables {
     private Rectangle backdrop;
     private VariablesHelp helpWindow;
     private TableView table = new TableView();
+    private final ObservableList<Variable> data = FXCollections.observableArrayList();
 
     public GUIVariables(Pane p, Paint bodercolor){
         this.window = p;
@@ -81,17 +85,15 @@ public class GUIVariables implements Variables {
         table.setEditable(true);
 
         TableColumn variableNameCol = new TableColumn("Variable Name");
-        variableNameCol.setPrefWidth(200);
-        TableColumn variableTypeCol = new TableColumn("Variable Type");
-        variableTypeCol.setPrefWidth(200);
+        variableNameCol.setPrefWidth(300);
         TableColumn valueCol = new TableColumn("Value");
-        valueCol.setPrefWidth(170);
 
-        table.getColumns().addAll(variableNameCol, variableTypeCol, valueCol);
+        table.getColumns().addAll(variableNameCol, valueCol);
         table.setTranslateX(20);
         table.setTranslateY(140);
         table.setPrefSize(570, 190);
         table.opacityProperty().setValue(0.5);
+        table.setItems(data);
         table.setOnMouseEntered(e -> {
             table.opacityProperty().setValue(0.8);
             backdrop.opacityProperty().setValue(0.8);
@@ -102,12 +104,43 @@ public class GUIVariables implements Variables {
     }
 
     @Override
-    public void addVariable(String name, String value) {
-//        table.
+    public void addVariable(String name, double value) {
+        data.add(new Variable(name, value));
+        table.setItems(data);
+        System.out.println("the data is " + data.size());
     }
 
     @Override
     public ArrayList<Integer> getAllVariables() {
         return null;
+    }
+
+    public static class Variable {
+
+        private final SimpleStringProperty variableName;
+        private final SimpleDoubleProperty variableValue;
+//        private final SimpleStringProperty email;
+
+        private Variable(String vName, double vValue) {
+            this.variableName = new SimpleStringProperty(vName);
+            this.variableValue = new SimpleDoubleProperty(vValue);
+//            this.email = new SimpleStringProperty(email);
+        }
+
+        public String getVariableName() {
+            return variableName.get();
+        }
+
+        public void setVariableName(String fName) {
+            variableName.set(fName);
+        }
+
+        public double getVariableValue() {
+            return variableValue.get();
+        }
+
+        public void setVariableValue(double fName) {
+            variableValue.set(fName);
+        }
     }
 }

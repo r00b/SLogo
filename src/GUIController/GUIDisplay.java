@@ -103,8 +103,6 @@ public class GUIDisplay implements RenderSprite {
 //        System.out.println("translate x of the editor" + X_POS);
         myTurtle.setTranslateX(X_POS + x);
         myTurtle.setTranslateY(Y_POS + y);
-        window.getChildren().remove(myTurtle);
-        window.getChildren().add(myTurtle);
     }
 
     public void drawNewLine(BooleanProperty bool ){
@@ -124,24 +122,30 @@ public class GUIDisplay implements RenderSprite {
     	
     	
     	//Still NEED TO CENTER IT
-    	double centerX =  0;
-		double centerY = 0;
-		Line a;
+    	double centerX =  20;
+		double centerY = 20;
+		Line newPath;
     	if (turtleMotion.size() < 1) {
     		
-    		a = new Line(centerX + myTurtle.getTranslateX(), centerY + myTurtle.getTranslateY(), 
-    							myTurtle.getX() + myTurtle.getTranslateX() + centerX, myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+    		newPath = new Line(centerX + myTurtle.getTranslateX(),
+                    centerY + myTurtle.getTranslateY(),
+                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+                    myTurtle.getY() + myTurtle.getTranslateY() + centerY);
     	}
     	else{
-    		a = new Line(turtleMotion.get(turtleMotion.size()-1).getEndX() , turtleMotion.get(turtleMotion.size()-1).getEndY(),
-    				myTurtle.getX() + myTurtle.getTranslateX() + centerX, myTurtle.getY() + myTurtle.getTranslateY() + centerY); 
+    		newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
+                    turtleMotion.get(turtleMotion.size() - 1).getEndY(),
+    				myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+                    myTurtle.getY() + myTurtle.getTranslateY() + centerY);
     	}
-    	turtleMotion.add(a);
-    	a.setFill(pathColor);
-        a.setStrokeWidth(5);
-        a.setId("Step" + numSteps);
-        a.setVisible(visibility);
-        window.getChildren().add(a);
+    	newPath.setFill(pathColor);
+        newPath.setStrokeWidth(5);
+        newPath.setId("Step" + numSteps);
+        newPath.setVisible(visibility);
+        turtleMotion.add(newPath);
+        window.getChildren().add(newPath);
+        window.getChildren().remove(myTurtle);
+        window.getChildren().add(myTurtle);
     	
     	bool.set(false);
     }
@@ -150,7 +154,8 @@ public class GUIDisplay implements RenderSprite {
     public void drawNewLine(Point origin, Point destination){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-
+        System.out.println("my origin: " + origin.getX() + " " + origin.getY());
+        System.out.println("my destination: " + destination.getX() + " " + destination.getY());
         Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
                 destination.getX() + 20, destination.getY() + 20);
         newLine.setFill(pathColor);
