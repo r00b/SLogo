@@ -56,6 +56,7 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addTurtle(){
+
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);

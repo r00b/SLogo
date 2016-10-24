@@ -20,8 +20,8 @@ public class Forward extends TurtleCommand {
 	public double executeCommand(List<Double> args) {
 		double xDistance = calculateXDistance(args.get(0));
 		double yDistance = calculateYDistance(args.get(0));
-		properties.getXProperty().set(properties.getXProperty().get() + xDistance);
-		properties.getYProperty().set(properties.getXProperty().get() + yDistance);
+		properties.setXProperty((properties.getXProperty().get() + xDistance));
+		properties.setYProperty(properties.getYProperty() + yDistance);
 		properties.getNewLineProperty().set(true);
 		return args.get(0);
 	}

@@ -53,12 +53,9 @@ public abstract class TurtleCommand implements Command {
 	 * @return X distance traveled
 	 */
 	protected double calculateXDistance(double hyp) {
-		double angle = Math.toDegrees(properties.getRotateProperty().get());
-		double answer = Math.cos(angle) * hyp;
+		double angle = properties.getRotateProperty().get();
+		double answer = Math.sin(Math.toRadians(angle)) * hyp;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
-		if ((angle > 270) || (angle>90 && angle < 180)) {
-			answer = answer  * -1;
-		}
 		return answer;
 	}
 
@@ -68,11 +65,8 @@ public abstract class TurtleCommand implements Command {
 	 * @return Y disntace traveled
 	 */
 	protected double calculateYDistance(double hyp) {
-		double angle = Math.toDegrees(properties.getRotateProperty().get());
-		double answer = Math.sin(angle) * hyp;
-		if ((angle > 270) || (angle>90 && angle < 180)) {
-			answer = answer  * -1;
-		}
+		double angle = properties.getRotateProperty().get();
+		double answer = Math.cos(Math.toRadians(angle)) * hyp;
 		return answer;
 	}
 	
