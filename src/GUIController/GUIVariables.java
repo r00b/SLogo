@@ -1,6 +1,8 @@
 package GUIController;
 
 import FrontEndExternalAPI.Variables;
+import GUI.EditorHelp;
+import GUI.VariablesHelp;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -12,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,7 @@ public class GUIVariables implements Variables {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private VariablesHelp helpWindow;
     private TableView table = new TableView();
 
     public GUIVariables(Pane p, Paint bodercolor){
@@ -58,6 +62,7 @@ public class GUIVariables implements Variables {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         ImageView helpButton = new ImageView(newImage);
+        helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
         helpButton.setTranslateY(backdrop.getTranslateY() + 10);
@@ -66,8 +71,13 @@ public class GUIVariables implements Variables {
         window.getChildren().add(helpButton);
     }
 
-    private void createTableView(){
+    private void helpHandler(){
+        Stage s = new Stage();
+        helpWindow = new VariablesHelp(s);
+        helpWindow.init();
+    }
 
+    private void createTableView(){
         table.setEditable(true);
 
         TableColumn variableNameCol = new TableColumn("Variable Name");

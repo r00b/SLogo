@@ -88,7 +88,7 @@ public class GUIManager implements GUIController{
         list.add(-75.0);
         System.out.println(turtle.getX());
         System.out.println(turtle.getY());
-        fd.executeCommand(list);
+        //fd.executeCommand(list);
         System.out.println(turtle.getX());
         System.out.println(turtle.getY());
         System.out.println(turtle.getRotate());
@@ -106,7 +106,7 @@ public class GUIManager implements GUIController{
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
-        myDisplay = new GUIDisplay(window, turtle);
+        myDisplay = new GUIDisplay(window, turtle, penColor);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
@@ -194,6 +194,7 @@ public class GUIManager implements GUIController{
 //        }
 //    }
 
+
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
@@ -266,10 +267,15 @@ public class GUIManager implements GUIController{
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         for(int i = 0; i < splitCommands.length; i++){
+            if(splitCommands[i].contains("move")){
+                myDisplay.moveTurtle(Integer.parseInt(splitCommands[i].substring(5, 6)),
+                        Integer.parseInt(splitCommands[i].substring(7, 8)));
+            }
             if(splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
-//                commandParser.getAction(splitCommands[i].substring(2));
+                commandParser.getAction(splitCommands[i]);
             }
+
         }
     }
     

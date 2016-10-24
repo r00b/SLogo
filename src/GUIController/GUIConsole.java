@@ -1,6 +1,8 @@
 package GUIController;
 
 import FrontEndExternalAPI.Console;
+import GUI.ConsoleHelp;
+import GUI.EditorHelp;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -10,14 +12,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIConsole implements Console {
+public class GUIConsole implements Console{
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
+    private ConsoleHelp helpWindow;
 
     public GUIConsole(Pane p, Paint borderColor){
         this.window = p;
@@ -62,6 +66,14 @@ public class GUIConsole implements Console {
         helpButton.setTranslateY(backdrop.getTranslateY() + 10);
         helpButton.setFitWidth(30);
         helpButton.setFitHeight(30);
+        helpButton.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(helpButton);
     }
+    
+    private void helpHandler(){
+        Stage s = new Stage();
+        helpWindow = new ConsoleHelp(s);
+        helpWindow.init();
+    }
+
 }
