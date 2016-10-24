@@ -22,9 +22,9 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
     public static HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
     private static ObservableProperties myProperties;
 
-//    public CommandParser(ObservableProperties properties) {
-//        myProperties = properties;
-//    }
+    public CommandParser(ObservableProperties properties) {
+        myProperties = properties;
+    }
 
     /**
      * Determines if a specified command is indeed an executable Command
@@ -58,7 +58,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
             return 0.0;
         }
         ParseTreeBuilder builder = new ParseTreeBuilder();
-        ParseTreeExecutor executor = new ParseTreeExecutor();//myProperties);
+        ParseTreeExecutor executor = new ParseTreeExecutor(myProperties);
         //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING

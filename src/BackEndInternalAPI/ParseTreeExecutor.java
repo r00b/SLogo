@@ -22,9 +22,10 @@ public class ParseTreeExecutor extends CommandParser {
     private static ResourceBundle myCommandTypes;
     private static ObservableProperties myProperties;
 
-    public ParseTreeExecutor() { //ObservableProperties properties) {
+    public ParseTreeExecutor(ObservableProperties properties) {
+        super(properties);
         myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
-      //  myProperties = properties;
+        myProperties = properties;
     }
 
 //    public static void setProperties(ObservableProperties properties) {
