@@ -143,7 +143,7 @@ public class GUIManager implements GUIController {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.drawNewLine();
+					myDisplay.drawNewLine(answer.getNewLineProperty());
 				}
 			}
     	});
