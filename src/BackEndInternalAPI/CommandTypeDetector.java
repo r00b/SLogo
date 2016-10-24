@@ -38,7 +38,6 @@ public class CommandTypeDetector {
     public Command getCommandObj(String command) {
         ResourceBundle resources = ResourceBundle.getBundle("resources/internal/ClassLocations");
         String commandType = getCommandType(command);
-        System.out.println(commandType); // TODO DEBUGGING
         try {
             Class<?> cmdObj = Class.forName(resources.getString(commandType)); // get commandType class
             try {
@@ -84,7 +83,7 @@ public class CommandTypeDetector {
                 return mapping.getKey();
             }
         }
-        return "ERROR"; // TODO illegal commandType exception
+        return "NoType"; // TODO illegal commandType exception
     }
 
     /**
