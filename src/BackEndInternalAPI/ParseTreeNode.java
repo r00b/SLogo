@@ -120,6 +120,15 @@ public class ParseTreeNode {
     }
 
     /**
+     * Determine if the node has any children
+     *
+     * @return true if there are no children, false otherwise
+     */
+    public boolean hasChild() {
+        return !children.isEmpty();
+    }
+
+    /**
      * Determine if there are no children
      *
      * @return true if there are no children, false otherwise

@@ -1,11 +1,9 @@
 package BackEndExternalAPI;
 
 import BackEndCommands.Comment;
-import BackEndInternalAPI.CommandTypeDetector;
-import BackEndInternalAPI.ParseTreeExecutor;
-import BackEndInternalAPI.ParseTreeNode;
-import BackEndInternalAPI.ParseTreeBuilder;
+import BackEndInternalAPI.*;
 
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -19,6 +17,11 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
     private static final String SETTINGS_PATH = "resources/internal/Settings";
 
+    public static HashMap<String, Double> myVariables = new HashMap<String, Double>();
+    public static HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
+    public static HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
+
+
     /**
      * Determines if a specified command is indeed an executable Command
      * (i.e. not a comment or an empty line)
@@ -30,6 +33,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
             return true;
         }
         CommandTypeDetector detector = new CommandTypeDetector();
+        // TODO FIX
         if (detector.getCommandObj(command[0]).getClass() == Comment.class) { // this is a comment
             return true;
         }
@@ -45,28 +49,33 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
     public static double getAction(String command) {
         ResourceBundle settings = ResourceBundle.getBundle(SETTINGS_PATH);
         String[] commands = command.trim().split(settings.getString("Delimiter"));
-        if (notCommand(commands)) {
-            return 0.0;
-        }
+
+//        if (notCommand(commands)) {
+//            return 0.0;
+//        }
+        System.out.println(command);
         ParseTreeBuilder builder = new ParseTreeBuilder();
         ParseTreeExecutor executor = new ParseTreeExecutor();
-//      executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
+        //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        double result = executor.executeTree(root); // TODO DEBUGGING
-        System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
         printTree(root);
+
+
+        double result = executor.executeTree(root); // TODO DEBUGGING
+        myMethodVariables.clear();
+        //   System.out.println("--------- PRINTING TREE ----------"); // TODO DEBUGGING
         System.out.println("----------------------------------");
         return result;
-        // return 0;
+//        return 0;
     }
 
     public static void printTree(ParseTreeNode r) { // TODO DEBUGGING
-        //      r = r.getChild(1).getChild(0).getChild(1);
-        System.out.println("VALUE: " + r.getValue()); // make sure workign
+          r = r.getChild(0);
+//        System.out.println("VALUE: " + r.getValue()); // make sure workign
         System.out.println("COMMAND: " + r.getCommand());
-        System.out.println("COMMAND TYPE: " + r.getCommandType());
+//        System.out.println("COMMAND TYPE: " + r.getCommandType());
 //        if (r.hasNoChildren()) {
 //            return;
 //        }
@@ -81,13 +90,16 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 //        getAction("make :shitter 92");
 //        getAction("product :shitter 2");
 //        double result = getAction("[ sum 2 3 ]");
-        getAction("make :shitter 5");
-        System.out.println(getAction("for [ :shitter 0 5 2 ] [ sum :shitter 0 ]"));
+//        getAction("make :shitter 5");
+//        System.out.println(getAction("for [ :shitter 0 5 2 ] [ sum :shitter 0 ]"));
 
-        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
+//        double result = getAction("[ sum 2 3 [ difference 6 5 ] minus 1 ]");
 //        System.out.println(result);
 //        System.out.println("G".equals("G"));
-
+//            System.out.println(getAction("sum :shit 3"));
+        System.out.println(getAction("TO fuck [ :a :b ] [ sum :a :b ]"));
+        System.out.println("===============================================================");
+          System.out.println(getAction("fuck 2 3"));
 
     }
 }

@@ -84,7 +84,7 @@ public class CommandTypeDetector {
                 return mapping.getKey();
             }
         }
-        return "ERROR"; // TODO illegal commandType exception
+        return "NoType"; // TODO illegal commandType exception
     }
 
     /**

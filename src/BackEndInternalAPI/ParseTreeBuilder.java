@@ -2,6 +2,14 @@ package BackEndInternalAPI;
 
 import BackEndCommands.Constant;
 import BackEndCommands.ListStart;
+import BackEndCommands.NoType;
+import org.apache.velocity.runtime.directive.Parse;
+
+import java.util.ArrayList;
+
+import static BackEndExternalAPI.CommandParser.myMethodVariables;
+import static BackEndExternalAPI.CommandParser.myMethods;
+import static BackEndExternalAPI.CommandParser.myVariables;
 
 /**
  * @author Robert H. Steilberg II
@@ -47,6 +55,20 @@ public class ParseTreeBuilder {
     }
 
 
+    private ParseTreeNode buildMethodTree(LogoMethod method) {
+//        System.out.println("@#&RH@#*&F@#*&HF@#*&FH@#F " + method.getMethod().getChild(0).getChild(1).getCommand());
+        ParseTreeNode p = method.getMethod(); // this has sum a
+
+        myCommandIndex++;
+        for (int i = 0; i < method.numArguments(); i ++) {
+
+            myMethodVariables.put(method.getArgument(i),Double.parseDouble(myCommands[myCommandIndex]));
+            myCommandIndex++;
+        }
+
+        return p;
+    }
+
     /**
      * Recursively builds a parse tree by iterating through a String array
      * of issued commands
@@ -57,11 +79,19 @@ public class ParseTreeBuilder {
     private ParseTreeNode buildParseTree() {
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
+
+        if (newChild.getCommandObj().getClass() == NoType.class && myMethods.get(newChild.getCommand()) != null) { // calling a method
+            return buildMethodTree(myMethods.get(currCommand));
+        }
+
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }
         if (newChild.getCommandObj().getClass() == Constant.class) {
             newChild.setValue(Double.parseDouble(currCommand));
+        }
+        if (newChild.getCommandObj().getClass() == NoType.class) {
+            newChild.setValue(0.0);
         }
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;

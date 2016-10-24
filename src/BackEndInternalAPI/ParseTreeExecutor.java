@@ -20,7 +20,6 @@ public class ParseTreeExecutor extends CommandParser {
 
     private static String COMMANDTYPES_PATH = "resources/internal/CommandTypes";
     private static ResourceBundle myCommandTypes;
-    public static HashMap<String, Double> myVariables = new HashMap<String, Double>();
 
     public ParseTreeExecutor() {
         myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
@@ -52,14 +51,20 @@ public class ParseTreeExecutor extends CommandParser {
      * @param currNode is the node holding the variable
      * @return the value that the node was set to
      */
-    private static double accessVariable(ParseTreeNode currNode) {
-        double variableVal = myVariables.get(currNode.getCommand());
-        if (myVariables.get(currNode.getCommand()) == null) {
+    private static double accessVariable(ParseTreeNode currNode) { // TODO REFACTOR
+
+        if (myVariables.get(currNode.getCommand()) == null && myVariables.get(currNode.getCommand()) == null) {
             currNode.setValue(0.0); // set to 0 if no variable
-        } else {
+            return 0.0;
+        } else if (myVariables.get(currNode.getCommand()) == null) {
+            double variableVal = myMethodVariables.get(currNode.getCommand());
             currNode.setValue(variableVal); // otherwise set value of node to value of variable
+            return variableVal;
+        } else { // if (myMethodVariables.get(currNode.getCommand()) == null) {
+            double variableVal = myVariables.get(currNode.getCommand());
+            currNode.setValue(variableVal); // otherwise set value of node to value of variable
+            return variableVal;
         }
-        return variableVal;
     }
 
     /**
@@ -109,6 +114,8 @@ public class ParseTreeExecutor extends CommandParser {
         if (currNode.getCommandObj().getClass() == MakeVariable.class) { // trying to make a variable
             return makeVariable(currNode);
         }
+
+
         if (currNode.hasNoChildren()) { // base case, execute the command associated with the tree
             arguments.add(currNode.getValue());
             double finalValue = currNode.getCommandObj().executeCommand(arguments);
