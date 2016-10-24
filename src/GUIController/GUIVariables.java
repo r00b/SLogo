@@ -6,8 +6,14 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,6 +25,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javafx.event.Event;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +37,7 @@ public class GUIVariables implements Variables {
     private Rectangle backdrop;
     private VariablesHelp helpWindow;
     private TableView table = new TableView();
+    private TableColumn variableNameCol, valueCol;
     private final ObservableList<Variable> data = FXCollections.observableArrayList();
 
     public GUIVariables(Pane p, Paint bodercolor){
@@ -39,6 +47,7 @@ public class GUIVariables implements Variables {
         addTextLabel();
         addHelpButton();
         createTableView();
+        addVariableManually();
     }
 
     private void drawVariables(){
@@ -82,12 +91,37 @@ public class GUIVariables implements Variables {
     }
 
     private void createTableView(){
-        table.setEditable(true);
-
-        TableColumn variableNameCol = new TableColumn("Variable Name");
-        variableNameCol.setPrefWidth(300);
-        TableColumn valueCol = new TableColumn("Value");
-
+        //WHY CANT I GET THIS TO BE FUCKING EDITABLE
+        variableNameCol = new TableColumn("Variable Name");
+        variableNameCol.setPrefWidth(250);
+        variableNameCol.setCellValueFactory(
+                new PropertyValueFactory<Variable, String>("variableName"));
+        variableNameCol.setEditable(true);
+        variableNameCol.setOnEditCommit(
+                new EventHandler<CellEditEvent<Variable, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<Variable, String> t) {
+                        ((Variable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setVariableName(t.getNewValue());
+                    }
+                }
+        );
+        valueCol = new TableColumn("Value");
+        valueCol.setPrefWidth(250);
+        valueCol.setCellValueFactory(
+                new PropertyValueFactory<Variable, Double>("variableValue"));
+        valueCol.setEditable(true);
+        valueCol.setOnEditCommit(
+                new EventHandler<CellEditEvent<Variable, Double>>() {
+                    @Override
+                    public void handle(CellEditEvent<Variable, Double> t) {
+                        ((Variable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setVariableValue(t.getNewValue());
+                    }
+                }
+        );
         table.getColumns().addAll(variableNameCol, valueCol);
         table.setTranslateX(20);
         table.setTranslateY(140);
@@ -99,15 +133,57 @@ public class GUIVariables implements Variables {
             backdrop.opacityProperty().setValue(0.8);
         });
         table.setOnMouseExited(e -> table.opacityProperty().setValue(0.5));
-
         window.getChildren().add(table);
     }
 
     @Override
     public void addVariable(String name, double value) {
-        data.add(new Variable(name, value));
+        boolean contains = false;
+        for(int i = 0; i < data.size(); i++){
+            if(data.get(i).getVariableName().equals(name.substring(1))){
+                contains = true;
+                data.get(i).setVariableValue(value);
+                System.out.println("the value is " + value);
+                break;
+            }
+        }
+        if(!contains) {
+            data.add(new Variable(name.substring(1), value));
+        }
         table.setItems(data);
+
+        table.setEditable(true);
         System.out.println("the data is " + data.size());
+    }
+
+    private void addVariableManually(){
+        final TextField addFirstName = new TextField();
+        addFirstName.setPromptText("Variable name");
+        addFirstName.setMaxWidth(variableNameCol.getPrefWidth());
+        addFirstName.setTranslateX(20);
+        addFirstName.setTranslateY(310);
+        final TextField addLastName = new TextField();
+        addLastName.setMaxWidth(valueCol.getPrefWidth());
+        addLastName.setPromptText("Variable value");
+        addLastName.setTranslateX(270);
+        addLastName.setTranslateY(310);
+        final TextField addEmail = new TextField();
+
+        final Button addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                data.add(new Variable(addFirstName.getText(),
+                        Double.parseDouble(addLastName.getText())));
+                addFirstName.clear();
+                addLastName.clear();
+            }
+        });
+        addButton.setTranslateX(520);
+        addButton.setTranslateY(310);
+        table.setEditable(true);
+
+        window.getChildren().addAll(addFirstName, addLastName, addButton);
     }
 
     @Override
