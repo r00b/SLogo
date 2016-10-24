@@ -1,6 +1,7 @@
 package GUIController;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import BackEndCommands.TurtleCommands.Back;
 import BackEndCommands.TurtleCommands.Forward;
@@ -254,9 +255,14 @@ public class GUIManager implements GUIController {
             if (splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
                 commandParser.getAction(splitCommands[i]);
+                myConsole.addConsole("" + commandParser.getMyResult());
+                Set<String> keyset = commandParser.getVariables().keySet();
+                for(String s : keyset){
+                    myVariables.addVariable(s, commandParser.getVariables().get(s));
+                }
+//
             }
 
-            myConsole.addConsole("" + commandParser.getMyResult());
         }
     }
 
