@@ -17,11 +17,11 @@ public class DoTimes extends ControlCommand {
 
     @Override
     public double executeCommand(List<Double> args) {
-        String variable = executables.get(0).getChild(0).getCommand();
-        double result = 0;
-
         ParseTreeExecutor executor = new ParseTreeExecutor();
-        for (double i = executor.getVariable(variable); i < args.get(0); i++) {
+        String variable = executables.get(0).getChild(0).getCommand();
+        executor.setVariable(variable,1);
+        double result = 0;
+        for (double i = executor.getVariable(variable); i <= args.get(0); i++) {
             executor.setVariable(variable,i);
             result = executor.executeTree(executables.get(1));
             System.out.println(result);
