@@ -11,37 +11,33 @@ import javax.swing.text.html.Option;
  * Created by Delia on 10/17/2016.
  */
 public class OptionsPopup extends OptionsMenu {
-//    private Stage stage;
+    /**
+     *
+     * @param s
+     * @param penColor
+     * @param background
+     * @param turtle
+     * @param language
+     */
     public OptionsPopup(Stage s, Color penColor, String background, String turtle, String language){
         super(s);
         super.setDefaults(penColor, background, turtle, language);
 //        setDefaults(penColor, background, turtle, language);
     }
+
+    /**
+     *
+     */
     public void initPopup(){
         getStage().setTitle("Options");
         getStage().setScene(new Scene(setUpWindow()));
         getStage().show();
     }
-//    @Override
-//    public void changeBackground() {
-//
-//    }
-//
-//    @Override
-//    public void changePenColor() {
-//
-//    }
-//
-//    @Override
-//    public void changeLanguage() {
-//
-//    }
-//
-//    @Override
-//    public void changeSpriteImage() {
-//
-//    }
+
     @Override
+    /**
+     *
+     */
     public void addTitle() {
     }
     @Override

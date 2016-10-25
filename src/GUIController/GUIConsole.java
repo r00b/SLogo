@@ -41,7 +41,11 @@ public class GUIConsole implements Console{
             "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
     private ObservableList<String> listOfCommands;
 
-    
+    /**
+     *
+     * @param p
+     * @param borderColor
+     */
     public GUIConsole(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
@@ -50,14 +54,19 @@ public class GUIConsole implements Console{
         addHelpButton();
         addListView();
     }
-    
+
+    /**
+     *
+     * @param text
+     */
     public void addConsole(String text) {
-        
         listOfCommands.add(text);
         list.setItems(listOfCommands);
     }
 
-
+    /**
+     *
+     */
     private void addListView(){
         list = new ListView<String>();
         list.setOrientation(Orientation.VERTICAL);
@@ -69,6 +78,9 @@ public class GUIConsole implements Console{
     }
 
     @Override
+    /**
+     *
+     */
     public void printResult() {
         
     }
@@ -112,5 +124,4 @@ public class GUIConsole implements Console{
         helpWindow = new ConsoleHelp(s);
         helpWindow.init();
     }
-
 }

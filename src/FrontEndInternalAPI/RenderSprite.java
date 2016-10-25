@@ -1,5 +1,8 @@
 package FrontEndInternalAPI;
 
+/**
+ * @author Delia
+ */
 public interface RenderSprite {
 //    public RenderSprite();
 

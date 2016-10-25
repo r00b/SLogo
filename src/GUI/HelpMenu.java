@@ -31,16 +31,27 @@ public class HelpMenu {
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    /**
+     *
+     * @param s
+     */
     public HelpMenu(Stage s){
         myStage = s;
     }
 
+    /**
+     *
+     */
     public void init(){
         myStage.setTitle("Help");
         myStage.setScene(new Scene(setUpWindow()));
         myStage.show();
     }
 
+    /**
+     *
+     * @return
+     */
     public Parent setUpWindow(){
         helpWindow = new Pane();
         helpWindow.setPrefSize(HELP_MENU_WIDTH, HELP_MENU_HEIGHT);
@@ -55,15 +66,10 @@ public class HelpMenu {
         return helpWindow;
     }
 
+    /**
+     *
+     */
     public void addNodes(){
-//        helpWindow.getChildren().addAll(addButton("IDE Style and color", X_POS_BUTTON, 200),
-//                addButton("Editor", X_POS_BUTTON, 250),
-//                addButton("Variables", X_POS_BUTTON, 300),
-//                addButton("History", X_POS_BUTTON, 350),
-//                addButton("Commands", X_POS_BUTTON + 300, 200),
-//                addButton("Display", X_POS_BUTTON + 300, 250),
-//                addButton("Controls", X_POS_BUTTON + 300, 300));
-
         Text titleText = new Text("Which option do you need help with?");
         titleText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         titleText.setFill(Color.WHITE);
@@ -85,6 +91,13 @@ public class HelpMenu {
         helpWindow.getChildren().addAll(editor, variables, history, display, console);
     }
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @return
+     */
     public Button addButton(String text, int x, int y){
         Button newButton;
         newButton = new Button(text);
@@ -98,6 +111,10 @@ public class HelpMenu {
         return newButton;
     }
 
+    /**
+     *
+     * @return
+     */
     public Rectangle addRectangle(){
         Rectangle backdrop = new Rectangle(520, 410, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(70);
@@ -136,10 +153,18 @@ public class HelpMenu {
         consoleHelp.init();
     }
 
+    /**
+     *
+     * @return
+     */
     public Stage getStage(){
         return myStage;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pane getWindow(){
         return helpWindow;
     }

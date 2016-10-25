@@ -31,6 +31,11 @@ public class GUIButtonMenu implements ButtonMenu{
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    /**
+     *
+     * @param p
+     * @param borderColor
+     */
     public GUIButtonMenu(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
@@ -61,6 +66,9 @@ public class GUIButtonMenu implements ButtonMenu{
         window.getChildren().add(label);
     }
 
+    /**
+     *
+     */
     public void addButtons(){ 
         Button play = newButton("PLAY", 30, 40);
         Button pause = newButton("PAUSE", 130, 40);
@@ -78,6 +86,9 @@ public class GUIButtonMenu implements ButtonMenu{
     }
 
     @Override
+    /**
+     *
+     */
     public Button newButton(String text, int x, int y) {
        
         ImageView newImage = loadImage(text);
@@ -129,8 +140,14 @@ public class GUIButtonMenu implements ButtonMenu{
         return imgV;
     }
 
+    /**
+     *
+     * @param paint
+     * @param background
+     * @param turtle
+     * @param language
+     */
     public void setDefaults(Color paint, String background, String turtle, String language){
-
         myOptions = new OptionsPopup(s, paint, background, turtle, language);
     }
 
@@ -143,10 +160,18 @@ public class GUIButtonMenu implements ButtonMenu{
         myHelpMenu.init();
     }
 
+    /**
+     *
+     * @return
+     */
     public OptionsPopup getOptionsPopup(){
         return myOptions;
     }
 
+    /**
+     *
+     * @return
+     */
     public Rectangle getBackdrop(){
         return backdrop;
     }
