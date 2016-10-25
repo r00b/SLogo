@@ -40,6 +40,11 @@ public class GUIVariables implements Variables {
     private TableColumn variableNameCol, valueCol;
     private final ObservableList<Variable> data = FXCollections.observableArrayList();
 
+    /**
+     *
+     * @param p
+     * @param bodercolor
+     */
     public GUIVariables(Pane p, Paint bodercolor){
         this.window = p;
         this.border = bodercolor;
@@ -137,6 +142,9 @@ public class GUIVariables implements Variables {
     }
 
     @Override
+    /**
+     *
+     */
     public void addVariable(String name, double value) {
         boolean contains = false;
         for(int i = 0; i < data.size(); i++){
@@ -187,34 +195,61 @@ public class GUIVariables implements Variables {
     }
 
     @Override
+    /**
+     *
+     */
     public ArrayList<Integer> getAllVariables() {
         return null;
     }
 
+    /**
+     *
+     */
     public static class Variable {
 
         private final SimpleStringProperty variableName;
         private final SimpleDoubleProperty variableValue;
 //        private final SimpleStringProperty email;
 
+        /**
+         *
+         * @param vName
+         * @param vValue
+         */
         private Variable(String vName, double vValue) {
             this.variableName = new SimpleStringProperty(vName);
             this.variableValue = new SimpleDoubleProperty(vValue);
 //            this.email = new SimpleStringProperty(email);
         }
 
+        /**
+         *
+         * @return
+         */
         public String getVariableName() {
             return variableName.get();
         }
 
+        /**
+         *
+         * @param fName
+         */
         public void setVariableName(String fName) {
             variableName.set(fName);
         }
 
+        /**
+         *
+         * @return
+         */
         public double getVariableValue() {
             return variableValue.get();
         }
 
+        /**
+         *
+         * @param fName
+         */
         public void setVariableValue(double fName) {
             variableValue.set(fName);
         }

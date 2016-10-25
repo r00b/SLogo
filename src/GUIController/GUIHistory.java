@@ -43,6 +43,11 @@ public class GUIHistory implements History {
             "-fx-text-fill: white;" +
             "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
 
+    /**
+     *
+     * @param p
+     * @param bordercoloir
+     */
     public GUIHistory(Pane p, Paint bordercoloir){
         this.window = p;
         this.border = bordercoloir;
@@ -106,12 +111,19 @@ public class GUIHistory implements History {
         window.getChildren().add(clearButton);
     }
 
+    /**
+     *
+     * @return
+     */
     public Rectangle getBackdrop(){
         return backdrop;
     }
 
 
     @Override
+    /**
+     *
+     */
     public void addCommand(String text) {
         numCommands++;
         Button newCommand = new Button(text);
@@ -148,11 +160,18 @@ public class GUIHistory implements History {
     }
 
     @Override
+    /**
+     *
+     */
     public void callCommand(String str) {
         redoCommand = str;
         //System.out.println(redoCommand);
     }
-    
+
+    /**
+     *
+     * @return
+     */
     public String getRedoCommand(){
         return redoCommand;
     }

@@ -37,11 +37,18 @@ public class GUIStartMenu extends OptionsMenu {
                     new Stop(1, Color.WHITE)
             });
 
+    /**
+     *
+     * @param s
+     */
     public GUIStartMenu(Stage s) {
         super(s);
     }
 
     @Override
+    /**
+     *
+     */
     public void addTitle() {
         BigNameText title = new BigNameText("Welcome to \n\tSLogo");
         title.setTranslateX(125);
@@ -50,6 +57,9 @@ public class GUIStartMenu extends OptionsMenu {
 
     }
 
+    /**
+     *
+     */
     public void addLaunchButton(){
         Button newButton = new Button("Launch SLogo");
         newButton.setStyle(getOverButton());
@@ -61,6 +71,9 @@ public class GUIStartMenu extends OptionsMenu {
         getStartWindow().getChildren().add(newButton);
     }
 
+    /**
+     *
+     */
     public void addRectangle(){
         Rectangle backdrop = new Rectangle(500, 240, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(280);
@@ -69,7 +82,11 @@ public class GUIStartMenu extends OptionsMenu {
         getStartWindow().getChildren().add(backdrop);
     }
 
-//    @Override
+    /**
+     *
+     * @param chosenBackground
+     * @param chosenTurtle
+     */
     public void initIDE(String chosenBackground, String chosenTurtle) {
         myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
         myGUI.init();

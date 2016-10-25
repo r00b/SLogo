@@ -56,6 +56,13 @@ public class GUIManager implements GUIController {
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    /**
+     *
+     * @param penColor
+     * @param background
+     * @param turtle
+     * @param language
+     */
     public GUIManager(Color penColor, String background, String turtle, String language) {
 
         this.penColor = penColor;
@@ -89,12 +96,12 @@ public class GUIManager implements GUIController {
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
-        System.out.println(turtle.getX());
-        System.out.println(turtle.getY());
-        //fd.executeCommand(list);
-        System.out.println(turtle.getX());
-        System.out.println(turtle.getY());
-        System.out.println(turtle.getRotate());
+//        System.out.println(turtle.getX());
+//        System.out.println(turtle.getY());
+//        //fd.executeCommand(list);
+//        System.out.println(turtle.getX());
+//        System.out.println(turtle.getY());
+//        System.out.println(turtle.getRotate());
         Scene myScene = new Scene(setUpWindow());
 //        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         stage.setScene(myScene);

@@ -16,15 +16,29 @@ public class VariablesHelp extends HelpMenu {
             "\nPress the Apply button in the top to apply your changes." +
             "\nPress the Clear button in the History box to clear history.";
 
+    /**
+     *
+     * @param s
+     */
     public VariablesHelp(Stage s) {
         super(s);
     }
 
+    /**
+     *
+     */
     public void addNodes(){
         getWindow().getChildren().add(addRectangle());
         getWindow().getChildren().add(addTip(instructions, 110, 110));
     }
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @return
+     */
     public Text addTip(String text, int x, int y){
         Text instructionText = new Text(text);
         instructionText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
