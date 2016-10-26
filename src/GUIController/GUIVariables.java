@@ -167,13 +167,13 @@ public class GUIVariables implements Variables {
     private void addVariableManually(){
         final TextField addFirstName = new TextField();
         addFirstName.setPromptText("Variable name");
-        addFirstName.setMaxWidth(variableNameCol.getPrefWidth());
-        addFirstName.setTranslateX(20);
+        addFirstName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
+        addFirstName.setTranslateX(50);
         addFirstName.setTranslateY(310);
         final TextField addLastName = new TextField();
-        addLastName.setMaxWidth(valueCol.getPrefWidth());
+        addLastName.setMaxWidth(valueCol.getPrefWidth() - 30);
         addLastName.setPromptText("Variable value");
-        addLastName.setTranslateX(270);
+        addLastName.setTranslateX(300);
         addLastName.setTranslateY(310);
         final TextField addEmail = new TextField();
 

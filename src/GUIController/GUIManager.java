@@ -141,7 +141,7 @@ public class GUIManager implements GUIController {
         myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
         myEditor.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
-        myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(670));
+        myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
     }
 
     private ObservableProperties setupBindings() {
