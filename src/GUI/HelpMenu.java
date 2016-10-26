@@ -23,13 +23,15 @@ public class HelpMenu {
     private static final int X_POS_BUTTON = 150;
     private Stage myStage;
     private Pane helpWindow;
-    private HelpMenu editorHelp, historyHelp, variablesHelp, consoleHelp, displayHelp;
+    private HelpMenu editorHelp, historyHelp, variablesHelp, consoleHelp, displayHelp, commandHelp;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+
+    //desktop.getDesktop().browse(new URI("http://...");
 
     /**
      *
@@ -85,10 +87,12 @@ public class HelpMenu {
         display.setOnMouseClicked(e -> displayHandler());
         Button console = addButton("Console", X_POS_BUTTON + 300, 300);
         console.setOnMouseClicked(e -> consoleHandler());
+        Button commands = addButton("Commands", X_POS_BUTTON + 300, 350);
+        commands.setOnMouseClicked(e -> commandHandler());
 
         helpWindow.getChildren().add(addRectangle());
         helpWindow.getChildren().add(titleText);
-        helpWindow.getChildren().addAll(editor, variables, history, display, console);
+        helpWindow.getChildren().addAll(editor, variables, history, display, console, commands);
     }
 
     /**
@@ -151,6 +155,12 @@ public class HelpMenu {
         Stage s = new Stage();
         consoleHelp = new ConsoleHelp(s);
         consoleHelp.init();
+    }
+
+    private void commandHandler(){
+        Stage s = new Stage();
+        commandHelp = new CommandHelp(s);
+        commandHelp.init();
     }
 
     /**

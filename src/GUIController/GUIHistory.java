@@ -59,10 +59,10 @@ public class GUIHistory implements History {
     }
 
     private void drawHistory(){
-        backdrop = new Rectangle(600, 220, Color.WHITE);
+        backdrop = new Rectangle(600, 580, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(660);
+        backdrop.setTranslateY(600);
         backdrop.setTranslateX(10);
         backdrop.opacityProperty().setValue(0.5);
         backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
@@ -74,7 +74,7 @@ public class GUIHistory implements History {
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         label.setTranslateX(20);
-        label.setTranslateY(680);
+        label.setTranslateY(620);
         window.getChildren().add(label);
     }
 
@@ -106,7 +106,7 @@ public class GUIHistory implements History {
         clearButton.setOnMouseExited(e -> clearButton.setStyle(overButton));
         
         clearButton.setTranslateX(525);
-        clearButton.setTranslateY(670);
+        clearButton.setTranslateY(610);
         clearButton.setOnMouseClicked(e -> clear());
         window.getChildren().add(clearButton);
     }
@@ -153,9 +153,16 @@ public class GUIHistory implements History {
         list = new ListView<Button>();
         list.setOrientation(Orientation.HORIZONTAL);
         list.setTranslateX(20);
-        list.setTranslateY(685);
-        list.setPrefSize(500, 95);
+        list.setTranslateY(625);
+        list.setPrefSize(500, 155);
         oldCommands = FXCollections.observableArrayList();
+//        list.opacityProperty().setValue(0.8);
+        oldCommands = FXCollections.observableArrayList();
+//        list.setOnMouseEntered(e -> {
+//            list.opacityProperty().setValue(0.8);
+//            backdrop.opacityProperty().setValue(0.8);
+//        });
+//        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         window.getChildren().add(list);
     }
 

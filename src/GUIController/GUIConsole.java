@@ -71,9 +71,15 @@ public class GUIConsole implements Console{
         list = new ListView<String>();
         list.setOrientation(Orientation.VERTICAL);
         list.setTranslateX(20);
-        list.setTranslateY(400);
-        list.setPrefSize(550, 200);
+        list.setTranslateY(380);
+        list.setPrefSize(570, 200);
+        list.opacityProperty().setValue(0.8);
         listOfCommands = FXCollections.observableArrayList();
+        list.setOnMouseEntered(e -> {
+            list.opacityProperty().setValue(0.8);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         window.getChildren().add(list);
     }
 
@@ -86,7 +92,7 @@ public class GUIConsole implements Console{
     }
 
     private void drawConsole(){
-        backdrop = new Rectangle(600, 300, Color.WHITE);
+        backdrop = new Rectangle(600, 240, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(350);
