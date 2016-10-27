@@ -18,7 +18,7 @@ public class PenUp extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(List<Double> args) {
-		properties.getPathVisibleProperty().set(true);
+		properties.getPathVisibleProperty().set(false);
 		return 1;
 	}
 
