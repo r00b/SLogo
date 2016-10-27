@@ -3,6 +3,7 @@ package BackEndCommands.BooleanOperations;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the Equal command
@@ -16,9 +17,13 @@ public class Equal implements Command {
 	 * Returns 1 if the two args are equal to each other 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(List<ParseTreeNode> args) {
+		ParseTreeNode arg1 = args.get(0);
+		ParseTreeNode arg2 = args.get(1);
+		Double value1 = arg1.executeCommand(arg1.getChildren());
+		Double value2 = arg2.executeCommand(arg2.getChildren());
 		double answer = 0;
-		if (args.get(0).equals(args.get(1))) {
+		if (value1.equals(value2)) {
 			answer++;
 		}
 		return answer;
