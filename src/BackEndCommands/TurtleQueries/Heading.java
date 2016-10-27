@@ -3,6 +3,7 @@ package BackEndCommands.TurtleQueries;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * executes the Heading command
@@ -16,7 +17,7 @@ public class Heading extends TurtleCommand {
 	 * Returns the rotate property value
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(List<ParseTreeNode> args) {
 		return properties.getRotateProperty().get();
 	}
 

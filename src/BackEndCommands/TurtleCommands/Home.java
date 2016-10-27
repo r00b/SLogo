@@ -3,8 +3,8 @@ package BackEndCommands.TurtleCommands;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
-import static BackEndExternalAPI.CommandParser.myProperties;
 
 /**
  * Executes the Home command
@@ -19,7 +19,7 @@ public class Home extends TurtleCommand {
 	 * Returns the distance traveled to origin
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(List<ParseTreeNode> args) {
 		double answer = calculateTotalDistance(properties.getXProperty().get(), 0,
 				properties.getYProperty(), 0);
 		properties.getXProperty().set(0);

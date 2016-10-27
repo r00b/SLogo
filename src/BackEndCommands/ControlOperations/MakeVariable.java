@@ -2,6 +2,7 @@ package BackEndCommands.ControlOperations;
 
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class MakeVariable extends CommandParser implements Command {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        return args.get(0);
+    public double executeCommand(List<ParseTreeNode> args) {
+        return 0;
     }
 
     @Override

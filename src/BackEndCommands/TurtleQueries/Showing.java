@@ -3,6 +3,7 @@ package BackEndCommands.TurtleQueries;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the Showing command
@@ -16,7 +17,7 @@ public class Showing extends TurtleCommand {
 	 * Gets the visible turtle property value and return 1 if its visible and 0 if its not
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(List<ParseTreeNode> args) {
 		double answer = 0;
 		if (properties.getImageVisibleProperty().get()) {
 			answer++;

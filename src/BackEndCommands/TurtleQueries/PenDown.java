@@ -3,6 +3,7 @@ package BackEndCommands.TurtleQueries;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the PenDown command
@@ -16,7 +17,7 @@ public class PenDown extends TurtleCommand {
 	/**
 	 * Gets the path visible property and return 1 if its true and 0 if its false
 	 */
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(List<ParseTreeNode> args) {
 		double answer = 0;
 		if (properties.getPathVisibleProperty().get()) {
 			answer++;

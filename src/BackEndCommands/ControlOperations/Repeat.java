@@ -3,6 +3,7 @@ package BackEndCommands.ControlOperations;
 import BackEndCommands.ControlCommand;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeExecutor;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -16,12 +17,14 @@ public class Repeat extends ControlCommand {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<Double> args) {
+    public double executeCommand(List<ParseTreeNode> args) {
+    	ParseTreeNode arg1 = args.get(0);
+		ParseTreeNode arg2 = args.get(1);
+		double limit = arg1.getCommandObj().executeCommand(arg1.getChildren());
         double result = 0;
-        ParseTreeExecutor executor = new ParseTreeExecutor();
-        for (int i = 1; i < args.get(0) + 1; i++) {
-            executor.setVariable(":repcount",i);
-            result = executor.executeTree(executables.get(1));
+        for (double i = 1.0; i < limit + 1; i++) {
+            variables.put(":repcount",i);
+            result = arg2.getCommandObj().executeCommand(arg2.getChildren());
             System.out.println(result);
         }
         return result;
