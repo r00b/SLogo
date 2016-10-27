@@ -1,10 +1,7 @@
 package BackEndInternalAPI;
 
-import BackEndCommands.Constant;
+import BackEndCommands.*;
 import BackEndCommands.ControlOperations.Variable;
-import BackEndCommands.ListStart;
-import BackEndCommands.NoType;
-import BackEndCommands.TurtleCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,18 +124,22 @@ public class ParseTreeBuilder {
             addTurtleProperties(newChild);
         }
 
+        if (myCommandTypes.getString(newChild.getCommandType()).equals("Control")) {
+            ((ControlCommand) newChild.getCommandObj()).setVariables(myVariables);
+        }
+
 //        if (isNoType(newChild) && myMethods.get(newChild.getCommand()) != null) { // calling a method
 //            return buildMethodTree(myMethods.get(currCommand));
 //        }
-//        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
-//            return buildList(newChild);
-//        }
-        if (isConstant(newChild) || newChild.getCommandObj().getClass() == Variable.class) {
-            ParseTreeNode constNode = new ParseTreeNode();
-            constNode.setValue(Double.parseDouble(currCommand));
-            newChild.addChild(constNode);
-            return newChild;
+        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
+            return buildList(newChild);
         }
+//        if (isConstant(newChild) || newChild.getCommandObj().getClass() == Variable.class) {
+//            ParseTreeNode constNode = new ParseTreeNode();
+//            constNode.setValue(Double.parseDouble(currCommand));
+//            newChild.addChild(constNode);
+//            return newChild;
+//        }
 //        if (isNoType(newChild)) { // part of a TO call
 //            newChild.setValue(0.0);
 //        }

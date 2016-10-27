@@ -1,5 +1,6 @@
 package BackEndCommands.ControlOperations;
 
+import BackEndCommands.ControlCommand;
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
@@ -11,7 +12,7 @@ import java.util.List;
  *         <p>
  *         This command instance represents the make command in Logo.
  */
-public class MakeVariable extends CommandParser implements Command {
+public class MakeVariable extends ControlCommand {
 
     private static final int ARGS = 2;
 

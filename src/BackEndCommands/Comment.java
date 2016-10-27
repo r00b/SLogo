@@ -16,7 +16,7 @@ public class Comment implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        return args.get(0).getValue();
+        return node.getChild(0).getValue();
     }
 
     @Override
