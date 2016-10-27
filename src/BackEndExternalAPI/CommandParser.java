@@ -75,7 +75,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
         //double a = root.getCommandObj().executeCommand(root.getChildren());
-        return root.getCommandObj().executeCommand(root.getChildren());
+        return root.getCommandObj().executeCommand(root);
     }
 
     public void printTree(ParseTreeNode r) { // TODO DEBUGGING

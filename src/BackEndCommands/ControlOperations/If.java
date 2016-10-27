@@ -4,6 +4,7 @@ import BackEndCommands.ControlCommand;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
+import org.apache.velocity.runtime.directive.Parse;
 
 import java.util.List;
 
@@ -17,14 +18,14 @@ public class If extends ControlCommand {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-    	ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		Double value1 = arg1.getCommandObj().executeCommand(arg1.getChildren());
+    public double executeCommand(ParseTreeNode node) {
+    	ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		Double value1 = arg1.getCommandObj().executeCommand(arg1);
         if (value1 == 0) {
             return 0;
         } else {
-            return arg2.getCommandObj().executeCommand(arg2.getChildren());
+            return arg2.getCommandObj().executeCommand(arg2);
         }
     }
 

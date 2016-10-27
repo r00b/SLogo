@@ -18,10 +18,10 @@ public class To extends ControlCommand {
     private static final int ARGS = 3;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-    	ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		ParseTreeNode arg3 = args.get(2);
+    public double executeCommand(ParseTreeNode node) {
+    	ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		ParseTreeNode arg3 = node.getChild(2);
         LogoMethod newMethod = new LogoMethod();
         String variableName = arg1.getCommand();
         for (ParseTreeNode p : arg2.getChildren()) {
