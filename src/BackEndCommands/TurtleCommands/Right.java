@@ -3,6 +3,7 @@ package BackEndCommands.TurtleCommands;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the right command
@@ -17,9 +18,11 @@ public class Right extends TurtleCommand {
 	 * Returns the degrees rotated
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		properties.getRotateProperty().set(properties.getRotateProperty().get() % 360 + args.get(0));
-		return args.get(0);
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		double value1 = arg1.executeCommand(arg1);
+		properties.getRotateProperty().set(properties.getRotateProperty().get() % 360 + value1);
+		return value1;
 	}
 
 	@Override

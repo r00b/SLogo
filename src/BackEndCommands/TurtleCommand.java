@@ -4,6 +4,8 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ObservableProperties;
+import BackEndInternalAPI.ParseTreeNode;
+
 
 /**
  * NOTE SHOULD MAKE SET FOR X AND Y THAT TAKE INTO ACCOUNT SIZE TURTLE AND CENTER IT
@@ -14,9 +16,11 @@ import BackEndInternalAPI.ObservableProperties;
  *
  */
 public abstract class TurtleCommand implements Command {
-	protected ObservableProperties properties;
+
+    protected ObservableProperties properties;
+
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

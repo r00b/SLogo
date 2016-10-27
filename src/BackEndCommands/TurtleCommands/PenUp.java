@@ -3,6 +3,7 @@ package BackEndCommands.TurtleCommands;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the PenUp command
@@ -17,7 +18,7 @@ public class PenUp extends TurtleCommand {
 	 * Returns 1
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		properties.getPathVisibleProperty().set(false);
 
 		return 0;

@@ -1,6 +1,7 @@
 package BackEndCommands;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,8 +15,13 @@ public class ListStart implements Command {
     private static final int ARGS = 1;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        return args.get(args.size() - 1);
+    public double executeCommand(ParseTreeNode node) {
+    	List<ParseTreeNode> args = node.getChildren();
+    	double answer = 0;
+    	for (ParseTreeNode child : args) {
+    		answer = child.executeCommand(child);
+    	}
+        return answer;
     }
 
     @Override

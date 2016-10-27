@@ -3,6 +3,7 @@ package BackEndCommands.ControlOperations;
 import BackEndCommands.ControlCommand;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeExecutor;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -16,12 +17,14 @@ public class If extends ControlCommand {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        if (args.get(0) == 0) {
+    public double executeCommand(ParseTreeNode node) {
+    	ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		Double value1 = arg1.getCommandObj().executeCommand(arg1);
+        if (value1 == 0) {
             return 0;
         } else {
-            ParseTreeExecutor executor = new ParseTreeExecutor();
-            return executor.executeTree(executables.get(1));
+            return arg2.getCommandObj().executeCommand(arg2);
         }
     }
 

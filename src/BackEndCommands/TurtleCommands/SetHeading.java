@@ -3,6 +3,7 @@ package BackEndCommands.TurtleCommands;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the SetHeading Command
@@ -17,11 +18,13 @@ public class SetHeading extends TurtleCommand {
 	 * Returns degrees moved. Note that returns the amount of degrees moved clockwise to get to new point
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		double value1 = arg1.executeCommand(arg1);
 		//Need to get actual rotation so use % 
-		double set_degrees = args.get(0) % 360;
+		double set_degrees = value1 % 360;
 		double current_degrees = properties.getRotateProperty().get();
-		properties.getRotateProperty().set(args.get(0));
+		properties.getRotateProperty().set(value1);
 		return Math.abs(set_degrees - current_degrees);
 	}
 

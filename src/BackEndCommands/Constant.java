@@ -1,6 +1,7 @@
 package BackEndCommands;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class Constant implements Command {
     private static final int ARGS = 0;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        return args.get(0);
+    public double executeCommand(ParseTreeNode node) {
+        return Double.parseDouble(node.getCommand());
     }
 
     @Override

@@ -3,6 +3,7 @@ package BackEndCommands.TurtleCommands;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the ShowTurtle Command
@@ -17,7 +18,7 @@ public class ShowTurtle extends TurtleCommand {
 	 * Returns 1
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		properties.getImageVisibleProperty().set(true);
 		return 1;
 	}

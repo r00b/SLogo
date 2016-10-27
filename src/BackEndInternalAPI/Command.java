@@ -11,7 +11,6 @@ import java.util.List;
 public interface Command {
 
 
-
     /**
      * Executes a commandType that is respective to the type of
      * Command instance
@@ -20,7 +19,7 @@ public interface Command {
      *             for the computations
      * @return the result of executing the commandType
      */
-    double executeCommand(List<Double> args);
+    double executeCommand(ParseTreeNode node);
 
     /**
      * Specifies the number of arguments that a Command takes

@@ -3,6 +3,7 @@ package BackEndCommands.BooleanOperations;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the Or command
@@ -16,12 +17,15 @@ public class Or implements Command{
 	 * Returns 1 if one of the arguments doesn't equal 0, 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		double answer = 0;
-		if (args.get(0) != 0 || args.get(1) != 0) {
-			answer++;
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
+        double value1 = arg1.executeCommand(arg1);
+        double value2 = arg2.executeCommand(arg2);
+		if (value1 != 0 || value2 != 0) {
+			return 1;
 		}
-		return answer;
+		return 0;
 	}
 
 	@Override

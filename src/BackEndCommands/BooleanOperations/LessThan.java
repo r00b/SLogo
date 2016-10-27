@@ -1,6 +1,7 @@
 package BackEndCommands.BooleanOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,12 +15,15 @@ public class LessThan implements Command {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        double answer = 0;
-        if (args.get(0) < args.get(1)) {
-            answer++;
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
+        double value1 = arg1.executeCommand(arg1);
+        double value2 = arg2.executeCommand(arg2);
+        if (value1 < value2) {
+            return 1;
         }
-        return answer;
+        return 0;
     }
 
     @Override
