@@ -26,7 +26,7 @@ public abstract class ControlCommand implements Command {
     }
 
     @Override
-    public abstract double executeCommand(List<ParseTreeNode> args);
+    public abstract double executeCommand(ParseTreeNode node);
 
     @Override
     public abstract int numArguments();

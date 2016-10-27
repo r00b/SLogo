@@ -17,11 +17,11 @@ public class Equal implements Command {
 	 * Returns 1 if the two args are equal to each other 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		Double value1 = arg1.executeCommand(arg1.getChildren());
-		Double value2 = arg2.executeCommand(arg2.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		Double value1 = arg1.executeCommand(arg1);
+		Double value2 = arg2.executeCommand(arg1);
 		double answer = 0;
 		if (value1.equals(value2)) {
 			answer++;

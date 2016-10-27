@@ -19,9 +19,10 @@ public class Random implements Command {
 	 * Returns a random double between zero and argument specifiec
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		return Math.random() * arg1.executeCommand(arg1.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double value1 = arg1.executeCommand(arg1);
+		return Math.random() * value1;
 	}
 
 	@Override

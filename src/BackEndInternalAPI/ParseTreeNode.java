@@ -23,8 +23,8 @@ public class ParseTreeNode {
         children = new ArrayList<ParseTreeNode>();
     }
 
-    public double executeCommand(ArrayList<ParseTreeNode> args) {
-        return commandObj.executeCommand(args);
+    public double executeCommand(ParseTreeNode node) {
+        return commandObj.executeCommand(node);
     }
 
     /**
