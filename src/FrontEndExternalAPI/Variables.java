@@ -2,6 +2,9 @@ package FrontEndExternalAPI;
 
 import java.util.ArrayList;
 
+/**
+ * @author Delia
+ */
 public interface Variables {
 //    public Variables ();
 

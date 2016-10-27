@@ -41,7 +41,11 @@ public class GUIConsole implements Console{
             "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
     private ObservableList<String> listOfCommands;
 
-    
+    /**
+     *
+     * @param p
+     * @param borderColor
+     */
     public GUIConsole(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
@@ -50,31 +54,45 @@ public class GUIConsole implements Console{
         addHelpButton();
         addListView();
     }
-    
+
+    /**
+     *
+     * @param text
+     */
     public void addConsole(String text) {
-        
         listOfCommands.add(text);
         list.setItems(listOfCommands);
     }
 
-
+    /**
+     *
+     */
     private void addListView(){
         list = new ListView<String>();
         list.setOrientation(Orientation.VERTICAL);
         list.setTranslateX(20);
-        list.setTranslateY(400);
-        list.setPrefSize(550, 200);
+        list.setTranslateY(380);
+        list.setPrefSize(570, 200);
+        list.opacityProperty().setValue(0.8);
         listOfCommands = FXCollections.observableArrayList();
+        list.setOnMouseEntered(e -> {
+            list.opacityProperty().setValue(0.8);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         window.getChildren().add(list);
     }
 
     @Override
+    /**
+     *
+     */
     public void printResult() {
         
     }
 
     private void drawConsole(){
-        backdrop = new Rectangle(600, 300, Color.WHITE);
+        backdrop = new Rectangle(600, 240, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
         backdrop.setTranslateY(350);
@@ -112,5 +130,4 @@ public class GUIConsole implements Console{
         helpWindow = new ConsoleHelp(s);
         helpWindow.init();
     }
-
 }

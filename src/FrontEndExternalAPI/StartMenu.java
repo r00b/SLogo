@@ -1,5 +1,8 @@
 package FrontEndExternalAPI;
 
+/**
+ * @author Delia
+ */
 public interface StartMenu {
 //    public StartMenu();
 
