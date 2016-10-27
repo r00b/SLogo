@@ -111,6 +111,12 @@ public abstract class OptionsMenu implements Options {
      *
      */
     public void setParameters() {
+        setBackgroundString();
+        setTurtleString();
+        initIDE(chosenBackground, chosenTurtle);
+    }
+
+    public void setBackgroundString(){
         switch (getBackgroundBox().getValue()){
             case "Circuits":
                 chosenBackground = "images/background.jpg";
@@ -128,7 +134,9 @@ public abstract class OptionsMenu implements Options {
                 chosenBackground = "images/spinningScreens.jpg";
                 break;
         }
+    }
 
+    public void setTurtleString(){
         switch (getTurtleBox().getValue()){
             case "Turtle":
                 chosenTurtle = "images/turtle.png";
@@ -147,7 +155,11 @@ public abstract class OptionsMenu implements Options {
                 break;
 
         }
-        initIDE(chosenBackground, chosenTurtle);
+
+    }
+
+    public String getTurtleString(){
+        return chosenTurtle;
     }
 
     /**

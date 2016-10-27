@@ -4,10 +4,12 @@ import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.ConsoleHelp;
 import GUI.DisplayHelp;
+import javafx.scene.control.Button;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -19,9 +21,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+//
+//import java.awt.*;
+//import java.awt.Button;
 import java.awt.*;
-import java.awt.Button;
 import java.util.ArrayList;
 
 /**
@@ -42,6 +45,13 @@ public class GUIDisplay implements RenderSprite {
     private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
 
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+
     /**
      *
      * @param p
@@ -56,6 +66,7 @@ public class GUIDisplay implements RenderSprite {
         addTextLabel();
         addTurtle();
         addHelpButton();
+        addOptionsButton();
     }
 
     private void drawDisplay(){
@@ -88,8 +99,16 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addOptionsButton(){
+        Stage s = new Stage();
+        myOptions = new DisplayMenu(s);
         optionsButton = new Button("Display Options");
-
+        optionsButton.setStyle(overButton);
+        optionsButton.setOnMouseEntered(e -> optionsButton.setStyle(buttonFill));
+        optionsButton.setOnMouseExited(e -> optionsButton.setStyle(overButton));
+        optionsButton.setOnMouseClicked(e -> updateDisplayOptions());
+        optionsButton.setTranslateX(760);
+        optionsButton.setTranslateY(120);
+        window.getChildren().add(optionsButton);
     }
 
     private void addHelpButton(){
@@ -231,14 +250,28 @@ public class GUIDisplay implements RenderSprite {
 
     @Override
     public void updateDisplayOptions() {
-        Stage s = new Stage();
-        myOptions = new DisplayMenu(s);
         myOptions.initPopup();
 
     }
 
     private void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
+//        applyDisplayChanges(myOptions.getTurtleBox().getValue());
+        makeTurtleChanges();
+    }
+
+    private void makeTurtleChanges(){
+        myOptions.setTurtleString();
+//        double x = myTurtle.getTranslateX();
+//        double y = myTurtle.getTranslateY();
+//        window.getChildren().remove(myTurtle);
+        myTurtle.setImage(myOptions.generateTurtleImage());
+//        myTurtle = myOptions.getChosenTurtle();
+//        myTurtle.setFitHeight(TURTLE_FIT_SIZE);
+//        myTurtle.setFitWidth(TURTLE_FIT_SIZE);
+//        myTurtle.setTranslateX(x);
+//        myTurtle.setTranslateY(y);
+//        window.getChildren().add(myTurtle);
     }
 
     @Override
@@ -267,11 +300,14 @@ public class GUIDisplay implements RenderSprite {
 
         @Override
         public void addLaunchButton() {
-            javafx.scene.control.Button newButton = new javafx.scene.control.Button("Apply");
+            Button newButton = new javafx.scene.control.Button("Apply");
             newButton.setStyle(getOverButton());
             newButton.setOnMouseEntered(e -> newButton.setStyle(getButtonFill()));
             newButton.setOnMouseExited(e -> newButton.setStyle(getOverButton()));
-//            newButton.setOnMouseClicked(e -> );
+            newButton.setOnMouseClicked(e -> {
+                applyDisplayChanges();
+                getStage().close();
+            });
             newButton.setTranslateX(300);
             newButton.setTranslateY(500);
 //        newButton.setOnMouseClicked(e -> setParameters());
@@ -283,6 +319,11 @@ public class GUIDisplay implements RenderSprite {
 
         }
 
+        public Image generateTurtleImage(){
+            Image newImg = new Image(getClass().getClassLoader()
+                    .getResourceAsStream(getTurtleString()));
+            return newImg;
+        }
 
         /**
          *
