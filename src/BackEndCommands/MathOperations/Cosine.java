@@ -1,6 +1,7 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class Cosine implements Command {
 	 * Returns cos of angle of degrees
 	 */
     @Override
-    public double executeCommand(List<Double> args) {
-    	return Math.cos(Math.toRadians(args.get(0)));
+    public double executeCommand(List<ParseTreeNode> args) {
+        ParseTreeNode arg1 = args.get(0);
+        return Math.cos(arg1.executeCommand(arg1.getChildren()));
     }
 
     @Override

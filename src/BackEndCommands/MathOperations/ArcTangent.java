@@ -1,6 +1,7 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -10,12 +11,14 @@ import java.util.List;
  *         This command instance represents the atan command in Logo.
  */
 public class ArcTangent implements Command {
+
     private static final int ARGS = 1;
 
     @Override
-    public double executeCommand(List<Double> args) {
+    public double executeCommand(List<ParseTreeNode> args) {
         //Still need to account for zero argument
-        return Math.atan(args.get(0));
+        ParseTreeNode arg1 = args.get(0);
+        return Math.atan(arg1.executeCommand(arg1.getChildren()));
     }
 
     @Override

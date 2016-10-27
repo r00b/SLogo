@@ -3,6 +3,8 @@ package BackEndCommands.MathOperations;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
+import groovyjarjarantlr.ParseTree;
 
 
 /**
@@ -18,8 +20,10 @@ public class Minus implements Command {
 	 * Returns the negated value of the argument
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		return args.get(0) * -1;
+	public double executeCommand(List<ParseTreeNode> args) {
+		ParseTreeNode arg1 = args.get(0);
+		return arg1.executeCommand(arg1.getChildren()) * -1;
+
 	}
 
 	@Override

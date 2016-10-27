@@ -1,6 +1,8 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
+import org.apache.velocity.runtime.directive.Parse;
 
 import java.util.List;
 
@@ -17,8 +19,9 @@ public class Sine implements Command {
 	 * Returns the sin with angle being the arg given
 	 */
     @Override
-    public double executeCommand(List<Double> args) {
-        return Math.sin(Math.toRadians(args.get(0)));
+    public double executeCommand(List<ParseTreeNode> args) {
+        ParseTreeNode arg1 = args.get(0);
+        return Math.sin(Math.toRadians(arg1.executeCommand(arg1.getChildren())));
     }
 
     @Override
