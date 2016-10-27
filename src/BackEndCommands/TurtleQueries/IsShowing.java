@@ -6,11 +6,11 @@ import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
 /**
- * Executes the Showing command
+ * Executes the IsShowing command
  * @author ezra
  *
  */
-public class Showing extends TurtleCommand {
+public class IsShowing extends TurtleCommand {
 	private static final int ARGS = 0;
 	
 	/**

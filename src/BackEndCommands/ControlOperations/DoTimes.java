@@ -6,6 +6,7 @@ import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Robert H. Steilberg II
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class DoTimes extends ControlCommand {
 
+    private Map<String, Double> variables;
     private static final int ARGS = 2;
 
     @Override

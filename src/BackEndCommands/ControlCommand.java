@@ -15,7 +15,15 @@ import java.util.Map;
 public abstract class ControlCommand implements Command {
 
    // protected List<ParseTreeNode> executables;
-    protected Map<String, Double> variables = new HashMap<String, Double>();
+    private Map<String, Double> myVariables;
+
+    public void setVariables(Map<String, Double> vars) {
+        myVariables = vars;
+    }
+
+    protected Map<String, Double> getVariables() {
+        return myVariables;
+    }
 
     @Override
     public abstract double executeCommand(List<ParseTreeNode> args);

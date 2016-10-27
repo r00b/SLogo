@@ -1,14 +1,15 @@
 package BackEndInternalAPI;
 
 import BackEndCommands.Constant;
+import BackEndCommands.ControlOperations.Variable;
 import BackEndCommands.ListStart;
 import BackEndCommands.NoType;
 import BackEndCommands.TurtleCommand;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import static BackEndExternalAPI.CommandParser.myMethodVariables;
-import static BackEndExternalAPI.CommandParser.myMethods;
 
 /**
  * @author Robert H. Steilberg II
@@ -26,6 +27,12 @@ public class ParseTreeBuilder {
     private static String COMMANDTYPES_PATH = "resources/internal/CommandTypes";
     private static ResourceBundle myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
     private static ObservableProperties myProperties;
+
+    private Map<String, Double> myVariables;
+
+    public ParseTreeBuilder(Map<String, Double> variables) {
+        myVariables = variables;
+    }
 
     public static void setProperties(ObservableProperties properties) {
         myProperties = properties;
@@ -70,12 +77,13 @@ public class ParseTreeBuilder {
      * @return a ParseTreeNode holding the defined method
      */
     private ParseTreeNode buildMethodTree(LogoMethod method) {
-        myCommandIndex++;
-        for (int i = 0; i < method.numArguments(); i++) {
-            myMethodVariables.put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex]));
-            myCommandIndex++;
-        }
-        return method.getMethod();
+//        myCommandIndex++;
+//        for (int i = 0; i < method.numArguments(); i++) {
+//            myMethodVariables.put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex]));
+//            myCommandIndex++;
+//        }
+//        return method.getMethod();
+        return null;
     }
 
     /**
@@ -125,7 +133,7 @@ public class ParseTreeBuilder {
 //        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
 //            return buildList(newChild);
 //        }
-        if (isConstant(newChild)) {
+        if (isConstant(newChild) || newChild.getCommandObj().getClass() == Variable.class) {
             ParseTreeNode constNode = new ParseTreeNode();
             constNode.setValue(Double.parseDouble(currCommand));
             newChild.addChild(constNode);

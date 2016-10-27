@@ -6,7 +6,7 @@ import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
 /**
- * Executes PenDown command
+ * Executes IsPenDown command
  * @author ezra
  *
  */

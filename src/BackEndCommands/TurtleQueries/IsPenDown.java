@@ -6,11 +6,11 @@ import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
 /**
- * Executes the PenDown command
+ * Executes the IsPenDown command
  * @author ezra
  *
  */
-public class PenDown extends TurtleCommand {
+public class IsPenDown extends TurtleCommand {
 	private static final int ARGS = 0;
 	@Override
 	

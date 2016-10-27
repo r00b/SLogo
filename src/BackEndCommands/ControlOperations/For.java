@@ -5,6 +5,7 @@ import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Robert H. Steilberg II
@@ -12,6 +13,7 @@ import java.util.List;
  *         This command instance represents a dotimes statement in Logo.
  */
 public class For extends ControlCommand {
+    private Map<String, Double> variables;
 
     private static final int ARGS = 2;
 
