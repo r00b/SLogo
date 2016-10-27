@@ -15,9 +15,10 @@ public class NaturalLog implements Command {
     private static final int ARGS = 1;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-        ParseTreeNode arg1 = args.get(0);
-        return Math.log(arg1.executeCommand(arg1.getChildren()));
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double value1 = arg1.executeCommand(arg1);
+        return Math.log(value1);
     }
 
     @Override

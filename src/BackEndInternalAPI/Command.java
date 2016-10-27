@@ -11,7 +11,6 @@ import java.util.List;
 public interface Command {
 
 
-
     /**
      * Executes a commandType that is respective to the type of
      * Command instance

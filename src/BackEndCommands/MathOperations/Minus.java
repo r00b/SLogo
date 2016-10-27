@@ -19,9 +19,10 @@ public class Minus implements Command {
 	 * Returns the negated value of the argument
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		return arg1.executeCommand(arg1.getChildren()) * -1;
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double value1 = arg1.executeCommand(arg1);
+        return value1 * -1;
 
 	}
 

@@ -17,15 +17,15 @@ public class IfElse extends ControlCommand {
     private static final int ARGS = 3;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-    	ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		ParseTreeNode arg3 = args.get(2);
-		Double value1 = arg1.getCommandObj().executeCommand(arg1.getChildren());
+    public double executeCommand(ParseTreeNode node) {
+    	ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		ParseTreeNode arg3 = node.getChild(2);
+		Double value1 = arg1.getCommandObj().executeCommand(arg1);
         if (value1 == 0) {
-            return arg3.getCommandObj().executeCommand(arg3.getChildren());
+            return arg3.getCommandObj().executeCommand(arg3);
         } else {
-            return arg2.getCommandObj().executeCommand(arg2.getChildren());
+            return arg2.getCommandObj().executeCommand(arg2);
         }
     }
 

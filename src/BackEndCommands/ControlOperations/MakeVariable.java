@@ -16,11 +16,11 @@ public class MakeVariable extends CommandParser implements Command {
     private static final int ARGS = 2;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-        ParseTreeNode arg1 = args.get(0);
-        ParseTreeNode arg2 = args.get(1);
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
         String varName = arg1.getCommand();
-        double varVal = arg2.executeCommand(arg2.getChildren());
+        double varVal = arg2.executeCommand(arg2);
         getVariables().put(varName,varVal);
         return 1;
     }

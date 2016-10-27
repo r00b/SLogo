@@ -18,12 +18,12 @@ public class NotEqual implements Command{
 	 * Returns 1 if the two commands are not equal 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-        ParseTreeNode arg1 = args.get(0);
-        ParseTreeNode arg2 = args.get(1);
-        Double ans1 = arg1.executeCommand(arg1.getChildren());
-        Double ans2 = arg2.executeCommand(arg2.getChildren());
-        if (ans1.equals(ans2)) {
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
+        Double value1 = arg1.executeCommand(arg1);
+        Double value2 = arg2.executeCommand(arg2);
+        if (value1.equals(value2)) {
             return 0;
         }
         return 1;

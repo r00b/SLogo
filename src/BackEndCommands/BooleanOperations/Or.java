@@ -4,6 +4,7 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
+import org.apache.velocity.runtime.directive.Parse;
 
 /**
  * Executes the Or command
@@ -17,12 +18,12 @@ public class Or implements Command{
 	 * Returns 1 if one of the arguments doesn't equal 0, 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		Double ans1 = arg1.executeCommand(arg1.getChildren());
-		Double ans2 = arg2.executeCommand(arg2.getChildren());
-		if (ans1 != 0 || ans2 != 0) {
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
+        double value1 = arg1.executeCommand(arg1);
+        double value2 = arg2.executeCommand(arg2);
+		if (value1 != 0 || value2 != 0) {
 			return 1;
 		}
 		return 0;

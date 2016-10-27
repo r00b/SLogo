@@ -18,7 +18,7 @@ public class Pi implements Command {
 	 * Returns the value of Pi
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return Math.PI;
 	}
 
