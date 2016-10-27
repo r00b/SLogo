@@ -1,7 +1,7 @@
 package BackEndCommands.TurtleCommands;
 
 import java.util.List;
-
+import BackEndInternalAPI.ParseTreeNode;
 import BackEndCommands.TurtleCommand;
 /**
  * Executes the Towards command
@@ -16,10 +16,15 @@ public class Towards extends TurtleCommand{
 	 * Returns the degrees the image rotates to get to new point clockwise
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		double degrees = calculateDegrees(args.get(0), args.get(1));
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		double value1 = arg1.executeCommand(arg1);
+		double value2 = arg2.executeCommand(arg2);
+		double degrees = calculateDegrees(value1, value2);
+		double oldDegrees = properties.getRotateProperty().get();
 		properties.getRotateProperty().set(degrees);
-		return Math.abs(degrees - properties.getRotateProperty().get());
+		return Math.abs(degrees - oldDegrees);
 	}
 	@Override
 	public int numArguments() {

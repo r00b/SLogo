@@ -1,6 +1,7 @@
 package BackEndCommands.BooleanOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -16,12 +17,13 @@ public class Not implements Command{
 	 * Returns 1 if the arg is zero 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		double answer = 0;
-		if (args.get(0) == 0) {
-			answer++;
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double value1 = arg1.executeCommand(arg1);
+		if (value1 == 0) {
+			return 1;
 		}
-		return answer;
+		return 0;
 	}
 
     @Override

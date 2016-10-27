@@ -1,6 +1,7 @@
 package BackEndCommands;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,8 +15,10 @@ public class ListEnd implements Command {
     private static final int ARGS = 0;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        return args.get(args.size() - 1);
+    public double executeCommand(ParseTreeNode node) {
+    	//TODO DO we need this
+    	List<ParseTreeNode> args = node.getChildren();
+        return args.get(args.size() - 1).getValue();
     }
 
     @Override

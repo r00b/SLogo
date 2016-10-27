@@ -1,6 +1,7 @@
 package BackEndCommands.BooleanOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -10,18 +11,22 @@ import java.util.List;
  *
  */
 public class NotEqual implements Command{
+
 	private static final int ARGS = 2;
 	
 	/**
 	 * Returns 1 if the two commands are not equal 0 otherwise
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		double answer = 0;
-		if (!(args.get(0).equals(args.get(1)))) {
-			answer++;
-		}
-		return answer;
+	public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        ParseTreeNode arg2 = node.getChild(1);
+        Double value1 = arg1.executeCommand(arg1);
+        Double value2 = arg2.executeCommand(arg2);
+        if (value1.equals(value2)) {
+            return 0;
+        }
+        return 1;
 	}
 
     @Override

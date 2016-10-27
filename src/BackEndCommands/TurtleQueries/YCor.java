@@ -3,6 +3,7 @@ package BackEndCommands.TurtleQueries;
 import java.util.List;
 
 import BackEndCommands.TurtleCommand;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the YCor command
@@ -16,7 +17,7 @@ public class YCor extends TurtleCommand {
 	 * Gets the y property value and returns it
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return properties.getYProperty();
 	}
 

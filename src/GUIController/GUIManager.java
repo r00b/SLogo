@@ -261,8 +261,7 @@ public class GUIManager implements GUIController {
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
                 myHistory.addCommand(splitCommands[i]);
-                commandParser.getAction(splitCommands[i]);
-                myConsole.addConsole("" + commandParser.getMyResult());
+                myConsole.addConsole("" + commandParser.getAction(splitCommands[i]));
                 Set<String> keyset = commandParser.getVariables().keySet();
                 for(String s : keyset){
                     myVariables.addVariable(s, commandParser.getVariables().get(s));
