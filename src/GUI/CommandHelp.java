@@ -1,6 +1,7 @@
 package GUI;
 
 //import com.sun.org.apache.xerces.internal.util.URI;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +17,7 @@ import java.net.*;
  * Created by Delia on 10/26/2016.
  */
 public class CommandHelp extends HelpMenu {
+    private Alert alert;
 
     private String instructions = "For help on commands, check this link for a complete list. \n";
     private String inst1 = "For commands in the extension, follow this link.";
@@ -63,16 +65,30 @@ public class CommandHelp extends HelpMenu {
             else{
                 Desktop.getDesktop().browse(new URI("http://www.cs.duke.edu/courses/compsci308/fall16/assign/03_slogo/commands2_J2W.php"));
             }
-            System.out.println("url clicked");
+//            errorPopup("url clicked");
         }
         catch (MalformedURLException e) {
-            System.out.println("malformed thrown");
+            errorPopup("This URL is not formed correctly. MalformedURLException.");
         }
         catch (IOException e) {
-            System.out.println("IO thrown");
+            errorPopup("The IO of this URL is incorrect. IOException.");
         }
         catch (URISyntaxException e) {
-            System.out.println("Syntax thrown");
+            errorPopup("The syntax of this URL is incorrect. URISyntaxException.");
         }
+    }
+
+    /**
+     * Generates error popup window displaying message for why the value is wrong.
+     * Notifies user that default value will be used instead
+     * @param errorText		String describing the error
+     */
+    private void errorPopup(String errorText) {
+        alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("XML Error");
+
+        String s = errorText;
+        alert.setContentText(s);
+        alert.showAndWait();
     }
 }
