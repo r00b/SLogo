@@ -23,8 +23,6 @@ public abstract class ControlCommand implements Command {
     @Override
     public abstract int numArguments();
 
-    public void setExecutables(List<ParseTreeNode> rootsToAdd) {
-        executables = rootsToAdd;
-    }
+
 
 }
