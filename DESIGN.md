@@ -1,6 +1,8 @@
 #Design Overview
 Robert Steilberg | rhs16
 Delia Li | dl202
+Ezria Lieblich | eml36
+Grayson Wise | gkw
 
 
 ##Introduction
