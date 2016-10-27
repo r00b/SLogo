@@ -1,6 +1,7 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -17,8 +18,10 @@ public class Quotient implements Command {
 	 * Returns the first argument divided by the second argument
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		return args.get(0) / args.get(1);
+	public double executeCommand(List<ParseTreeNode> args) {
+		ParseTreeNode arg1 = args.get(0);
+		ParseTreeNode arg2 = args.get(1);
+		return arg1.executeCommand(arg1.getChildren()) / arg2.executeCommand(arg2.getChildren());
 	}
 
 	@Override

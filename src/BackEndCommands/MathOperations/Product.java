@@ -3,6 +3,7 @@ package BackEndCommands.MathOperations;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 
 /**
@@ -11,14 +12,17 @@ import BackEndInternalAPI.Command;
  *
  */
 public class Product implements Command {
+
 	private static final int ARGS = 2;
 	
 	/**
 	 * Returns the two arguments multiplied by each other
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
-		return args.get(0) * args.get(1);
+	public double executeCommand(List<ParseTreeNode> args) {
+        ParseTreeNode arg1 = args.get(0);
+        ParseTreeNode arg2 = args.get(1);
+        return arg1.executeCommand(arg1.getChildren()) * arg2.executeCommand(arg2.getChildren());
 	}
 
     @Override

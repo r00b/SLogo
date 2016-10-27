@@ -1,6 +1,8 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
+import org.apache.velocity.runtime.directive.Parse;
 
 import java.util.List;
 
@@ -17,8 +19,9 @@ public class Tangent implements Command {
 	 * Returns the tan of the arg angle in degrees
 	 */
     @Override
-    public double executeCommand(List<Double> args) {
-        return Math.tan(Math.toRadians(args.get(0)));
+    public double executeCommand(List<ParseTreeNode> args) {
+        ParseTreeNode arg1 = args.get(0);
+        return Math.tan(Math.toRadians(arg1.executeCommand(arg1.getChildren())));
     }
 
     @Override
