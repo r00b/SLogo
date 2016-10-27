@@ -15,15 +15,29 @@ public class HistoryHelp extends HelpMenu {
             "\nPress the Add button in the Variables box to add a \n\tnew variable." +
             "\nPress the Clear button in the Variables box to clear variables.";
 
+    /**
+     *
+     * @param s
+     */
     public HistoryHelp(Stage s) {
         super(s);
     }
 
+    /**
+     *
+     */
     public void addNodes(){
         getWindow().getChildren().add(addRectangle());
         getWindow().getChildren().add(addTip(instructions, 110, 110));
     }
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @return
+     */
     public Text addTip(String text, int x, int y){
         Text instructionText = new Text(text);
         instructionText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));

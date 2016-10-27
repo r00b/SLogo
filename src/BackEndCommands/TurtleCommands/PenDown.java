@@ -19,7 +19,8 @@ public class PenDown extends TurtleCommand {
 	@Override
 	public double executeCommand(List<Double> args) {
 		properties.getPathVisibleProperty().set(true);
-		return 0;
+
+		return 1;
 	}
 
 	@Override

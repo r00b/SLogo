@@ -34,6 +34,11 @@ public class GUIEditor implements Editor {
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    /**
+     *
+     * @param p
+     * @param borderColor
+     */
     public GUIEditor(Pane p, Paint borderColor) {
         this.window = p;
         this.border = borderColor;
@@ -44,6 +49,9 @@ public class GUIEditor implements Editor {
 //        addRunButton();
     }
 
+    /**
+     *
+     */
     private void drawEditor(){
         backdrop = new Rectangle(970, 280, Color.WHITE);
         backdrop.setStroke(border);
@@ -124,16 +132,26 @@ public class GUIEditor implements Editor {
         window.getChildren().add(run);
     }
 
+    /**
+     *
+     * @return
+     */
     public Rectangle getBackdrop(){
         return backdrop;
     }
 
-
+    /**
+     *
+     */
     public void startNewCommand(){
-
         textArea.setText(textArea.getText() + "\n> ");
     }
 
+    /**
+     *
+     * @param width
+     * @param height
+     */
     public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
         textArea.prefWidthProperty().bind(width.subtract(650));
         textArea.prefHeightProperty().bind(height.subtract(660));
@@ -141,10 +159,17 @@ public class GUIEditor implements Editor {
     }
 
     @Override
+    /**
+     *
+     */
     public String getCurrentText() {
         return textArea.getText();
     }
-    
+
+    /**
+     *
+     * @param str
+     */
     public void redoCommand(String str) {
         textArea.setText(textArea.getText() + "\n> " + str);
     }

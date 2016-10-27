@@ -1,10 +1,19 @@
 package GUIController;
 
 import FrontEndExternalAPI.Variables;
-import GUI.EditorHelp;
 import GUI.VariablesHelp;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -16,6 +25,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javafx.event.Event;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +37,14 @@ public class GUIVariables implements Variables {
     private Rectangle backdrop;
     private VariablesHelp helpWindow;
     private TableView table = new TableView();
+    private TableColumn variableNameCol, valueCol;
+    private final ObservableList<Variable> data = FXCollections.observableArrayList();
 
+    /**
+     *
+     * @param p
+     * @param bodercolor
+     */
     public GUIVariables(Pane p, Paint bodercolor){
         this.window = p;
         this.border = bodercolor;
@@ -35,6 +52,7 @@ public class GUIVariables implements Variables {
         addTextLabel();
         addHelpButton();
         createTableView();
+        addVariableManually();
     }
 
     private void drawVariables(){
@@ -78,36 +96,162 @@ public class GUIVariables implements Variables {
     }
 
     private void createTableView(){
-        table.setEditable(true);
-
-        TableColumn variableNameCol = new TableColumn("Variable Name");
-        variableNameCol.setPrefWidth(200);
-        TableColumn variableTypeCol = new TableColumn("Variable Type");
-        variableTypeCol.setPrefWidth(200);
-        TableColumn valueCol = new TableColumn("Value");
-        valueCol.setPrefWidth(170);
-
-        table.getColumns().addAll(variableNameCol, variableTypeCol, valueCol);
+        //WHY CANT I GET THIS TO BE FUCKING EDITABLE
+        variableNameCol = new TableColumn("Variable Name");
+        variableNameCol.setPrefWidth(250);
+        variableNameCol.setCellValueFactory(
+                new PropertyValueFactory<Variable, String>("variableName"));
+        variableNameCol.setEditable(true);
+        variableNameCol.setOnEditCommit(
+                new EventHandler<CellEditEvent<Variable, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<Variable, String> t) {
+                        ((Variable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setVariableName(t.getNewValue());
+                    }
+                }
+        );
+        valueCol = new TableColumn("Value");
+        valueCol.setPrefWidth(250);
+        valueCol.setCellValueFactory(
+                new PropertyValueFactory<Variable, Double>("variableValue"));
+        valueCol.setEditable(true);
+        valueCol.setOnEditCommit(
+                new EventHandler<CellEditEvent<Variable, Double>>() {
+                    @Override
+                    public void handle(CellEditEvent<Variable, Double> t) {
+                        ((Variable) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())
+                        ).setVariableValue(t.getNewValue());
+                    }
+                }
+        );
+        table.getColumns().addAll(variableNameCol, valueCol);
         table.setTranslateX(20);
         table.setTranslateY(140);
         table.setPrefSize(570, 190);
         table.opacityProperty().setValue(0.5);
+        table.setItems(data);
         table.setOnMouseEntered(e -> {
             table.opacityProperty().setValue(0.8);
             backdrop.opacityProperty().setValue(0.8);
         });
         table.setOnMouseExited(e -> table.opacityProperty().setValue(0.5));
-
         window.getChildren().add(table);
     }
 
     @Override
-    public void addVariable(String name, String value) {
-//        table.
+    /**
+     *
+     */
+    public void addVariable(String name, double value) {
+        boolean contains = false;
+        for(int i = 0; i < data.size(); i++){
+            if(data.get(i).getVariableName().equals(name.substring(1))){
+                contains = true;
+                data.get(i).setVariableValue(value);
+                System.out.println("the value is " + value);
+                break;
+            }
+        }
+        if(!contains) {
+            data.add(new Variable(name.substring(1), value));
+        }
+        table.setItems(data);
+
+        table.setEditable(true);
+        System.out.println("the data is " + data.size());
+    }
+
+    private void addVariableManually(){
+        final TextField addFirstName = new TextField();
+        addFirstName.setPromptText("Variable name");
+        addFirstName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
+        addFirstName.setTranslateX(50);
+        addFirstName.setTranslateY(310);
+        final TextField addLastName = new TextField();
+        addLastName.setMaxWidth(valueCol.getPrefWidth() - 30);
+        addLastName.setPromptText("Variable value");
+        addLastName.setTranslateX(300);
+        addLastName.setTranslateY(310);
+        final TextField addEmail = new TextField();
+
+        final Button addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                data.add(new Variable(addFirstName.getText(),
+                        Double.parseDouble(addLastName.getText())));
+                addFirstName.clear();
+                addLastName.clear();
+            }
+        });
+        addButton.setTranslateX(520);
+        addButton.setTranslateY(310);
+        table.setEditable(true);
+
+        window.getChildren().addAll(addFirstName, addLastName, addButton);
     }
 
     @Override
+    /**
+     *
+     */
     public ArrayList<Integer> getAllVariables() {
         return null;
+    }
+
+    /**
+     *
+     */
+    public static class Variable {
+
+        private final SimpleStringProperty variableName;
+        private final SimpleDoubleProperty variableValue;
+//        private final SimpleStringProperty email;
+
+        /**
+         *
+         * @param vName
+         * @param vValue
+         */
+        private Variable(String vName, double vValue) {
+            this.variableName = new SimpleStringProperty(vName);
+            this.variableValue = new SimpleDoubleProperty(vValue);
+//            this.email = new SimpleStringProperty(email);
+        }
+
+        /**
+         *
+         * @return
+         */
+        public String getVariableName() {
+            return variableName.get();
+        }
+
+        /**
+         *
+         * @param fName
+         */
+        public void setVariableName(String fName) {
+            variableName.set(fName);
+        }
+
+        /**
+         *
+         * @return
+         */
+        public double getVariableValue() {
+            return variableValue.get();
+        }
+
+        /**
+         *
+         * @param fName
+         */
+        public void setVariableValue(double fName) {
+            variableValue.set(fName);
+        }
     }
 }

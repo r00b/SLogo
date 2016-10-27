@@ -23,7 +23,7 @@ public class HelpMenu {
     private static final int X_POS_BUTTON = 150;
     private Stage myStage;
     private Pane helpWindow;
-    private HelpMenu editorHelp, historyHelp, variablesHelp, consoleHelp, displayHelp;
+    private HelpMenu editorHelp, historyHelp, variablesHelp, consoleHelp, displayHelp, commandHelp;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -31,16 +31,29 @@ public class HelpMenu {
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    //desktop.getDesktop().browse(new URI("http://...");
+
+    /**
+     *
+     * @param s
+     */
     public HelpMenu(Stage s){
         myStage = s;
     }
 
+    /**
+     *
+     */
     public void init(){
         myStage.setTitle("Help");
         myStage.setScene(new Scene(setUpWindow()));
         myStage.show();
     }
 
+    /**
+     *
+     * @return
+     */
     public Parent setUpWindow(){
         helpWindow = new Pane();
         helpWindow.setPrefSize(HELP_MENU_WIDTH, HELP_MENU_HEIGHT);
@@ -55,15 +68,10 @@ public class HelpMenu {
         return helpWindow;
     }
 
+    /**
+     *
+     */
     public void addNodes(){
-//        helpWindow.getChildren().addAll(addButton("IDE Style and color", X_POS_BUTTON, 200),
-//                addButton("Editor", X_POS_BUTTON, 250),
-//                addButton("Variables", X_POS_BUTTON, 300),
-//                addButton("History", X_POS_BUTTON, 350),
-//                addButton("Commands", X_POS_BUTTON + 300, 200),
-//                addButton("Display", X_POS_BUTTON + 300, 250),
-//                addButton("Controls", X_POS_BUTTON + 300, 300));
-
         Text titleText = new Text("Which option do you need help with?");
         titleText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         titleText.setFill(Color.WHITE);
@@ -79,12 +87,21 @@ public class HelpMenu {
         display.setOnMouseClicked(e -> displayHandler());
         Button console = addButton("Console", X_POS_BUTTON + 300, 300);
         console.setOnMouseClicked(e -> consoleHandler());
+        Button commands = addButton("Commands", X_POS_BUTTON + 300, 350);
+        commands.setOnMouseClicked(e -> commandHandler());
 
         helpWindow.getChildren().add(addRectangle());
         helpWindow.getChildren().add(titleText);
-        helpWindow.getChildren().addAll(editor, variables, history, display, console);
+        helpWindow.getChildren().addAll(editor, variables, history, display, console, commands);
     }
 
+    /**
+     *
+     * @param text
+     * @param x
+     * @param y
+     * @return
+     */
     public Button addButton(String text, int x, int y){
         Button newButton;
         newButton = new Button(text);
@@ -98,6 +115,10 @@ public class HelpMenu {
         return newButton;
     }
 
+    /**
+     *
+     * @return
+     */
     public Rectangle addRectangle(){
         Rectangle backdrop = new Rectangle(520, 410, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(70);
@@ -136,10 +157,24 @@ public class HelpMenu {
         consoleHelp.init();
     }
 
+    private void commandHandler(){
+        Stage s = new Stage();
+        commandHelp = new CommandHelp(s);
+        commandHelp.init();
+    }
+
+    /**
+     *
+     * @return
+     */
     public Stage getStage(){
         return myStage;
     }
 
+    /**
+     *
+     * @return
+     */
     public Pane getWindow(){
         return helpWindow;
     }
