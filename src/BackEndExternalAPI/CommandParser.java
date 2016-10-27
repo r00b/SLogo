@@ -16,15 +16,11 @@ import java.util.ResourceBundle;
 public class CommandParser { // TODO DE STATIC EVERYTHING
 
     private static final String SETTINGS_PATH = "resources/internal/Settings";
-    private static double myResult = 0;
     protected static HashMap<String, Double> myVariables = new HashMap<String, Double>();
     public static HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
     public static HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
     public static ObservableProperties myProperties;
 
-//    public CommandParser(ObservableProperties properties) {
-//        myProperties = properties;
-//    }
 
     public HashMap<String, Double> getVariables() {
         return myVariables;
@@ -67,16 +63,14 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
             return 0.0;
         }
         ParseTreeBuilder builder = new ParseTreeBuilder();
-        ParseTreeExecutor executor = new ParseTreeExecutor();
+        builder.setProperties(myProperties);
+
+//        ParseTreeExecutor executor = new ParseTreeExecutor();
         //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        myResult = executor.executeTree(root); // TODO DEBUGGING
-        myMethodVariables.clear();
-        System.out.println("===============================================================");
-        System.out.println(myResult);
-        System.out.println("===============================================================");
-        return myResult;
+        double a = root.getCommandObj().executeCommand(root.getChildren());
+        return root.getCommandObj().executeCommand(root.getChildren());
     }
 
     public void printTree(ParseTreeNode r) { // TODO DEBUGGING
@@ -86,16 +80,11 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
     }
 
-    public double getMyResult(){
-        return myResult;
-    }
 
 //    public static void main(String[] args) { // TODO DEBUGGING
-////        System.out.println(getAction("TO fuck [ :a :b ] [ product :a :b ]"));
-//////        System.out.println("===============================================================");
-////          System.out.println(getAction("fuck 2 3"));
-//////        System.out.println(getAction("fuck 5 3"));
-////    System.out.println(getAction("FOR [ :i 10 20 2 ] [ sum :i 0 ]"));
+//        System.out.println("===============================================================");
+//
+//        System.out.println("===============================================================");
 //
 //    }
 }

@@ -3,6 +3,9 @@ package BackEndInternalAPI;
 import BackEndCommands.Constant;
 import BackEndCommands.ListStart;
 import BackEndCommands.NoType;
+import BackEndCommands.TurtleCommand;
+
+import java.util.ResourceBundle;
 
 import static BackEndExternalAPI.CommandParser.myMethodVariables;
 import static BackEndExternalAPI.CommandParser.myMethods;
@@ -19,6 +22,14 @@ public class ParseTreeBuilder {
     CommandTypeDetector myDetector;
     private String[] myCommands;
     private int myCommandIndex;
+
+    private static String COMMANDTYPES_PATH = "resources/internal/CommandTypes";
+    private static ResourceBundle myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
+    private static ObservableProperties myProperties;
+
+    public static void setProperties(ObservableProperties properties) {
+        myProperties = properties;
+    }
 
     /**
      * Create a new ParseTreeNode and initialize the command, command type,
@@ -56,13 +67,12 @@ public class ParseTreeBuilder {
      *
      * @param method is the LogoMethod containing information about the
      *               previously defined Logo function
-     *
      * @return a ParseTreeNode holding the defined method
      */
     private ParseTreeNode buildMethodTree(LogoMethod method) {
         myCommandIndex++;
-        for (int i = 0; i < method.numArguments(); i ++) {
-            myMethodVariables.put(method.getArgument(i),Double.parseDouble(myCommands[myCommandIndex]));
+        for (int i = 0; i < method.numArguments(); i++) {
+            myMethodVariables.put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex]));
             myCommandIndex++;
         }
         return method.getMethod();
@@ -90,6 +100,9 @@ public class ParseTreeBuilder {
         return node.getCommandObj().getClass() == NoType.class;
     }
 
+    private void addTurtleProperties(ParseTreeNode currNode) {
+        ((TurtleCommand) currNode.getCommandObj()).setProperties(myProperties);
+    }
 
     /**
      * Recursively builds a parse tree by iterating through a String array
@@ -101,18 +114,26 @@ public class ParseTreeBuilder {
     private ParseTreeNode buildParseTree() {
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
-        if (isNoType(newChild) && myMethods.get(newChild.getCommand()) != null) { // calling a method
-            return buildMethodTree(myMethods.get(currCommand));
+
+        if (myCommandTypes.getString(newChild.getCommandType()).equals("Turtle")) {
+            addTurtleProperties(newChild);
         }
-        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
-            return buildList(newChild);
-        }
+
+//        if (isNoType(newChild) && myMethods.get(newChild.getCommand()) != null) { // calling a method
+//            return buildMethodTree(myMethods.get(currCommand));
+//        }
+//        if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
+//            return buildList(newChild);
+//        }
         if (isConstant(newChild)) {
-            newChild.setValue(Double.parseDouble(currCommand));
+            ParseTreeNode constNode = new ParseTreeNode();
+            constNode.setValue(Double.parseDouble(currCommand));
+            newChild.addChild(constNode);
+            return newChild;
         }
-        if (isNoType(newChild)) { // part of a TO call
-            newChild.setValue(0.0);
-        }
+//        if (isNoType(newChild)) { // part of a TO call
+//            newChild.setValue(0.0);
+//        }
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }

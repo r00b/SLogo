@@ -22,7 +22,7 @@ public class Or implements Command{
 		ParseTreeNode arg2 = args.get(1);
 		Double ans1 = arg1.executeCommand(arg1.getChildren());
 		Double ans2 = arg2.executeCommand(arg2.getChildren());
-		if (ans1.equals(1) || ans2.equals(1)) {
+		if (ans1 != 0 || ans2 != 0) {
 			return 1;
 		}
 		return 0;
