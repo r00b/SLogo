@@ -5,6 +5,7 @@ import java.util.List;
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ObservableProperties;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the XCor command
@@ -18,7 +19,7 @@ public class XCor extends TurtleCommand {
 	 * Gets the x property value and return the value
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return properties.getXProperty().get();
 	}
 

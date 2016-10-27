@@ -1,6 +1,7 @@
 package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
@@ -14,8 +15,10 @@ public class NaturalLog implements Command {
     private static final int ARGS = 1;
 
     @Override
-    public double executeCommand(List<Double> args) {
-        return Math.log(args.get(0));
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double value1 = arg1.executeCommand(arg1);
+        return Math.log(value1);
     }
 
     @Override

@@ -3,6 +3,7 @@ package BackEndCommands.MathOperations;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the Pi command
@@ -10,13 +11,14 @@ import BackEndInternalAPI.Command;
  *
  */
 public class Pi implements Command {
+
 	private static final int ARGS = 0;
 	
 	/**
 	 * Returns the value of Pi
 	 */
 	@Override
-	public double executeCommand(List<Double> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return Math.PI;
 	}
 
