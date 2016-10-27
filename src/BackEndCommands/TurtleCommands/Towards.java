@@ -22,8 +22,9 @@ public class Towards extends TurtleCommand{
 		double value1 = arg1.executeCommand(arg1);
 		double value2 = arg2.executeCommand(arg2);
 		double degrees = calculateDegrees(value1, value2);
+		double oldDegrees = properties.getRotateProperty().get();
 		properties.getRotateProperty().set(degrees);
-		return Math.abs(degrees - properties.getRotateProperty().get());
+		return Math.abs(degrees - oldDegrees);
 	}
 	@Override
 	public int numArguments() {

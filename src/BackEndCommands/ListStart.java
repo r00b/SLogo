@@ -19,7 +19,7 @@ public class ListStart implements Command {
     	List<ParseTreeNode> args = node.getChildren();
     	double answer = 0;
     	for (ParseTreeNode child : args) {
-    		answer = node.executeCommand(child);
+    		answer = child.executeCommand(child);
     	}
         return answer;
     }
