@@ -19,7 +19,7 @@ public class ClearScreen extends TurtleCommand {
 	 * Returns the distance traveled to the origin
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		double answer = calculateTotalDistance(properties.getXProperty().get(), 0,
 												properties.getYProperty(), 0);
 		properties.setXProperty(0);

@@ -15,10 +15,11 @@ public class ListStart implements Command {
     private static final int ARGS = 1;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
+    public double executeCommand(ParseTreeNode node) {
+    	List<ParseTreeNode> args = node.getChildren();
     	double answer = 0;
-    	for (ParseTreeNode node : args) {
-    		answer = node.getCommandObj().executeCommand(node.getChildren());
+    	for (ParseTreeNode child : args) {
+    		answer = node.executeCommand(child);
     	}
         return answer;
     }

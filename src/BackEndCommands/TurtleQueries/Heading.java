@@ -17,7 +17,7 @@ public class Heading extends TurtleCommand {
 	 * Returns the rotate property value
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return properties.getRotateProperty().get();
 	}
 

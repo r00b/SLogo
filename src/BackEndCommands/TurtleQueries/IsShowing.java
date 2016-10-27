@@ -6,20 +6,20 @@ import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
 /**
- * Executes the PenDown command
+ * Executes the IsShowing command
  * @author ezra
  *
  */
-public class PenDown extends TurtleCommand {
+public class IsShowing extends TurtleCommand {
 	private static final int ARGS = 0;
-	@Override
 	
 	/**
-	 * Gets the path visible property and return 1 if its true and 0 if its false
+	 * Gets the visible turtle property value and return 1 if its visible and 0 if its not
 	 */
-	public double executeCommand(List<ParseTreeNode> args) {
+	@Override
+	public double executeCommand(ParseTreeNode node) {
 		double answer = 0;
-		if (properties.getPathVisibleProperty().get()) {
+		if (properties.getImageVisibleProperty().get()) {
 			answer++;
 		}
 		return answer;

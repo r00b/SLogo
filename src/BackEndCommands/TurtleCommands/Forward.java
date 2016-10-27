@@ -18,9 +18,9 @@ public class Forward extends TurtleCommand {
 	 * Returns the distance moved
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		double value1 = arg1.executeCommand(arg1.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		double value1 = arg1.executeCommand(arg1);
 		double xDistance = calculateXDistance(value1);
 		double yDistance = calculateYDistance(value1);
 		properties.setXProperty((properties.getXProperty().get() + xDistance));

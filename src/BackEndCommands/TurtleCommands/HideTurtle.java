@@ -18,7 +18,7 @@ public class HideTurtle extends TurtleCommand {
 	 *Returns 0
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		//Need to update imageview visible property
 		properties.getImageVisibleProperty().set(false);
 		return 0;

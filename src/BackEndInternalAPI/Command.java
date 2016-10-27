@@ -20,7 +20,7 @@ public interface Command {
      *             for the computations
      * @return the result of executing the commandType
      */
-    double executeCommand(List<ParseTreeNode> args);
+    double executeCommand(ParseTreeNode node);
 
     /**
      * Specifies the number of arguments that a Command takes

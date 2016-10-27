@@ -16,10 +16,11 @@ import BackEndInternalAPI.ParseTreeNode;
  *
  */
 public abstract class TurtleCommand implements Command {
-	protected ObservableProperties properties;
-	
+
+    protected ObservableProperties properties;
+
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

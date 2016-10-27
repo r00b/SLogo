@@ -16,7 +16,7 @@ public class NoType implements Command {
     private static final int ARGS = 0;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
+    public double executeCommand(ParseTreeNode node) {
         return 0.0;
     }
 

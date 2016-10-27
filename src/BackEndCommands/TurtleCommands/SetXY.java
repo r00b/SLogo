@@ -18,11 +18,11 @@ public class SetXY extends TurtleCommand{
 	 * Returns the distance traveled
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		double value1 = arg1.executeCommand(arg1.getChildren());
-		double value2 = arg2.executeCommand(arg2.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		double value1 = arg1.executeCommand(arg1);
+		double value2 = arg2.executeCommand(arg2);
 		double distance = calculateTotalDistance(value1, properties.getXProperty().get(),
 													value2, properties.getYProperty());
 		properties.getXProperty().set(value1);

@@ -12,11 +12,17 @@ import java.util.List;
  *         This command instance represents the make command in Logo.
  */
 public class MakeVariable extends CommandParser implements Command {
+
     private static final int ARGS = 2;
 
     @Override
     public double executeCommand(List<ParseTreeNode> args) {
-        return 0;
+        ParseTreeNode arg1 = args.get(0);
+        ParseTreeNode arg2 = args.get(1);
+        String varName = arg1.getCommand();
+        double varVal = arg2.executeCommand(arg2.getChildren());
+        getVariables().put(varName,varVal);
+        return 1;
     }
 
     @Override

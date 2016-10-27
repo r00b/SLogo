@@ -18,7 +18,7 @@ public class ShowTurtle extends TurtleCommand {
 	 * Returns 1
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		properties.getImageVisibleProperty().set(true);
 		return 1;
 	}

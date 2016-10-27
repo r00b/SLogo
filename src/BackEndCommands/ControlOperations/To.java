@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 
 import java.util.List;
 
-import static BackEndInternalAPI.ParseTreeExecutor.myMethods;
+//import static BackEndInternalAPI.ParseTreeExecutor.myMethods;
 
 /**
  * @author Robert H. Steilberg II
@@ -28,7 +28,7 @@ public class To extends ControlCommand {
             newMethod.addArgument(p.getCommand());
         }
         newMethod.setMethod(arg3);
-        myMethods.put(variableName,newMethod);
+//        myMethods.put(variableName,newMethod);
         return 1;
     }
 

@@ -15,7 +15,9 @@ public class ListEnd implements Command {
     private static final int ARGS = 0;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
+    public double executeCommand(ParseTreeNode node) {
+    	//TODO DO we need this
+    	List<ParseTreeNode> args = node.getChildren();
         return args.get(args.size() - 1).getValue();
     }
 

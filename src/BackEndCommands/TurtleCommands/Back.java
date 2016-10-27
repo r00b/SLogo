@@ -1,6 +1,5 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
@@ -18,9 +17,9 @@ public class Back extends TurtleCommand {
 	 * Returns the distance moved
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		double value1 = arg1.executeCommand(arg1.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		double value1 = arg1.executeCommand(arg1);
 		//Need to update line and image position
 		double xDistance = calculateXDistance(value1);
 		double yDistance = calculateYDistance(value1);

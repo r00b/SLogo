@@ -15,8 +15,8 @@ public class Constant implements Command {
     private static final int ARGS = 0;
 
     @Override
-    public double executeCommand(List<ParseTreeNode> args) {
-        return args.get(0).getValue();
+    public double executeCommand(ParseTreeNode node) {
+        return Double.parseDouble(node.getCommand());
     }
 
     @Override

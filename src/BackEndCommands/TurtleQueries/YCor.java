@@ -17,7 +17,7 @@ public class YCor extends TurtleCommand {
 	 * Gets the y property value and returns it
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return properties.getYProperty();
 	}
 

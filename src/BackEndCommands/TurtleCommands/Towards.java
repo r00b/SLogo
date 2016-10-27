@@ -16,11 +16,11 @@ public class Towards extends TurtleCommand{
 	 * Returns the degrees the image rotates to get to new point clockwise
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
-		ParseTreeNode arg1 = args.get(0);
-		ParseTreeNode arg2 = args.get(1);
-		double value1 = arg1.executeCommand(arg1.getChildren());
-		double value2 = arg2.executeCommand(arg2.getChildren());
+	public double executeCommand(ParseTreeNode node) {
+		ParseTreeNode arg1 = node.getChild(0);
+		ParseTreeNode arg2 = node.getChild(1);
+		double value1 = arg1.executeCommand(arg1);
+		double value2 = arg2.executeCommand(arg2);
 		double degrees = calculateDegrees(value1, value2);
 		properties.getRotateProperty().set(degrees);
 		return Math.abs(degrees - properties.getRotateProperty().get());

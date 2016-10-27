@@ -19,7 +19,7 @@ public class XCor extends TurtleCommand {
 	 * Gets the x property value and return the value
 	 */
 	@Override
-	public double executeCommand(List<ParseTreeNode> args) {
+	public double executeCommand(ParseTreeNode node) {
 		return properties.getXProperty().get();
 	}
 
