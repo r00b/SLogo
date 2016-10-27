@@ -187,7 +187,9 @@ public class GUIManager implements GUIController {
 //            default:
 //        }
 //    }
-
+    public String getLanguage(){
+        return language;
+    }
 
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()

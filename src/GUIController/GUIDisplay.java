@@ -1,10 +1,13 @@
 package GUIController;
 
+import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.ConsoleHelp;
 import GUI.DisplayHelp;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -18,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.Button;
 import java.util.ArrayList;
 
 /**
@@ -31,9 +35,11 @@ public class GUIDisplay implements RenderSprite {
     private int numSteps = 0;
     private Pane window;
     private ImageView helpButton;
+    private Button optionsButton;
     private ImageView myTurtle, displayGraph;
     private DisplayHelp helpWindow;
     private Paint pathColor;
+    private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
 
     /**
@@ -79,6 +85,11 @@ public class GUIDisplay implements RenderSprite {
         label.setTranslateX(630);
         label.setTranslateY(130);
         window.getChildren().add(label);
+    }
+
+    private void addOptionsButton(){
+        optionsButton = new Button("Display Options");
+
     }
 
     private void addHelpButton(){
@@ -220,7 +231,14 @@ public class GUIDisplay implements RenderSprite {
 
     @Override
     public void updateDisplayOptions() {
+        Stage s = new Stage();
+        myOptions = new DisplayMenu(s);
+        myOptions.initPopup();
 
+    }
+
+    private void applyDisplayChanges(){
+        pathColor = myOptions.getPenColor().getValue();
     }
 
     @Override
@@ -228,5 +246,51 @@ public class GUIDisplay implements RenderSprite {
 
     }
 
+    private class DisplayMenu extends OptionsMenu{
 
+        /**
+         * @param s
+         */
+        public DisplayMenu(Stage s) {
+            super(s);
+        }
+
+        @Override
+        public void addTitle() {
+
+        }
+
+        @Override
+        public void addRectangle() {
+
+        }
+
+        @Override
+        public void addLaunchButton() {
+            javafx.scene.control.Button newButton = new javafx.scene.control.Button("Apply");
+            newButton.setStyle(getOverButton());
+            newButton.setOnMouseEntered(e -> newButton.setStyle(getButtonFill()));
+            newButton.setOnMouseExited(e -> newButton.setStyle(getOverButton()));
+//            newButton.setOnMouseClicked(e -> );
+            newButton.setTranslateX(300);
+            newButton.setTranslateY(500);
+//        newButton.setOnMouseClicked(e -> setParameters());
+            getStartWindow().getChildren().add(newButton);
+        }
+
+        @Override
+        public void initIDE(String background, String turtle) {
+
+        }
+
+
+        /**
+         *
+         */
+        public void initPopup(){
+            getStage().setTitle("Options");
+            getStage().setScene(new Scene(setUpWindow()));
+            getStage().show();
+        }
+    }
 }
