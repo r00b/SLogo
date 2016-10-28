@@ -13,7 +13,11 @@ import java.util.List;
 public class Power implements Command {
 
 	private static final int ARGS = 2;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the first argument to the power of the second value
 	 */

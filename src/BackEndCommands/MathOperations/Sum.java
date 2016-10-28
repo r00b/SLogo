@@ -14,7 +14,11 @@ import BackEndInternalAPI.ParseTreeNode;
 public class Sum implements Command {
 
 	private static final int ARGS = 2;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the sum of the two arguments
 	 */

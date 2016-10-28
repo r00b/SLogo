@@ -18,10 +18,15 @@ public class Variable extends ControlCommand {
     @Override
     public double executeCommand(ParseTreeNode node) {
         String varKey = node.getCommand();
-        if (getVariables().get(varKey) == null) {
-            return 0;
+
+        if (getMethodVariables().get(varKey) != null) {
+            return getMethodVariables().get(varKey);
         }
-        return getVariables().get(varKey);
+        if (getVariables().get(varKey) != null) {
+            return getVariables().get(varKey);
+        }
+
+        return 0;
     }
 
     @Override

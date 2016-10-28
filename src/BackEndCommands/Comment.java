@@ -14,6 +14,10 @@ public class Comment implements Command {
 
     private static final int ARGS = 0;
 
+    public void setProperties(Object o) {
+        return;
+    }
+
     @Override
     public double executeCommand(ParseTreeNode node) {
         return node.getChild(0).getValue();

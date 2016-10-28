@@ -23,10 +23,17 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
 
 
     private HashMap<String, Double> myVariables = new HashMap<String, Double>();
+    private HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
+    private HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
+
 
 
     public HashMap<String, Double> getVariables() {
         return myVariables;
+    }
+
+    public HashMap<String, LogoMethod> getMethods() {
+        return myMethods;
     }
 
     public void setProperties(ObservableProperties properties) {
@@ -65,7 +72,7 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
         if (notCommand(commands)) {
             return 0.0;
         }
-        ParseTreeBuilder builder = new ParseTreeBuilder(myVariables);
+        ParseTreeBuilder builder = new ParseTreeBuilder(myVariables,myMethodVariables,myMethods);
         builder.setProperties(myProperties);
 
 
@@ -74,8 +81,11 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
         //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
 
         ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
-        //double a = root.getCommandObj().executeCommand(root.getChildren());
-        return root.getCommandObj().executeCommand(root);
+        double result = root.getCommandObj().executeCommand(root);
+        myMethodVariables.clear();
+
+//        double a = root.getCommandObj().executeCommand(root);
+        return result;
     }
 
     public void printTree(ParseTreeNode r) { // TODO DEBUGGING
