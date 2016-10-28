@@ -1,7 +1,12 @@
 package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +27,31 @@ public class GUIButtonMenu implements ButtonMenu{
     private Paint border;
     private Rectangle backdrop;
     private Stage s = new Stage();
-    private OptionsPopup myOptions;
+    private String defaultBackground = "Nebula";
+    private String defaultLanguage = "English";
+    private ComboBox<String> backgroundBox, languageBox;
+    private ObservableList<String> backgroundOptions =
+            FXCollections.observableArrayList(
+                    "Circuits",
+                    "Floating Cubes",
+                    "Nebula",
+                    "Metal Sheets",
+                    "Spinning Screens"
+            );
+  
+    private ObservableList<String> languageOptions =
+            FXCollections.observableArrayList(
+                    "Chinese",
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Portuguese",
+                    "Russian",
+                    "Spanish",
+                    "Syntax"
+
+            );
     private HelpMenu myHelpMenu;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -65,6 +94,8 @@ public class GUIButtonMenu implements ButtonMenu{
         label.setTranslateY(30);
         window.getChildren().add(label);
     }
+    
+    
 
     /**
      *
@@ -73,14 +104,22 @@ public class GUIButtonMenu implements ButtonMenu{
         Button play = newButton("PLAY", 30, 40);
         Button pause = newButton("PAUSE", 130, 40);
         Button stop = newButton("STOP", 240, 40);
-        Button options = newButton("OPTIONS", 340, 50);
-        options.setOnMouseClicked(e -> optionsHandler());
-        Button help = newButton("HELP", 420, 50);
+        Button help = newButton("HELP", 1200, 50);
+        System.setProperty("glass.accessible.force", "false");
+        backgroundBox = new ComboBox<String>(backgroundOptions);
+        backgroundBox.setValue(defaultBackground);
+        backgroundBox.setTranslateX(350);
+        backgroundBox.setTranslateY(50);
+        window.getChildren().add(backgroundBox);
+        languageBox = new ComboBox<String>(languageOptions);
+        languageBox.setValue(defaultLanguage);
+        languageBox.setTranslateX(520);
+        languageBox.setTranslateY(50);
+        window.getChildren().add(languageBox);
         help.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(play);
         window.getChildren().add(pause);
         window.getChildren().add(stop);
-        window.getChildren().add(options);
         window.getChildren().add(help);
         
     }
@@ -117,7 +156,7 @@ public class GUIButtonMenu implements ButtonMenu{
         return newButton;
     }
 
-    private ImageView loadImage (String text) {
+    private ImageView loadImage (String text){
         Image newImage = new Image(getClass().getClassLoader()
                                    .getResourceAsStream("images/play.png"));
         if(text.equals("PLAY")){
@@ -140,34 +179,11 @@ public class GUIButtonMenu implements ButtonMenu{
         return imgV;
     }
 
-    /**
-     *
-     * @param paint
-     * @param background
-     * @param turtle
-     * @param language
-     */
-    public void setDefaults(Color paint, String background, String turtle, String language){
-        myOptions = new OptionsPopup(s, paint, background, turtle, language);
-    }
-
-    private void optionsHandler(){
-        myOptions.initPopup();
-    }
-
     private void helpHandler(){
         myHelpMenu = new HelpMenu(s);
         myHelpMenu.init();
     }
-
-    /**
-     *
-     * @return
-     */
-    public OptionsPopup getOptionsPopup(){
-        return myOptions;
-    }
-
+ 
     /**
      *
      * @return
