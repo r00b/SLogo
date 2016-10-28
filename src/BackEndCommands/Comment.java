@@ -20,7 +20,7 @@ public class Comment implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        return node.getChild(0).getValue();
+        return 0;
     }
 
     @Override

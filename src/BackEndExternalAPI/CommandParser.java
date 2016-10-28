@@ -1,10 +1,8 @@
 package BackEndExternalAPI;
 
-import BackEndCommands.Comment;
 import BackEndInternalAPI.*;
 
 import java.util.HashMap;
-import java.util.ResourceBundle;
 
 /**
  * @author Robert H. Steilberg II
@@ -13,50 +11,24 @@ import java.util.ResourceBundle;
  *         using the specified arguments. This is done by recursively creating a parse tree
  *         and executing down the nodes of the parse tree, checking for errors along the way.
  */
-public class CommandParser { // TODO DE STATIC EVERYTHING
+public class CommandParser {
 
-    private static final String SETTINGS_PATH = "resources/internal/Settings";
-//    protected static HashMap<String, Double> myVariables = new HashMap<String, Double>();
-//    public static HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
-//    public static HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
-    public static ObservableProperties myProperties;
+    private static ObservableProperties myProperties;
+    private static HashMap<String, Double> myVariables;
+    private static HashMap<String, Double> myMethodVariables;
+    private static HashMap<String, LogoMethod> myMethods;
+
+    public CommandParser(ObservableProperties properties) {
+        myProperties = properties;
+        myVariables = new HashMap<String, Double>();
+        myMethodVariables = new HashMap<String, Double>();
+        myMethods = new HashMap<String, LogoMethod>();
+    }
 
 
-    private HashMap<String, Double> myVariables = new HashMap<String, Double>();
-    private HashMap<String, Double> myMethodVariables = new HashMap<String, Double>();
-    private HashMap<String, LogoMethod> myMethods = new HashMap<String, LogoMethod>();
-
-
-
+    // TODO CHANGE THIS SO THAT WE GET VARIABLES VIA OBSERVABLE PROPERTIES OR SOMETHING
     public HashMap<String, Double> getVariables() {
         return myVariables;
-    }
-
-    public HashMap<String, LogoMethod> getMethods() {
-        return myMethods;
-    }
-
-    public void setProperties(ObservableProperties properties) {
-        myProperties = properties;
-    }
-
-
-    /**
-     * Determines if a specified command is indeed an executable Command
-     * (i.e. not a comment or an empty line)
-     *
-     * @param command is the specified String command
-     */
-    private boolean notCommand(String[] command) {
-        if (command[0].equals("")) { // this is an empty line
-            return true;
-        }
-        CommandTypeDetector detector = new CommandTypeDetector();
-        // TODO FIX
-        if (detector.getCommandObj(command[0]).getClass() == Comment.class) { // this is a comment
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -66,40 +38,11 @@ public class CommandParser { // TODO DE STATIC EVERYTHING
      * @param command a string containing the commandType issued from the editor
      */
     public double getAction(String command) {
-        ResourceBundle settings = ResourceBundle.getBundle(SETTINGS_PATH);
-        String[] commands = command.trim().split(settings.getString("Delimiter"));
-
-        if (notCommand(commands)) {
-            return 0.0;
-        }
-        ParseTreeBuilder builder = new ParseTreeBuilder(myVariables,myMethodVariables,myMethods);
-        builder.setProperties(myProperties);
-
-
-
-//        ParseTreeExecutor executor = new ParseTreeExecutor();
-        //  executor.executeTree(builder.initParseTree(commands)); // TODO LEAVE COMMENTED WHEN DEBUGGING
-
-        ParseTreeNode root = builder.initParseTree(commands); // TODO DEBUGGING
+        String[] commands = command.trim().split("\\p{Space}");
+        ParseTreeBuilder builder = new ParseTreeBuilder(myVariables, myMethodVariables, myMethods, myProperties);
+        ParseTreeNode root = builder.initParseTree(commands);
         double result = root.getCommandObj().executeCommand(root);
-        myMethodVariables.clear();
-
-//        double a = root.getCommandObj().executeCommand(root);
+        myMethodVariables.clear(); // clear temporary variables
         return result;
     }
-
-    public void printTree(ParseTreeNode r) { // TODO DEBUGGING
-        r = r.getChild(0);
-//        System.out.println("VALUE: " + r.getValue()); // make sure workign
-        System.out.println("COMMAND: " + r.getCommand());
-
-    }
-
-
-//    public static void main(String[] args) { // TODO DEBUGGING
-//        System.out.println("===============================================================");
-//
-//        System.out.println("===============================================================");
-//
-//    }
 }

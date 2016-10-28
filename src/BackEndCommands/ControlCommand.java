@@ -13,10 +13,6 @@ import java.util.Map;
  */
 public abstract class ControlCommand implements Command {
 
-    // protected List<ParseTreeNode> executables;
-    private Map<String, Double> myVariables;
-    private Map<String, Double> myMethodVariables;
-    private Map<String, LogoMethod> myMethods;
     private Mappings maps;
 
 
@@ -27,12 +23,6 @@ public abstract class ControlCommand implements Command {
         }
     }
 
-
-    public void setInfo(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods) {
-        myVariables = variables;
-        myMethodVariables = methodVariables;
-        myMethods = methods;
-    }
 
 
     protected Map<String, Double> getVariables() {

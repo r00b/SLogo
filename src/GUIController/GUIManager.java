@@ -93,8 +93,8 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
-        commandParser = new CommandParser();
-        commandParser.setProperties(properties);
+        commandParser = new CommandParser(properties);
+//        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
         fd.setProperties(properties);

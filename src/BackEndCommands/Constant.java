@@ -3,8 +3,6 @@ package BackEndCommands;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
 
-import java.util.List;
-
 /**
  * @author Robert H. Steilberg II
  *         <p>
@@ -20,7 +18,7 @@ public class Constant implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        return Double.parseDouble(node.getCommand());
+        return Double.parseDouble(node.getRawCommand());
     }
 
     @Override

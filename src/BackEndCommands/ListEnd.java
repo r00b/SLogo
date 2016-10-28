@@ -20,9 +20,7 @@ public class ListEnd implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	//TODO DO we need this
-    	List<ParseTreeNode> args = node.getChildren();
-        return args.get(args.size() - 1).getValue();
+        return 0.0;
     }
 
     @Override
