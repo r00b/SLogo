@@ -25,6 +25,7 @@ public class ObservableProperties {
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
 		xProperty = new SimpleDoubleProperty(turtle.getX());
+//		xProperty.great
 		yProperty = new SimpleDoubleProperty(turtle.getY());
 		pathVisibleProperty = new SimpleBooleanProperty(true);
 		newLineProperty = new SimpleBooleanProperty(false);

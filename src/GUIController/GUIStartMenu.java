@@ -17,6 +17,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class GUIStartMenu extends OptionsMenu {
 
     private static final int START_MENU_WIDTH = 700;
@@ -24,6 +26,7 @@ public class GUIStartMenu extends OptionsMenu {
     private static final int DROP_DOWN_X_VALUE = 400;
 
     public GUIManager myGUI;
+    public ArrayList<GUIManager> myIDEs = new ArrayList<>();
 
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
             CycleMethod.NO_CYCLE,
@@ -52,7 +55,7 @@ public class GUIStartMenu extends OptionsMenu {
     public void addTitle() {
         BigNameText title = new BigNameText("Welcome to \n\tSLogo");
         title.setTranslateX(125);
-        title.setTranslateY(125);
+        title.setTranslateY(75);
         getStartWindow().getChildren().add(title);
 
     }
@@ -75,8 +78,8 @@ public class GUIStartMenu extends OptionsMenu {
      *
      */
     public void addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 240, Color.MIDNIGHTBLUE);
-        backdrop.setTranslateY(280);
+        Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
+        backdrop.setTranslateY(230);
         backdrop.setTranslateX(100);
         backdrop.opacityProperty().setValue(0.5);
         getStartWindow().getChildren().add(backdrop);
@@ -88,8 +91,18 @@ public class GUIStartMenu extends OptionsMenu {
      * @param chosenTurtle
      */
     public void initIDE(String chosenBackground, String chosenTurtle) {
-        myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
+//        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
+        myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
         myGUI.init();
+        myGUI.getMyWindow().setOnMouseClicked(e -> setPrimaryIDE(myGUI));
+//        newGUI.init();
+        myIDEs.add(myGUI);
+//        myIDEs.add(newGUI);
+    }
+
+
+    private void setPrimaryIDE(GUIManager myGUI){
+        this.myGUI = myGUI;
     }
 
     private static class BigNameText extends StackPane {

@@ -2,14 +2,15 @@ package GUIController;
 
 import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
-import GUI.ConsoleHelp;
 import GUI.DisplayHelp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -37,6 +38,7 @@ public class GUIDisplay implements RenderSprite {
     private static boolean visibility = true;
     private int numSteps = 0;
     private Pane window;
+    private Line myPath;
     private ImageView helpButton;
     private Button optionsButton;
     private ImageView myTurtle, displayGraph;
@@ -44,6 +46,7 @@ public class GUIDisplay implements RenderSprite {
     private Paint pathColor;
     private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
+    private String currentTurtle;
 
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -58,15 +61,20 @@ public class GUIDisplay implements RenderSprite {
      * @param turtle
      * @param pathColor
      */
-    public GUIDisplay(Pane p, ImageView turtle, Paint pathColor){
+    public GUIDisplay(Pane p, ImageView turtle, Paint pathColor, Line lineType){
         this.window = p;
         this.myTurtle = turtle;
         this.pathColor = pathColor;
+        this.myPath = lineType;
         drawDisplay();
         addTextLabel();
         addTurtle();
         addHelpButton();
         addOptionsButton();
+    }
+
+    public void setInitialTurtle(String initialTurtle){
+        currentTurtle = initialTurtle;
     }
 
     private void drawDisplay(){
@@ -87,6 +95,7 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
+//        myTurtle.x
         window.getChildren().add(myTurtle);
     }
 
@@ -137,20 +146,20 @@ public class GUIDisplay implements RenderSprite {
         helpButton.translateXProperty().bind(width.subtract(50));
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     */
-    public void moveTurtle(int x, int y){
-        numSteps++;
-        drawNewLine(new Point((int)myTurtle.getTranslateX(),
-                (int)myTurtle.getTranslateY()), new Point(x, y));
-//        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
-//        System.out.println("translate x of the editor" + X_POS);
-        myTurtle.setTranslateX(X_POS + x);
-        myTurtle.setTranslateY(Y_POS + y);
-    }
+//    /**
+//     *
+//     * @param x
+//     * @param y
+//     */
+//    public void moveTurtle(int x, int y){
+//        numSteps++;
+//        drawNewLine(new Point((int)myTurtle.getTranslateX(),
+//                (int)myTurtle.getTranslateY()), new Point(x, y));
+////        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
+////        System.out.println("translate x of the editor" + X_POS);
+//        myTurtle.setTranslateX(X_POS + x);
+//        myTurtle.setTranslateY(Y_POS + y);
+//    }
 
     /**
      *
@@ -177,6 +186,8 @@ public class GUIDisplay implements RenderSprite {
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
         newPath.setStrokeWidth(5);
+//        newPath.setStrokeDashOffset(2);
+        newPath.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newPath.setId("Step" + numSteps);
         newPath.setVisible(visibility);
         turtleMotion.add(newPath);
@@ -250,6 +261,7 @@ public class GUIDisplay implements RenderSprite {
 
     @Override
     public void updateDisplayOptions() {
+//        myOptions.setDefaults(pathColor, currentTurtle);
         myOptions.initPopup();
 
     }
@@ -257,21 +269,9 @@ public class GUIDisplay implements RenderSprite {
     private void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
-        makeTurtleChanges();
-    }
-
-    private void makeTurtleChanges(){
         myOptions.setTurtleString();
-//        double x = myTurtle.getTranslateX();
-//        double y = myTurtle.getTranslateY();
-//        window.getChildren().remove(myTurtle);
         myTurtle.setImage(myOptions.generateTurtleImage());
-//        myTurtle = myOptions.getChosenTurtle();
-//        myTurtle.setFitHeight(TURTLE_FIT_SIZE);
-//        myTurtle.setFitWidth(TURTLE_FIT_SIZE);
-//        myTurtle.setTranslateX(x);
-//        myTurtle.setTranslateY(y);
-//        window.getChildren().add(myTurtle);
+        myPath = myOptions.getLineBox().getValue();
     }
 
     @Override
@@ -288,14 +288,32 @@ public class GUIDisplay implements RenderSprite {
             super(s);
         }
 
+        public void addNodes(){
+            addTitle();
+            addRectangle();
+            changePenColor();
+            changeSpriteImage();
+            addLaunchButton();
+            addLineStylePicker();
+        }
+
         @Override
         public void addTitle() {
-
+            Text title = new Text("Select your preferences for the display.");
+            title.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+            title.setFill(Color.WHITE);
+            title.setTranslateX(30);
+            title.setTranslateY(130);
+            getStartWindow().getChildren().add(title);
         }
 
         @Override
         public void addRectangle() {
-
+            Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
+            backdrop.setTranslateY(230);
+            backdrop.setTranslateX(100);
+            backdrop.opacityProperty().setValue(0.5);
+            getStartWindow().getChildren().add(backdrop);
         }
 
         @Override
@@ -316,7 +334,7 @@ public class GUIDisplay implements RenderSprite {
 
         @Override
         public void initIDE(String background, String turtle) {
-
+//nope
         }
 
         public Image generateTurtleImage(){
