@@ -1,9 +1,7 @@
 package BackEndInternalAPI;
 
 import BackEndCommands.*;
-import BackEndCommands.ControlOperations.Variable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -17,24 +15,16 @@ import java.util.ResourceBundle;
  */
 public class ParseTreeBuilder {
 
-    CommandTypeDetector myDetector;
-    private String[] myCommands;
-    private int myCommandIndex;
-
-    private static String COMMANDTYPES_PATH = "resources/internal/CommandTypes";
-    private static ResourceBundle myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
+    private static CommandTypeDetector myDetector;
+    private static String[] myCommands;
+    private static int myCommandIndex;
     private static ObservableProperties myProperties;
+    private static Mappings myMappings;
 
 
-//    private Map<String, Double> myVariables;
-//    private Map<String, LogoMethod> myMethods;
-//    private Map<String, Double> myMethodVariables;
-
-    private Mappings myMappings;
-
-
-    public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods) {
+    public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods, ObservableProperties properties) {
         myMappings = new Mappings(variables,methodVariables,methods);
+        myProperties = properties;
 
     }
 
@@ -51,8 +41,7 @@ public class ParseTreeBuilder {
      */
     private ParseTreeNode initParseTreeNode(String currCommand) {
         ParseTreeNode newNode = new ParseTreeNode();
-        newNode.setCommand(currCommand);
-        newNode.setCommandType(myDetector.getCommandType(currCommand));
+        newNode.setRawCommand(currCommand);
         newNode.setCommandObj(myDetector.getCommandObj(currCommand)); // sets the associated Command
         newNode.getCommandObj().setProperties(myProperties);
         newNode.getCommandObj().setProperties(myMappings);
@@ -92,17 +81,6 @@ public class ParseTreeBuilder {
     }
 
     /**
-     * Determine if the command object type of a node is Constant
-     * (i.e. represents a double)
-     *
-     * @param node is the node with the command object to test
-     * @return true if the node represents a Constant, false otherwise
-     */
-    private boolean isConstant(ParseTreeNode node) {
-        return node.getCommandObj().getClass() == Constant.class;
-    }
-
-    /**
      * Determine if the command object type of a node is NoType
      * (i.e. not any conventional Logo command)
      *
@@ -111,10 +89,6 @@ public class ParseTreeBuilder {
      */
     private boolean isNoType(ParseTreeNode node) {
         return node.getCommandObj().getClass() == NoType.class;
-    }
-
-    private void addTurtleProperties(ParseTreeNode currNode) {
-        ((TurtleCommand) currNode.getCommandObj()).setProperties(myProperties);
     }
 
     /**
@@ -127,30 +101,12 @@ public class ParseTreeBuilder {
     private ParseTreeNode buildParseTree() {
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
-
-//        if (myCommandTypes.getString(newChild.getCommandType()).equals("Turtle")) {
-//            addTurtleProperties(newChild);
-//        }
-
-//        if (myCommandTypes.getString(newChild.getCommandType()).equals("Control")) {
-//            ((ControlCommand) newChild.getCommandObj()).setInfo(myVariables,myMethodVariables,myMethods);
-//        }
-
-        if (isNoType(newChild) && myMappings.getMyMethods().get(newChild.getCommand()) != null) { // calling a method
+        if (isNoType(newChild) && myMappings.getMyMethods().get(newChild.getRawCommand()) != null) { // calling a method
             return buildMethodTree(myMappings.getMyMethods().get(currCommand));
         }
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }
-//        if (isConstant(newChild) || newChild.getCommandObj().getClass() == Variable.class) {
-//            ParseTreeNode constNode = new ParseTreeNode();
-//            constNode.setValue(Double.parseDouble(currCommand));
-//            newChild.addChild(constNode);
-//            return newChild;
-//        }
-//        if (isNoType(newChild)) { // part of a TO call
-//            newChild.setValue(0.0);
-//        }
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }
@@ -171,7 +127,7 @@ public class ParseTreeBuilder {
     public ParseTreeNode initParseTree(String[] commands) {
         myDetector = new CommandTypeDetector();
         myCommands = commands;
-        myCommandIndex = 0; // indexes current command
+        myCommandIndex = 0; // index of current command
         return buildParseTree();
     }
 }

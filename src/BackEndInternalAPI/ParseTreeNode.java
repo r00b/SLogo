@@ -19,39 +19,27 @@ public class ParseTreeNode {
     /**
      * Initialize the parse tree node
      */
-    ParseTreeNode() {
+    public ParseTreeNode() {
         children = new ArrayList<ParseTreeNode>();
     }
 
-
+    /**
+     * Executes the command associated with the node
+     * @param node is the current node, it is passed so that command execution
+     *             has access to information about the ParseTreeNode
+     *
+     * @return a double representing the result of executing the command
+     */
     public double executeCommand(ParseTreeNode node) {
         return commandObj.executeCommand(node);
     }
 
     /**
-     * Returns the value of the node
-     *
-     * @return the value as a Double
-     */
-    public double getValue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the node
-     *
-     * @param newValue is the new value
-     */
-    public void setValue(Double newValue) {
-        value = newValue;
-    }
-
-    /**
-     * Returns the command associated with the node
+     * Returns the raw command String associated with the node
      *
      * @return the command as a String
      */
-    public String getCommand() {
+    public String getRawCommand() {
         return command;
     }
 
@@ -60,26 +48,8 @@ public class ParseTreeNode {
      *
      * @param newCommand is the new command
      */
-    public void setCommand(String newCommand) {
+    public void setRawCommand(String newCommand) {
         command = newCommand;
-    }
-
-    /**
-     * Returns the command type of the node
-     *
-     * @return the command type as a String
-     */
-    public String getCommandType() {
-        return commandType;
-    }
-
-    /**
-     * Sets the command type of the node
-     *
-     * @param newCommandType is the new command type
-     */
-    public void setCommandType(String newCommandType) {
-        commandType = newCommandType;
     }
 
     /**
@@ -118,24 +88,6 @@ public class ParseTreeNode {
      */
     public ParseTreeNode getChild(int index) {
         return children.get(index);
-    }
-
-    /**
-     * Determine if the node has any children
-     *
-     * @return true if there are no children, false otherwise
-     */
-    public boolean hasChild() {
-        return !children.isEmpty();
-    }
-
-    /**
-     * Determine if there are no children
-     *
-     * @return true if there are no children, false otherwise
-     */
-    public boolean hasNoChildren() {
-        return children.isEmpty();
     }
 
     /**

@@ -18,7 +18,7 @@ public class For extends ControlCommand {
     public double executeCommand(ParseTreeNode node) {
     	ParseTreeNode arg1 = node.getChild(0);
 		ParseTreeNode arg2 = node.getChild(1);
-		String variable = arg1.getChild(0).getCommand();
+		String variable = arg1.getChild(0).getRawCommand();
 		getVariables().put(variable, 1.0);
         double start = arg1.getChild(1).executeCommand(arg1.getChild(1));
         double end = arg1.getChild(1).executeCommand(arg1.getChild(2));
