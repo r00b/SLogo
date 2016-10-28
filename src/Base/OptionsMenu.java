@@ -231,7 +231,7 @@ public abstract class OptionsMenu implements Options {
      * @param y
      * @return
      */
-    private ColorPicker generateColorPicker(Color defaultColor, int x, int y){
+    public ColorPicker generateColorPicker(Color defaultColor, int x, int y){
         penColor = new ColorPicker();
         penColor.setTranslateX(x);
         penColor.setTranslateY(y);
