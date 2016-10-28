@@ -26,6 +26,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
@@ -39,6 +40,7 @@ public class GUIManager implements GUIController {
     private Stage stage;
     private Pane window;
     private String backgroundStr, turtleStr, language;
+    private Line line;
 
     private GUIConsole myConsole;
     private GUIEditor myEditor;
@@ -48,6 +50,7 @@ public class GUIManager implements GUIController {
     private GUIButtonMenu myButtonMenu;
     private CommandTypeDetector commandMaker = new CommandTypeDetector();
     private Command newCommand;
+    private Scene myWindow;
     private CommandParser commandParser;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -63,8 +66,7 @@ public class GUIManager implements GUIController {
      * @param turtle
      * @param language
      */
-    public GUIManager(Color penColor, String background, String turtle, String language) {
-
+    public GUIManager(Color penColor, String background, String turtle, String language, Line lineType) {
         this.penColor = penColor;
         this.backgroundStr = background;
         this.turtleStr = turtle;
@@ -79,6 +81,7 @@ public class GUIManager implements GUIController {
         ImageView turtleImageIDE = new ImageView(newImg);
         this.turtle = turtleImageIDE;
         this.language = language;
+        this.line = lineType;
     }
 
     @Override
@@ -86,7 +89,9 @@ public class GUIManager implements GUIController {
         //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
-        stage.setScene(new Scene(setUpWindow()));
+        myWindow = new Scene(setUpWindow());
+//        myWindow.setOnMouseClicked(e -> );
+        stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
         commandParser = new CommandParser();
         commandParser.setProperties(properties);
@@ -116,7 +121,7 @@ public class GUIManager implements GUIController {
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
-        myDisplay = new GUIDisplay(window, turtle, penColor);
+        myDisplay = new GUIDisplay(window, turtle, penColor, line);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
@@ -187,7 +192,9 @@ public class GUIManager implements GUIController {
 //            default:
 //        }
 //    }
-
+    public String getLanguage(){
+        return language;
+    }
 
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
@@ -286,5 +293,9 @@ public class GUIManager implements GUIController {
             }
         }
         return startIndex;
+    }
+
+    public Scene getMyWindow(){
+        return myWindow;
     }
 }
