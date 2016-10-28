@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import javafx.event.Event;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -39,6 +40,12 @@ public class GUIVariables implements Variables {
     private TableView table = new TableView();
     private TableColumn variableNameCol, valueCol;
     private final ObservableList<Variable> data = FXCollections.observableArrayList();
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     /**
      *
@@ -53,6 +60,7 @@ public class GUIVariables implements Variables {
         addHelpButton();
         createTableView();
         addVariableManually();
+        addClearButton();
     }
 
     private void drawVariables(){
@@ -177,7 +185,11 @@ public class GUIVariables implements Variables {
         addLastName.setTranslateY(310);
         final TextField addEmail = new TextField();
 
-        final Button addButton = new Button("Add");
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/add.png"));
+        ImageView addImg = new ImageView(newImage);
+        final Button addButton = newButton("Add", addImg, 520, 310);
+                //new Button("Add");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -187,20 +199,47 @@ public class GUIVariables implements Variables {
                 addLastName.clear();
             }
         });
-        addButton.setTranslateX(520);
-        addButton.setTranslateY(310);
+//        addButton.setTranslateX(520);
+//        addButton.setTranslateY(310);
         table.setEditable(true);
 
         window.getChildren().addAll(addFirstName, addLastName, addButton);
     }
+
+    private void addClearButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 200, (int) backdrop.getTranslateY());
+        clear.setOnMouseClicked(e -> data.clear());
+        window.getChildren().add(clear);
+    }
+
+    private Button newButton(String text, ImageView imgV, int x, int y){
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button(text, imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
+    }
+
 
     @Override
     /**
      *
      */
     public ArrayList<Integer> getAllVariables() {
+//        return Arrays.asList(data.toArray());
         return null;
     }
+
 
     /**
      *

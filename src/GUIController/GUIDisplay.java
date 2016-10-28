@@ -11,6 +11,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -272,6 +273,16 @@ public class GUIDisplay implements RenderSprite {
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
         myPath = myOptions.getLineBox().getValue();
+        createDisplayShading();
+    }
+
+    private void createDisplayShading(){
+        double hue = myOptions.map( (myOptions.getDisplayColor().getHue() + 180) % 360, 0, 360, -1, 1);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(myOptions.getDisplayColor().getSaturation());
+        colorAdjust.setBrightness(myOptions.getDisplayColor().getBrightness());
+        displayGraph.setEffect(colorAdjust);
     }
 
     @Override
@@ -281,6 +292,7 @@ public class GUIDisplay implements RenderSprite {
 
     private class DisplayMenu extends OptionsMenu{
 
+        private ColorPicker displayColor;
         /**
          * @param s
          */
@@ -295,6 +307,7 @@ public class GUIDisplay implements RenderSprite {
             changeSpriteImage();
             addLaunchButton();
             addLineStylePicker();
+            changeDisplayColor();
         }
 
         @Override
@@ -343,6 +356,13 @@ public class GUIDisplay implements RenderSprite {
             return newImg;
         }
 
+        public void changeDisplayColor() {
+            displayColor = generateColorPicker(Color.ALICEBLUE, 400, 400);
+            Label penLabel = generateLabel("Select display color", 125, 400);
+            getStartWindow().getChildren().add(displayColor);
+            getStartWindow().getChildren().add(penLabel);
+        }
+
         /**
          *
          */
@@ -350,6 +370,14 @@ public class GUIDisplay implements RenderSprite {
             getStage().setTitle("Options");
             getStage().setScene(new Scene(setUpWindow()));
             getStage().show();
+        }
+
+        public double map(double value, double start, double stop, double targetStart, double targetStop) {
+            return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
+        }
+
+        public Color getDisplayColor(){
+            return displayColor.getValue();
         }
     }
 }
