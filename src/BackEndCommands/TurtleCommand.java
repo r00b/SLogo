@@ -20,6 +20,13 @@ public abstract class TurtleCommand implements Command {
     protected ObservableProperties properties;
 
 	@Override
+	public void setProperties(Object o) {
+		if (o.getClass().equals(ObservableProperties.class)) {
+			properties = (ObservableProperties) o;
+		}
+	}
+
+	@Override
 	public double executeCommand(ParseTreeNode node) {
 		// TODO Auto-generated method stub
 		return 0;

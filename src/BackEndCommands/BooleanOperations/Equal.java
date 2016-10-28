@@ -12,7 +12,11 @@ import BackEndInternalAPI.ParseTreeNode;
  */
 public class Equal implements Command {
 	private static final int ARGS = 2;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns 1 if the two args are equal to each other 0 otherwise
 	 */

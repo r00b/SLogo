@@ -12,7 +12,11 @@ import java.util.List;
  */
 public class Not implements Command{
 	private static final int ARGS = 1;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns 1 if the arg is zero 0 otherwise
 	 */

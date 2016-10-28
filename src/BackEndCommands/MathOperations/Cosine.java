@@ -14,6 +14,10 @@ public class Cosine implements Command {
 
     private static final int ARGS = 1;
 
+    public void setProperties(Object o) {
+        return;
+    }
+
     /**
 	 * Returns cos of angle of degrees
 	 */

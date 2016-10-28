@@ -25,10 +25,17 @@ public class ParseTreeBuilder {
     private static ResourceBundle myCommandTypes = ResourceBundle.getBundle(COMMANDTYPES_PATH);
     private static ObservableProperties myProperties;
 
-    private Map<String, Double> myVariables;
 
-    public ParseTreeBuilder(Map<String, Double> variables) {
-        myVariables = variables;
+//    private Map<String, Double> myVariables;
+//    private Map<String, LogoMethod> myMethods;
+//    private Map<String, Double> myMethodVariables;
+
+    private Mappings myMappings;
+
+
+    public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods) {
+        myMappings = new Mappings(variables,methodVariables,methods);
+
     }
 
     public static void setProperties(ObservableProperties properties) {
@@ -47,6 +54,8 @@ public class ParseTreeBuilder {
         newNode.setCommand(currCommand);
         newNode.setCommandType(myDetector.getCommandType(currCommand));
         newNode.setCommandObj(myDetector.getCommandObj(currCommand)); // sets the associated Command
+        newNode.getCommandObj().setProperties(myProperties);
+        newNode.getCommandObj().setProperties(myMappings);
         return newNode;
     }
 
@@ -74,13 +83,12 @@ public class ParseTreeBuilder {
      * @return a ParseTreeNode holding the defined method
      */
     private ParseTreeNode buildMethodTree(LogoMethod method) {
-//        myCommandIndex++;
-//        for (int i = 0; i < method.numArguments(); i++) {
-//            myMethodVariables.put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex]));
-//            myCommandIndex++;
-//        }
-//        return method.getMethod();
-        return null;
+        myCommandIndex++;
+        for (int i = 0; i < method.numArguments(); i++) {
+            myMappings.getMyMethodVariables().put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex]));
+            myCommandIndex++;
+        }
+        return method.getMethod();
     }
 
     /**
@@ -120,17 +128,17 @@ public class ParseTreeBuilder {
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
 
-        if (myCommandTypes.getString(newChild.getCommandType()).equals("Turtle")) {
-            addTurtleProperties(newChild);
-        }
-
-        if (myCommandTypes.getString(newChild.getCommandType()).equals("Control")) {
-            ((ControlCommand) newChild.getCommandObj()).setVariables(myVariables);
-        }
-
-//        if (isNoType(newChild) && myMethods.get(newChild.getCommand()) != null) { // calling a method
-//            return buildMethodTree(myMethods.get(currCommand));
+//        if (myCommandTypes.getString(newChild.getCommandType()).equals("Turtle")) {
+//            addTurtleProperties(newChild);
 //        }
+
+//        if (myCommandTypes.getString(newChild.getCommandType()).equals("Control")) {
+//            ((ControlCommand) newChild.getCommandObj()).setInfo(myVariables,myMethodVariables,myMethods);
+//        }
+
+        if (isNoType(newChild) && myMappings.getMyMethods().get(newChild.getCommand()) != null) { // calling a method
+            return buildMethodTree(myMappings.getMyMethods().get(currCommand));
+        }
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }

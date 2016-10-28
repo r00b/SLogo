@@ -1,7 +1,6 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInternalAPI.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,15 +13,38 @@ import java.util.Map;
  */
 public abstract class ControlCommand implements Command {
 
-   // protected List<ParseTreeNode> executables;
+    // protected List<ParseTreeNode> executables;
     private Map<String, Double> myVariables;
+    private Map<String, Double> myMethodVariables;
+    private Map<String, LogoMethod> myMethods;
+    private Mappings maps;
 
-    public void setVariables(Map<String, Double> vars) {
-        myVariables = vars;
+
+    @Override
+    public void setProperties(Object o) {
+        if (o.getClass().equals(Mappings.class)) {
+            maps = (Mappings) o;
+        }
     }
 
+
+    public void setInfo(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods) {
+        myVariables = variables;
+        myMethodVariables = methodVariables;
+        myMethods = methods;
+    }
+
+
     protected Map<String, Double> getVariables() {
-        return myVariables;
+        return maps.getMyVariables();
+    }
+
+    protected Map<String, Double> getMethodVariables() {
+        return maps.getMyMethodVariables();
+    }
+
+    protected Map<String, LogoMethod> getMethods() {
+        return maps.getMyMethods();
     }
 
     @Override
@@ -30,7 +52,6 @@ public abstract class ControlCommand implements Command {
 
     @Override
     public abstract int numArguments();
-
 
 
 }
