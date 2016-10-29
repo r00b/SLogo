@@ -125,17 +125,12 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
-        myButtonMenu.setDefaults(penColor, backgroundStr, turtleStr, language);
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
     }
 
     //don't think i understand binding that well yet but this doesn't work for some reason
-    private void setParamBindings() {
-        background.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenBackground().imageProperty());
-        turtle.imageProperty().bind(myButtonMenu.getOptionsPopup().getChosenTurtle().imageProperty());
-    }
 
     private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
