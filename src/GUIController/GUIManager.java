@@ -1,6 +1,7 @@
 package GUIController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import BackEndCommands.TurtleCommands.Back;
@@ -261,14 +262,6 @@ public class GUIManager implements GUIController {
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         String latestCommand = "";
-        /**
-         * An error such as
-         fd 33#
-         google me
-         move 12
-         fd 70
-         * isn't handled. MissingResourceException.
-         */
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
                 latestCommand += commandParser.getAction(splitCommands[i]);
@@ -281,8 +274,9 @@ public class GUIManager implements GUIController {
                     }
                 }
                 else {
-                    for(int j = 0; j < commandParser.getErrors().size(); j++){
-                        myConsole.addConsole(commandParser.getErrors().get(j));
+                    Set<String> errors = commandParser.getErrors();
+                    for (String s : errors) {
+                        myConsole.addConsole(s);
                     }
                 }
 //

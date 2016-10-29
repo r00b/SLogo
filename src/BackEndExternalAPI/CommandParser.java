@@ -5,6 +5,8 @@ import BackEndInternalAPI.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Robert H. Steilberg II
@@ -19,7 +21,7 @@ public class CommandParser {
     private static HashMap<String, Double> myVariables;
     private static HashMap<String, Double> myMethodVariables;
     private static HashMap<String, LogoMethod> myMethods;
-    private static ArrayList<String> myErrors;
+    private static Set<String> myErrors;
 
     public CommandParser(ObservableProperties properties) {
         myProperties = properties;
@@ -34,7 +36,7 @@ public class CommandParser {
         return myVariables;
     }
 
-    public ArrayList<String> getErrors() {
+    public Set<String> getErrors() {
         return myErrors;
     }
 

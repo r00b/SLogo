@@ -4,9 +4,7 @@ import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import org.apache.velocity.runtime.directive.Parse;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 /**
@@ -24,7 +22,7 @@ public class ParseTreeBuilder {
     private static int myCommandIndex;
     private static ObservableProperties myProperties;
     private static Mappings myMappings;
-    private static ArrayList<String> myErrors;
+    private static Set<String> myErrors;
     private static ResourceBundle myThrowables;
     private static boolean definingMethod;
 
@@ -32,7 +30,7 @@ public class ParseTreeBuilder {
     public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods, ObservableProperties properties) {
         myMappings = new Mappings(variables, methodVariables, methods);
         myProperties = properties;
-        myErrors = new ArrayList<String>();
+        myErrors = new HashSet<String>();
         myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
         definingMethod = false;
     }
@@ -41,7 +39,7 @@ public class ParseTreeBuilder {
         myProperties = properties;
     }
 
-    public static ArrayList<String> getErrors() {
+    public static Set<String> getErrors() {
         return myErrors;
     }
 
