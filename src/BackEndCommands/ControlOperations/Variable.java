@@ -1,10 +1,6 @@
 package BackEndCommands.ControlOperations;
 
-import java.util.List;
-import java.util.Map;
-
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
 
 /**
@@ -17,11 +13,16 @@ public class Variable extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        String varKey = node.getCommand();
-        if (getVariables().get(varKey) == null) {
-            return 0;
+        String varKey = node.getRawCommand();
+
+        if (getMethodVariables().get(varKey) != null) {
+            return getMethodVariables().get(varKey);
         }
-        return getVariables().get(varKey);
+        if (getVariables().get(varKey) != null) {
+            return getVariables().get(varKey);
+        }
+
+        return 0;
     }
 
     @Override

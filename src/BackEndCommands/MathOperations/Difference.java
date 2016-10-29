@@ -12,7 +12,11 @@ import BackEndInternalAPI.ParseTreeNode;
  */
 public class Difference implements Command {
 	public static final int ARGS = 2;
-	
+
+    public void setProperties(Object o) {
+        return;
+    }
+
 	/**
 	 * Returns the difference between the two arguments
 	 */

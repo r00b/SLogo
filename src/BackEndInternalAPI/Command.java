@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface Command {
 
+    void setProperties(Object o);
+
 
     /**
      * Executes a commandType that is respective to the type of

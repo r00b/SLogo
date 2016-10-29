@@ -13,7 +13,11 @@ import BackEndInternalAPI.ParseTreeNode;
 public class Pi implements Command {
 
 	private static final int ARGS = 0;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the value of Pi
 	 */

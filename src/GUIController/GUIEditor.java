@@ -46,6 +46,7 @@ public class GUIEditor implements Editor {
         addTextLabel();
         addTextArea();
         addHelpButton();
+        addClearButton();
 //        addRunButton();
     }
 
@@ -114,22 +115,28 @@ public class GUIEditor implements Editor {
         helpWindow.init();
     }
 
-    private void addRunButton(){
+    private void addClearButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/play.png"));
-        ImageView imgV = new ImageView(newImage);
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        Button clear = newButton("Clear", clearImg, 800, 600);
+        clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
+        window.getChildren().add(clear);
+    }
+
+    private Button newButton(String text, ImageView imgV, int x, int y){
         imgV.setFitWidth(25);
         imgV.setFitHeight(25);
-        Button run = new Button("Run", imgV);
+        Button run = new Button(text, imgV);
         run.setStyle(overButton);
         run.setOnMouseEntered(e -> {
             run.setStyle(buttonFill);
             backdrop.opacityProperty().setValue(0.8);
         });
         run.setOnMouseExited(e -> run.setStyle(overButton));
-        run.setTranslateX(700);
-        run.setTranslateY(600);
-        window.getChildren().add(run);
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
     }
 
     /**

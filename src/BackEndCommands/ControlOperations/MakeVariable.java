@@ -1,11 +1,7 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndExternalAPI.CommandParser;
-import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
-
-import java.util.List;
 
 /**
  * @author Robert H. Steilberg II
@@ -20,7 +16,7 @@ public class MakeVariable extends ControlCommand {
     public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);
         ParseTreeNode arg2 = node.getChild(1);
-        String varName = arg1.getCommand();
+        String varName = arg1.getRawCommand();
         double varVal = arg2.executeCommand(arg2);
         getVariables().put(varName,varVal);
         return 1;

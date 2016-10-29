@@ -13,7 +13,11 @@ import java.util.List;
 public class Quotient implements Command {
 
 	private static final int ARGS = 2;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the first argument divided by the second argument
 	 */

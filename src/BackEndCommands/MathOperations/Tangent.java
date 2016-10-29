@@ -14,6 +14,10 @@ public class Tangent implements Command {
 
     private static final int ARGS = 1;
 
+    public void setProperties(Object o) {
+        return;
+    }
+
     /**
 	 * Returns the tan of the arg angle in degrees
 	 */
