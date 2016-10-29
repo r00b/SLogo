@@ -261,6 +261,14 @@ public class GUIManager implements GUIController {
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
         String latestCommand = "";
+        /**
+         * An error such as
+         fd 33#
+         google me
+         move 12
+         fd 70
+         * isn't handled. MissingResourceException.
+         */
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
                 latestCommand += commandParser.getAction(splitCommands[i]);
