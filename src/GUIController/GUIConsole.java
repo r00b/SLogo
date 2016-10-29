@@ -136,7 +136,7 @@ public class GUIConsole implements Console{
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 200, (int) backdrop.getTranslateY());
+        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 100, (int) backdrop.getTranslateY());
         clear.setOnMouseClicked(e -> listOfCommands.clear());
         window.getChildren().add(clear);
     }

@@ -260,13 +260,22 @@ public class GUIManager implements GUIController {
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
+        String latestCommand = "";
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
-                myHistory.addCommand(splitCommands[i]);
-                myConsole.addConsole("" + commandParser.getAction(splitCommands[i]));
-                Set<String> keyset = commandParser.getVariables().keySet();
-                for(String s : keyset){
-                    myVariables.addVariable(s, commandParser.getVariables().get(s));
+                latestCommand += commandParser.getAction(splitCommands[i]);
+                if(commandParser.getErrors().size() == 0){
+                    myHistory.addCommand(splitCommands[i]);
+                    myConsole.addConsole("" + latestCommand);
+                    Set<String> keyset = commandParser.getVariables().keySet();
+                    for(String s : keyset){
+                        myVariables.addVariable(s, commandParser.getVariables().get(s));
+                    }
+                }
+                else {
+                    for(int j = 0; j < commandParser.getErrors().size(); j++){
+                        myConsole.addConsole(commandParser.getErrors().get(j));
+                    }
                 }
 //
             }
