@@ -1,7 +1,10 @@
 package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,14 +25,41 @@ public class GUIButtonMenu implements ButtonMenu{
     private Paint border;
     private Rectangle backdrop;
     private Stage s = new Stage();
+
+    private String defaultBackground = "Nebula";
+    private String defaultLanguage = "English";
     private OptionsPopup myOptions;
     private HelpMenu myHelpMenu;
+
+    private ComboBox<String> backgroundBox, languageBox;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+
+    private ObservableList<String> backgroundOptions =
+            FXCollections.observableArrayList(
+                    "Circuits",
+                    "Floating Cubes",
+                    "Nebula",
+                    "Metal Sheets",
+                    "Spinning Screens"
+            );
+
+    private ObservableList<String> languageOptions =
+            FXCollections.observableArrayList(
+                    "Chinese",
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Portuguese",
+                    "Russian",
+                    "Spanish",
+                    "Syntax"
+            );
 
     /**
      *
@@ -42,6 +72,7 @@ public class GUIButtonMenu implements ButtonMenu{
         drawButtonMenu();
         addTextLabel();
         addButtons();
+        addComboBoxes();
     }
 
     private void drawButtonMenu(){
@@ -97,7 +128,6 @@ public class GUIButtonMenu implements ButtonMenu{
         window.getChildren().add(stop);
         window.getChildren().add(options);
         window.getChildren().add(help);
-        
     }
 
     public Button newButton(String text, ImageView imgV, int x, int y){
@@ -113,6 +143,22 @@ public class GUIButtonMenu implements ButtonMenu{
         run.setTranslateX(x);
         run.setTranslateY(y);
         return run;
+    }
+
+    private void addComboBoxes(){
+        System.setProperty("glass.accessible.force", "false");
+        backgroundBox = new ComboBox<String>(backgroundOptions);
+        backgroundBox.setValue(defaultBackground);
+        backgroundBox.setTranslateX(570);
+        backgroundBox.setTranslateY(50);
+//        backgroundBox.setStyle(buttonFill);
+//        backgroundBox.style
+        window.getChildren().add(backgroundBox);
+        languageBox = new ComboBox<String>(languageOptions);
+        languageBox.setValue(defaultLanguage);
+        languageBox.setTranslateX(740);
+        languageBox.setTranslateY(50);
+        window.getChildren().add(languageBox);
     }
 
     /**
