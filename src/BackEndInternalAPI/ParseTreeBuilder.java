@@ -153,7 +153,6 @@ public class ParseTreeBuilder {
             return checkForMethod(newChild);
         }
 
-
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }
