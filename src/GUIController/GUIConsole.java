@@ -53,6 +53,7 @@ public class GUIConsole implements Console{
         addTextLabel();
         addHelpButton();
         addListView();
+        addClearButton();
     }
 
     /**
@@ -129,5 +130,29 @@ public class GUIConsole implements Console{
         Stage s = new Stage();
         helpWindow = new ConsoleHelp(s);
         helpWindow.init();
+    }
+
+    private void addClearButton(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 100, (int) backdrop.getTranslateY());
+        clear.setOnMouseClicked(e -> listOfCommands.clear());
+        window.getChildren().add(clear);
+    }
+
+    private Button newButton(String text, ImageView imgV, int x, int y){
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button(text, imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
     }
 }
