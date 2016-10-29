@@ -96,7 +96,7 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
-//        myTurtle.x
+//        myTurtle.min
         window.getChildren().add(myTurtle);
     }
 
@@ -169,21 +169,38 @@ public class GUIDisplay implements RenderSprite {
     public void drawNewLine(BooleanProperty bool ){
     	double centerX =  20;
 		double centerY = 20;
+        boolean yBoundUpper = false;
 		Line newPath;
+        double yDest = myTurtle.getY() + myTurtle.getTranslateY() + centerY;
+//        System.out.println("getY() is " + yDest);
+//        System.out.println("getTranslateY() is " + myTurtle.getTranslateY());
+//        if(yDest < Y_POS){
+//            yDest = Y_POS + centerY;
+//            yBoundUpper = true;
+//        }
+
     	if (turtleMotion.size() < 1) {
-    		
+
     		newPath = new Line(centerX + myTurtle.getTranslateX(),
                     centerY + myTurtle.getTranslateY(),
                     myTurtle.getX() + myTurtle.getTranslateX() + centerX,
                     myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+//            newPath = new Line(centerX + myTurtle.getTranslateX(),
+//                    centerY + myTurtle.getTranslateY(),
+//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+//                    yDest);
     	}
     	else{
     		newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
                     turtleMotion.get(turtleMotion.size() - 1).getEndY(),
     				myTurtle.getX() + myTurtle.getTranslateX() + centerX,
                     myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+//            newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
+//                    turtleMotion.get(turtleMotion.size() - 1).getEndY(),
+//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+//                    yDest);
     	}
-    	System.out.println(pathColor);
+//    	System.out.println(pathColor);
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
         newPath.setStrokeWidth(5);
@@ -193,6 +210,8 @@ public class GUIDisplay implements RenderSprite {
         newPath.setVisible(visibility);
         turtleMotion.add(newPath);
         window.getChildren().add(newPath);
+
+        if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
         window.getChildren().remove(myTurtle);
         window.getChildren().add(myTurtle);
     	
