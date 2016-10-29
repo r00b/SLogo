@@ -166,7 +166,7 @@ public class GUIDisplay implements RenderSprite {
      *
      * @param bool
      */
-    public void drawNewLine(BooleanProperty bool ){
+    public void drawNewLine(){
     	double centerX =  20;
 		double centerY = 20;
 		Line newPath;
@@ -196,7 +196,7 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().remove(myTurtle);
         window.getChildren().add(myTurtle);
     	
-    	bool.set(false);
+    	//bool.set(false);
     }
 
     //DONT NEED IT ANYMORE
@@ -226,9 +226,9 @@ public class GUIDisplay implements RenderSprite {
      *
      * @param clearScreenProperty
      */
-	public void clearScreen(BooleanProperty clearScreenProperty) {
+	public void clearScreen() {
 		window.getChildren().removeAll(turtleMotion);
-		clearScreenProperty.set(false);
+		//clearScreenProperty.set(false);
 	}
 
     /**

@@ -19,7 +19,7 @@ public class PenUp extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		properties.getPathVisibleProperty().set(false);
+		properties.setPathVisibleProperty(false);
 
 		return 0;
 	}

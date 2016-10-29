@@ -19,8 +19,7 @@ public class PenDown extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		properties.getPathVisibleProperty().set(true);
-
+		properties.setPathVisibleProperty(true);
 		return 1;
 	}
 

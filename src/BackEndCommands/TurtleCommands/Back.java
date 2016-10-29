@@ -23,9 +23,9 @@ public class Back extends TurtleCommand {
 		//Need to update line and image position
 		double xDistance = calculateXDistance(value1);
 		double yDistance = calculateYDistance(value1);
-		properties.setXProperty(properties.getXProperty().get() - xDistance);
+		properties.setXProperty(properties.getXProperty() - xDistance);
 		properties.setYProperty(properties.getYProperty() - yDistance);
-		properties.getNewLineProperty().set(true);
+		properties.setNewLineProperty(true);
 		return value1;	
 		}
 

@@ -150,33 +150,7 @@ public class GUIManager implements GUIController {
     }
 
     private ObservableProperties setupBindings() {
-    	ObservableProperties answer = new ObservableProperties(turtle);
-    	answer.getNewLineProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				//If new value is true we need to draw a new line
-				if (newValue) {
-					myDisplay.drawNewLine(answer.getNewLineProperty());
-				}
-			}
-    	});
-    	answer.getPathVisibleProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				myDisplay.setVisibility(newValue);
-			}
-    	});
-    	answer.getClearScreenProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				//If new value is true we need to draw a new line
-				if (newValue) {
-					myDisplay.clearScreen(answer.getClearScreenProperty());
-				}
-			}
-    	});
+    	ObservableProperties answer = new ObservableProperties(turtle, myDisplay);
     	return answer;
     }
     
