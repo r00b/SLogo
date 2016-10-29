@@ -5,6 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,20 +28,11 @@ public class GUIButtonMenu implements ButtonMenu{
     private Paint border;
     private Rectangle backdrop;
     private Stage s = new Stage();
-
     private String defaultBackground = "Nebula";
     private String defaultLanguage = "English";
     private OptionsPopup myOptions;
     private HelpMenu myHelpMenu;
-
     private ComboBox<String> backgroundBox, languageBox;
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",
@@ -47,7 +41,7 @@ public class GUIButtonMenu implements ButtonMenu{
                     "Metal Sheets",
                     "Spinning Screens"
             );
-
+  
     private ObservableList<String> languageOptions =
             FXCollections.observableArrayList(
                     "Chinese",
@@ -59,7 +53,14 @@ public class GUIButtonMenu implements ButtonMenu{
                     "Russian",
                     "Spanish",
                     "Syntax"
+
             );
+    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
+    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     /**
      *
@@ -69,6 +70,7 @@ public class GUIButtonMenu implements ButtonMenu{
     public GUIButtonMenu(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
+//        myOptions = new OptionsPopup();
         drawButtonMenu();
         addTextLabel();
         addButtons();
@@ -96,6 +98,8 @@ public class GUIButtonMenu implements ButtonMenu{
         label.setTranslateY(30);
         window.getChildren().add(label);
     }
+    
+    
 
     /**
      *
@@ -113,21 +117,21 @@ public class GUIButtonMenu implements ButtonMenu{
                 .getResourceAsStream("images/stop.png"));
         imgV = new ImageView(newImage);
         Button stop = newButton("STOP", imgV, 240, 40);
-        newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/options.png"));
-        imgV = new ImageView(newImage);
-        Button options = newButton("OPTIONS", imgV, 340, 40);
-        options.setOnMouseClicked(e -> optionsHandler());
+//        newImage = new Image(getClass().getClassLoader()
+//                .getResourceAsStream("images/options.png"));
+//        imgV = new ImageView(newImage);
+//        Button options = newButton("OPTIONS", imgV, 340, 40);
+//        options.setOnMouseClicked(e -> optionsHandler());
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         imgV = new ImageView(newImage);
-        Button help = newButton("HELP", imgV, 465, 40);
+        Button help = newButton("HELP", imgV, 337, 40);
         help.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(play);
         window.getChildren().add(pause);
         window.getChildren().add(stop);
-        window.getChildren().add(options);
         window.getChildren().add(help);
+//        window.getChildren().add(options);
     }
 
     public Button newButton(String text, ImageView imgV, int x, int y){
@@ -149,14 +153,14 @@ public class GUIButtonMenu implements ButtonMenu{
         System.setProperty("glass.accessible.force", "false");
         backgroundBox = new ComboBox<String>(backgroundOptions);
         backgroundBox.setValue(defaultBackground);
-        backgroundBox.setTranslateX(570);
+        backgroundBox.setTranslateX(440);
         backgroundBox.setTranslateY(50);
 //        backgroundBox.setStyle(buttonFill);
 //        backgroundBox.style
         window.getChildren().add(backgroundBox);
         languageBox = new ComboBox<String>(languageOptions);
         languageBox.setValue(defaultLanguage);
-        languageBox.setTranslateX(740);
+        languageBox.setTranslateX(610);
         languageBox.setTranslateY(50);
         window.getChildren().add(languageBox);
     }
@@ -171,24 +175,16 @@ public class GUIButtonMenu implements ButtonMenu{
     public void setDefaults(Color paint, String background, String turtle, String language){
         myOptions = new OptionsPopup(s, paint, background, turtle, language);
     }
-
-    private void optionsHandler(){
-        myOptions.initPopup();
-    }
+//
+//    private void optionsHandler(){
+//        myOptions.initPopup();
+//    }
 
     private void helpHandler(){
         myHelpMenu = new HelpMenu(s);
         myHelpMenu.init();
     }
-
-    /**
-     *
-     * @return
-     */
-    public OptionsPopup getOptionsPopup(){
-        return myOptions;
-    }
-
+ 
     /**
      *
      * @return
