@@ -76,7 +76,8 @@ public class GUIDisplay implements RenderSprite {
         addTextLabel();
         addTurtle();
         addHelpButton();
-        addOptionsButton();
+//        addOptionsButton();
+        addDisplayControlButtons();
     }
 
     public void setInitialTurtle(String initialTurtle){
@@ -254,6 +255,49 @@ public class GUIDisplay implements RenderSprite {
 		window.getChildren().removeAll(turtleMotion);
 		clearScreenProperty.set(false);
 	}
+
+    private void addDisplayControlButtons(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 300,
+                (int) displayGraph.getTranslateY() + 10);
+        clear.setOnMouseClicked(e -> {
+            window.getChildren().removeAll(turtleMotion);
+            turtleMotion.clear();
+        });
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/options.png"));
+        ImageView optionsImg = new ImageView(newImage);
+        optionsButton = newButton("Display Options", optionsImg, 760, 120);
+        optionsButton.setOnMouseClicked(e -> {
+            Stage s = new Stage();
+            myOptions = new DisplayMenu(s);
+            updateDisplayOptions();
+        });
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/reset.png"));
+        ImageView resetImg = new ImageView(newImage);
+        Button reset = newButton("Reset", resetImg, 1010, 120);
+//        optionsButton.setTranslateX(760);
+//        optionsButton.setTranslateY(120);
+        window.getChildren().addAll(clear, optionsButton, reset);
+//        window.getChildren().add(clear);
+    }
+
+    private Button newButton(String text, ImageView imgV, int x, int y){
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button(text, imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
+    }
 
     /**
      *
