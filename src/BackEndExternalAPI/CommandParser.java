@@ -1,7 +1,9 @@
 package BackEndExternalAPI;
 
 import BackEndInternalAPI.*;
+import com.sun.tools.javac.code.Attribute;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,6 +19,7 @@ public class CommandParser {
     private static HashMap<String, Double> myVariables;
     private static HashMap<String, Double> myMethodVariables;
     private static HashMap<String, LogoMethod> myMethods;
+    private static ArrayList<String> myErrors;
 
     public CommandParser(ObservableProperties properties) {
         myProperties = properties;
@@ -31,6 +34,10 @@ public class CommandParser {
         return myVariables;
     }
 
+    public ArrayList<String> getErrors() {
+        return myErrors;
+    }
+
     /**
      * Executes the cumulative action associated with a Logo commandType issued
      * from the editor
@@ -41,6 +48,10 @@ public class CommandParser {
         String[] commands = command.trim().split("\\p{Space}");
         ParseTreeBuilder builder = new ParseTreeBuilder(myVariables, myMethodVariables, myMethods, myProperties);
         ParseTreeNode root = builder.initParseTree(commands);
+        myErrors = builder.getErrors();
+        if (myErrors.size() != 0) {
+            return 0.0;
+        }
         double result = root.getCommandObj().executeCommand(root);
         myMethodVariables.clear(); // clear temporary variables
         return result;
