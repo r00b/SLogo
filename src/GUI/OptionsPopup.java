@@ -24,7 +24,7 @@ public class OptionsPopup extends OptionsMenu {
         super.setDefaults(penColor, background, turtle, language);
 //        setDefaults(penColor, background, turtle, language);
     }
-
+    
     /**
      *
      */
@@ -33,7 +33,7 @@ public class OptionsPopup extends OptionsMenu {
         getStage().setScene(new Scene(setUpWindow()));
         getStage().show();
     }
-
+    
     @Override
     /**
      *
