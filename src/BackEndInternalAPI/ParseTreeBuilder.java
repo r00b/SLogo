@@ -2,6 +2,7 @@ package BackEndInternalAPI;
 
 import BackEndCommands.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -15,21 +16,29 @@ import java.util.ResourceBundle;
  */
 public class ParseTreeBuilder {
 
+    private static final String ERRORS_PATH = "resources/internal/Errors";
     private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
     private static ObservableProperties myProperties;
     private static Mappings myMappings;
+    private static ArrayList<String> myErrors;
+    private static ResourceBundle myThrowables;
 
 
     public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods, ObservableProperties properties) {
         myMappings = new Mappings(variables,methodVariables,methods);
         myProperties = properties;
-
+        myErrors = new ArrayList<String>();
+        myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
     }
 
     public static void setProperties(ObservableProperties properties) {
         myProperties = properties;
+    }
+
+    public static ArrayList<String> getErrors() {
+        return myErrors;
     }
 
     /**
@@ -56,8 +65,13 @@ public class ParseTreeBuilder {
      */
     private ParseTreeNode buildList(ParseTreeNode listNode) {
         while (!myCommands[myCommandIndex + 1].equals("]")) {
+       //     myCommands[4];
             myCommandIndex++;
             listNode.addChild(buildParseTree()); // create subtrees for each element in the list
+            if (myCommandIndex + 1 == myCommands.length ) {
+                myErrors.add(myThrowables.getString("ListError"));
+                return null;
+            }
         }
         myCommandIndex++; // increment so we can execute anything after the list
         return listNode;
@@ -99,14 +113,25 @@ public class ParseTreeBuilder {
      * initialized on the given commandType
      */
     private ParseTreeNode buildParseTree() {
+        // TODO REFACTOR OUT
+        if (myCommandIndex > myCommands.length - 1) {
+            myErrors.add(myThrowables.getString("ArgumentError"));
+            return null;
+        }
         String currCommand = myCommands[myCommandIndex];
         ParseTreeNode newChild = initParseTreeNode(currCommand);
+
         if (isNoType(newChild) && myMappings.getMyMethods().get(newChild.getRawCommand()) != null) { // calling a method
             return buildMethodTree(myMappings.getMyMethods().get(currCommand));
         }
+        if (isNoType(newChild) && myMappings.getMyMethods().get(newChild.getRawCommand()) == null) {
+            myErrors.add(myThrowables.getString("CommandError"));
+        }
+
         if (newChild.getCommandObj().getClass() == ListStart.class) { // building a list
             return buildList(newChild);
         }
+
         if (newChild.getNumChildren() == 0) { // base case, no more commands to add to the tree
             return newChild;
         }
