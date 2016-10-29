@@ -3,6 +3,8 @@ package GUIController;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.DisplayHelp;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -21,11 +23,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 //
 //import java.awt.*;
 //import java.awt.Button;
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -38,6 +42,7 @@ public class GUIDisplay implements RenderSprite {
     private static final int Y_POS = 110;
     private static boolean visibility = true;
     private int numSteps = 0;
+    private int strokeWidth = 5;
     private Pane window;
     private Line myPath;
     private ImageView helpButton;
@@ -203,7 +208,7 @@ public class GUIDisplay implements RenderSprite {
 //    	System.out.println(pathColor);
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
-        newPath.setStrokeWidth(5);
+        newPath.setStrokeWidth(strokeWidth);
 //        newPath.setStrokeDashOffset(2);
         newPath.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newPath.setId("Step" + numSteps);
@@ -288,11 +293,14 @@ public class GUIDisplay implements RenderSprite {
 
     private void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
+        System.out.println("pen: " + pathColor);
+        System.out.println("display: " + myOptions.getDisplayColor());
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
+        strokeWidth = myOptions.getStrokeWidth();
     }
 
     private void createDisplayShading(){
@@ -311,7 +319,12 @@ public class GUIDisplay implements RenderSprite {
 
     private class DisplayMenu extends OptionsMenu{
 
+        private static final int DROP_DOWN_X_VALUE = 400;
+        private static final int PEN_MIN = 0;
+        private static final int PEN_MAX = 10;
+        private static final int PEN_INIT = 5;
         private ColorPicker displayColor;
+        private Slider slider;
         /**
          * @param s
          */
@@ -327,6 +340,7 @@ public class GUIDisplay implements RenderSprite {
             addLaunchButton();
             addLineStylePicker();
             changeDisplayColor();
+            addPenSizeSlider();
         }
 
         @Override
@@ -341,8 +355,8 @@ public class GUIDisplay implements RenderSprite {
 
         @Override
         public void addRectangle() {
-            Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
-            backdrop.setTranslateY(230);
+            Rectangle backdrop = new Rectangle(500, 340, Color.MIDNIGHTBLUE);
+            backdrop.setTranslateY(180);
             backdrop.setTranslateX(100);
             backdrop.opacityProperty().setValue(0.5);
             getStartWindow().getChildren().add(backdrop);
@@ -364,6 +378,35 @@ public class GUIDisplay implements RenderSprite {
             getStartWindow().getChildren().add(newButton);
         }
 
+        private void addPenSizeSlider(){
+//            JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL,
+//                    PEN_MIN, PEN_MAX, PEN_INIT);
+//            framesPerSecond.addChangeListener(this);
+
+            slider = new Slider(0, 10, 5);
+            slider.setShowTickMarks(true);
+            slider.setShowTickLabels(true);
+            slider.setMajorTickUnit(2);
+            slider.setMinorTickCount(1);
+//            slider.setBlockIncrement(1);
+            slider.setSnapToTicks(true);
+//            slider.setPrefWidth(200);
+//            slider.tick
+            slider.setTranslateX(DROP_DOWN_X_VALUE);
+            slider.setTranslateY(200);
+
+            Label sliderLabel = generateLabel("Choose pen size \t\t" + (int) slider.getValue(), 125, 200);
+
+            slider.valueProperty().addListener(new ChangeListener<Number>() {
+                public void changed(ObservableValue<? extends Number> ov,
+                                    Number old_val, Number new_val) {
+                    sliderLabel.setText("Choose pen size \t\t" + String.format("%.0f", new_val));
+                }
+            });
+
+            getStartWindow().getChildren().addAll(slider, sliderLabel);
+        }
+
         @Override
         public void initIDE(String background, String turtle) {
 //nope
@@ -376,7 +419,7 @@ public class GUIDisplay implements RenderSprite {
         }
 
         public void changeDisplayColor() {
-            displayColor = generateColorPicker(Color.ALICEBLUE, 400, 400);
+            displayColor = generateColorPicker(Color.MIDNIGHTBLUE, 400, 400);
             Label penLabel = generateLabel("Select display color", 125, 400);
             getStartWindow().getChildren().add(displayColor);
             getStartWindow().getChildren().add(penLabel);
@@ -397,6 +440,10 @@ public class GUIDisplay implements RenderSprite {
 
         public Color getDisplayColor(){
             return displayColor.getValue();
+        }
+
+        public int getStrokeWidth(){
+            return (int) slider.getValue();
         }
     }
 }
