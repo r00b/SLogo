@@ -76,7 +76,6 @@ public class GUIDisplay implements RenderSprite {
         addTextLabel();
         addTurtle();
         addHelpButton();
-//        addOptionsButton();
         addDisplayControlButtons();
     }
 
@@ -279,6 +278,7 @@ public class GUIDisplay implements RenderSprite {
                 .getResourceAsStream("images/reset.png"));
         ImageView resetImg = new ImageView(newImage);
         Button reset = newButton("Reset", resetImg, 1010, 120);
+        reset.setOnMouseClicked(e -> resetIDE());
 //        optionsButton.setTranslateX(760);
 //        optionsButton.setTranslateY(120);
         window.getChildren().addAll(clear, optionsButton, reset);
@@ -298,6 +298,7 @@ public class GUIDisplay implements RenderSprite {
         run.setTranslateY(y);
         return run;
     }
+
 
     /**
      *
@@ -358,7 +359,33 @@ public class GUIDisplay implements RenderSprite {
 
     @Override
     public void resetIDE() {
-
+        window.getChildren().remove(myTurtle);
+        window.getChildren().removeAll(turtleMotion);
+        turtleMotion.clear();
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/graphPaper.gif"));
+//        drawDisplay();
+        displayGraph.setEffect(null);
+        displayGraph.setImage(newImage);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/turtle.png"));
+//        ImageView defaultTurtle = new ImageView(newImage);
+//        myTurtle = defaultTurtle;
+        myTurtle.setImage(newImage);
+        myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        addTurtle();
+        Paint defaultColor = Color.MIDNIGHTBLUE;
+        pathColor = defaultColor;
+        myPath.getStrokeDashArray().clear();
+//        newImage = new Image(getClass().getClassLoader()
+//                .getResourceAsStream("images/graphPaper.png"));
+//        ImageView defaultDisplay = new ImageView(newImage);
+//        displayGraph = defaultDisplay;
+        strokeWidth = 5;
+//        addTextLabel();
+//        addHelpButton();
+//        addDisplayControlButtons();
     }
 
     private class DisplayMenu extends OptionsMenu{
