@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -23,7 +25,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 //
@@ -73,10 +74,10 @@ public class GUIDisplay implements RenderSprite {
         this.pathColor = pathColor;
         this.myPath = lineType;
         drawDisplay();
+        addDisplayControlButtons();
         addTextLabel();
         addTurtle();
         addHelpButton();
-        addDisplayControlButtons();
     }
 
     public void setInitialTurtle(String initialTurtle){
@@ -102,9 +103,18 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
 //        myTurtle.min
+        makeTooltip();
         window.getChildren().add(myTurtle);
     }
 
+    private void makeTooltip(){
+        Tooltip t = new Tooltip("X: " + getTurtleLocation().getX() + "\n" + "Y: " + getTurtleLocation().getY() + "\n");
+        t.setText(t.getText() + "Line Width: " + strokeWidth + "\n");
+        t.setText(t.getText() + "Pen Color: " + pathColor + "\n");
+        t.setText(t.getText() + "Rotation: " + myTurtle.getRotate() + "\n");
+        Tooltip.install(myTurtle, t);
+    }
+    
     private void addTextLabel(){
         Text label = new Text("Display");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -163,7 +173,7 @@ public class GUIDisplay implements RenderSprite {
 //                (int)myTurtle.getTranslateY()), new Point(x, y));
 ////        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
 ////        System.out.println("translate x of the editor" + X_POS);
-//        myTurtle.setTranslateX(X_POS + x);
+//        uTranslateX(X_POS + x);
 //        myTurtle.setTranslateY(Y_POS + y);
 //    }
 
@@ -347,7 +357,8 @@ public class GUIDisplay implements RenderSprite {
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();
-        setVisibility(!myOptions.isPenUp());
+        setVisibility(myOptions.isPenUp());
+        makeTooltip();
     }
 
     private void createDisplayShading(){
@@ -520,6 +531,7 @@ public class GUIDisplay implements RenderSprite {
         public double map(double value, double start, double stop, double targetStart, double targetStop) {
             return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
         }
+
 
         public Color getDisplayColor(){
             return displayColor.getValue();
