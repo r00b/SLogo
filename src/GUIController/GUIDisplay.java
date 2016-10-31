@@ -346,6 +346,7 @@ public class GUIDisplay implements RenderSprite {
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();
+        setVisibility(myOptions.isPenUp());
     }
 
     private void createDisplayShading(){
@@ -396,6 +397,7 @@ public class GUIDisplay implements RenderSprite {
         private static final int PEN_INIT = 5;
         private ColorPicker displayColor;
         private Slider slider;
+        private CheckBox penUpBox;
         /**
          * @param s
          */
@@ -412,6 +414,7 @@ public class GUIDisplay implements RenderSprite {
             addLineStylePicker();
             changeDisplayColor();
             addPenSizeSlider();
+            addCheckBox();
         }
 
         @Override
@@ -496,6 +499,14 @@ public class GUIDisplay implements RenderSprite {
             getStartWindow().getChildren().add(penLabel);
         }
 
+        private void addCheckBox(){
+            penUpBox = new CheckBox("penup");
+            penUpBox.setTranslateX(DROP_DOWN_X_VALUE);
+            penUpBox.setTranslateY(450);
+            Label penUpLabel = generateLabel("Check to make pen invisible", 125, 450);
+            getStartWindow().getChildren().addAll(penUpLabel, penUpBox);
+        }
+
         /**
          *
          */
@@ -515,6 +526,11 @@ public class GUIDisplay implements RenderSprite {
 
         public int getStrokeWidth(){
             return (int) slider.getValue();
+        }
+
+        public boolean isPenUp(){
+            System.out.println(penUpBox.isSelected());
+            return penUpBox.isSelected();
         }
     }
 }

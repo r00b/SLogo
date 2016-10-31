@@ -34,6 +34,10 @@ import javafx.stage.Stage;
  * Created by Delia on 10/15/2016.
  */
 public class GUIManager implements GUIController {
+    /**
+     * http://www.javaworld.com/article/2071784/enterprise-java/java-xml-mapping-made-easy-with-jaxb-2-0.html
+     * https://docs.oracle.com/javase/tutorial/jaxp/xslt/generatingXML.html#gghhj
+     */
     public static final int IDE_WIDTH = 1400;
     public static final int IDE_HEIGHT = 800;
     private Color penColor;
