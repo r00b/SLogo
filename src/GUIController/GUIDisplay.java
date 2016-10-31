@@ -187,6 +187,7 @@ public class GUIDisplay implements RenderSprite {
         boolean yBoundUpper = false;
 		Line newPath;
         double yDest = myTurtle.getY() + myTurtle.getTranslateY() + centerY;
+        System.out.println("line dest is " + yDest);
 //        System.out.println("getY() is " + yDest);
 //        System.out.println("getTranslateY() is " + myTurtle.getTranslateY());
 //        if(yDest < Y_POS){
