@@ -1,6 +1,14 @@
 package BackEndExternalAPI;
 
 import BackEndInternalAPI.*;
+import GUIController.GUIVariables;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,23 +26,49 @@ import java.util.Set;
 public class CommandParser {
 
     private static ObservableProperties myProperties;
-    private static HashMap<String, Double> myVariables;
+//    private static HashMap<String, Double> myVariables;
+    private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
     private static Set<String> myErrors; // will hold any found errors
 
-    public CommandParser(ObservableProperties properties) {
+    public CommandParser(ObservableProperties properties, GUIVariables variables) {
         myProperties = properties;
-        myVariables = new HashMap<String, Double>();
+//        myVariables = new HashMap<String, Double>();
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
+
+
+        myVariables = FXCollections.observableHashMap();
+        myVariables.addListener(new MapChangeListener<String, Double>() {
+            @Override
+            public void onChanged(Change<? extends String, ? extends Double> change) {
+                System.out.println("FUCK");
+                variables.setMap(change.getMap());
+            }
+        });
+//
+//
+//        myVariables.addListener(new ChangeListener<ObservableMap<String, Double>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends ObservableMap<String, Double>> observable, ObservableMap<String, Double> oldValue, ObservableMap<String, Double> newValue) {
+//                System.out.println("FUCK");
+//                variables.setMap(newValue);
+//            }
+//        });
+
+
+
     }
 
 
-    // TODO CHANGE THIS SO THAT WE GET VARIABLES VIA OBSERVABLE PROPERTIES OR SOMETHING
-    public HashMap<String, Double> getVariables() {
-        return myVariables;
-    }
+//    // TODO CHANGE THIS SO THAT WE GET VARIABLES VIA OBSERVABLE PROPERTIES OR SOMETHING
+//    public HashMap<String, Double> getVariables() {
+//
+//
+//
+//        return myVariables;
+//    }
 
     /**
      * Getter for set containing error messages

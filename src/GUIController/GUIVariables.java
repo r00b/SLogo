@@ -5,7 +5,9 @@ import GUI.VariablesHelp;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -26,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.Event;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,7 +42,7 @@ public class GUIVariables implements Variables {
     private VariablesHelp helpWindow;
     private TableView table = new TableView();
     private TableColumn variableNameCol, valueCol;
-    private final ObservableList<Variable> data = FXCollections.observableArrayList();
+    private ObservableList<Variable> data = FXCollections.observableArrayList();
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -51,11 +54,10 @@ public class GUIVariables implements Variables {
             "-fx-text-fill: white;";
 
     /**
-     *
      * @param p
      * @param bodercolor
      */
-    public GUIVariables(Pane p, Paint bodercolor){
+    public GUIVariables(Pane p, Paint bodercolor) {
         this.window = p;
         this.border = bodercolor;
         drawVariables();
@@ -66,7 +68,7 @@ public class GUIVariables implements Variables {
         addClearButton();
     }
 
-    private void drawVariables(){
+    private void drawVariables() {
         backdrop = new Rectangle(600, 230, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
@@ -78,7 +80,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(backdrop);
     }
 
-    private void addTextLabel(){
+    private void addTextLabel() {
         Text label = new Text("Declared Variables");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
@@ -87,7 +89,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(label);
     }
 
-    private void addHelpButton(){
+    private void addHelpButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         ImageView helpButton = new ImageView(newImage);
@@ -100,14 +102,14 @@ public class GUIVariables implements Variables {
         window.getChildren().add(helpButton);
     }
 
-    private void helpHandler(){
+    private void helpHandler() {
         Stage s = new Stage();
         helpWindow = new VariablesHelp(s);
         helpWindow.init();
     }
 
-    private void createTableView(){
-        //WHY CANT I GET THIS TO BE FUCKING EDITABLE
+    private void createTableView() {
+        //WHY CANT I GET THIS TO BE FUCKING EDITABLE  TODO remove expletive before submitting
         variableNameCol = new TableColumn("Variable Name");
         variableNameCol.setPrefWidth(250);
         variableNameCol.setCellValueFactory(
@@ -158,15 +160,15 @@ public class GUIVariables implements Variables {
      */
     public void addVariable(String name, double value) {
         boolean contains = false;
-        for(int i = 0; i < data.size(); i++){
-            if(data.get(i).getVariableName().equals(name.substring(1))){
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getVariableName().equals(name.substring(1))) {
                 contains = true;
                 data.get(i).setVariableValue(value);
                 System.out.println("the value is " + value);
                 break;
             }
         }
-        if(!contains) {
+        if (!contains) {
             data.add(new Variable(name.substring(1), value));
         }
         table.setItems(data);
@@ -175,7 +177,7 @@ public class GUIVariables implements Variables {
         System.out.println("the data is " + data.size());
     }
 
-    private void addVariableManually(){
+    private void addVariableManually() {
         final TextField addFirstName = new TextField();
         addFirstName.setPromptText("Enter variable name");
         addFirstName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
@@ -194,7 +196,7 @@ public class GUIVariables implements Variables {
                 .getResourceAsStream("images/add.png"));
         ImageView addImg = new ImageView(newImage);
         final Button addButton = newButton("Add", addImg, 520, 310);
-                //new Button("Add");
+        //new Button("Add");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -211,7 +213,7 @@ public class GUIVariables implements Variables {
         window.getChildren().addAll(addFirstName, addLastName, addButton);
     }
 
-    private void addClearButton(){
+    private void addClearButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
@@ -220,7 +222,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(clear);
     }
 
-    private Button newButton(String text, ImageView imgV, int x, int y){
+    private Button newButton(String text, ImageView imgV, int x, int y) {
         imgV.setFitWidth(25);
         imgV.setFitHeight(25);
         Button run = new Button(text, imgV);
@@ -245,6 +247,27 @@ public class GUIVariables implements Variables {
         return null;
     }
 
+    public void setMap(ObservableMap<? extends String, ? extends Double> map) {
+//        data.clear();
+        for (String variable : map.keySet()) {
+//            Variable newVar = new Variable(variable, map.get(variable));
+//            data.add(newVar);
+            addVariable(variable, map.get(variable));
+        }
+
+
+
+    }
+//
+//    public void setMap(MapChangeListener<String,Double> newValue) {
+//        data.clear();
+//        for (String variable : newValue.keySet()) {
+//            Variable newVar = new Variable(variable,newValue.get(variable));
+//            data.add(newVar);
+//        }
+//        table.setItems(data);
+//    }
+
 
     /**
      *
@@ -256,7 +279,6 @@ public class GUIVariables implements Variables {
 //        private final SimpleStringProperty email;
 
         /**
-         *
          * @param vName
          * @param vValue
          */
@@ -267,7 +289,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @return
          */
         public String getVariableName() {
@@ -275,7 +296,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @param fName
          */
         public void setVariableName(String fName) {
@@ -283,7 +303,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @return
          */
         public double getVariableValue() {
@@ -291,7 +310,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @param fName
          */
         public void setVariableValue(double fName) {

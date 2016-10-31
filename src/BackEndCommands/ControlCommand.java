@@ -1,6 +1,8 @@
 package BackEndCommands;
 
 import BackEndInternalAPI.*;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +27,7 @@ public abstract class ControlCommand implements Command {
 
 
 
-    protected Map<String, Double> getVariables() {
+    protected ObservableMap<String,Double> getVariables() {
         return maps.getMyVariables();
     }
 
