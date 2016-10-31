@@ -9,10 +9,10 @@ import java.util.ArrayList;
  */
 public class ParseTreeNode {
 
-    private static String rawCommand;
-    private static Command commandObj;
-    private static ArrayList<ParseTreeNode> children;
-    private static int numChildren;
+    private String rawCommand;
+    private Command commandObj;
+    private ArrayList<ParseTreeNode> children;
+    private int numChildren;
 
     /**
      * Initialize the parse tree node
