@@ -13,7 +13,11 @@ import java.util.List;
 public class NotEqual implements Command{
 
 	private static final int ARGS = 2;
-	
+
+    public void setProperties(Object o) {
+        return;
+    }
+
 	/**
 	 * Returns 1 if the two commands are not equal 0 otherwise
 	 */

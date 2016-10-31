@@ -1,6 +1,5 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
@@ -21,11 +20,11 @@ public class Forward extends TurtleCommand {
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
 		double value1 = arg1.executeCommand(arg1);
-		double xDistance = calculateXDistance(value1);
+		properties.calculateXDistance(value1);
 		double yDistance = calculateYDistance(value1);
-		properties.setXProperty((properties.getXProperty().get() + xDistance));
+		//properties.setXProperty((properties.getXProperty().get() + xDistance));
 		properties.setYProperty(properties.getYProperty() + yDistance);
-		properties.getNewLineProperty().set(true);
+		properties.setNewLineProperty(true);
 		return value1;
 	}
 

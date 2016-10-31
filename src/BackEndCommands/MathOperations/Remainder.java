@@ -4,7 +4,6 @@ import java.util.List;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
-import org.apache.velocity.runtime.directive.Parse;
 
 
 /**
@@ -15,7 +14,11 @@ import org.apache.velocity.runtime.directive.Parse;
 public class Remainder implements Command {
 
 	private static final int ARGS = 2;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the remainder of the first arg divided by the second arg
 	 */

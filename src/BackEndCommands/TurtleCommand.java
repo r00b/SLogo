@@ -20,6 +20,13 @@ public abstract class TurtleCommand implements Command {
     protected ObservableProperties properties;
 
 	@Override
+	public void setProperties(Object o) {
+		if (o.getClass().equals(ObservableProperties.class)) {
+			properties = (ObservableProperties) o;
+		}
+	}
+
+	@Override
 	public double executeCommand(ParseTreeNode node) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -57,7 +64,7 @@ public abstract class TurtleCommand implements Command {
 	 * @return X distance traveled
 	 */
 	protected double calculateXDistance(double hyp) {
-		double angle = properties.getRotateProperty().get();
+		double angle = properties.getRotateProperty();
 		double answer = Math.sin(Math.toRadians(angle)) * hyp;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
 		return answer;
@@ -69,7 +76,7 @@ public abstract class TurtleCommand implements Command {
 	 * @return Y disntace traveled
 	 */
 	protected double calculateYDistance(double hyp) {
-		double angle = properties.getRotateProperty().get();
+		double angle = properties.getRotateProperty();
 		double answer = Math.cos(Math.toRadians(angle)) * hyp;
 		return answer;
 	}

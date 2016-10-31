@@ -20,11 +20,11 @@ public class Home extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		double answer = calculateTotalDistance(properties.getXProperty().get(), 0,
+		double answer = calculateTotalDistance(properties.getXProperty(), 0,
 				properties.getYProperty(), 0);
-		properties.getXProperty().set(0);
+		properties.setXProperty(0);
 		properties.setYProperty(0);
-		properties.getNewLineProperty().set(true);
+		properties.setNewLineProperty(true);
 		return answer;
 	}
 

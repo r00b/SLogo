@@ -23,8 +23,8 @@ public class SetHeading extends TurtleCommand {
 		double value1 = arg1.executeCommand(arg1);
 		//Need to get actual rotation so use % 
 		double set_degrees = value1 % 360;
-		double current_degrees = properties.getRotateProperty().get();
-		properties.getRotateProperty().set(value1);
+		double current_degrees = properties.getRotateProperty();
+		properties.setRotateProperty(value1);
 		return Math.abs(set_degrees - current_degrees);
 	}
 

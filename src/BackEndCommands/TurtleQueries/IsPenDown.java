@@ -19,7 +19,7 @@ public class IsPenDown extends TurtleCommand {
 	 */
 	public double executeCommand(ParseTreeNode node) {
 		double answer = 0;
-		if (properties.getPathVisibleProperty().get()) {
+		if (properties.getPathVisibleProperty()) {
 			answer++;
 		}
 		return answer;

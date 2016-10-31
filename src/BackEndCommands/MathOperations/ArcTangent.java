@@ -2,7 +2,6 @@ package BackEndCommands.MathOperations;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
-import org.apache.velocity.runtime.directive.Parse;
 
 import java.util.List;
 
@@ -14,6 +13,10 @@ import java.util.List;
 public class ArcTangent implements Command {
 
     private static final int ARGS = 1;
+
+    public void setProperties(Object o) {
+        return;
+    }
 
     @Override
     public double executeCommand(ParseTreeNode node) {

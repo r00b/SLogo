@@ -14,7 +14,11 @@ import BackEndInternalAPI.ParseTreeNode;
 public class Minus implements Command {
 
     private static final int ARGS = 1;
-	
+
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns the negated value of the argument
 	 */

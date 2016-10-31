@@ -14,7 +14,11 @@ import BackEndInternalAPI.ParseTreeNode;
 public class Product implements Command {
 
 	private static final int ARGS = 2;
-	
+
+    public void setProperties(Object o) {
+        return;
+    }
+
 	/**
 	 * Returns the two arguments multiplied by each other
 	 */

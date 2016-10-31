@@ -1,12 +1,7 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeExecutor;
 import BackEndInternalAPI.ParseTreeNode;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Robert H. Steilberg II
@@ -21,7 +16,7 @@ public class DoTimes extends ControlCommand {
     public double executeCommand(ParseTreeNode node) {
     	ParseTreeNode arg1 = node.getChild(0);
 		ParseTreeNode arg2 = node.getChild(1);
-		String variable = arg1.getChild(0).getCommand();
+		String variable = arg1.getChild(0).getRawCommand();
 		getVariables().put(variable, 1.0);
 		double limit = arg1.executeCommand(arg1);
 		//double value2 = arg2.executeCommand(arg2.getChildren());

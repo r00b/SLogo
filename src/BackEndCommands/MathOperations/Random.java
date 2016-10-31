@@ -15,6 +15,10 @@ public class Random implements Command {
 
 	private static final int ARGS = 1;
 
+	public void setProperties(Object o) {
+		return;
+	}
+
 	/**
 	 * Returns a random double between zero and argument specifiec
 	 */
