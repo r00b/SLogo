@@ -13,6 +13,8 @@ import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.CommandTypeDetector;
+import BackEndInternalAPI.ObservableComposite;
+import BackEndInternalAPI.ObservableManager;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.beans.value.ChangeListener;
@@ -92,7 +94,7 @@ public class GUIManager implements GUIController {
         myWindow = new Scene(setUpWindow());
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
-        ObservableProperties properties = setupBindings();
+        ObservableComposite properties = setupBindings();
         commandParser = new CommandParser(properties);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
@@ -149,8 +151,10 @@ public class GUIManager implements GUIController {
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
     }
 
-    private ObservableProperties setupBindings() {
-    	ObservableProperties answer = new ObservableProperties(turtle, myDisplay, 1);
+    private ObservableComposite setupBindings() {
+    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
+    	ObservableComposite answer = new ObservableComposite(property);
+    	System.out.println("");
     	return answer;
     }
     

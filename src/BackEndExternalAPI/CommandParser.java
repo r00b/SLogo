@@ -13,12 +13,12 @@ import java.util.HashMap;
  */
 public class CommandParser {
 
-    private static ObservableProperties myProperties;
+    private static ObservableComposite myProperties;
     private static HashMap<String, Double> myVariables;
     private static HashMap<String, Double> myMethodVariables;
     private static HashMap<String, LogoMethod> myMethods;
 
-    public CommandParser(ObservableProperties properties) {
+    public CommandParser(ObservableComposite properties) {
         myProperties = properties;
         myVariables = new HashMap<String, Double>();
         myMethodVariables = new HashMap<String, Double>();

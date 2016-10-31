@@ -25,10 +25,14 @@ public class ObservableComposite implements ObservableManager{
 	private DoubleProperty backgroundImage;
 	private DoubleProperty paletteIndex;
 	
-	public ObservableComposite() {
+	public ObservableComposite(ObservableProperties first) {
+		Double val = 1.0;
 		myTurtles = new HashMap<Double, ObservableProperties>();
-		turtleCount = 1;
 		activeTurtles = new HashSet<Double>();
+		myTurtles.put(val, first);
+		activeTurtles.add(val);
+		turtleCount = 1;
+		//activeTurtles = new HashSet<Double>();
 		imageIndex = new SimpleDoubleProperty(0);
 		imageIndex.addListener(new ChangeListener<Number>() {
 
@@ -189,7 +193,7 @@ public class ObservableComposite implements ObservableManager{
 		for (Double id : activeTurtles) {
 			double yDistance = myTurtles.get(id).calculateYDistance(hyp, sign);
 			double currentPos = myTurtles.get(id).getYProperty();
-			myTurtles.get(id).setXProperty(currentPos + yDistance);
+			myTurtles.get(id).setYProperty(currentPos + yDistance);
 			answer  = yDistance;
 		}
 		return answer;
@@ -197,7 +201,9 @@ public class ObservableComposite implements ObservableManager{
 	@Override
 	public void setNewLineProperty(boolean value) {
 		// TODO Auto-generated method stub
-		
+		for (Double id : activeTurtles) {
+			myTurtles.get(id).setNewLineProperty(value);
+		}
 	}
 	@Override
 	public void setClearScreenProperty(boolean value) {

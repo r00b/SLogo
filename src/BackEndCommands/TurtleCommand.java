@@ -3,6 +3,7 @@ package BackEndCommands;
 import java.util.List;
 
 import BackEndInternalAPI.Command;
+import BackEndInternalAPI.ObservableComposite;
 import BackEndInternalAPI.ObservableProperties;
 import BackEndInternalAPI.ParseTreeNode;
 
@@ -17,12 +18,12 @@ import BackEndInternalAPI.ParseTreeNode;
  */
 public abstract class TurtleCommand implements Command {
 
-    protected ObservableProperties properties;
+    protected ObservableComposite properties;
 
 	@Override
 	public void setProperties(Object o) {
-		if (o.getClass().equals(ObservableProperties.class)) {
-			properties = (ObservableProperties) o;
+		if (o.getClass().equals(ObservableComposite.class)) {
+			properties = (ObservableComposite) o;
 		}
 	}
 
@@ -42,43 +43,43 @@ public abstract class TurtleCommand implements Command {
 	 * Sets the properties file in the class.
 	 * @param prop
 	 */
-	public void setProperties(ObservableProperties prop) {
+	public void setProperties(ObservableComposite prop) {
 		properties = prop;
 	}
-	
-	/**
-	 * Calculates the distance between two points. Method is called by the Home, ClearScreen, SetXY commands
-	 * @param x2
-	 * @param x1
-	 * @param y2
-	 * @param y1
-	 * @return The distance between two points 
-	 */
-	protected double calculateTotalDistance(double x2, double x1, double y2, double y1) {
-		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-	}
-	
-	/**
-	 * Calculates the X distance the turtle travels when it moves. Called by forward and back commands
-	 * @param hyp Distance of the hypotenuse 
-	 * @return X distance traveled
-	 */
-	protected double calculateXDistance(double hyp) {
-		double angle = properties.getRotateProperty();
-		double answer = Math.sin(Math.toRadians(angle)) * hyp;
-		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
-		return answer;
-	}
-
-	/**
-	 * Calculates the Y distance the turtle travels when it moves. Called by the forward and back commands
-	 * @param hyp
-	 * @return Y disntace traveled
-	 */
-	protected double calculateYDistance(double hyp) {
-		double angle = properties.getRotateProperty();
-		double answer = Math.cos(Math.toRadians(angle)) * hyp;
-		return answer;
-	}
-	
+//	
+//	/**
+//	 * Calculates the distance between two points. Method is called by the Home, ClearScreen, SetXY commands
+//	 * @param x2
+//	 * @param x1
+//	 * @param y2
+//	 * @param y1
+//	 * @return The distance between two points 
+//	 */
+//	protected double calculateTotalDistance(double x2, double x1, double y2, double y1) {
+//		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+//	}
+//	
+//	/**
+//	 * Calculates the X distance the turtle travels when it moves. Called by forward and back commands
+//	 * @param hyp Distance of the hypotenuse 
+//	 * @return X distance traveled
+//	 */
+//	protected double calculateXDistance(double hyp) {
+//		double angle = properties.getRotateProperty();
+//		double answer = Math.sin(Math.toRadians(angle)) * hyp;
+//		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
+//		return answer;
+//	}
+//
+//	/**
+//	 * Calculates the Y distance the turtle travels when it moves. Called by the forward and back commands
+//	 * @param hyp
+//	 * @return Y disntace traveled
+//	 */
+//	protected double calculateYDistance(double hyp) {
+//		double angle = properties.getRotateProperty();
+//		double answer = Math.cos(Math.toRadians(angle)) * hyp;
+//		return answer;
+//	}
+//	
 }

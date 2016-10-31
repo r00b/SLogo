@@ -18,17 +18,17 @@ public class ParseTreeBuilder {
     private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
-    private static ObservableProperties myProperties;
+    private static ObservableComposite myProperties;
     private static Mappings myMappings;
 
 
-    public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods, ObservableProperties properties) {
+    public ParseTreeBuilder(Map<String, Double> variables, Map<String, Double> methodVariables, Map<String, LogoMethod> methods, ObservableComposite properties) {
         myMappings = new Mappings(variables,methodVariables,methods);
         myProperties = properties;
 
     }
 
-    public static void setProperties(ObservableProperties properties) {
+    public static void setProperties(ObservableComposite properties) {
         myProperties = properties;
     }
 

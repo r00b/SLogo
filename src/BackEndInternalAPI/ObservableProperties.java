@@ -47,7 +47,6 @@ public class ObservableProperties implements ObservableManager{
 		setupListeners(myDisplay);
 	}
 	
-	// NOTE FOR ALL LISTENERS. CONSIDER MAKING THEM DOUBLE VALUE AND THEN CHANGE TO THE ID THAT WE ARE USING
 	private void setupListeners(GUIDisplay myDisplay) {
 		// TODO Auto-generated method stub
 //		imageIndex.addListener(new ChangeListener<Number>() {
@@ -168,6 +167,7 @@ public class ObservableProperties implements ObservableManager{
 		double angle = getRotateProperty();
 		double answer = Math.sin(Math.toRadians(angle)) * value;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
+		System.out.println("d");
 		return answer;
 	}
 

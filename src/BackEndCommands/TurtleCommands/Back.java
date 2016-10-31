@@ -22,7 +22,7 @@ public class Back extends TurtleCommand {
 		//double value1 = arg1.executeCommand(arg1);
 		//TODO need to rename these methods
 		double x = properties.calculateXDistance(arg1, false);
-		double y =properties.calculateYDistance(arg1, false);
+		double y = properties.calculateYDistance(arg1, false);
 		properties.setNewLineProperty(true);
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));	
 		}

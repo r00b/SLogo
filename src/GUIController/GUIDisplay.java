@@ -193,9 +193,9 @@ public class GUIDisplay implements RenderSprite {
         newPath.setVisible(visibility);
         turtleMotion.add(newPath);
         window.getChildren().add(newPath);
-        window.getChildren().remove(myTurtle);
-        window.getChildren().add(myTurtle);
-    	
+        //window.getChildren().remove(myTurtle);
+        //window.getChildren().add(myTurtle);
+    	//window.getChildren();
     	//bool.set(false);
     }
 
