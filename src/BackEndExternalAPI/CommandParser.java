@@ -1,14 +1,13 @@
 package BackEndExternalAPI;
 
 import BackEndInternalAPI.*;
+import GUIController.GUIConsole;
 import GUIController.GUIVariables;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
+import javafx.collections.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,58 +25,29 @@ import java.util.Set;
 public class CommandParser {
 
     private static ObservableProperties myProperties;
-//    private static HashMap<String, Double> myVariables;
     private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
-    private static Set<String> myErrors; // will hold any found errors
+    private static GUIConsole myConsole;
+    private static SimpleStringProperty myLanguageBinding;
+//    private static ObservableSet<String> myErrors; // will hold any found errors
 
-    public CommandParser(ObservableProperties properties, GUIVariables variables) {
+    public CommandParser(ObservableProperties properties, GUIVariables variables, GUIConsole console) {
         myProperties = properties;
-//        myVariables = new HashMap<String, Double>();
+        myVariables = FXCollections.observableHashMap();
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
 
+        myVariables.addListener((MapChangeListener<String, Double>) (change) ->
+                variables.setMap(change.getMap()));
 
-        myVariables = FXCollections.observableHashMap();
-        myVariables.addListener(new MapChangeListener<String, Double>() {
-            @Override
-            public void onChanged(Change<? extends String, ? extends Double> change) {
-                System.out.println("FUCK");
-                variables.setMap(change.getMap());
-            }
-        });
-//
-//
-//        myVariables.addListener(new ChangeListener<ObservableMap<String, Double>>() {
-//            @Override
-//            public void changed(ObservableValue<? extends ObservableMap<String, Double>> observable, ObservableMap<String, Double> oldValue, ObservableMap<String, Double> newValue) {
-//                System.out.println("FUCK");
-//                variables.setMap(newValue);
-//            }
-//        });
-
-
-
+        myConsole = console;
     }
 
-
-//    // TODO CHANGE THIS SO THAT WE GET VARIABLES VIA OBSERVABLE PROPERTIES OR SOMETHING
-//    public HashMap<String, Double> getVariables() {
-//
-//
-//
-//        return myVariables;
-//    }
-
-    /**
-     * Getter for set containing error messages
-     *
-     * @return the set containing error messages
-     */
-    public Set<String> getErrors() {
-        return myErrors;
+    public void setLanguageBinding(SimpleStringProperty languageBinding) {
+        myLanguageBinding = languageBinding;
     }
+
 
     /**
      * Removes empty commands from an inputted list of commands
@@ -103,10 +73,10 @@ public class CommandParser {
      */
     public double getAction(String command) {
         String[] commands = sanitize(command.trim().split("\\p{Space}"));
-        ParseTreeBuilder builder = new ParseTreeBuilder(myProperties, myVariables, myMethods, myMethodVariables);
+        ParseTreeBuilder builder = new ParseTreeBuilder(myProperties, myVariables, myMethods, myMethodVariables, myConsole, myLanguageBinding);
         ParseTreeNode parseTree = builder.buildNewParseTree(commands);
-        myErrors = builder.getErrors();
-        if (myErrors.size() != 0) return 0.0;
+//        myErrors = builder.getErrors();
+//        if (myErrors.size() != 0) return 0.0; TODO FIX
         double result = parseTree.getCommandObj().executeCommand(parseTree);
         myMethodVariables.clear(); // clear temporary method variables
         return result;

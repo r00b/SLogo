@@ -2,8 +2,9 @@ package BackEndInternalAPI;
 
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableMap;
+import GUIController.GUIConsole;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.*;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
  *         This class builds a parse tree of a specified Logo commandType. This is done
  *         by reducing the Logo commandType down into its subparts and then recursively
  *         building a tree where each tree node is a irreducible Logo commandType.
- *
+ *         <p>
  *         Dependencies: Command classes, CommandTypeDetector, LogoMethod, Mappings,
  *         ObservableProperties, ParseTreeNode
  */
@@ -25,18 +26,19 @@ public class ParseTreeBuilder {
     private static CommandTypeDetector myDetector;
     private static ObservableProperties myProperties;
     private static Mappings myMappings;
-    private static Set<String> myErrors;
+    private static ObservableSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
     private static boolean definingMethod; // only true for a TO command
 
 
-    public ParseTreeBuilder(ObservableProperties properties, ObservableMap<String,Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
-        myDetector = new CommandTypeDetector();
+    public ParseTreeBuilder(ObservableProperties properties, ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables, GUIConsole console, SimpleStringProperty languageBinding) {
+        myDetector = new CommandTypeDetector(languageBinding.get());
         myMappings = new Mappings(variables, methodVariables, methods);
         myProperties = properties;
-        myErrors = new HashSet<String>();
+        myErrors = FXCollections.observableSet();
         myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
         definingMethod = false;
+        myErrors.addListener((SetChangeListener<String>) (change) -> change.getSet().forEach(console::addConsole));
     }
 
     /**
@@ -53,7 +55,7 @@ public class ParseTreeBuilder {
      *
      * @return the set containing error messages
      */
-    public static Set<String> getErrors() {
+    public static ObservableSet<String> getErrors() {
         return myErrors;
     }
 

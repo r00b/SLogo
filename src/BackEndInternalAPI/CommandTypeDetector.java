@@ -22,9 +22,8 @@ public class CommandTypeDetector {
 
     private List<Entry<String, Pattern>> mySymbols;
 
-    public CommandTypeDetector() {
+    public CommandTypeDetector(String language) {
         mySymbols = new ArrayList<>();
-        String language = "English"; // TODO get current language from GUI
         addPatterns("resources/languages/" + language);
         addPatterns("resources/languages/Syntax"); // Logo syntax
     }

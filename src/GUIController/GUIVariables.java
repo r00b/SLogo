@@ -31,6 +31,7 @@ import javafx.event.Event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -58,6 +59,8 @@ public class GUIVariables implements Variables {
      * @param bodercolor
      */
     public GUIVariables(Pane p, Paint bodercolor) {
+        System.out.println(this + " " + bodercolor);
+
         this.window = p;
         this.border = bodercolor;
         drawVariables();
@@ -159,6 +162,7 @@ public class GUIVariables implements Variables {
      *
      */
     public void addVariable(String name, double value) {
+
         boolean contains = false;
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getVariableName().equals(name.substring(1))) {
@@ -248,25 +252,13 @@ public class GUIVariables implements Variables {
     }
 
     public void setMap(ObservableMap<? extends String, ? extends Double> map) {
-//        data.clear();
-        for (String variable : map.keySet()) {
-//            Variable newVar = new Variable(variable, map.get(variable));
-//            data.add(newVar);
-            addVariable(variable, map.get(variable));
-        }
-
-
-
+        data.clear();
+        System.out.println(this);
+        data.addAll(map.keySet().stream().map(variable ->
+                new Variable(variable, map.get(variable)))
+                .collect(Collectors.toList()));
+        table.setItems(data);
     }
-//
-//    public void setMap(MapChangeListener<String,Double> newValue) {
-//        data.clear();
-//        for (String variable : newValue.keySet()) {
-//            Variable newVar = new Variable(variable,newValue.get(variable));
-//            data.add(newVar);
-//        }
-//        table.setItems(data);
-//    }
 
 
     /**
