@@ -2,6 +2,8 @@ package BackEndInternalAPI;
 
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class ParseTreeBuilder {
     private static boolean definingMethod; // only true for a TO command
 
 
-    public ParseTreeBuilder(ObservableProperties properties, Map<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
+    public ParseTreeBuilder(ObservableProperties properties, ObservableMap<String,Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
         myDetector = new CommandTypeDetector();
         myMappings = new Mappings(variables, methodVariables, methods);
         myProperties = properties;

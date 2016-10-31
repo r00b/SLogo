@@ -98,7 +98,7 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
-        commandParser = new CommandParser(properties);
+        commandParser = new CommandParser(properties,myVariables);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
@@ -272,10 +272,10 @@ public class GUIManager implements GUIController {
                 if(commandParser.getErrors().size() == 0){
                     myHistory.addCommand(splitCommands[i]);
                     myConsole.addConsole("" + latestCommand);
-                    Set<String> keyset = commandParser.getVariables().keySet();
-                    for(String s : keyset){
-                        myVariables.addVariable(s, commandParser.getVariables().get(s));
-                    }
+//                    Set<String> keyset = commandParser.getVariables().keySet();
+//                    for(String s : keyset){
+//                        myVariables.addVariable(s, commandParser.getVariables().get(s));
+//                    }
                 }
                 else {
                     Set<String> errors = commandParser.getErrors();
