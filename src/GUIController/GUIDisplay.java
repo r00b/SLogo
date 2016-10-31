@@ -357,7 +357,7 @@ public class GUIDisplay implements RenderSprite {
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();
-        setVisibility(myOptions.isPenUp());
+        setVisibility(!myOptions.isPenUp());
         makeTooltip();
     }
 
