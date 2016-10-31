@@ -3,13 +3,15 @@ package BackEndInternalAPI;
 import java.util.ArrayList;
 
 /**
- * This class holds information about a user-set Logo function. This object
- * can be used to call a Logo method after it has been defined.
+ * @author Robert H. Steilberg II
+ *         <p>
+ *         This class holds information about a user-set Logo function. This object
+ *         can be used to call a Logo method after it has been defined.
  */
 public class LogoMethod {
 
-    private ArrayList<String> arguments;
     private ParseTreeNode method;
+    private ArrayList<String> arguments;
 
     public LogoMethod() {
         arguments = new ArrayList<String>();
