@@ -16,6 +16,7 @@ import BackEndInternalAPI.Command;
 import BackEndInternalAPI.CommandTypeDetector;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
@@ -53,7 +54,7 @@ public class GUIManager implements GUIController {
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-    private CommandTypeDetector commandMaker = new CommandTypeDetector();
+//    private CommandTypeDetector commandMaker = new CommandTypeDetector();
     private Command newCommand;
     private Scene myWindow;
     private CommandParser commandParser;
@@ -63,6 +64,8 @@ public class GUIManager implements GUIController {
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+
+    private SimpleStringProperty myLanguage;
 
     /**
      *
@@ -86,6 +89,7 @@ public class GUIManager implements GUIController {
         ImageView turtleImageIDE = new ImageView(newImg);
         this.turtle = turtleImageIDE;
         this.language = language;
+        myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
 
@@ -94,11 +98,14 @@ public class GUIManager implements GUIController {
         //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
-        myWindow = new Scene(setUpWindow());
+        Scene myScene = new Scene(setUpWindow());
+
+        myWindow = myScene;
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
-        commandParser = new CommandParser(properties,myVariables);
+        commandParser = new CommandParser(properties,myVariables,myConsole);
+        commandParser.setLanguageBinding(myLanguage);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
@@ -112,7 +119,6 @@ public class GUIManager implements GUIController {
 //        System.out.println(turtle.getX());
 //        System.out.println(turtle.getY());
 //        System.out.println(turtle.getRotate());
-        Scene myScene = new Scene(setUpWindow());
 //        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         stage.setScene(myScene);
         stage.show();
@@ -126,6 +132,7 @@ public class GUIManager implements GUIController {
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
+        System.out.println("INIT " + myVariables);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
@@ -269,20 +276,20 @@ public class GUIManager implements GUIController {
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
                 latestCommand += commandParser.getAction(splitCommands[i]);
-                if(commandParser.getErrors().size() == 0){
+//                if(commandParser.getErrors().size() == 0){
                     myHistory.addCommand(splitCommands[i]);
                     myConsole.addConsole("" + latestCommand);
 //                    Set<String> keyset = commandParser.getVariables().keySet();
 //                    for(String s : keyset){
 //                        myVariables.addVariable(s, commandParser.getVariables().get(s));
 //                    }
-                }
-                else {
-                    Set<String> errors = commandParser.getErrors();
-                    for (String s : errors) {
-                        myConsole.addConsole(s);
-                    }
-                }
+//                }
+//                else {
+//                    Set<String> errors = commandParser.getErrors();
+//                    for (String s : errors) {
+//                        myConsole.addConsole(s);
+//                    }
+//                }
 //
             }
 
