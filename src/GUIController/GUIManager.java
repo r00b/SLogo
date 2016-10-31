@@ -1,19 +1,11 @@
 package GUIController;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
-import BackEndCommands.TurtleCommands.Back;
-import BackEndCommands.TurtleCommands.Forward;
-import BackEndCommands.TurtleCommands.Right;
-import BackEndCommands.TurtleCommands.SetHeading;
 import BackEndCommands.TurtleCommands.SetXY;
-import BackEndCommands.TurtleCommands.Towards;
 import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.CommandTypeDetector;
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,10 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
@@ -54,8 +44,6 @@ public class GUIManager implements GUIController {
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-//    private CommandTypeDetector commandMaker = new CommandTypeDetector();
-    private Command newCommand;
     private Scene myWindow;
     private CommandParser commandParser;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
@@ -104,8 +92,10 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
-        commandParser = new CommandParser(properties,myVariables,myConsole);
-        commandParser.setLanguageBinding(myLanguage);
+        commandParser = new CommandParser();
+        commandParser.initLanguageBinding(myLanguage);
+        commandParser.initTurtlePropertiesBinding(properties);
+        commandParser.initVariablesBinding(myVariables);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
@@ -132,7 +122,6 @@ public class GUIManager implements GUIController {
         myEditor = new GUIEditor(window, penColor);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
-        System.out.println("INIT " + myVariables);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
@@ -276,21 +265,21 @@ public class GUIManager implements GUIController {
         for (int i = 0; i < splitCommands.length; i++) {
             if (splitCommands[i].length() > 0) {
                 latestCommand += commandParser.getAction(splitCommands[i]);
-//                if(commandParser.getErrors().size() == 0){
+                if(commandParser.getErrors().size() == 0){
                     myHistory.addCommand(splitCommands[i]);
                     myConsole.addConsole("" + latestCommand);
 //                    Set<String> keyset = commandParser.getVariables().keySet();
 //                    for(String s : keyset){
 //                        myVariables.addVariable(s, commandParser.getVariables().get(s));
 //                    }
-//                }
-//                else {
-//                    Set<String> errors = commandParser.getErrors();
-//                    for (String s : errors) {
-//                        myConsole.addConsole(s);
-//                    }
-//                }
-//
+                }
+                else {
+                    Set<String> errors = commandParser.getErrors();
+                    for (String s : errors) {
+                        myConsole.addConsole(s);
+                    }
+                }
+
             }
 
         }
