@@ -20,21 +20,20 @@ import java.util.regex.Pattern;
  */
 public class CommandTypeDetector {
 
-    private List<Entry<String, Pattern>> mySymbols;
+    private static List<Entry<String, Pattern>> mySymbols;
 
-    public CommandTypeDetector() {
+    public CommandTypeDetector(String language) {
         mySymbols = new ArrayList<>();
-        String language = "English"; // TODO get current language from GUI
-        addPatterns("resources/languages/" + language);
-        addPatterns("resources/languages/Syntax"); // Logo syntax
+        addResources("resources/languages/" + language);
+        addResources("resources/languages/Syntax"); // Logo syntax
     }
 
     /**
-     * Determines which commandType instance is associated with a
-     * commandType passed in from the GUI
+     * Determines which Command instance is associated with a
+     * command passed in from the GUI
      *
-     * @param command is the String to find a commandType instance for
-     * @return an commandType instance equivalent to the type of commandType given
+     * @param command is the String to find a Command instance for
+     * @return a Command instance respective for the specified command
      */
     public Command getCommandObj(String command) {
         ResourceBundle resources = ResourceBundle.getBundle("resources/internal/ClassLocations");
@@ -42,17 +41,16 @@ public class CommandTypeDetector {
         try {
             Class<?> cmdObj = Class.forName(resources.getString(commandType)); // get commandType class
             try {
-                Constructor<?> commandObjCtor = cmdObj.getDeclaredConstructor(); // create an instance of the class
-                Object commandObject = commandObjCtor.newInstance();
+                Constructor<?> commandObjCtor = cmdObj.getDeclaredConstructor();
+                Object commandObject = commandObjCtor.newInstance(); // create an instance of the class
                 return (Command) commandObject;
             } catch (Exception e) {
-                e.printStackTrace(); // TODO ERROR INSTANCE COULD NOT BE MADE
+                e.printStackTrace(); // this error is properly caught by ParseTreeBuilder
             }
         } catch (ClassNotFoundException e) {
-            System.out.println("class not found"); // TODO DEBUGGING
-            e.printStackTrace(); // TODO ERROR CLASS COULD NOT BE FOUND
+            e.printStackTrace(); // this error is properly caught by ParseTreeBuilder
         }
-        return null; // TODO WHAT DO WE RETURN WHEN THERE'S AN ERROR
+        return null;
     }
 
 
@@ -61,7 +59,7 @@ public class CommandTypeDetector {
      *
      * @param fileName is the path of the properties file to add
      */
-    private void addPatterns(String fileName) {
+    private void addResources(String fileName) {
         ResourceBundle resources = ResourceBundle.getBundle(fileName);
         Enumeration<String> propIter = resources.getKeys();
         while (propIter.hasMoreElements()) {
@@ -72,10 +70,10 @@ public class CommandTypeDetector {
     }
 
     /**
-     * Determine a String's Logo commandType type
+     * Determine a String's Logo command type
      *
      * @param command is the String to test
-     * @return the String's Logo commandType type, or "ERROR"
+     * @return the String's Logo command type, or "Unknown"
      * if no match is found
      */
     public String getCommandType(String command) {
@@ -84,7 +82,7 @@ public class CommandTypeDetector {
                 return mapping.getKey();
             }
         }
-        return "NoType"; // TODO illegal commandType exception
+        return "Unknown"; // either an error or involved with a methods
     }
 
     /**
@@ -97,6 +95,4 @@ public class CommandTypeDetector {
     private boolean isMatch(String command, Pattern regex) {
         return regex.matcher(command).matches();
     }
-
-
 }

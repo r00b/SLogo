@@ -5,13 +5,13 @@ import java.util.ArrayList;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This class stores information about a parse tree node.
+ *         This class stores information about a node in the parse tree.
  */
 public class ParseTreeNode {
 
     private String rawCommand;
     private Command commandObj;
-    public ArrayList<ParseTreeNode> children;
+    private ArrayList<ParseTreeNode> children;
     private int numChildren;
 
     /**
@@ -23,9 +23,9 @@ public class ParseTreeNode {
 
     /**
      * Executes the command associated with the node
+     *
      * @param node is the current node, it is passed through so that
      *             there is access to the node during command execution
-     *
      * @return a double representing the result of executing the command
      */
     public double executeCommand(ParseTreeNode node) {
