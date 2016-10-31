@@ -19,13 +19,11 @@ public class Forward extends TurtleCommand {
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
-		double value1 = arg1.executeCommand(arg1);
-		properties.calculateXDistance(value1);
-		double yDistance = calculateYDistance(value1);
-		//properties.setXProperty((properties.getXProperty().get() + xDistance));
-		properties.setYProperty(properties.getYProperty() + yDistance);
+		//double value1 = arg1.executeCommand(arg1);
+		double x = properties.calculateXDistance(arg1, true);
+		double y = properties.calculateYDistance(arg1, true);
 		properties.setNewLineProperty(true);
-		return value1;
+		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));	
 	}
 
 	@Override

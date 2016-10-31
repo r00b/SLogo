@@ -150,7 +150,7 @@ public class GUIManager implements GUIController {
     }
 
     private ObservableProperties setupBindings() {
-    	ObservableProperties answer = new ObservableProperties(turtle, myDisplay);
+    	ObservableProperties answer = new ObservableProperties(turtle, myDisplay, 1);
     	return answer;
     }
     

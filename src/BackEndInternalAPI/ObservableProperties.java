@@ -5,8 +5,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 
 /**
@@ -16,23 +20,26 @@ import javafx.scene.image.ImageView;
  *
  */
 public class ObservableProperties implements ObservableManager{
-	private  BooleanProperty imageVisibleProperty;
-	private  DoubleProperty rotateProperty;
-	private  DoubleProperty xProperty;
-	private  DoubleProperty yProperty;
-	private  BooleanProperty pathVisibleProperty; 
-	private BooleanProperty newLineProperty;
+	private int myId;
+	private BooleanProperty imageVisibleProperty; //observable list of booleans changes https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
+	private DoubleProperty rotateProperty;
+	private DoubleProperty xProperty;
+	private DoubleProperty yProperty;
+	private BooleanProperty pathVisibleProperty;  //observable list of booleans changes
+	private BooleanProperty newLineProperty; //should be double to represent which id needs to update set to 0 after
 	private BooleanProperty clearScreenProperty;
-
-	public ObservableProperties(ImageView turtle, GUIDisplay myDisplay) {
+	
+	
+	public ObservableProperties(ImageView turtle, GUIDisplay myDisplay, int id) {
+		myId = id;
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
 		xProperty = new SimpleDoubleProperty(turtle.getX());
-//		xProperty.great
 		yProperty = new SimpleDoubleProperty(turtle.getY());
 		pathVisibleProperty = new SimpleBooleanProperty(true);
 		newLineProperty = new SimpleBooleanProperty(false);
 		clearScreenProperty = new SimpleBooleanProperty(false);
+		//penSizes = new SimpleDoubleProperty(0);
 		turtle.xProperty().bind(xProperty);
 		turtle.yProperty().bind(yProperty);
 		turtle.rotateProperty().bind(rotateProperty);
@@ -40,8 +47,36 @@ public class ObservableProperties implements ObservableManager{
 		setupListeners(myDisplay);
 	}
 	
+	// NOTE FOR ALL LISTENERS. CONSIDER MAKING THEM DOUBLE VALUE AND THEN CHANGE TO THE ID THAT WE ARE USING
 	private void setupListeners(GUIDisplay myDisplay) {
 		// TODO Auto-generated method stub
+//		imageIndex.addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				// TODO Auto-generated method stub
+//				//myDisplay.setImage();
+//			}
+//			
+//		});
+//		penColor.addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				// TODO Auto-generated method stub
+//				//myDisplay.setPenColor()
+//			}
+//			
+//		});
+//		penSizes.addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				// TODO Auto-generated method stub
+//				//myDisplay.setPenSize()
+//			}
+//			
+//		});
 		newLineProperty.addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -119,8 +154,8 @@ public class ObservableProperties implements ObservableManager{
 	 * @param y1
 	 * @return The distance between two points 
 	 */
-	public double calculateTotalDistance(double x2, double x1, double y2, double y1) {
-		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	public double calculateTotalDistance(double x1, double y1) {
+		return Math.sqrt(Math.pow(getXProperty() - x1, 2) + Math.pow(getYProperty() - y1, 2));
 	}
 	
 	/**
@@ -128,9 +163,10 @@ public class ObservableProperties implements ObservableManager{
 	 * @param hyp Distance of the hypotenuse 
 	 * @return X distance traveled
 	 */
-	public double calculateXDistance(double hyp) {
+	public double calculateXDistance(ParseTreeNode hyp, boolean sign) {
+		double value = hyp.executeCommand(hyp);
 		double angle = getRotateProperty();
-		double answer = Math.sin(Math.toRadians(angle)) * hyp;
+		double answer = Math.sin(Math.toRadians(angle)) * value;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
 		return answer;
 	}
@@ -140,9 +176,13 @@ public class ObservableProperties implements ObservableManager{
 	 * @param hyp
 	 * @return Y disntace traveled
 	 */
-	public double calculateYDistance(double hyp) {
+	public double calculateYDistance(ParseTreeNode hyp, boolean sign) {
+		double value = hyp.executeCommand(hyp);
+		if (!sign) {
+			value = -value;
+		}
 		double angle = getRotateProperty();
-		double answer = Math.cos(Math.toRadians(angle)) * hyp;
+		double answer = Math.cos(Math.toRadians(angle)) * value;
 		return answer;
 	}
 
@@ -165,14 +205,52 @@ public class ObservableProperties implements ObservableManager{
 	}
 
 	@Override
-	public void setRotateProperty(double value) {
-		// TODO Auto-generated method stub
-		rotateProperty.set(value);
+	public double setRotateProperty(ParseTreeNode node, boolean isAbsolute, boolean sign) {
+		double value = node.executeCommand(node);
+		if (isAbsolute) {
+			value = value % 360;
+			double oldValue = rotateProperty.get();
+			rotateProperty.set(value);
+			return Math.abs(value - oldValue);
+		}
+		if (!sign) {
+			value = -value;
+		}
+		rotateProperty.set(getRotateProperty() % 360 + value);
+		return Math.abs(value);
 	}
 
 	@Override
 	public void setPathVisibleProperty(boolean value) {
 		// TODO Auto-generated method stub
 		pathVisibleProperty.set(value);
+	}
+
+	@Override
+	public double calculateDegrees(ParseTreeNode node1, ParseTreeNode node2) {
+		double x = node1.executeCommand(node1);
+		double y = node2.executeCommand(node2);
+		double answer;
+		double angle = Math.atan(x / y);
+		angle = Math.toDegrees(angle);
+		// Second quadrant
+		if (x > 0 && y < 0) {
+			answer = 90 - angle;
+		}
+		// Third quadrant
+		else if (x < 0 && y < 0) {
+			answer = 180 + angle;
+		}
+		// Fourth quadrant
+		else if (x < 0 && y > 0) {
+			answer = 270 - angle;
+		}
+		// Default is first quadrant
+		else {
+			answer = angle;
+		}
+		double oldDegrees = rotateProperty.get();
+		rotateProperty.set(answer);
+		return Math.abs(answer - oldDegrees);
 	}
 }

@@ -19,7 +19,7 @@ public class MakeVariable extends ControlCommand {
         String varName = arg1.getRawCommand();
         double varVal = arg2.executeCommand(arg2);
         getVariables().put(varName,varVal);
-        return 1;
+        return varVal;
     }
 
     @Override

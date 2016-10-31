@@ -1,6 +1,5 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
@@ -20,8 +19,7 @@ public class ClearScreen extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		double answer = calculateTotalDistance(properties.getXProperty(), 0,
-												properties.getYProperty(), 0);
+		double answer = properties.calculateTotalDistance(0, 0);
 		properties.setXProperty(0);
 		properties.setYProperty(0);
 		properties.setClearScreenProperty(true);
