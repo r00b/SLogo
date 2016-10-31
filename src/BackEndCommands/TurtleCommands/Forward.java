@@ -23,6 +23,7 @@ public class Forward extends TurtleCommand {
 		double x = properties.calculateXDistance(arg1, true);
 		double y = properties.calculateYDistance(arg1, true);
 		properties.setNewLineProperty(true);
+		properties.setNewLineProperty(false);
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));	
 	}
 

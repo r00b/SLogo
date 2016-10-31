@@ -183,20 +183,19 @@ public class GUIDisplay implements RenderSprite {
     				myTurtle.getX() + myTurtle.getTranslateX() + centerX,
                     myTurtle.getY() + myTurtle.getTranslateY() + centerY);
     	}
-    	System.out.println(pathColor);
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
-        newPath.setStrokeWidth(5);
+        //newPath.setStrokeWidth(strokeWidth);
 //        newPath.setStrokeDashOffset(2);
         newPath.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newPath.setId("Step" + numSteps);
         newPath.setVisible(visibility);
         turtleMotion.add(newPath);
         window.getChildren().add(newPath);
+
+        //if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
         //window.getChildren().remove(myTurtle);
         //window.getChildren().add(myTurtle);
-    	//window.getChildren();
-    	//bool.set(false);
     }
 
     //DONT NEED IT ANYMORE

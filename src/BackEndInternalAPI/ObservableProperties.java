@@ -83,7 +83,7 @@ public class ObservableProperties implements ObservableManager{
 				if (newValue) {
 					myDisplay.drawNewLine();
 				}
-				newLineProperty.set(false);
+				//newLineProperty.set(false);
 			}
     	});
 		
@@ -164,6 +164,9 @@ public class ObservableProperties implements ObservableManager{
 	 */
 	public double calculateXDistance(ParseTreeNode hyp, boolean sign) {
 		double value = hyp.executeCommand(hyp);
+		if (!sign) {
+			value = -value;
+		}
 		double angle = getRotateProperty();
 		double answer = Math.sin(Math.toRadians(angle)) * value;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
