@@ -110,6 +110,7 @@ public class ObservableProperties implements ObservableManager{
 		return newLineProperty.get();
 	}
 
+
 	public boolean getClearScreenProperty() {
 		return clearScreenProperty.get();
 	}

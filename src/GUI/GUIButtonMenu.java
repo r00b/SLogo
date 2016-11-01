@@ -3,6 +3,7 @@ package GUI;
 import FrontEndInternalAPI.ButtonMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ColorPicker;
@@ -18,7 +19,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
+import java.io.File;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -127,10 +132,28 @@ public class GUIButtonMenu implements ButtonMenu{
         imgV = new ImageView(newImage);
         Button help = newButton("HELP", imgV, 337, 40);
         help.setOnMouseClicked(e -> helpHandler());
-        window.getChildren().add(play);
-        window.getChildren().add(pause);
-        window.getChildren().add(stop);
-        window.getChildren().add(help);
+
+        Button save = newButton("Save", imgV, 1000, 40);
+//        save.setOnMouseClicked(e -> {
+//            Stage stage = new Stage();
+//            FileChooser fileChooser = new FileChooser();
+//            fileChooser.setTitle("Save Image");
+////            System.out.println(pic.getId());
+//            File file = fileChooser.showSaveDialog(stage);
+//            if (file != null) {
+//                try {
+//                    ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(),
+//                            null), "png", file);
+//                } catch (IOException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            }
+//        });
+        window.getChildren().addAll(play, pause, stop, help, save);
+//        window.getChildren().add(play);
+//        window.getChildren().add(pause);
+//        window.getChildren().add(stop);
+//        window.getChildren().add(help);
 //        window.getChildren().add(options);
     }
 

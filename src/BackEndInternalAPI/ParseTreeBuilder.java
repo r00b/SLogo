@@ -2,9 +2,7 @@ package BackEndInternalAPI;
 
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
-import GUIController.GUIConsole;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.*;
 
 import java.util.*;
 
@@ -26,20 +24,26 @@ public class ParseTreeBuilder {
     private static ObservableComposite myProperties;
     private static CommandTypeDetector myDetector;
     private static Mappings myMappings;
-    private static ObservableSet<String> myErrors;
+    private static HashSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
     private static boolean definingMethod; // only true for a TO command
+    private static String myLine;
 
 
-
-    public ParseTreeBuilder(ObservableComposite properties, ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables, GUIConsole console, SimpleStringProperty languageBinding) {
-        myDetector = new CommandTypeDetector(languageBinding.get());
-        myMappings = new Mappings(variables, methodVariables, methods);
-        myProperties = properties;
-        myErrors = FXCollections.observableSet();
+    public ParseTreeBuilder() {
         myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
         definingMethod = false;
-        myErrors.addListener((SetChangeListener<String>) (change) -> change.getSet().forEach(console::addConsole));
+    }
+
+    /**
+     * Sets a bound String specifying the language in which commands will
+     * be issued
+     *
+     * @param languageBinding is the SimpleStringProperty containing the
+     *                        String specifying the language
+     */
+    public void setLanguage(SimpleStringProperty languageBinding) {
+        myDetector = new CommandTypeDetector(languageBinding.get());
     }
 
 
@@ -48,16 +52,37 @@ public class ParseTreeBuilder {
      *
      * @param properties
      */
-    public static void setProperties(ObservableComposite properties) {
+
+    public void setTurtleProperties(ObservableComposite properties) {
         myProperties = properties;
     }
 
     /**
-     * Getter for set containing error messages
+     * Set variable and method mappings used for storing variables and
+     * methods
+     *
+     * @param maps is the Mappings object containing the variables, methods,
+     *             and temporary method variables
+     */
+    public void setMappings(Mappings maps) {
+        myMappings = maps;
+    }
+
+    /**
+     * Sets the error set in which to place thrown errors
+     *
+     * @param errors is the set in which to place thrown errors
+     */
+    public void setErrorSet(HashSet<String> errors) {
+        myErrors = errors;
+    }
+
+    /**
+     * Get the set containing error messages
      *
      * @return the set containing error messages
      */
-    public static ObservableSet<String> getErrors() {
+    public HashSet<String> getErrors() {
         return myErrors;
     }
 
@@ -75,7 +100,9 @@ public class ParseTreeBuilder {
             if (argumentError()) {
                 return null;
             }
-            myMappings.getMyMethodVariables().put(method.getArgument(i), Double.parseDouble(myCommands[myCommandIndex])); // method variables placed in temporary map
+            String variable = method.getArgument(i);
+            double value = Double.parseDouble(myCommands[myCommandIndex]);
+            myMappings.getMyMethodVariables().put(variable, value); // method variables placed in temporary map
             myCommandIndex++;
         }
         return method.getMethod();
@@ -95,7 +122,7 @@ public class ParseTreeBuilder {
             // get the method associated with the method name specified by the current command
             return buildMethodTree(myMappings.getMyMethods().get(node.getRawCommand()));
         }
-        myErrors.add(myThrowables.getString("CommandError")); // not calling or defining method, error
+        myErrors.add(myLine + myThrowables.getString("CommandError")); // not calling or defining method, error
         return null;
     }
 
@@ -123,7 +150,7 @@ public class ParseTreeBuilder {
             myCommandIndex++;
             listNode.addChild(buildParseTree()); // create subtrees for each element in the list
             if (myCommandIndex >= myCommands.length - 1) { // list end never given
-                myErrors.add(myThrowables.getString("ListError"));
+                myErrors.add(myLine + myThrowables.getString("ListError"));
                 return null;
             }
 
@@ -180,7 +207,7 @@ public class ParseTreeBuilder {
      */
     private boolean argumentError() {
         if (myCommandIndex > myCommands.length - 1) {
-            myErrors.add(myThrowables.getString("ArgumentError"));
+            myErrors.add(myLine + myThrowables.getString("ArgumentError"));
             return true;
         }
         return false;
@@ -216,7 +243,8 @@ public class ParseTreeBuilder {
      * @param commands is a sanitized String array containing the commands issued from the GUI
      * @return the root of the newly built parse tree
      */
-    public ParseTreeNode buildNewParseTree(String[] commands) {
+    public ParseTreeNode buildNewParseTree(String[] commands, int line) {
+        myLine = "Line " + line + ": ";
         myCommands = commands;
         myCommandIndex = 0; // will be index of current command
         return buildParseTree();

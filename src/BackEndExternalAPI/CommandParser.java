@@ -1,17 +1,11 @@
 package BackEndExternalAPI;
 
 import BackEndInternalAPI.*;
-import GUIController.GUIConsole;
 import GUIController.GUIVariables;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Robert H. Steilberg II
@@ -19,7 +13,7 @@ import java.util.Set;
  *         This class interprets a Logo command and executes the action(s) associated with it
  *         using the specified arguments. This is done by recursively creating a parse tree
  *         and executing down the nodes of the parse tree, checking for errors along the way.
- *
+ *         <p>
  *         Dependencies: ParseTreeBuilder, ObservableProperties
  */
 public class CommandParser {
@@ -29,27 +23,52 @@ public class CommandParser {
     private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
-    private static GUIConsole myConsole;
     private static SimpleStringProperty myLanguageBinding;
-//    private static ObservableSet<String> myErrors; // will hold any found errors
+    private static HashSet<String> myErrors;
 
 
-    public CommandParser(ObservableComposite properties, GUIVariables variables, GUIConsole console) {
-        myProperties = properties;
-        myVariables = FXCollections.observableHashMap();
+    public CommandParser() {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
-
-        myVariables.addListener((MapChangeListener<String, Double>) (change) ->
-                variables.setMap(change.getMap()));
-
-        myConsole = console;
     }
 
-    public void setLanguageBinding(SimpleStringProperty languageBinding) {
+    /**
+     * Initializes the String binding that for language detection
+     *
+     * @param languageBinding the SimpleStringProperty representing the bound String
+     */
+    public void initLanguageBinding(SimpleStringProperty languageBinding) {
         myLanguageBinding = languageBinding;
     }
 
+    /**
+     * Initializes the observable properties for Turtle manipulation
+     *
+     * @param properties the ObservableProperties object representing bound Turtle properties
+     */
+    public void initTurtlePropertiesBinding(ObservableComposite properties) {
+        myProperties = properties;
+    }
+
+    /**
+     * Initializes the global variable map
+     *
+     * @param variables the GUIVariables object that interfaces variables with the GUI
+     */
+    public void initVariablesBinding(GUIVariables variables) {
+        myVariables = FXCollections.observableHashMap();
+        myVariables.addListener((MapChangeListener<String, Double>) (change) ->
+                variables.setMap(change.getMap()));
+    }
+
+    /**
+     * Getter for set containing error messages
+     *
+     * @return the set containing error messages
+     */
+    public static HashSet<String> getErrors() {
+        return myErrors;
+    }
 
     /**
      * Removes empty commands from an inputted list of commands
@@ -68,19 +87,53 @@ public class CommandParser {
     }
 
     /**
+     * Initializes a ParseTreeBuilder by creating it, specifying its language,
+     * binding its Turtle properties, setting its variable maps, and passing in
+     * a set in which errors are placed
+     *
+     * @return the newly initialized ParseTreeBuilder
+     */
+    private ParseTreeBuilder initBuilder() {
+        ParseTreeBuilder newBuilder = new ParseTreeBuilder();
+        newBuilder.setLanguage(myLanguageBinding);
+        newBuilder.setTurtleProperties(myProperties);
+        newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables));
+        newBuilder.setErrorSet(myErrors);
+        return newBuilder;
+    }
+
+    /**
      * Executes the cumulative action associated with a Logo command issued
      * from the GUI
      *
-     * @param command a string containing the commands issued from the editor
+     * @param commands a string containing the commands issued from the editor
      */
-    public double getAction(String command) {
-        String[] commands = sanitize(command.trim().split("\\p{Space}"));
-        ParseTreeBuilder builder = new ParseTreeBuilder(myProperties, myVariables, myMethods, myMethodVariables, myConsole, myLanguageBinding);
-        ParseTreeNode parseTree = builder.buildNewParseTree(commands);
-//        myErrors = builder.getErrors();
-//        if (myErrors.size() != 0) return 0.0; TODO FIX
-        double result = parseTree.getCommandObj().executeCommand(parseTree);
-        myMethodVariables.clear(); // clear temporary method variables
-        return result;
+    public ArrayList<Double> executeCommands(String[] commands) {
+        ArrayList<String[]> commandList = new ArrayList<String[]>();
+        for (String command : commands) {
+            commandList.add(command.trim().split("\\p{Space}"));
+        }
+        // sanitize inputs
+        // commandList = sanitize(commandList);
+        // [ "sum 2 3", "fd 5" ] => [ [ "sum", "2", "3" ] , [ "fd", "5" ] ]
+
+        ArrayList<Double> results = new ArrayList<Double>();
+        myErrors = new HashSet<String>();
+        int line = 1;
+        for (String[] command : commandList) {
+            ParseTreeBuilder builder = initBuilder();
+            ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+            myErrors.addAll(builder.getErrors());
+
+            if (myErrors.size() == 0) {
+                double result = parseTree.getCommandObj().executeCommand(parseTree);
+                results.add(result);
+            }
+            myMethodVariables.clear(); // clear temporary method variables
+            line++;
+        }
+
+
+        return results;
     }
 }

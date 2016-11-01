@@ -76,6 +76,7 @@ public class GUIDisplay implements RenderSprite {
         drawDisplay();
         addDisplayControlButtons();
         addTextLabel();
+        addMoreTurtlesButton();
         addTurtle();
         addHelpButton();
     }
@@ -148,6 +149,17 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(helpButton);
     }
     
+    private void addMoreTurtlesButton(){
+        Button addTurtles = new Button("Add Turtles");
+        addTurtles.setTranslateX(1110);
+        addTurtles.setTranslateY(125);
+        addTurtles.setStyle(overButton);
+        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
+        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
+        addTurtles.setOnMouseClicked(e -> addTurtle());
+        window.getChildren().add(addTurtles);
+    }
+    
     private void helpHandler(){
         Stage s = new Stage();
         helpWindow = new DisplayHelp(s);
@@ -187,6 +199,7 @@ public class GUIDisplay implements RenderSprite {
         boolean yBoundUpper = false;
 		Line newPath;
         double yDest = myTurtle.getY() + myTurtle.getTranslateY() + centerY;
+        System.out.println("line dest is " + yDest);
 //        System.out.println("getY() is " + yDest);
 //        System.out.println("getTranslateY() is " + myTurtle.getTranslateY());
 //        if(yDest < Y_POS){
@@ -359,7 +372,7 @@ public class GUIDisplay implements RenderSprite {
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();
-        setVisibility(myOptions.isPenUp());
+        setVisibility(!myOptions.isPenUp());
         makeTooltip();
     }
 

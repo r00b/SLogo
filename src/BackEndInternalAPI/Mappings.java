@@ -1,36 +1,53 @@
 package BackEndInternalAPI;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableMap;
 
 import java.util.Map;
 
 /**
- * Created by Robert on 10/27/16.
+ * @author Robert H. Steilberg II
+ *         <p>
+ *         This class holds information about variable and method mappings that are used
+ *         when executing Logo commands. Specifically, this class holds data structures for
+ *         normal variable definitions, method definitions, and temporary method variables.
  */
 public class Mappings {
 
-    private ObservableMap<String,Double> myVariables;
-    private Map<String, Double> myMethodVariables;
-    private Map<String, LogoMethod> myMethods;
+    private static ObservableMap<String, Double> myVariables;
+    private static Map<String, Double> myMethodVariables; // temporary map for method variables
+    private static Map<String, LogoMethod> myMethods;
 
-    public Mappings(ObservableMap<String,Double> variables, Map<String, Double> methodVariables,  Map<String, LogoMethod> methods) {
+    public Mappings(ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
         myVariables = variables;
-        myMethodVariables = methodVariables;
         myMethods = methods;
+        myMethodVariables = methodVariables;
     }
 
-    public ObservableMap<String,Double> getMyVariables() {
+    /**
+     * Get the map of defined variables to their values
+     *
+     * @return the map of defined variables to their values
+     */
+    public ObservableMap<String, Double> getMyVariables() {
         return myVariables;
     }
 
+    /**
+     * Get the map of temporary method variables to their values
+     *
+     * @return the map of temporary method variables to their values
+     */
     public Map<String, Double> getMyMethodVariables() {
         return myMethodVariables;
     }
 
+    /**
+     * Get the map of methods to their LogoMethods (representation
+     * of the actions a method performs)
+     *
+     * @return the map of methods to their LogoMethods
+     */
     public Map<String, LogoMethod> getMyMethods() {
         return myMethods;
     }
-
-
 }

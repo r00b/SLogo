@@ -14,7 +14,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -24,8 +29,10 @@ public class GUIEditor implements Editor {
     private Paint border;
     private Rectangle backdrop;
     private String defaultCommand = "Enter command here";
+    private String currentDir = System.getProperty("user.home");
     private TextArea textArea;
     private EditorHelp helpWindow;
+    private FileChooser fileChooser = new FileChooser();
     private ImageView helpButton;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -46,7 +53,7 @@ public class GUIEditor implements Editor {
         addTextLabel();
         addTextArea();
         addHelpButton();
-        addClearButton();
+        addButtons();
 //        addRunButton();
     }
 
@@ -115,13 +122,18 @@ public class GUIEditor implements Editor {
         helpWindow.init();
     }
 
-    private void addClearButton(){
+    private void addButtons(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = newButton("Clear", clearImg, 800, 600);
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
-        window.getChildren().add(clear);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/upload.png"));
+        clearImg = new ImageView(newImage);
+        Button upload = newButton("Upload file", clearImg, 900, 600);
+        upload.setOnMouseClicked(e -> uploadFile());
+        window.getChildren().addAll(clear, upload);
     }
 
     private Button newButton(String text, ImageView imgV, int x, int y){
@@ -137,6 +149,73 @@ public class GUIEditor implements Editor {
         run.setTranslateX(x);
         run.setTranslateY(y);
         return run;
+    }
+
+    private void uploadFile(){
+        Stage stage = new Stage();
+//        fileChooser
+//        fileChooser.setInitialDirectory();
+//
+//        FileChooser fileChooser = new FileChooser();
+//
+////Extention filter
+////        FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+////        fileChooser.getExtensionFilters().add(extentionFilter);
+//
+////Set to user directory or go to default if cannot access
+//        File userDirectory = new File(userDirectoryString);
+//        if(!userDirectory.canRead()) {
+//            userDirectory = new File("c:/");
+//        }
+//        fileChooser.setInitialDirectory(userDirectory);
+//
+////Choose the file
+//        File chosenFile = fileChooser.showOpenDialog(stage);
+////Make sure a file was selected, if not return default
+//        String path;
+//        if(chosenFile != null) {
+//            path = chosenFile.getPath();
+//            userDirectoryString = path;
+//        } else {
+//            //default return value
+//            path = null;
+//        }
+
+
+
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(stage);
+//        String directoryPath;
+//        directoryPath = file.getAbsolutePath();
+//        File init
+//        fileChooser.setInitialDirectory(file);
+//        fileChooser.setInitialDirectory(fileChooser.sets);
+//        if(file != null){
+//            openf
+//        }
+        if(textArea.getText().equals("> " + defaultCommand)){
+            textArea.setText("> ");
+        }
+        try {
+            Scanner s = new Scanner(file).useDelimiter("\n");
+            while (s.hasNext()) {
+//                if (s.hasNextInt()) { // check if next token is an int
+//                    textArea.appendText(s.nextInt() + " "); // display the found integer
+//                } else {
+                    textArea.appendText(s.next() + " \n"); // else read the next token
+//                }
+//                textArea.appendText(s.next());
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println(ex);
+        }
+        catch (NullPointerException e){
+            System.out.println("Reached null value in file");
+        }
+    }
+
+    private void fileToEditor(FileChooser fileChooser){
+//        fileChooser.ge
     }
 
     /**
