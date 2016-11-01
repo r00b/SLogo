@@ -96,6 +96,7 @@ public class GUIManager implements GUIController {
         stage.setScene(myWindow);
         ObservableProperties properties = setupBindings();
         commandParser = new CommandParser();
+        myVariables.setVariableSetter(commandParser);
         commandParser.initLanguageBinding(myLanguage);
         commandParser.initTurtlePropertiesBinding(properties);
         commandParser.initVariablesBinding(myVariables);

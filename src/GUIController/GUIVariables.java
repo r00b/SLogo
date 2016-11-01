@@ -1,5 +1,6 @@
 package GUIController;
 
+import BackEndExternalAPI.CommandParser;
 import FrontEndExternalAPI.Variables;
 import GUI.VariablesHelp;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -53,6 +54,7 @@ public class GUIVariables implements Variables {
     private String textFieldFill = "-fx-background-color: linear-gradient(#00110e, #4d66cc);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+    private CommandParser myVariableSetter;
 
     /**
      * @param p
@@ -69,6 +71,10 @@ public class GUIVariables implements Variables {
         createTableView();
         addVariableManually();
         addClearButton();
+    }
+
+    public void setVariableSetter(CommandParser variableSetter) {
+        myVariableSetter = variableSetter;
     }
 
     private void drawVariables() {
@@ -182,39 +188,40 @@ public class GUIVariables implements Variables {
     }
 
     private void addVariableManually() {
-        final TextField addFirstName = new TextField();
-        addFirstName.setPromptText("Enter variable name");
-        addFirstName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
-        addFirstName.setTranslateX(50);
-        addFirstName.setTranslateY(310);
-        addFirstName.setStyle(textFieldFill);
-        final TextField addLastName = new TextField();
-        addLastName.setMaxWidth(valueCol.getPrefWidth() - 30);
-        addLastName.setPromptText("Enter variable value");
-        addLastName.setTranslateX(300);
-        addLastName.setTranslateY(310);
-        addLastName.setStyle(textFieldFill);
-        final TextField addEmail = new TextField();
+        final TextField addVariableName = new TextField();
+        addVariableName.setPromptText("Enter variable name");
+        addVariableName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
+        addVariableName.setTranslateX(50);
+        addVariableName.setTranslateY(310);
+        addVariableName.setStyle(textFieldFill);
+        final TextField addVariableVal = new TextField();
+        addVariableVal.setMaxWidth(valueCol.getPrefWidth() - 30);
+        addVariableVal.setPromptText("Enter variable value");
+        addVariableVal.setTranslateX(300);
+        addVariableVal.setTranslateY(310);
+        addVariableVal.setStyle(textFieldFill);
 
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/add.png"));
         ImageView addImg = new ImageView(newImage);
         final Button addButton = newButton("Add", addImg, 520, 310);
-        //new Button("Add");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                data.add(new Variable(addFirstName.getText(),
-                        Double.parseDouble(addLastName.getText())));
-                addFirstName.clear();
-                addLastName.clear();
-            }
-        });
-//        addButton.setTranslateX(520);
-//        addButton.setTranslateY(310);
-        table.setEditable(true);
 
-        window.getChildren().addAll(addFirstName, addLastName, addButton);
+        addButton.setOnAction(e -> {
+            data.add(new Variable(addVariableName.getText(),
+                    Double.parseDouble(addVariableVal.getText())));
+            String command = "make " + addVariableName.getText() + " " + addVariableVal.getText();
+            String[] commands = new String[1];
+            commands[0] = command;
+            myVariableSetter.executeCommands(commands);
+            addVariableName.clear();
+            addVariableVal.clear();
+        });
+
+        table.setEditable(true);
+        window.getChildren().addAll(addVariableName, addVariableVal, addButton);
+
+
+
     }
 
     private void addClearButton() {
