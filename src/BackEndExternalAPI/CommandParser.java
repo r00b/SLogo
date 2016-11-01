@@ -23,6 +23,7 @@ public class CommandParser {
     private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
+    private static HashMap<String, Integer> myMethodVariableDeclarations;
     private static SimpleStringProperty myLanguageBinding;
     private static HashSet<String> myErrors;
 
@@ -30,6 +31,7 @@ public class CommandParser {
     public CommandParser() {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
+        myMethodVariableDeclarations = new HashMap<String, Integer>();
     }
 
 
@@ -100,7 +102,7 @@ public class CommandParser {
         ParseTreeBuilder newBuilder = new ParseTreeBuilder();
         newBuilder.setLanguage(myLanguageBinding);
         newBuilder.setTurtleProperties(myProperties);
-        newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables));
+        newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables, myMethodVariableDeclarations));
         newBuilder.setErrorSet(myErrors);
         return newBuilder;
     }
@@ -113,7 +115,6 @@ public class CommandParser {
             double result = parseTree.getCommandObj().executeCommand(parseTree);
             results.add(result);
         }
-        myMethodVariables.clear(); // clear temporary method variables
         line++;
     }
 
@@ -128,47 +129,49 @@ public class CommandParser {
 
 
 
-        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
-        ArrayList<String> newCommand = new ArrayList<String>();
-//        newCommand.add("[");
-        for (String command : commands) {
-            if (!command.trim().equals("")) {
-                String[] splitCommands = command.trim().split("\\p{Space}");
-                for (String splitCommand : splitCommands) {
-                    newCommand.add(splitCommand);
-                }
-            } else {
-//                newCommand.add("]");
-                allCommands.add(newCommand);
-                newCommand = new ArrayList<String>();
-//                newCommand.add("[");
-            }
-        }
-//        newCommand.add("]");
-        allCommands.add(newCommand);
-
-
+//        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
+//        ArrayList<String> newCommand = new ArrayList<String>();
+////        newCommand.add("[");
+//        for (String command : commands) {
+//            if (!command.trim().equals("")) {
+//                String[] splitCommands = command.trim().split("\\p{Space}");
+//                for (String splitCommand : splitCommands) {
+//                    newCommand.add(splitCommand);
+//                }
+//            } else {
+////                newCommand.add("]");
+//                allCommands.add(newCommand);
+//                newCommand = new ArrayList<String>();
+////                newCommand.add("[");
+//            }
+//        }
+////        newCommand.add("]");
+//        allCommands.add(newCommand);
+//
+//
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
 
-        for (ArrayList<String> commanders : allCommands) {
-            String[] coms = new String[commanders.size()];
-            coms = commanders.toArray(coms);
-            buildAndExecuteTree(coms,results,1);
-        }
-
-
-//        commandList.add("[");
-//        for (String command : commands) {
-//            String[] splitCommands = command.trim().split("\\p{Space}");
-//            for (String splitCommand : splitCommands) {
-//                if (!splitCommand.equals("")) {
-//                    commandList.add(splitCommand);
-//                }
-//            }
+//        for (ArrayList<String> commanders : allCommands) {
+//            String[] coms = new String[commanders.size()];
+//            coms = commanders.toArray(coms);
+//            buildAndExecuteTree(coms,results,1);
 //        }
-//        commandList.add("]");
 
+
+        commandList.add("[");
+        for (String command : commands) {
+            String[] splitCommands = command.trim().split("\\p{Space}");
+            for (String splitCommand : splitCommands) {
+                if (!splitCommand.equals("")) {
+                    commandList.add(splitCommand);
+                }
+            }
+        }
+        commandList.add("]");
+            String[] coms = new String[commandList.size()];
+            coms = commandList.toArray(coms);
+            buildAndExecuteTree(coms,results,1);
 
 
         return results;
