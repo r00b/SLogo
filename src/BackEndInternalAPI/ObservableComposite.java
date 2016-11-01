@@ -91,7 +91,7 @@ public class ObservableComposite implements ObservableManager{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				// TODO Auto-generated method stub
 				//myDisplay.createNewTurtle(newValue) returns a new ObservableProperties class
-				// myTurtles.add(result)
+				//myTurtles.add(result)
 				turtleCount++;
 			}
 		});
