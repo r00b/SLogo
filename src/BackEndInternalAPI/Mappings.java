@@ -1,5 +1,8 @@
 package BackEndInternalAPI;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableMap;
+
 import java.util.Map;
 
 /**
@@ -7,17 +10,17 @@ import java.util.Map;
  */
 public class Mappings {
 
-    private Map<String, Double> myVariables;
+    private ObservableMap<String,Double> myVariables;
     private Map<String, Double> myMethodVariables;
     private Map<String, LogoMethod> myMethods;
 
-    public Mappings(Map<String, Double> variables, Map<String, Double> methodVariables,  Map<String, LogoMethod> methods) {
+    public Mappings(ObservableMap<String,Double> variables, Map<String, Double> methodVariables,  Map<String, LogoMethod> methods) {
         myVariables = variables;
         myMethodVariables = methodVariables;
         myMethods = methods;
     }
 
-    public Map<String, Double> getMyVariables() {
+    public ObservableMap<String,Double> getMyVariables() {
         return myVariables;
     }
 

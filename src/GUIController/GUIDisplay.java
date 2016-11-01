@@ -3,8 +3,11 @@ package GUIController;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.DisplayHelp;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -14,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -26,6 +30,7 @@ import javafx.stage.Stage;
 //
 //import java.awt.*;
 //import java.awt.Button;
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -38,6 +43,7 @@ public class GUIDisplay implements RenderSprite {
     private static final int Y_POS = 110;
     private static boolean visibility = true;
     private int numSteps = 0;
+    private int strokeWidth = 5;
     private Pane window;
     private Line myPath;
     private ImageView helpButton;
@@ -68,10 +74,10 @@ public class GUIDisplay implements RenderSprite {
         this.pathColor = pathColor;
         this.myPath = lineType;
         drawDisplay();
+        addDisplayControlButtons();
         addTextLabel();
         addTurtle();
         addHelpButton();
-        addOptionsButton();
     }
 
     public void setInitialTurtle(String initialTurtle){
@@ -96,10 +102,19 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
-//        myTurtle.x
+//        myTurtle.min
+        makeTooltip();
         window.getChildren().add(myTurtle);
     }
 
+    private void makeTooltip(){
+        Tooltip t = new Tooltip("X: " + getTurtleLocation().getX() + "\n" + "Y: " + getTurtleLocation().getY() + "\n");
+        t.setText(t.getText() + "Line Width: " + strokeWidth + "\n");
+        t.setText(t.getText() + "Pen Color: " + pathColor + "\n");
+        t.setText(t.getText() + "Rotation: " + myTurtle.getRotate() + "\n");
+        Tooltip.install(myTurtle, t);
+    }
+    
     private void addTextLabel(){
         Text label = new Text("Display");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -158,7 +173,7 @@ public class GUIDisplay implements RenderSprite {
 //                (int)myTurtle.getTranslateY()), new Point(x, y));
 ////        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
 ////        System.out.println("translate x of the editor" + X_POS);
-//        myTurtle.setTranslateX(X_POS + x);
+//        uTranslateX(X_POS + x);
 //        myTurtle.setTranslateY(Y_POS + y);
 //    }
 
@@ -169,23 +184,42 @@ public class GUIDisplay implements RenderSprite {
     public void drawNewLine(){
     	double centerX =  20;
 		double centerY = 20;
+        boolean yBoundUpper = false;
 		Line newPath;
+        double yDest = myTurtle.getY() + myTurtle.getTranslateY() + centerY;
+//        System.out.println("getY() is " + yDest);
+//        System.out.println("getTranslateY() is " + myTurtle.getTranslateY());
+//        if(yDest < Y_POS){
+//            yDest = Y_POS + centerY;
+//            yBoundUpper = true;
+//        }
+
     	if (turtleMotion.size() < 1) {
-    		
+
     		newPath = new Line(centerX + myTurtle.getTranslateX(),
                     centerY + myTurtle.getTranslateY(),
                     myTurtle.getX() + myTurtle.getTranslateX() + centerX,
                     myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+//            newPath = new Line(centerX + myTurtle.getTranslateX(),
+//                    centerY + myTurtle.getTranslateY(),
+//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+//                    yDest);
     	}
     	else{
     		newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
                     turtleMotion.get(turtleMotion.size() - 1).getEndY(),
     				myTurtle.getX() + myTurtle.getTranslateX() + centerX,
                     myTurtle.getY() + myTurtle.getTranslateY() + centerY);
+//            newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
+//                    turtleMotion.get(turtleMotion.size() - 1).getEndY(),
+//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
+//                    yDest);
     	}
+
+//    	System.out.println(pathColor);
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
-        //newPath.setStrokeWidth(strokeWidth);
+        newPath.setStrokeWidth(strokeWidth);
 //        newPath.setStrokeDashOffset(2);
         newPath.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newPath.setId("Step" + numSteps);
@@ -193,9 +227,12 @@ public class GUIDisplay implements RenderSprite {
         turtleMotion.add(newPath);
         window.getChildren().add(newPath);
 
-        //if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
-        //window.getChildren().remove(myTurtle);
-        //window.getChildren().add(myTurtle);
+
+        if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
+        window.getChildren().remove(myTurtle);
+        window.getChildren().add(myTurtle);
+    	
+    	//bool.set(false);
     }
 
     //DONT NEED IT ANYMORE
@@ -227,8 +264,54 @@ public class GUIDisplay implements RenderSprite {
      */
 	public void clearScreen() {
 		window.getChildren().removeAll(turtleMotion);
+		turtleMotion.clear();
 		//clearScreenProperty.set(false);
 	}
+
+    private void addDisplayControlButtons(){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 300,
+                (int) displayGraph.getTranslateY() + 10);
+        clear.setOnMouseClicked(e -> {
+            window.getChildren().removeAll(turtleMotion);
+            turtleMotion.clear();
+        });
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/options.png"));
+        ImageView optionsImg = new ImageView(newImage);
+        optionsButton = newButton("Display Options", optionsImg, 760, 120);
+        optionsButton.setOnMouseClicked(e -> {
+            Stage s = new Stage();
+            myOptions = new DisplayMenu(s);
+            updateDisplayOptions();
+        });
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/reset.png"));
+        ImageView resetImg = new ImageView(newImage);
+        Button reset = newButton("Reset", resetImg, 1010, 120);
+        reset.setOnMouseClicked(e -> resetIDE());
+//        optionsButton.setTranslateX(760);
+//        optionsButton.setTranslateY(120);
+        window.getChildren().addAll(clear, optionsButton, reset);
+//        window.getChildren().add(clear);
+    }
+
+    private Button newButton(String text, ImageView imgV, int x, int y){
+        imgV.setFitWidth(25);
+        imgV.setFitHeight(25);
+        Button run = new Button(text, imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
+    }
+
 
     /**
      *
@@ -268,11 +351,16 @@ public class GUIDisplay implements RenderSprite {
 
     private void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
+        System.out.println("pen: " + pathColor);
+        System.out.println("display: " + myOptions.getDisplayColor());
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
+        strokeWidth = myOptions.getStrokeWidth();
+        setVisibility(myOptions.isPenUp());
+        makeTooltip();
     }
 
     private void createDisplayShading(){
@@ -286,12 +374,44 @@ public class GUIDisplay implements RenderSprite {
 
     @Override
     public void resetIDE() {
-
+        window.getChildren().remove(myTurtle);
+        window.getChildren().removeAll(turtleMotion);
+        turtleMotion.clear();
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/graphPaper.gif"));
+//        drawDisplay();
+        displayGraph.setEffect(null);
+        displayGraph.setImage(newImage);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/turtle.png"));
+//        ImageView defaultTurtle = new ImageView(newImage);
+//        myTurtle = defaultTurtle;
+        myTurtle.setImage(newImage);
+        myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        addTurtle();
+        Paint defaultColor = Color.MIDNIGHTBLUE;
+        pathColor = defaultColor;
+        myPath.getStrokeDashArray().clear();
+//        newImage = new Image(getClass().getClassLoader()
+//                .getResourceAsStream("images/graphPaper.png"));
+//        ImageView defaultDisplay = new ImageView(newImage);
+//        displayGraph = defaultDisplay;
+        strokeWidth = 5;
+//        addTextLabel();
+//        addHelpButton();
+//        addDisplayControlButtons();
     }
 
     private class DisplayMenu extends OptionsMenu{
 
+        private static final int DROP_DOWN_X_VALUE = 400;
+        private static final int PEN_MIN = 0;
+        private static final int PEN_MAX = 10;
+        private static final int PEN_INIT = 5;
         private ColorPicker displayColor;
+        private Slider slider;
+        private CheckBox penUpBox;
         /**
          * @param s
          */
@@ -307,6 +427,8 @@ public class GUIDisplay implements RenderSprite {
             addLaunchButton();
             addLineStylePicker();
             changeDisplayColor();
+            addPenSizeSlider();
+            addCheckBox();
         }
 
         @Override
@@ -321,8 +443,8 @@ public class GUIDisplay implements RenderSprite {
 
         @Override
         public void addRectangle() {
-            Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
-            backdrop.setTranslateY(230);
+            Rectangle backdrop = new Rectangle(500, 340, Color.MIDNIGHTBLUE);
+            backdrop.setTranslateY(180);
             backdrop.setTranslateX(100);
             backdrop.opacityProperty().setValue(0.5);
             getStartWindow().getChildren().add(backdrop);
@@ -344,6 +466,35 @@ public class GUIDisplay implements RenderSprite {
             getStartWindow().getChildren().add(newButton);
         }
 
+        private void addPenSizeSlider(){
+//            JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL,
+//                    PEN_MIN, PEN_MAX, PEN_INIT);
+//            framesPerSecond.addChangeListener(this);
+
+            slider = new Slider(0, 10, 5);
+            slider.setShowTickMarks(true);
+            slider.setShowTickLabels(true);
+            slider.setMajorTickUnit(2);
+            slider.setMinorTickCount(1);
+//            slider.setBlockIncrement(1);
+            slider.setSnapToTicks(true);
+//            slider.setPrefWidth(200);
+//            slider.tick
+            slider.setTranslateX(DROP_DOWN_X_VALUE);
+            slider.setTranslateY(200);
+
+            Label sliderLabel = generateLabel("Choose pen size \t\t" + (int) slider.getValue(), 125, 200);
+
+            slider.valueProperty().addListener(new ChangeListener<Number>() {
+                public void changed(ObservableValue<? extends Number> ov,
+                                    Number old_val, Number new_val) {
+                    sliderLabel.setText("Choose pen size \t\t" + String.format("%.0f", new_val));
+                }
+            });
+
+            getStartWindow().getChildren().addAll(slider, sliderLabel);
+        }
+
         @Override
         public void initIDE(String background, String turtle) {
 //nope
@@ -356,10 +507,18 @@ public class GUIDisplay implements RenderSprite {
         }
 
         public void changeDisplayColor() {
-            displayColor = generateColorPicker(Color.ALICEBLUE, 400, 400);
+            displayColor = generateColorPicker(Color.MIDNIGHTBLUE, 400, 400);
             Label penLabel = generateLabel("Select display color", 125, 400);
             getStartWindow().getChildren().add(displayColor);
             getStartWindow().getChildren().add(penLabel);
+        }
+
+        private void addCheckBox(){
+            penUpBox = new CheckBox("penup");
+            penUpBox.setTranslateX(DROP_DOWN_X_VALUE);
+            penUpBox.setTranslateY(450);
+            Label penUpLabel = generateLabel("Check to make pen invisible", 125, 450);
+            getStartWindow().getChildren().addAll(penUpLabel, penUpBox);
         }
 
         /**
@@ -375,8 +534,18 @@ public class GUIDisplay implements RenderSprite {
             return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
         }
 
+
         public Color getDisplayColor(){
             return displayColor.getValue();
+        }
+
+        public int getStrokeWidth(){
+            return (int) slider.getValue();
+        }
+
+        public boolean isPenUp(){
+            System.out.println(penUpBox.isSelected());
+            return penUpBox.isSelected();
         }
     }
 }

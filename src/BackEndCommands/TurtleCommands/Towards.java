@@ -20,9 +20,9 @@ public class Towards extends TurtleCommand{
 		ParseTreeNode arg2 = node.getChild(1);
 //		double value1 = arg1.executeCommand(arg1);
 //		double value2 = arg2.executeCommand(arg2);
-		double oldDegrees = properties.getRotateProperty();
+		//double oldDegrees = properties.getRotateProperty();
 		double degrees = properties.calculateDegrees(arg1, arg2);
-		return Math.abs(degrees - oldDegrees);
+		return Math.abs(degrees);
 	}
 	@Override
 	public int numArguments() {

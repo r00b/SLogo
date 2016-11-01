@@ -10,20 +10,20 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert H. Steilberg II, Robert Duvall
  *         <p>
- *         This class returns an instance of a Command object based off of a
- *         corresponding Logo commandType. This is done by using regular expressions
- *         to determine the type of Logo commandType specified by the caller via an
- *         inputted String.
+ *         This class serves as a detector for a certain instance of a Command object.
+ *         A specified Logo command's type is detected via regular expressions and then
+ *         called via reflection to create an instance of the respective Command object.
+ *
+ *         Dependencies:
  */
 public class CommandTypeDetector {
 
     private List<Entry<String, Pattern>> mySymbols;
 
-    public CommandTypeDetector() {
+    public CommandTypeDetector(String language) {
         mySymbols = new ArrayList<>();
-        String language = "English"; // TODO get current language from GUI
         addPatterns("resources/languages/" + language);
         addPatterns("resources/languages/Syntax"); // Logo syntax
     }

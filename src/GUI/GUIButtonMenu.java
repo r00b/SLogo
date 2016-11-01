@@ -1,7 +1,13 @@
 package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,8 +28,33 @@ public class GUIButtonMenu implements ButtonMenu{
     private Paint border;
     private Rectangle backdrop;
     private Stage s = new Stage();
+    private String defaultBackground = "Nebula";
+    private String defaultLanguage = "English";
     private OptionsPopup myOptions;
     private HelpMenu myHelpMenu;
+    private ComboBox<String> backgroundBox, languageBox;
+    private ObservableList<String> backgroundOptions =
+            FXCollections.observableArrayList(
+                    "Circuits",
+                    "Floating Cubes",
+                    "Nebula",
+                    "Metal Sheets",
+                    "Spinning Screens"
+            );
+  
+    private ObservableList<String> languageOptions =
+            FXCollections.observableArrayList(
+                    "Chinese",
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Portuguese",
+                    "Russian",
+                    "Spanish",
+                    "Syntax"
+
+            );
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
@@ -39,9 +70,11 @@ public class GUIButtonMenu implements ButtonMenu{
     public GUIButtonMenu(Pane p, Paint borderColor){
         this.window = p;
         this.border = borderColor;
+//        myOptions = new OptionsPopup();
         drawButtonMenu();
         addTextLabel();
         addButtons();
+        addComboBoxes();
     }
 
     private void drawButtonMenu(){
@@ -65,79 +98,71 @@ public class GUIButtonMenu implements ButtonMenu{
         label.setTranslateY(30);
         window.getChildren().add(label);
     }
+    
+    
 
     /**
      *
      */
-    public void addButtons(){ 
-        Button play = newButton("PLAY", 30, 40);
-        Button pause = newButton("PAUSE", 130, 40);
-        Button stop = newButton("STOP", 240, 40);
-        Button options = newButton("OPTIONS", 340, 50);
-        options.setOnMouseClicked(e -> optionsHandler());
-        Button help = newButton("HELP", 420, 50);
+    public void addButtons(){
+        Image newImage = new Image(getClass().getClassLoader()
+                                   .getResourceAsStream("images/play.png"));
+        ImageView imgV = new ImageView(newImage);
+        Button play = newButton("PLAY", imgV, 30, 40);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/pause.png"));
+        imgV = new ImageView(newImage);
+        Button pause = newButton("PAUSE", imgV, 130, 40);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/stop.png"));
+        imgV = new ImageView(newImage);
+        Button stop = newButton("STOP", imgV, 240, 40);
+//        newImage = new Image(getClass().getClassLoader()
+//                .getResourceAsStream("images/options.png"));
+//        imgV = new ImageView(newImage);
+//        Button options = newButton("OPTIONS", imgV, 340, 40);
+//        options.setOnMouseClicked(e -> optionsHandler());
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/help.png"));
+        imgV = new ImageView(newImage);
+        Button help = newButton("HELP", imgV, 337, 40);
         help.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(play);
         window.getChildren().add(pause);
         window.getChildren().add(stop);
-        window.getChildren().add(options);
         window.getChildren().add(help);
-        
+//        window.getChildren().add(options);
     }
 
-    @Override
-    /**
-     *
-     */
-    public Button newButton(String text, int x, int y) {
-       
-        ImageView newImage = loadImage(text);
-        Button newButton;
-        if(text.equals("PLAY")){
-            newButton = new Button(text, newImage);
-        }
-        else if(text.equals("PAUSE")){
-            newButton = new Button(text, newImage);  
-        }
-        else if(text.equals("STOP")){
-            newButton = new Button(text, newImage);
-        }
-        else
-        {
-            newButton = new Button(text);
-        }
-        newButton.setStyle(overButton);
-        newButton.setOnMouseEntered(e -> {
-            newButton.setStyle(buttonFill);
-            backdrop.opacityProperty().setValue(0.8);
-        });
-        newButton.setOnMouseExited(e -> newButton.setStyle(overButton));
-        newButton.setTranslateX(x);
-        newButton.setTranslateY(y);
-        return newButton;
-    }
-
-    private ImageView loadImage (String text) {
-        Image newImage = new Image(getClass().getClassLoader()
-                                   .getResourceAsStream("images/play.png"));
-        if(text.equals("PLAY")){
-         newImage = new Image(getClass().getClassLoader()
-                                     .getResourceAsStream("images/play.png"));
-        }
-        else if(text.equals("PAUSE")){
-             newImage = new Image(getClass().getClassLoader()
-                                       .getResourceAsStream("images/pause.png"));
-        }
-        else if(text.equals("STOP")){
-             newImage = new Image(getClass().getClassLoader()
-                                       .getResourceAsStream("images/stop.png"));
-        }
-        else{
-        }
-        ImageView imgV = new ImageView(newImage);
+    public Button newButton(String text, ImageView imgV, int x, int y){
         imgV.setFitWidth(40);
         imgV.setFitHeight(40);
-        return imgV;
+        Button run = new Button(text, imgV);
+        run.setStyle(overButton);
+        run.setOnMouseEntered(e -> {
+            run.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        run.setOnMouseExited(e -> run.setStyle(overButton));
+        run.setTranslateX(x);
+        run.setTranslateY(y);
+        return run;
+    }
+
+    private void addComboBoxes(){
+        System.setProperty("glass.accessible.force", "false");
+        backgroundBox = new ComboBox<String>(backgroundOptions);
+        backgroundBox.setValue(defaultBackground);
+        backgroundBox.setTranslateX(440);
+        backgroundBox.setTranslateY(50);
+//        backgroundBox.setStyle(buttonFill);
+//        backgroundBox.style
+        window.getChildren().add(backgroundBox);
+        languageBox = new ComboBox<String>(languageOptions);
+        languageBox.setValue(defaultLanguage);
+        languageBox.setTranslateX(610);
+        languageBox.setTranslateY(50);
+        window.getChildren().add(languageBox);
     }
 
     /**
@@ -150,24 +175,16 @@ public class GUIButtonMenu implements ButtonMenu{
     public void setDefaults(Color paint, String background, String turtle, String language){
         myOptions = new OptionsPopup(s, paint, background, turtle, language);
     }
-
-    private void optionsHandler(){
-        myOptions.initPopup();
-    }
+//
+//    private void optionsHandler(){
+//        myOptions.initPopup();
+//    }
 
     private void helpHandler(){
         myHelpMenu = new HelpMenu(s);
         myHelpMenu.init();
     }
-
-    /**
-     *
-     * @return
-     */
-    public OptionsPopup getOptionsPopup(){
-        return myOptions;
-    }
-
+ 
     /**
      *
      * @return

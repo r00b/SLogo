@@ -14,13 +14,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 
 /**
- * A class that contains all the observable properties from the front end and is passed 
+ * A class that contains all the observable properties from the front end and is passed
  * to commands. Note that an instance of this class will be passed to the backend and for the commands to alter
- * @author ezra
  *
+ * @author ezra
  */
 public class ObservableProperties implements ObservableManager{
-	private int myId;
+	private double myId;
 	private BooleanProperty imageVisibleProperty; //observable list of booleans changes https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
 	private DoubleProperty rotateProperty;
 	private DoubleProperty xProperty;
@@ -30,7 +30,7 @@ public class ObservableProperties implements ObservableManager{
 	private BooleanProperty clearScreenProperty;
 	
 	
-	public ObservableProperties(ImageView turtle, GUIDisplay myDisplay, int id) {
+	public ObservableProperties(ImageView turtle, GUIDisplay myDisplay, double id) {
 		myId = id;
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
@@ -83,7 +83,7 @@ public class ObservableProperties implements ObservableManager{
 				if (newValue) {
 					myDisplay.drawNewLine();
 				}
-				//newLineProperty.set(false);
+				newLineProperty.set(false);
 			}
     	});
 		
@@ -139,11 +139,6 @@ public class ObservableProperties implements ObservableManager{
 		return pathVisibleProperty.get();
 	}
 
-	@Override
-	public void addActiveTurtle(double id) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	/**
 	 * Calculates the distance between two points. Method is called by the Home, ClearScreen, SetXY commands
@@ -255,5 +250,8 @@ public class ObservableProperties implements ObservableManager{
 		double oldDegrees = rotateProperty.get();
 		rotateProperty.set(answer);
 		return Math.abs(answer - oldDegrees);
+	}
+	public double getID() {
+		return myId;
 	}
 }

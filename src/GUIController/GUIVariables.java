@@ -5,7 +5,9 @@ import GUI.VariablesHelp;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -26,8 +28,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.Event;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -39,20 +43,24 @@ public class GUIVariables implements Variables {
     private VariablesHelp helpWindow;
     private TableView table = new TableView();
     private TableColumn variableNameCol, valueCol;
-    private final ObservableList<Variable> data = FXCollections.observableArrayList();
+    private ObservableList<Variable> data = FXCollections.observableArrayList();
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+    private String textFieldFill = "-fx-background-color: linear-gradient(#00110e, #4d66cc);" +
+            "-fx-background-radius: 20;" +
+            "-fx-text-fill: white;";
 
     /**
-     *
      * @param p
      * @param bodercolor
      */
-    public GUIVariables(Pane p, Paint bodercolor){
+    public GUIVariables(Pane p, Paint bodercolor) {
+        System.out.println(this + " " + bodercolor);
+
         this.window = p;
         this.border = bodercolor;
         drawVariables();
@@ -63,7 +71,7 @@ public class GUIVariables implements Variables {
         addClearButton();
     }
 
-    private void drawVariables(){
+    private void drawVariables() {
         backdrop = new Rectangle(600, 230, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
@@ -75,7 +83,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(backdrop);
     }
 
-    private void addTextLabel(){
+    private void addTextLabel() {
         Text label = new Text("Declared Variables");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
@@ -84,7 +92,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(label);
     }
 
-    private void addHelpButton(){
+    private void addHelpButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         ImageView helpButton = new ImageView(newImage);
@@ -97,14 +105,14 @@ public class GUIVariables implements Variables {
         window.getChildren().add(helpButton);
     }
 
-    private void helpHandler(){
+    private void helpHandler() {
         Stage s = new Stage();
         helpWindow = new VariablesHelp(s);
         helpWindow.init();
     }
 
-    private void createTableView(){
-        //WHY CANT I GET THIS TO BE FUCKING EDITABLE
+    private void createTableView() {
+        //WHY CANT I GET THIS TO BE FUCKING EDITABLE  TODO remove expletive before submitting
         variableNameCol = new TableColumn("Variable Name");
         variableNameCol.setPrefWidth(250);
         variableNameCol.setCellValueFactory(
@@ -154,16 +162,17 @@ public class GUIVariables implements Variables {
      *
      */
     public void addVariable(String name, double value) {
+
         boolean contains = false;
-        for(int i = 0; i < data.size(); i++){
-            if(data.get(i).getVariableName().equals(name.substring(1))){
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getVariableName().equals(name.substring(1))) {
                 contains = true;
                 data.get(i).setVariableValue(value);
                 System.out.println("the value is " + value);
                 break;
             }
         }
-        if(!contains) {
+        if (!contains) {
             data.add(new Variable(name.substring(1), value));
         }
         table.setItems(data);
@@ -172,24 +181,26 @@ public class GUIVariables implements Variables {
         System.out.println("the data is " + data.size());
     }
 
-    private void addVariableManually(){
+    private void addVariableManually() {
         final TextField addFirstName = new TextField();
-        addFirstName.setPromptText("Variable name");
+        addFirstName.setPromptText("Enter variable name");
         addFirstName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
         addFirstName.setTranslateX(50);
         addFirstName.setTranslateY(310);
+        addFirstName.setStyle(textFieldFill);
         final TextField addLastName = new TextField();
         addLastName.setMaxWidth(valueCol.getPrefWidth() - 30);
-        addLastName.setPromptText("Variable value");
+        addLastName.setPromptText("Enter variable value");
         addLastName.setTranslateX(300);
         addLastName.setTranslateY(310);
+        addLastName.setStyle(textFieldFill);
         final TextField addEmail = new TextField();
 
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/add.png"));
         ImageView addImg = new ImageView(newImage);
         final Button addButton = newButton("Add", addImg, 520, 310);
-                //new Button("Add");
+        //new Button("Add");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -206,7 +217,7 @@ public class GUIVariables implements Variables {
         window.getChildren().addAll(addFirstName, addLastName, addButton);
     }
 
-    private void addClearButton(){
+    private void addClearButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
@@ -215,7 +226,7 @@ public class GUIVariables implements Variables {
         window.getChildren().add(clear);
     }
 
-    private Button newButton(String text, ImageView imgV, int x, int y){
+    private Button newButton(String text, ImageView imgV, int x, int y) {
         imgV.setFitWidth(25);
         imgV.setFitHeight(25);
         Button run = new Button(text, imgV);
@@ -240,6 +251,15 @@ public class GUIVariables implements Variables {
         return null;
     }
 
+    public void setMap(ObservableMap<? extends String, ? extends Double> map) {
+        data.clear();
+        System.out.println(this);
+        data.addAll(map.keySet().stream().map(variable ->
+                new Variable(variable, map.get(variable)))
+                .collect(Collectors.toList()));
+        table.setItems(data);
+    }
+
 
     /**
      *
@@ -251,7 +271,6 @@ public class GUIVariables implements Variables {
 //        private final SimpleStringProperty email;
 
         /**
-         *
          * @param vName
          * @param vValue
          */
@@ -262,7 +281,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @return
          */
         public String getVariableName() {
@@ -270,7 +288,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @param fName
          */
         public void setVariableName(String fName) {
@@ -278,7 +295,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @return
          */
         public double getVariableValue() {
@@ -286,7 +302,6 @@ public class GUIVariables implements Variables {
         }
 
         /**
-         *
          * @param fName
          */
         public void setVariableValue(double fName) {

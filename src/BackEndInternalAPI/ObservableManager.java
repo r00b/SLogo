@@ -18,7 +18,6 @@ public interface ObservableManager {
 	public void setYProperty(double value);
 	public boolean getPathVisibleProperty();
 	public void setPathVisibleProperty(boolean value);
-	public void addActiveTurtle(double id);
 	
 	double calculateDegrees(ParseTreeNode x, ParseTreeNode y);
 	/**

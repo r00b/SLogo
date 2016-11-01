@@ -155,6 +155,12 @@ public class GUIHistory implements History {
         list.setTranslateX(20);
         list.setTranslateY(625);
         list.setPrefSize(500, 155);
+        list.opacityProperty().setValue(0.5);
+        list.setOnMouseEntered(e -> {
+            list.opacityProperty().setValue(0.8);
+            backdrop.opacityProperty().setValue(0.8);
+        });
+        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         oldCommands = FXCollections.observableArrayList();
 //        list.opacityProperty().setValue(0.8);
         oldCommands = FXCollections.observableArrayList();

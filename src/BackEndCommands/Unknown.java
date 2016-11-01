@@ -11,7 +11,7 @@ import java.util.List;
  *         This command instance represents non-conventional commands in Logo
  *         (i.e. method calls for user-defined functions).
  */
-public class NoType implements Command {
+public class Unknown implements Command {
 
     private static final int ARGS = 0;
 
