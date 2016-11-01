@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public class Mappings {
 
-    private static ObservableMap<String, Double> myVariables;
-    private static Map<String, Double> myMethodVariables; // temporary map for method variables
-    private static Map<String, LogoMethod> myMethods;
+    private ObservableMap<String, Double> myVariables;
+    private Map<String, Double> myMethodVariables; // temporary map for method variables
+    private Map<String, LogoMethod> myMethods;
 
     public Mappings(ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
         myVariables = variables;
