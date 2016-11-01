@@ -1,5 +1,7 @@
 package BackEndInternalAPI;
 
+import java.awt.Point;
+
 import GUIController.GUIDisplay;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -23,25 +25,26 @@ public class ObservableProperties implements ObservableManager{
 	private double myId;
 	private BooleanProperty imageVisibleProperty; //observable list of booleans changes https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
 	private DoubleProperty rotateProperty;
-	private DoubleProperty xProperty;
-	private DoubleProperty yProperty;
+	private double xProperty;
+	private double yProperty;
 	private BooleanProperty pathVisibleProperty;  //observable list of booleans changes
 	private BooleanProperty newLineProperty; //should be double to represent which id needs to update set to 0 after
 	private BooleanProperty clearScreenProperty;
+	//private ObservableObject newPoint;
 	
 	
 	public ObservableProperties(ImageView turtle, GUIDisplay myDisplay, double id) {
 		myId = id;
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
-		xProperty = new SimpleDoubleProperty(turtle.getX());
-		yProperty = new SimpleDoubleProperty(turtle.getY());
+		xProperty = 0;
+		yProperty = 0;
 		pathVisibleProperty = new SimpleBooleanProperty(true);
 		newLineProperty = new SimpleBooleanProperty(false);
 		clearScreenProperty = new SimpleBooleanProperty(false);
 		//penSizes = new SimpleDoubleProperty(0);
-		turtle.xProperty().bind(xProperty);
-		turtle.yProperty().bind(yProperty);
+		//turtle.xProperty().bind(xProperty);
+		//turtle.yProperty().bind(yProperty);
 		turtle.rotateProperty().bind(rotateProperty);
 		turtle.visibleProperty().bind(imageVisibleProperty);
 		setupListeners(myDisplay);
@@ -81,7 +84,7 @@ public class ObservableProperties implements ObservableManager{
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.drawNewLine();
+					myDisplay.moveTurtle(getXProperty(), getYProperty());
 				}
 				newLineProperty.set(false);
 			}
@@ -124,17 +127,17 @@ public class ObservableProperties implements ObservableManager{
 	}
 
 	public double getXProperty() {
-		return xProperty.get();
+		return xProperty;
 	}
 	public void setXProperty(double value) {
-		xProperty.set(value);
+		xProperty = value;
 	}
 	public double getYProperty() {
-		return -yProperty.get();
+		return yProperty;
 	}
 	
 	public void setYProperty(double value) {
-		yProperty.set(-value);
+		yProperty = value;
 	}
 	public boolean getPathVisibleProperty() {
 		return pathVisibleProperty.get();

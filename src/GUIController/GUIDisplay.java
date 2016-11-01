@@ -105,8 +105,8 @@ public class GUIDisplay implements RenderSprite {
     public ObservableProperties addTurtle(double newID){
         ImageView myNewTurtle = new ImageView();
         myNewTurtle.setImage(myTurtle.getImage());
-        myNewTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
-        myNewTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        myNewTurtle.setX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myNewTurtle.setY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myNewTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myNewTurtle.setFitWidth(TURTLE_FIT_SIZE);
         Turtle newTurtle = new Turtle();
@@ -192,15 +192,16 @@ public class GUIDisplay implements RenderSprite {
 //     * @param x
 //     * @param y
 //     */
-//    public void moveTurtle(int x, int y){
-//        numSteps++;
-//        drawNewLine(new Point((int)myTurtle.getTranslateX(),
-//                (int)myTurtle.getTranslateY()), new Point(x, y));
-////        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
-////        System.out.println("translate x of the editor" + X_POS);
-//        uTranslateX(X_POS + x);
-//        myTurtle.setTranslateY(Y_POS + y);
-//    }
+    public void moveTurtle(double x, double y){
+        numSteps++;
+        drawNewLine(x, y);
+//        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
+//        System.out.println("translate x of the editor" + X_POS);
+       // myTurtles.get(1);
+        myTurtles.get(1.0).getImage().setX(x + displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2) );
+        myTurtles.get(1.0).getImage().setY(-y + displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        //System.out
+    }
 
     /**
      *
@@ -254,8 +255,8 @@ public class GUIDisplay implements RenderSprite {
 
 
         if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
-        window.getChildren().remove(myTurtle);
-        window.getChildren().add(myTurtle);
+        //window.getChildren().remove(myTurtle);
+        //window.getChildren().add(myTurtle);
     	
     	//bool.set(false);
     }
@@ -267,13 +268,15 @@ public class GUIDisplay implements RenderSprite {
      * @param origin
      * @param destination
      */
-    public void drawNewLine(Point origin, Point destination){
+    private void drawNewLine(double x, double y){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-        System.out.println("my origin: " + origin.getX() + " " + origin.getY());
-        System.out.println("my destination: " + destination.getX() + " " + destination.getY());
-        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
-                destination.getX() + 20, destination.getY() + 20);
+        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
+        System.out.println("my destination: " + x + " " + y);
+        Line newLine = new Line(myTurtles.get(1.0).getImage().getX() + 20 + myTurtles.get(1.0).getImage().getTranslateX(), 
+        		myTurtles.get(1.0).getImage().getY() + 20 + myTurtles.get(1.0).getImage().getTranslateY(),
+        		myTurtles.get(1.0).getImage().getX() + myTurtles.get(1.0).getImage().getTranslateX() + x + 20, myTurtles.get(1.0).getImage().getY() + myTurtles.get(1.0).getImage().getTranslateY() +
+        		20 - y);
         newLine.setFill(pathColor);
         newLine.setStroke(pathColor);
         newLine.setStrokeWidth(5);
