@@ -4,12 +4,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Turtle {
     private ImageView turtleView;
     private double id;
     private boolean isActive;
-    private ArrayList<Line> turtleMotion = new ArrayList<>();
+    private List<Line> turtleMotion = new ArrayList<>();
     public Turtle(){
         
     }
@@ -36,6 +37,9 @@ public class Turtle {
 
     public void drawLine(){
 
+    }
+    public List<Line> getLines() {
+    	return turtleMotion;
     }
 
 

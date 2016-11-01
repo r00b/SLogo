@@ -105,8 +105,8 @@ public class GUIDisplay implements RenderSprite {
     public ObservableProperties addTurtle(double newID){
         ImageView myNewTurtle = new ImageView();
         myNewTurtle.setImage(myTurtle.getImage());
-        myNewTurtle.setX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
-        myNewTurtle.setY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        myNewTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myNewTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myNewTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myNewTurtle.setFitWidth(TURTLE_FIT_SIZE);
         Turtle newTurtle = new Turtle();
@@ -192,14 +192,15 @@ public class GUIDisplay implements RenderSprite {
 //     * @param x
 //     * @param y
 //     */
-    public void moveTurtle(double x, double y){
-        numSteps++;
-        drawNewLine(x, y);
+    public void moveTurtle(double x, double y, double id){
+
+    	numSteps++;
+        drawNewLine(x, y, id);
 //        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
 //        System.out.println("translate x of the editor" + X_POS);
        // myTurtles.get(1);
-        myTurtles.get(1.0).getImage().setX(x + displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2) );
-        myTurtles.get(1.0).getImage().setY(-y + displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        myTurtles.get(id).getImage().setX(x);
+        myTurtles.get(id).getImage().setY(-y);
         //System.out
     }
 
@@ -268,21 +269,24 @@ public class GUIDisplay implements RenderSprite {
      * @param origin
      * @param destination
      */
-    private void drawNewLine(double x, double y){
+    private void drawNewLine(double x, double y, double id){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
+//        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
+        System.out.println("my Translate " + myTurtles.get(id).getImage().getTranslateX() + " " + myTurtles.get(id).getImage().getTranslateY());
         System.out.println("my destination: " + x + " " + y);
-        Line newLine = new Line(myTurtles.get(1.0).getImage().getX() + 20 + myTurtles.get(1.0).getImage().getTranslateX(), 
-        		myTurtles.get(1.0).getImage().getY() + 20 + myTurtles.get(1.0).getImage().getTranslateY(),
-        		myTurtles.get(1.0).getImage().getX() + myTurtles.get(1.0).getImage().getTranslateX() + x + 20, myTurtles.get(1.0).getImage().getY() + myTurtles.get(1.0).getImage().getTranslateY() +
-        		20 - y);
+        double xFrom =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
+        double yFrom =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
+        System.out.println("old points " + xFrom + " "+ yFrom);
+        System.out.println("new points " + (xFrom + x) + " " + (yFrom - y));
+        Line newLine = new Line(xFrom, yFrom, myTurtles.get(id).getImage().getTranslateX() + x + 20,  myTurtles.get(id).getImage().getTranslateY() - y + 20);
         newLine.setFill(pathColor);
         newLine.setStroke(pathColor);
         newLine.setStrokeWidth(5);
         newLine.setId("Step" + numSteps);
         newLine.setVisible(visibility);
-        turtleMotion.add(newLine);
+        //turtleMotion.add(newLine);
+        myTurtles.get(1.0).getLines().add(newLine);
         window.getChildren().add(newLine);
     }
 
@@ -575,4 +579,28 @@ public class GUIDisplay implements RenderSprite {
             return penUpBox.isSelected();
         }
     }
+
+	public void changePenColor(Double newValue) {
+		// TODO Auto-generated method stub
+	}
+
+	public Object setPenSize(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object changeImage(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object setBackgroundImage(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object changePalette(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
