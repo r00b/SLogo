@@ -126,7 +126,6 @@ public class GUIDisplay implements RenderSprite {
 
     private void addOptionsButton(){
         Stage s = new Stage();
-        myOptions = new DisplayMenu(s);
         optionsButton = new Button("Display Options");
         optionsButton.setStyle(overButton);
         optionsButton.setOnMouseEntered(e -> optionsButton.setStyle(buttonFill));
@@ -158,6 +157,13 @@ public class GUIDisplay implements RenderSprite {
         addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
         addTurtles.setOnMouseClicked(e -> addTurtle());
         window.getChildren().add(addTurtles);
+    }
+    
+    public String getTurtleStr(){
+        if(myOptions != null)
+            return myOptions.getTurtleString();
+        else
+            return null;
     }
     
     private void helpHandler(){
@@ -324,6 +330,7 @@ public class GUIDisplay implements RenderSprite {
         run.setTranslateY(y);
         return run;
     }
+   
 
 
     /**
@@ -355,6 +362,10 @@ public class GUIDisplay implements RenderSprite {
 
     }
 
+    public Paint getPenColor(){
+        return pathColor;
+    }
+    
     @Override
     public void updateDisplayOptions() {
 //        myOptions.setDefaults(pathColor, currentTurtle);
@@ -362,7 +373,7 @@ public class GUIDisplay implements RenderSprite {
 
     }
 
-    private void applyDisplayChanges(){
+    public void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
         System.out.println("pen: " + pathColor);
         System.out.println("display: " + myOptions.getDisplayColor());
@@ -561,4 +572,5 @@ public class GUIDisplay implements RenderSprite {
             return penUpBox.isSelected();
         }
     }
+
 }
