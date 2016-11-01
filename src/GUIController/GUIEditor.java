@@ -29,8 +29,10 @@ public class GUIEditor implements Editor {
     private Paint border;
     private Rectangle backdrop;
     private String defaultCommand = "Enter command here";
+    private String currentDir = System.getProperty("user.home");
     private TextArea textArea;
     private EditorHelp helpWindow;
+    private FileChooser fileChooser = new FileChooser();
     private ImageView helpButton;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -151,9 +153,43 @@ public class GUIEditor implements Editor {
 
     private void uploadFile(){
         Stage stage = new Stage();
-        FileChooser fileChooser = new FileChooser();
+//        fileChooser
+//        fileChooser.setInitialDirectory();
+//
+//        FileChooser fileChooser = new FileChooser();
+//
+////Extention filter
+////        FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
+////        fileChooser.getExtensionFilters().add(extentionFilter);
+//
+////Set to user directory or go to default if cannot access
+//        File userDirectory = new File(userDirectoryString);
+//        if(!userDirectory.canRead()) {
+//            userDirectory = new File("c:/");
+//        }
+//        fileChooser.setInitialDirectory(userDirectory);
+//
+////Choose the file
+//        File chosenFile = fileChooser.showOpenDialog(stage);
+////Make sure a file was selected, if not return default
+//        String path;
+//        if(chosenFile != null) {
+//            path = chosenFile.getPath();
+//            userDirectoryString = path;
+//        } else {
+//            //default return value
+//            path = null;
+//        }
+
+
+
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(stage);
+//        String directoryPath;
+//        directoryPath = file.getAbsolutePath();
+//        File init
+//        fileChooser.setInitialDirectory(file);
+//        fileChooser.setInitialDirectory(fileChooser.sets);
 //        if(file != null){
 //            openf
 //        }
