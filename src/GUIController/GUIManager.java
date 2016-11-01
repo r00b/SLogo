@@ -1,10 +1,16 @@
 package GUIController;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
+import com.sun.javafx.logging.Logger;
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
@@ -32,6 +38,20 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 //import org.apache.commons.lang.ArrayUtils;
 
@@ -381,13 +401,83 @@ private class GUIButtonMenu implements ButtonMenu{
         window.getChildren().add(label);
     }
     
+    public void loadFile() throws FileNotFoundException{
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        //fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Load Defaults");
+        File file = fileChooser.showOpenDialog(stage);
+        FileReader fr = new FileReader(file);
+        BufferedReader buffRead = new BufferedReader(fr);
+        String line = null;
+        int count = 0;
+        try{
+        while((line = buffRead.readLine()) != null) {
+            //System.out.println(line);
+            if(count == 0){
+                languageBox.setValue(line);
+            }
+            else if(count == 1){
+                backgroundBox.setValue(line);
+            }
+            else if(count == 2){
+                //myDisplay.setPenColor(line);
+            }
+            else if(count == 3){
+                turtleStr = "images/" + line;
+                
+            }
+            count++;
+        }   
+        //TODO: Actually update based on what was loaded
+        buffRead.close();
+            
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + file + "'");                  
+            // Or we could just do this: 
+            // ex.printStackTrace();
+            
+        }
+    }
+    
     public void saveFile(){
+        FileChooser fileChooser = new FileChooser();
         
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Save Defaults");
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(stage);
+        String str = new String();
+        if(myDisplay.getTurtleStr() == null){
+            str = turtleStr;
+        }
+        else
+            str = myDisplay.getTurtleStr();
+        
+        try {
+            FileWriter fileWriter;
+            fileWriter = new FileWriter(file);
+            fileWriter.write(languageBox.getValue() + "\n" + 
+            backgroundBox.getValue() + "\n" + 
+                    myDisplay.getPenColor().toString() + "\n" + 
+                    str.substring(7));
+            
+            fileWriter.close();
+        } catch (IOException ex) {
+            System.out.println("ERROR");
+        }
     }
 
     /**
      *
      */
+    @Override
     public void addButtons(){
         Image newImage = new Image(getClass().getClassLoader()
                                    .getResourceAsStream("images/play.png"));
@@ -411,9 +501,20 @@ private class GUIButtonMenu implements ButtonMenu{
         imgV = new ImageView(newImage);
         Button help = newButton("HELP", imgV, 337, 40);
         help.setOnMouseClicked(e -> helpHandler());
-        Button save = newButton("Save", null, 750, 50);
+        Button save = newButton("Save Defaults", null, 750, 50);
         save.setOnMouseClicked(e -> saveFile());
         window.getChildren().add(save);
+        Button load = newButton("Load Defaults", null, 860, 50);
+        load.setOnMouseClicked(e -> {
+            try {
+                loadFile();
+            }
+            catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+        window.getChildren().add(load);
         window.getChildren().add(play);
         window.getChildren().add(pause);
         window.getChildren().add(stop);
@@ -421,6 +522,7 @@ private class GUIButtonMenu implements ButtonMenu{
 //        window.getChildren().add(options);
     }
 
+    
     public Button newButton(String text, ImageView imgV, int x, int y){
         if(imgV != null){
         imgV.setFitWidth(40);
