@@ -4,6 +4,7 @@ import BackEndExternalAPI.CommandParser;
 import FrontEndExternalAPI.Console;
 import GUI.ConsoleHelp;
 import GUI.EditorHelp;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -24,10 +25,15 @@ import javafx.stage.Stage;
  * Created by Delia on 10/15/2016.
  */
 public class GUIConsole implements Console{
+    private static final int BACKDROP_X = 620;//10;
+    private static final int BACKDROP_Y = 600;//350;
+    private static final int BACKDROP_WIDTH = 600;
+    private static final int BACKDROP_HEIGHT = 240;
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
     private ConsoleHelp helpWindow;
+    private ImageView helpButton;
     private ListView<String> list;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -65,15 +71,26 @@ public class GUIConsole implements Console{
         list.setItems(listOfCommands);
     }
 
+    private void drawConsole(){
+        backdrop = new Rectangle(BACKDROP_WIDTH, BACKDROP_HEIGHT, Color.WHITE);
+        backdrop.setStroke(border);
+        backdrop.setStrokeWidth(5);
+        backdrop.setTranslateX(BACKDROP_X);
+        backdrop.setTranslateY(BACKDROP_Y);
+        backdrop.opacityProperty().setValue(0.5);
+        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        window.getChildren().add(backdrop);
+    }
     /**
      *
      */
     private void addListView(){
         list = new ListView<String>();
         list.setOrientation(Orientation.VERTICAL);
-        list.setTranslateX(20);
-        list.setTranslateY(380);
-        list.setPrefSize(570, 200);
+        list.setTranslateX(BACKDROP_X + 10);
+        list.setTranslateY(BACKDROP_Y + 30);
+        list.setPrefSize(BACKDROP_WIDTH - 30, BACKDROP_HEIGHT - 40);
         list.opacityProperty().setValue(0.8);
         listOfCommands = FXCollections.observableArrayList();
         list.setOnMouseEntered(e -> {
@@ -92,31 +109,20 @@ public class GUIConsole implements Console{
         
     }
 
-    private void drawConsole(){
-        backdrop = new Rectangle(600, 240, Color.WHITE);
-        backdrop.setStroke(border);
-        backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(350);
-        backdrop.setTranslateX(10);
-        backdrop.opacityProperty().setValue(0.5);
-        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
-        window.getChildren().add(backdrop);
-    }
 
     private void addTextLabel(){
         Text label = new Text("Console");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(20);
-        label.setTranslateY(370);
+        label.setTranslateX(BACKDROP_X + 10);
+        label.setTranslateY(BACKDROP_Y + 20);
         window.getChildren().add(label);
     }
 
     private void addHelpButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        helpButton = new ImageView(newImage);
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
         helpButton.setTranslateY(backdrop.getTranslateY() + 10);
@@ -154,5 +160,25 @@ public class GUIConsole implements Console{
         run.setTranslateX(x);
         run.setTranslateY(y);
         return run;
+    }
+
+    /**
+     *
+     * @param width
+     * @param height
+     */
+    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
+        list.prefWidthProperty().bind(width.subtract(650));
+        list.prefHeightProperty().bind(height.subtract(660));
+        helpButton.translateXProperty().bind(width.subtract(50));
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public Rectangle getBackdrop(){
+        return backdrop;
     }
 }

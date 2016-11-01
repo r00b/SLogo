@@ -141,9 +141,9 @@ public class GUIManager implements GUIController {
         background.fitHeightProperty().bind(window.heightProperty());
         myDisplay.bindNodes(window.widthProperty());
 //        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
-        myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
-        myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
-        myEditor.bindNodes(window.widthProperty(), window.heightProperty());
+        myConsole.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
+        myConsole.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
     }
@@ -208,8 +208,8 @@ public class GUIManager implements GUIController {
         });
         run.setOnMouseExited(e -> run.setStyle(overButton));
         run.setOnMouseClicked(e -> returnAction());
-        run.setTranslateX(700);
-        run.setTranslateY(600);
+        run.setTranslateX(80);
+        run.setTranslateY(350);
         window.getChildren().add(run);
     }
 

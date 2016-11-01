@@ -25,6 +25,10 @@ import java.util.Scanner;
  * Created by Delia on 10/15/2016.
  */
 public class GUIEditor implements Editor {
+    private static final int BACKDROP_X = 10;//620;
+    private static final int BACKDROP_Y = 350;//600;
+    private static final int BACKDROP_WIDTH = 600;//970;
+    private static final int BACKDROP_HEIGHT = 240;//280;
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
@@ -61,11 +65,11 @@ public class GUIEditor implements Editor {
      *
      */
     private void drawEditor(){
-        backdrop = new Rectangle(970, 280, Color.WHITE);
+        backdrop = new Rectangle(BACKDROP_WIDTH, BACKDROP_HEIGHT, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(600);
-        backdrop.setTranslateX(620);
+        backdrop.setTranslateX(BACKDROP_X);
+        backdrop.setTranslateY(BACKDROP_Y);
         backdrop.opacityProperty().setValue(0.5);
         backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
@@ -76,16 +80,16 @@ public class GUIEditor implements Editor {
         Text label = new Text("Editor");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(630);
-        label.setTranslateY(620);
+        label.setTranslateX(BACKDROP_X + 10);
+        label.setTranslateY(BACKDROP_Y + 20);
         window.getChildren().add(label);
     }
 
     private void addTextArea(){
         textArea = new TextArea();
-        textArea.setTranslateX(630);
-        textArea.setTranslateY(640);
-        textArea.setPrefSize(940, 240);
+        textArea.setTranslateX(BACKDROP_X + 10);
+        textArea.setTranslateY(BACKDROP_Y + 40);
+        textArea.setPrefSize(BACKDROP_WIDTH - 30, BACKDROP_HEIGHT - 40);
         textArea.setWrapText(true);
         textArea.setText("> " + defaultCommand);
         textArea.positionCaret(textArea.getText().length());
@@ -126,12 +130,12 @@ public class GUIEditor implements Editor {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, 800, 600);
+        Button clear = newButton("Clear", clearImg, BACKDROP_X + 180, BACKDROP_Y);
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/upload.png"));
         clearImg = new ImageView(newImage);
-        Button upload = newButton("Upload file", clearImg, 900, 600);
+        Button upload = newButton("Upload file", clearImg, BACKDROP_X + 280, BACKDROP_Y);
         upload.setOnMouseClicked(e -> uploadFile());
         window.getChildren().addAll(clear, upload);
     }
@@ -233,16 +237,16 @@ public class GUIEditor implements Editor {
         textArea.setText(textArea.getText() + "\n> ");
     }
 
-    /**
-     *
-     * @param width
-     * @param height
-     */
-    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
-        textArea.prefWidthProperty().bind(width.subtract(650));
-        textArea.prefHeightProperty().bind(height.subtract(660));
-        helpButton.translateXProperty().bind(width.subtract(50));
-    }
+//    /**
+//     *
+//     * @param width
+//     * @param height
+//     */
+//    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
+//        textArea.prefWidthProperty().bind(width.subtract(650));
+//        textArea.prefHeightProperty().bind(height.subtract(660));
+//        helpButton.translateXProperty().bind(width.subtract(50));
+//    }
 
     @Override
     /**

@@ -53,6 +53,7 @@ public class GUIDisplay implements RenderSprite {
     private Paint pathColor;
     private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
+    private ArrayList<Turtle> myTurtles = new ArrayList<>();
     private String currentTurtle;
 
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
@@ -103,9 +104,13 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myTurtle.setFitWidth(TURTLE_FIT_SIZE);
+        Turtle newTurtle = new Turtle();
+        newTurtle.setImage(myTurtle);
+        newTurtle.setID(myTurtles.size());
+        myTurtles.add(newTurtle);
 //        myTurtle.min
         makeTooltip();
-        window.getChildren().add(myTurtle);
+        window.getChildren().add(newTurtle.getImage());
     }
 
     private void makeTooltip(){
