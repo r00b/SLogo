@@ -1,11 +1,12 @@
 package BackEndInternalAPI;
-
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.*;
 
+import java.util.Map;
+import java.util.ResourceBundle;
 /**
  * @author Robert H. Steilberg II
  *         <p>
@@ -19,10 +20,10 @@ import java.util.*;
 public class ParseTreeBuilder {
 
     private static final String ERRORS_PATH = "resources/internal/Errors";
+    private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
     private static ObservableComposite myProperties;
-    private static CommandTypeDetector myDetector;
     private static Mappings myMappings;
     private static HashSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
@@ -56,7 +57,6 @@ public class ParseTreeBuilder {
     public void setTurtleProperties(ObservableComposite properties) {
         myProperties = properties;
     }
-
     /**
      * Set variable and method mappings used for storing variables and
      * methods
@@ -138,7 +138,6 @@ public class ParseTreeBuilder {
     private boolean unknownCommand(ParseTreeNode node) {
         return node.getCommandObj().getClass() == Unknown.class;
     }
-
     /**
      * Builds the subtrees for commands within a list
      *
@@ -158,7 +157,6 @@ public class ParseTreeBuilder {
         myCommandIndex++; // ensure that anything after the list is added to the tree
         return listNode;
     }
-
     /**
      * Determines if the current command spcecifies the beginning of a list
      *
@@ -181,7 +179,6 @@ public class ParseTreeBuilder {
             definingMethod = true;
         }
     }
-
     /**
      * Create a new ParseTreeNode and initialize the raw command and command object.
      * Observable properties and variable mappings are also initialized.
@@ -198,7 +195,6 @@ public class ParseTreeBuilder {
         newNode.getCommandObj().setProperties(myMappings); // information about variables
         return newNode;
     }
-
     /**
      * Determines if the specified command has a sufficient number
      * of arguments to execute
@@ -235,7 +231,6 @@ public class ParseTreeBuilder {
         definingMethod = false; // no longer on a TO command
         return newChild;
     }
-
     /**
      * Initializes the recursive function buildParseTree which returns the
      * root of the complete parse tree representing the inputted command
