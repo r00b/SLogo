@@ -16,11 +16,13 @@ public class Mappings {
     private ObservableMap<String, Double> myVariables;
     private Map<String, Double> myMethodVariables; // temporary map for method variables
     private Map<String, LogoMethod> myMethods;
+    private Map<String, Integer> myMethodDeclarations;
 
-    public Mappings(ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables) {
+    public Mappings(ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables, Map<String, Integer> methodDeclarations) {
         myVariables = variables;
         myMethods = methods;
         myMethodVariables = methodVariables;
+        myMethodDeclarations = methodDeclarations;
     }
 
     /**
@@ -49,5 +51,15 @@ public class Mappings {
      */
     public Map<String, LogoMethod> getMyMethods() {
         return myMethods;
+    }
+
+    /**
+     * Get the map of methods to the number of arguments
+     * they take
+     *
+     * @return the map of methods to the number of arguments they take
+     */
+    public Map<String, Integer> getMyMethodDeclarations() {
+        return myMethodDeclarations;
     }
 }
