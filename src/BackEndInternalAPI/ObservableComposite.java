@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import GUIController.GUIDisplay;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -26,15 +27,17 @@ public class ObservableComposite implements ObservableManager{
 	private DoubleProperty backgroundImage;
 	private DoubleProperty paletteIndex;
 	private DoubleProperty newTurtle;
+	private GUIDisplay myDisplay;
 	
-	public ObservableComposite(ObservableProperties first) {
-		Double val = 1.0;
-		currentID = val;
+	public ObservableComposite(GUIDisplay thisDisplay) {
+//		Double val = 1.0;
+//		currentID = val;
+		this.myDisplay = thisDisplay;
 		myTurtles = new HashMap<Double, ObservableProperties>();
 		activeTurtles = new ArrayList<Double>();
-		myTurtles.put(val, first);
-		activeTurtles.add(val);
-		turtleCount = 1;
+//		myTurtles.put(val, first);
+//		activeTurtles.add(val);
+//		turtleCount = 1;
 		//activeTurtles = new HashSet<Double>();
 		imageIndex = new SimpleDoubleProperty(0);
 		imageIndex.addListener(new ChangeListener<Number>() {
@@ -90,11 +93,14 @@ public class ObservableComposite implements ObservableManager{
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				// TODO Auto-generated method stub
-				//myDisplay.createNewTurtle(newValue) returns a new ObservableProperties class
-				// myTurtles.add(result)
+				ObservableProperties result = myDisplay.addTurtle((double) newValue); //returns a new ObservableProperties class
+				 myTurtles.put((double) newValue, result);
 				turtleCount++;
 			}
+
 		});
+		newTurtle.setValue(1.0);
+		activeTurtles.add(1.0);
 	}
 	@Override
 	public boolean getNewLineProperty() {
@@ -221,6 +227,13 @@ public class ObservableComposite implements ObservableManager{
 		}
 		currentID = activeTurtles.get(0);
 	}
+
+	public void setNewTurtle(double value){
+		if(!myTurtles.containsKey(value)){
+			newTurtle.set(value);
+		}
+	}
+
 	@Override
 	public void setClearScreenProperty(boolean value) {
 		// TODO Auto-generated method stub

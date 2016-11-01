@@ -18,11 +18,15 @@ import GUI.GUIButtonMenu;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -50,6 +54,7 @@ public class GUIManager implements GUIController {
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
+    private ObservableComposite properties;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
     private Scene myWindow;
@@ -100,7 +105,7 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
 
-		ObservableComposite properties = setupBindings();
+		properties = setupBindings();
         commandParser = new CommandParser();
         commandParser.initLanguageBinding(myLanguage);
         commandParser.initTurtlePropertiesBinding(properties);
@@ -135,6 +140,7 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
+        addMoreTurtlesButton();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
@@ -155,8 +161,8 @@ public class GUIManager implements GUIController {
     }
 
     private ObservableComposite setupBindings() {
-    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
-    	ObservableComposite answer = new ObservableComposite(property);
+//    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
+    	ObservableComposite answer = new ObservableComposite(myDisplay);
     	System.out.println("");
     	return answer;
     }
@@ -207,6 +213,32 @@ public class GUIManager implements GUIController {
         hist.setTranslateX(528);
         hist.setTranslateY(705);
         window.getChildren().add(hist);
+    }
+
+        private void addMoreTurtlesButton(){
+            TextField enterID = new TextField();
+            enterID.setTranslateX(1110);
+            enterID.setTranslateY(125);
+            enterID.setPromptText("Enter your new turtle's ID");
+            enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if(event.getCode() == KeyCode.ENTER){
+                        properties.setNewTurtle(Double.parseDouble(enterID.getText()));
+                    }
+                }
+            });
+            window.getChildren().add(enterID);
+//        Button addTurtles = new Button("Add Turtles");
+//        addTurtles.setTranslateX(1110);
+//        addTurtles.setTranslateY(125);
+//        addTurtles.setStyle(overButton);
+//        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
+//        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
+//        addTurtles.setOnMouseClicked(e -> {
+//
+//        });
+//        window.getChildren().add(addTurtles);
     }
 
     @Override

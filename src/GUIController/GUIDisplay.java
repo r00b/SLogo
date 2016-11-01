@@ -1,5 +1,6 @@
 package GUIController;
 
+import BackEndInternalAPI.ObservableProperties;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.DisplayHelp;
@@ -33,6 +34,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -53,7 +55,8 @@ public class GUIDisplay implements RenderSprite {
     private Paint pathColor;
     private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
-    private ArrayList<Turtle> myTurtles = new ArrayList<>();
+//    private ArrayList<Turtle> myTurtles = new ArrayList<>();
+    private HashMap<Double, Turtle> myTurtles = new HashMap<>();
     private String currentTurtle;
 
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
@@ -77,8 +80,8 @@ public class GUIDisplay implements RenderSprite {
         drawDisplay();
         addDisplayControlButtons();
         addTextLabel();
-        addMoreTurtlesButton();
-        addTurtle();
+//        addMoreTurtlesButton();
+//        addTurtle();
         addHelpButton();
     }
 
@@ -99,18 +102,23 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(displayGraph);
     }
 
-    private void addTurtle(){
-        myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
-        myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
-        myTurtle.setFitHeight(TURTLE_FIT_SIZE);
-        myTurtle.setFitWidth(TURTLE_FIT_SIZE);
+    public ObservableProperties addTurtle(double newID){
+        ImageView myNewTurtle = new ImageView();
+        myNewTurtle.setImage(myTurtle.getImage());
+        myNewTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+        myNewTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+        myNewTurtle.setFitHeight(TURTLE_FIT_SIZE);
+        myNewTurtle.setFitWidth(TURTLE_FIT_SIZE);
         Turtle newTurtle = new Turtle();
-        newTurtle.setImage(myTurtle);
-        newTurtle.setID(myTurtles.size());
-        myTurtles.add(newTurtle);
+        newTurtle.setImage(myNewTurtle);
+        newTurtle.setID(newID);
+        myTurtles.put(newID, newTurtle);
 //        myTurtle.min
         makeTooltip();
+        System.out.println("w = " + newTurtle.getImage().getFitWidth());
         window.getChildren().add(newTurtle.getImage());
+
+        return new ObservableProperties(myNewTurtle, this, newID);
     }
 
     private void makeTooltip(){
@@ -154,16 +162,16 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(helpButton);
     }
     
-    private void addMoreTurtlesButton(){
-        Button addTurtles = new Button("Add Turtles");
-        addTurtles.setTranslateX(1110);
-        addTurtles.setTranslateY(125);
-        addTurtles.setStyle(overButton);
-        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
-        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
-        addTurtles.setOnMouseClicked(e -> addTurtle());
-        window.getChildren().add(addTurtles);
-    }
+//    private void addMoreTurtlesButton(){
+//        Button addTurtles = new Button("Add Turtles");
+//        addTurtles.setTranslateX(1110);
+//        addTurtles.setTranslateY(125);
+//        addTurtles.setStyle(overButton);
+//        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
+//        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
+////        addTurtles.setOnMouseClicked(e -> addTurtle());
+//        window.getChildren().add(addTurtles);
+//    }
     
     private void helpHandler(){
         Stage s = new Stage();
@@ -196,7 +204,6 @@ public class GUIDisplay implements RenderSprite {
 
     /**
      *
-     * @param bool
      */
     public void drawNewLine(){
     	double centerX =  20;
@@ -278,7 +285,6 @@ public class GUIDisplay implements RenderSprite {
 
     /**
      *
-     * @param clearScreenProperty
      */
 	public void clearScreen() {
 		window.getChildren().removeAll(turtleMotion);
@@ -407,7 +413,7 @@ public class GUIDisplay implements RenderSprite {
         myTurtle.setImage(newImage);
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
-        addTurtle();
+//        addTurtle();
         Paint defaultColor = Color.MIDNIGHTBLUE;
         pathColor = defaultColor;
         myPath.getStrokeDashArray().clear();
