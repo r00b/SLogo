@@ -125,25 +125,51 @@ public class CommandParser {
      */
     public ArrayList<Double> executeCommands(String[] commands) {
         ArrayList<String> commandList = new ArrayList<String>();
-        commandList.add("[");
+
+
+
+        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
+        ArrayList<String> newCommand = new ArrayList<String>();
+//        newCommand.add("[");
         for (String command : commands) {
-            String[] splitCommands = command.trim().split("\\p{Space}");
-            for (String splitCommand : splitCommands) {
-                if (!splitCommand.equals("")) {
-                    commandList.add(splitCommand);
+            if (!command.trim().equals("")) {
+                String[] splitCommands = command.trim().split("\\p{Space}");
+                for (String splitCommand : splitCommands) {
+                    newCommand.add(splitCommand);
                 }
+            } else {
+//                newCommand.add("]");
+                allCommands.add(newCommand);
+                newCommand = new ArrayList<String>();
+//                newCommand.add("[");
             }
         }
-        commandList.add("]");
+//        newCommand.add("]");
+        allCommands.add(newCommand);
 
 
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
 
-        String[] coms = new String[commandList.size()];
-        coms = commandList.toArray(coms);
+        for (ArrayList<String> commanders : allCommands) {
+            String[] coms = new String[commanders.size()];
+            coms = commanders.toArray(coms);
+            buildAndExecuteTree(coms,results,1);
+        }
 
-        buildAndExecuteTree(coms,results,1);
+
+//        commandList.add("[");
+//        for (String command : commands) {
+//            String[] splitCommands = command.trim().split("\\p{Space}");
+//            for (String splitCommand : splitCommands) {
+//                if (!splitCommand.equals("")) {
+//                    commandList.add(splitCommand);
+//                }
+//            }
+//        }
+//        commandList.add("]");
+
+
 
         return results;
     }
