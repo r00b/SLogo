@@ -30,6 +30,9 @@ public class CommandParser {
         myMethods = new HashMap<String, LogoMethod>();
     }
 
+
+    // TODO SET BINDINGS
+
     /**
      * Initializes the String binding that for language detection
      *
@@ -100,6 +103,18 @@ public class CommandParser {
         return newBuilder;
     }
 
+    private void buildAndExecuteTree(String[] command, ArrayList<Double> results, int line) {
+        ParseTreeBuilder builder = initBuilder();
+        ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+        myErrors.addAll(builder.getErrors());
+        if (myErrors.size() == 0) {
+            double result = parseTree.getCommandObj().executeCommand(parseTree);
+            results.add(result);
+        }
+        myMethodVariables.clear(); // clear temporary method variables
+        line++;
+    }
+
     /**
      * Executes the cumulative action associated with a Logo command issued
      * from the GUI
@@ -107,30 +122,26 @@ public class CommandParser {
      * @param commands a string containing the commands issued from the editor
      */
     public ArrayList<Double> executeCommands(String[] commands) {
-        ArrayList<String[]> commandList = new ArrayList<String[]>();
+        ArrayList<String> commandList = new ArrayList<String>();
+        commandList.add("[");
         for (String command : commands) {
-            commandList.add(command.trim().split("\\p{Space}"));
+            String[] splitCommands = command.trim().split("\\p{Space}");
+            for (String splitCommand : splitCommands) {
+                if (!splitCommand.equals("")) {
+                    commandList.add(splitCommand);
+                }
+            }
         }
-        // sanitize inputs
-        // commandList = sanitize(commandList);
-        // [ "sum 2 3", "fd 5" ] => [ [ "sum", "2", "3" ] , [ "fd", "5" ] ]
+        commandList.add("]");
+
 
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
-        int line = 1;
-        for (String[] command : commandList) {
-            ParseTreeBuilder builder = initBuilder();
-            ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
-            myErrors.addAll(builder.getErrors());
 
-            if (myErrors.size() == 0) {
-                double result = parseTree.getCommandObj().executeCommand(parseTree);
-                results.add(result);
-            }
-            myMethodVariables.clear(); // clear temporary method variables
-            line++;
-        }
+        String[] coms = new String[commandList.size()];
+        coms = commandList.toArray(coms);
 
+        buildAndExecuteTree(coms,results,1);
 
         return results;
     }

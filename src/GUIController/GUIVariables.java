@@ -61,8 +61,6 @@ public class GUIVariables implements Variables {
      * @param bodercolor
      */
     public GUIVariables(Pane p, Paint bodercolor) {
-        System.out.println(this + " " + bodercolor);
-
         this.window = p;
         this.border = bodercolor;
         drawVariables();
@@ -174,7 +172,6 @@ public class GUIVariables implements Variables {
             if (data.get(i).getVariableName().equals(name.substring(1))) {
                 contains = true;
                 data.get(i).setVariableValue(value);
-                System.out.println("the value is " + value);
                 break;
             }
         }
@@ -184,7 +181,6 @@ public class GUIVariables implements Variables {
         table.setItems(data);
 
         table.setEditable(true);
-        System.out.println("the data is " + data.size());
     }
 
     private void addVariableManually() {
@@ -260,7 +256,6 @@ public class GUIVariables implements Variables {
 
     public void setMap(ObservableMap<? extends String, ? extends Double> map) {
         data.clear();
-        System.out.println(this);
         data.addAll(map.keySet().stream().map(variable ->
                 new Variable(variable, map.get(variable)))
                 .collect(Collectors.toList()));
