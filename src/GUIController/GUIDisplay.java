@@ -76,6 +76,7 @@ public class GUIDisplay implements RenderSprite {
         drawDisplay();
         addDisplayControlButtons();
         addTextLabel();
+        addMoreTurtlesButton();
         addTurtle();
         addHelpButton();
     }
@@ -146,6 +147,17 @@ public class GUIDisplay implements RenderSprite {
         helpButton.setFitWidth(30);
         helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
+    }
+    
+    private void addMoreTurtlesButton(){
+        Button addTurtles = new Button("Add Turtles");
+        addTurtles.setTranslateX(1110);
+        addTurtles.setTranslateY(125);
+        addTurtles.setStyle(overButton);
+        addTurtles.setOnMouseEntered(e -> optionsButton.setStyle(buttonFill));
+        addTurtles.setOnMouseExited(e -> optionsButton.setStyle(overButton));
+        addTurtles.setOnMouseClicked(e -> addTurtle());
+        window.getChildren().add(addTurtles);
     }
     
     private void helpHandler(){

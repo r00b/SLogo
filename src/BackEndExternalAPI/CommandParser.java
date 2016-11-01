@@ -5,9 +5,7 @@ import GUIController.GUIVariables;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * @author Robert H. Steilberg II
@@ -106,16 +104,34 @@ public class CommandParser {
      * Executes the cumulative action associated with a Logo command issued
      * from the GUI
      *
-     * @param command a string containing the commands issued from the editor
+     * @param commands a string containing the commands issued from the editor
      */
-    public double getAction(String command) {
+    public ArrayList<Double> executeCommands(String[] commands) {
+        ArrayList<String[]> commandList = new ArrayList<String[]>();
+        for (String command : commands) {
+            commandList.add(command.trim().split("\\p{Space}"));
+        }
+        // sanitize inputs
+        // commandList = sanitize(commandList);
+        // [ "sum 2 3", "fd 5" ] => [ [ "sum", "2", "3" ] , [ "fd", "5" ] ]
+
+        ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
-        String[] commands = sanitize(command.trim().split("\\p{Space}"));
-        ParseTreeBuilder builder = initBuilder();
-        ParseTreeNode parseTree = builder.buildNewParseTree(commands);
-        if (builder.getErrors().size() != 0) return 0.0;
-        double result = parseTree.getCommandObj().executeCommand(parseTree);
-        myMethodVariables.clear(); // clear temporary method variables
-        return result;
+        int line = 1;
+        for (String[] command : commandList) {
+            ParseTreeBuilder builder = initBuilder();
+            ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+            myErrors.addAll(builder.getErrors());
+
+            if (myErrors.size() == 0) {
+                double result = parseTree.getCommandObj().executeCommand(parseTree);
+                results.add(result);
+            }
+            myMethodVariables.clear(); // clear temporary method variables
+            line++;
+        }
+
+
+        return results;
     }
 }

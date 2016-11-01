@@ -27,6 +27,7 @@ public class ParseTreeBuilder {
     private static HashSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
     private static boolean definingMethod; // only true for a TO command
+    private static String myLine;
 
     public ParseTreeBuilder() {
         myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
@@ -118,7 +119,7 @@ public class ParseTreeBuilder {
             // get the method associated with the method name specified by the current command
             return buildMethodTree(myMappings.getMyMethods().get(node.getRawCommand()));
         }
-        myErrors.add(myThrowables.getString("CommandError")); // not calling or defining method, error
+        myErrors.add(myLine + myThrowables.getString("CommandError")); // not calling or defining method, error
         return null;
     }
 
@@ -146,7 +147,7 @@ public class ParseTreeBuilder {
             myCommandIndex++;
             listNode.addChild(buildParseTree()); // create subtrees for each element in the list
             if (myCommandIndex >= myCommands.length - 1) { // list end never given
-                myErrors.add(myThrowables.getString("ListError"));
+                myErrors.add(myLine + myThrowables.getString("ListError"));
                 return null;
             }
 
@@ -203,7 +204,7 @@ public class ParseTreeBuilder {
      */
     private boolean argumentError() {
         if (myCommandIndex > myCommands.length - 1) {
-            myErrors.add(myThrowables.getString("ArgumentError"));
+            myErrors.add(myLine + myThrowables.getString("ArgumentError"));
             return true;
         }
         return false;
@@ -239,7 +240,8 @@ public class ParseTreeBuilder {
      * @param commands is a sanitized String array containing the commands issued from the GUI
      * @return the root of the newly built parse tree
      */
-    public ParseTreeNode buildNewParseTree(String[] commands) {
+    public ParseTreeNode buildNewParseTree(String[] commands, int line) {
+        myLine = "Line " + line + ": ";
         myCommands = commands;
         myCommandIndex = 0; // will be index of current command
         return buildParseTree();

@@ -1,6 +1,8 @@
 package GUIController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import BackEndCommands.TurtleCommands.SetXY;
@@ -20,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -177,7 +180,6 @@ public class GUIManager implements GUIController {
     }
     
 
-
 //    private void handleKeyInput (KeyCode code){
 //        switch (code) {
 //            case ENTER:
@@ -261,27 +263,14 @@ public class GUIManager implements GUIController {
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
-        String latestCommand = "";
-        for (int i = 0; i < splitCommands.length; i++) {
-            if (splitCommands[i].length() > 0) {
-                latestCommand += commandParser.getAction(splitCommands[i]);
-                if(commandParser.getErrors().size() == 0){
-                    myHistory.addCommand(splitCommands[i]);
-                    myConsole.addConsole("" + latestCommand);
-//                    Set<String> keyset = commandParser.getVariables().keySet();
-//                    for(String s : keyset){
-//                        myVariables.addVariable(s, commandParser.getVariables().get(s));
-//                    }
-                }
-                else {
-                    Set<String> errors = commandParser.getErrors();
-                    for (String s : errors) {
-                        myConsole.addConsole(s);
-                    }
-                }
 
+        ArrayList<Double> results = commandParser.executeCommands(splitCommands);
+        if (commandParser.getErrors().size() == 0) {
+            for (double result : results) {
+                myConsole.addConsole(Double.toString(result));
             }
-
+        } else {
+            commandParser.getErrors().forEach(myConsole::addConsole);
         }
     }
 
