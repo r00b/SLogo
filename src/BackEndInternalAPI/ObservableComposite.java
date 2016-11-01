@@ -14,33 +14,19 @@ public class ObservableComposite implements ObservableManager{
 	private double turtleCount;
 	private Map<Double, ObservableProperties> myTurtles;
 	private List<Double> activeTurtles;
-	private DoubleProperty penSize;
-	private DoubleProperty penColor;
-	private DoubleProperty imageIndex;
-	private DoubleProperty backgroundImage;
-	private DoubleProperty paletteIndex;
 	private DoubleProperty newTurtle;
 	
 	public ObservableComposite(GUIDisplay display) {
 
 		myTurtles = new HashMap<Double, ObservableProperties>();
 		activeTurtles = new ArrayList<Double>();
-		imageIndex = new SimpleDoubleProperty(0);
-		imageIndex.addListener((observable, oldValue, newValue) -> display.changeImage((Double) newValue));
-		penColor = new SimpleDoubleProperty(0);
-		penColor.addListener((observable, oldValue, newValue) -> display.changePenColor((Double) newValue));
-		penSize = new SimpleDoubleProperty(0);
-		penSize.addListener((observable, oldValue, newValue) -> display.setPenSize((Double) newValue));
-		backgroundImage = new SimpleDoubleProperty(0);
-		backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double)newValue));
-		paletteIndex = new SimpleDoubleProperty(0);
-		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette((Double) newValue));
 		newTurtle = new SimpleDoubleProperty(0);
 		newTurtle.addListener((observable, oldValue, newValue) -> {
 				ObservableProperties result = display.addTurtle((double) newValue); //returns a new ObservableProperties class
 				myTurtles.put((double) newValue, result);
 				turtleCount++;
-			});
+				activeTurtles.add((double) newValue);
+		});
 		newTurtle.setValue(1.0);
 		activeTurtles.add(1.0);
 	}
@@ -57,7 +43,6 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			answer = myTurtles.get(id).getClearScreenProperty();
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 
@@ -78,12 +63,10 @@ public class ObservableComposite implements ObservableManager{
 
 	@Override
 	public void setXProperty(double value) {
-		// TODO Auto-generated method stub
 		for (Double id : activeTurtles) {
 			currentID = id;
 			myTurtles.get(id).setXProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 
 	@Override
@@ -98,30 +81,11 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			myTurtles.get(id).setYProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 
 	@Override
 	public boolean getPathVisibleProperty() {
 		return myTurtles.get(currentID).getImageVisibleProperty();
-	}
-
-	
-	public double performTell(ParseTreeNode node) {
-		// TODO Auto-generated method stub
-		activeTurtles.clear();
-		double id = 1.0;
-		for (ParseTreeNode turtle : node.getChild(0).getChildren()) {
-			id  = turtle.executeCommand(turtle);
-			if (!myTurtles.containsKey(id)) {
-				newTurtle.set(id);
-			}
-			if (!activeTurtles.contains(id)) {
-				activeTurtles.add(id);
-			}
-		}
-		currentID = activeTurtles.get(0);
-		return id;
 	}
 	
 	@Override
@@ -131,7 +95,6 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			answer = myTurtles.get(id).calculateTotalDistance(x, y);
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 	@Override
@@ -144,7 +107,6 @@ public class ObservableComposite implements ObservableManager{
 			myTurtles.get(id).setXProperty(currentPos + xDistance);
 			answer = xDistance;
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 	@Override
@@ -157,17 +119,14 @@ public class ObservableComposite implements ObservableManager{
 			myTurtles.get(id).setYProperty(currentPos + yDistance);
 			answer  = yDistance;
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 	@Override
 	public void setNewLineProperty(boolean value) {
-		// TODO Auto-generated method stub
 		for (Double id : activeTurtles) {
 			currentID = id;
 			myTurtles.get(id).setNewLineProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 
 	public void setNewTurtle(double value){
@@ -178,12 +137,10 @@ public class ObservableComposite implements ObservableManager{
 
 	@Override
 	public void setClearScreenProperty(boolean value) {
-		// TODO Auto-generated method stub
 		for (Double id : activeTurtles) {
 			currentID = id;
 			myTurtles.get(id).setClearScreenProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 	@Override
 	public void setImageVisibleProperty(boolean value) {
@@ -191,7 +148,6 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			myTurtles.get(id).setImageVisibleProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 	@Override
 	public double setRotateProperty(ParseTreeNode node, boolean isAbsolute, boolean sign) {
@@ -200,7 +156,6 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			answer = myTurtles.get(id).setRotateProperty(node, isAbsolute, sign);
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 	@Override
@@ -209,7 +164,6 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			myTurtles.get(id).setPathVisibleProperty(value);
 		}
-		currentID = activeTurtles.get(0);
 	}
 	@Override
 	public double calculateDegrees(ParseTreeNode x, ParseTreeNode y) {
@@ -218,31 +172,9 @@ public class ObservableComposite implements ObservableManager{
 			currentID = id;
 			answer = myTurtles.get(id).calculateDegrees(x, y);
 		}
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
 
-	public double getPenColor() {
-		return penColor.get();
-	}
-	
-	public void setPenColor(double value) {
-		penColor.set(value);
-	}
-	
-	public void setPenSize(double value) {
-		penSize.set(value);
-	}
-	
-	public double getImageIndex() {
-		return imageIndex.get();
-	}
-	public void setImageIndex(double value) {
-		imageIndex.set(value);
-	}
-	public void setBackgroundImage(double value) {
-		backgroundImage.set(value);
-	}
 	public double getCurrentID() {
 		return currentID;
 	}
@@ -250,23 +182,36 @@ public class ObservableComposite implements ObservableManager{
 		return turtleCount;
 	}
 
+	public double performTell(ParseTreeNode node) {
+		activeTurtles.clear();
+		double id = 1.0;
+		for (ParseTreeNode turtle : node.getChild(0).getChildren()) {
+			id  = turtle.executeCommand(turtle);
+			if (!myTurtles.containsKey(id)) {
+				newTurtle.set(id);
+			}
+			if (!activeTurtles.contains(id)) {
+				activeTurtles.add(id);
+			}
+		}
+		return id;
+	}
+	
 	public double performAsk(ParseTreeNode node) {
-		// TODO Auto-generated method stub
 		List<Double> oldActiveTurtles = new ArrayList<Double>(activeTurtles);
 		List<ParseTreeNode> tempActiveTurtles = node.getChild(0).getChildren();
 		ParseTreeNode commandNode = node.getChild(1);
 		activeTurtles.clear();
 		for (ParseTreeNode child : tempActiveTurtles) {
-			activeTurtles.add(child.executeCommand(child));
+			currentID = child.executeCommand(child);
+			activeTurtles.add(currentID);
 		}
-		currentID = activeTurtles.get(0);
 		double answer = commandNode.executeCommand(commandNode);
 		activeTurtles = oldActiveTurtles;
-		currentID = activeTurtles.get(0);
 		return answer;
 	}
+	
 	public double performAskWith(ParseTreeNode node) {
-		//wont work if there is a tell in a askwith 
 		List<Double> oldActiveTurtles = new ArrayList<Double>(activeTurtles);
 		activeTurtles.clear();
 		ParseTreeNode condition = node.getChild(0);
@@ -275,13 +220,11 @@ public class ObservableComposite implements ObservableManager{
 			Double evaluated = condition.executeCommand(condition);
 			if (evaluated.equals(1.0)) {
 				activeTurtles.add(turtle);
+				currentID = turtle;
 			}
 		}
-		currentID = activeTurtles.get(0);
 		double answer = command.executeCommand(command);
 		activeTurtles = oldActiveTurtles;
-		currentID = activeTurtles.get(0);
 		return answer;
-		
 	}
 }

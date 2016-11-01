@@ -10,6 +10,7 @@ import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.CommandTypeDetector;
+import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
 import BackEndInternalAPI.ObservableManager;
 
@@ -54,7 +55,8 @@ public class GUIManager implements GUIController {
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
-    private ObservableComposite properties;
+    private ObservableComposite turtleProperties;
+    private DisplayProperties displayProperties;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
     private Scene myWindow;
@@ -106,16 +108,17 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
 
-		properties = setupBindings();
+		turtleProperties = setupBindings();
+		displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser();
         myVariables.setVariableSetter(commandParser);
         commandParser.initLanguageBinding(myLanguage);
-        commandParser.initTurtlePropertiesBinding(properties);
+        commandParser.initPropertiesBinding(turtleProperties, displayProperties);
         commandParser.initVariablesBinding(myVariables);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
-        fd.setProperties(properties);
+        fd.setProperties(turtleProperties);
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
@@ -219,7 +222,7 @@ public class GUIManager implements GUIController {
                 @Override
                 public void handle(KeyEvent event) {
                     if(event.getCode() == KeyCode.ENTER){
-                        properties.setNewTurtle(Double.parseDouble(enterID.getText()));
+                        turtleProperties.setNewTurtle(Double.parseDouble(enterID.getText()));
                     }
                 }
             });

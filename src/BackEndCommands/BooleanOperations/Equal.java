@@ -1,6 +1,5 @@
 package BackEndCommands.BooleanOperations;
 
-import java.util.List;
 
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;

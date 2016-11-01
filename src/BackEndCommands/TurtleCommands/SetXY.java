@@ -1,6 +1,5 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
@@ -29,6 +28,7 @@ public class SetXY extends TurtleCommand{
 		properties.setNewLineProperty(true);
 		return distance;
 	}
+	
 	@Override
 	public int numArguments() {
 		return ARGS;
