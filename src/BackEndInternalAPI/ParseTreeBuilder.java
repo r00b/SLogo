@@ -101,10 +101,8 @@ public class ParseTreeBuilder {
                 return null;
             }
             String variable = method.getArgument(i);
-
             String valueStr = myCommands[myCommandIndex];
             double value;
-
             if (myMappings.getMyMethodVariables().get(valueStr) != null) {
                 value = myMappings.getMyMethodVariables().get(valueStr);
             } else if (myMappings.getMyVariables().get(valueStr) != null) {
@@ -113,10 +111,9 @@ public class ParseTreeBuilder {
                 try {
                     value = Double.parseDouble(myCommands[myCommandIndex]);
                 } catch (NumberFormatException n) {
-                    value = 0.0;
+                    value = 0.0; // trying to access non-initialized variable
                 }
             }
-
             myMappings.getMyMethodVariables().put(variable, value); // method variables placed in temporary map
             myCommandIndex++;
         }
