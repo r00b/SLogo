@@ -157,17 +157,24 @@ public class GUIEditor implements Editor {
 //        if(file != null){
 //            openf
 //        }
+        if(textArea.getText().equals("> " + defaultCommand)){
+            textArea.setText("> ");
+        }
         try {
-            Scanner s = new Scanner(file).useDelimiter("\\s+");
+            Scanner s = new Scanner(file).useDelimiter("\n");
             while (s.hasNext()) {
-                if (s.hasNextInt()) { // check if next token is an int
-                    textArea.appendText(s.nextInt() + " "); // display the found integer
-                } else {
-                    textArea.appendText(s.next() + " "); // else read the next token
-                }
+//                if (s.hasNextInt()) { // check if next token is an int
+//                    textArea.appendText(s.nextInt() + " "); // display the found integer
+//                } else {
+                    textArea.appendText(s.next() + " \n"); // else read the next token
+//                }
+//                textArea.appendText(s.next());
             }
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
+        }
+        catch (NullPointerException e){
+            System.out.println("Reached null value in file");
         }
     }
 
