@@ -198,7 +198,7 @@ public class GUIDisplay implements RenderSprite {
      *
      * @param bool
      */
-    public void drawNewLine(BooleanProperty bool ){
+    public void drawNewLine(){
     	double centerX =  20;
 		double centerY = 20;
         boolean yBoundUpper = false;
@@ -233,6 +233,7 @@ public class GUIDisplay implements RenderSprite {
 //                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
 //                    yDest);
     	}
+
 //    	System.out.println(pathColor);
     	newPath.setFill(pathColor);
         newPath.setStroke(pathColor);
@@ -244,11 +245,12 @@ public class GUIDisplay implements RenderSprite {
         turtleMotion.add(newPath);
         window.getChildren().add(newPath);
 
+
         if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
         window.getChildren().remove(myTurtle);
         window.getChildren().add(myTurtle);
     	
-    	bool.set(false);
+    	//bool.set(false);
     }
 
     //DONT NEED IT ANYMORE
@@ -278,9 +280,10 @@ public class GUIDisplay implements RenderSprite {
      *
      * @param clearScreenProperty
      */
-	public void clearScreen(BooleanProperty clearScreenProperty) {
+	public void clearScreen() {
 		window.getChildren().removeAll(turtleMotion);
-		clearScreenProperty.set(false);
+		turtleMotion.clear();
+		//clearScreenProperty.set(false);
 	}
 
     private void addDisplayControlButtons(){

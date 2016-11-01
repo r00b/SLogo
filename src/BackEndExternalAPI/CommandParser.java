@@ -18,12 +18,14 @@ import java.util.*;
  */
 public class CommandParser {
 
-    private static ObservableProperties myTurtleProperties;
-    private static ObservableMap<String, Double> myVariables;
+
+    private static ObservableComposite myProperties;
+    private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
     private static SimpleStringProperty myLanguageBinding;
     private static HashSet<String> myErrors;
+
 
     public CommandParser() {
         myMethodVariables = new HashMap<String, Double>();
@@ -44,8 +46,8 @@ public class CommandParser {
      *
      * @param properties the ObservableProperties object representing bound Turtle properties
      */
-    public void initTurtlePropertiesBinding(ObservableProperties properties) {
-        myTurtleProperties = properties;
+    public void initTurtlePropertiesBinding(ObservableComposite properties) {
+        myProperties = properties;
     }
 
     /**
@@ -94,7 +96,7 @@ public class CommandParser {
     private ParseTreeBuilder initBuilder() {
         ParseTreeBuilder newBuilder = new ParseTreeBuilder();
         newBuilder.setLanguage(myLanguageBinding);
-        newBuilder.setTurtleProperties(myTurtleProperties);
+        newBuilder.setTurtleProperties(myProperties);
         newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables));
         newBuilder.setErrorSet(myErrors);
         return newBuilder;

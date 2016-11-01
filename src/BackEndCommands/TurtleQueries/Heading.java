@@ -18,7 +18,7 @@ public class Heading extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		return properties.getRotateProperty().get();
+		return properties.getRotateProperty();
 	}
 
 	@Override

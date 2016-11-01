@@ -19,7 +19,7 @@ public class IsShowing extends TurtleCommand {
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		double answer = 0;
-		if (properties.getImageVisibleProperty().get()) {
+		if (properties.getImageVisibleProperty()) {
 			answer++;
 		}
 		return answer;

@@ -8,6 +8,11 @@ import java.util.Set;
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
+import BackEndInternalAPI.Command;
+import BackEndInternalAPI.CommandTypeDetector;
+import BackEndInternalAPI.ObservableComposite;
+import BackEndInternalAPI.ObservableManager;
+
 import FrontEndExternalAPI.GUIController;
 import GUI.GUIButtonMenu;
 import javafx.beans.property.SimpleStringProperty;
@@ -94,7 +99,8 @@ public class GUIManager implements GUIController {
         myWindow = myScene;
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
-        ObservableProperties properties = setupBindings();
+
+		ObservableComposite properties = setupBindings();
         commandParser = new CommandParser();
         commandParser.initLanguageBinding(myLanguage);
         commandParser.initTurtlePropertiesBinding(properties);
@@ -148,34 +154,10 @@ public class GUIManager implements GUIController {
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
     }
 
-    private ObservableProperties setupBindings() {
-    	ObservableProperties answer = new ObservableProperties(turtle);
-    	answer.getNewLineProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				//If new value is true we need to draw a new line
-				if (newValue) {
-					myDisplay.drawNewLine(answer.getNewLineProperty());
-				}
-			}
-    	});
-    	answer.getPathVisibleProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				myDisplay.setVisibility(newValue);
-			}
-    	});
-    	answer.getClearScreenProperty().addListener(new ChangeListener<Boolean>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				//If new value is true we need to draw a new line
-				if (newValue) {
-					myDisplay.clearScreen(answer.getClearScreenProperty());
-				}
-			}
-    	});
+    private ObservableComposite setupBindings() {
+    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
+    	ObservableComposite answer = new ObservableComposite(property);
+    	System.out.println("");
     	return answer;
     }
     
