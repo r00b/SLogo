@@ -8,3 +8,7 @@ to star [ ]
 ]
 
 star
+
+
+repeat 5 [ fd 50 rt 144 ]
+]

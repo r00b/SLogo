@@ -23,11 +23,10 @@ public class SetXY extends TurtleCommand{
 		ParseTreeNode arg2 = node.getChild(1);
 		double value1 = arg1.executeCommand(arg1);
 		double value2 = arg2.executeCommand(arg2);
-		double distance = calculateTotalDistance(value1, properties.getXProperty().get(),
-													value2, properties.getYProperty());
-		properties.getXProperty().set(value1);
+		double distance = properties.calculateTotalDistance(value1, value2);
+		properties.setXProperty(value1);
 		properties.setYProperty(value2);
-		properties.getNewLineProperty().set(true);
+		properties.setNewLineProperty(true);
 		return distance;
 	}
 	@Override

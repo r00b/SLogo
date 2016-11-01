@@ -1,26 +1,17 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
-
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
-/**
- * Executes the ShowTurtle Command
- * @author ezra
- *
- */
-public class ShowTurtle extends TurtleCommand {
+public class ID extends TurtleCommand{
 	private static final int ARGS = 0;
 
 	/**
-	 * Sets imageView visible property to true
-	 * Returns 1
+	 * 
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		properties.setImageVisibleProperty(true);
-		return 1;
+		return properties.getCurrentID();
 	}
 
 	@Override
