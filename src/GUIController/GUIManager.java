@@ -158,7 +158,7 @@ public class GUIManager implements GUIController {
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
-        myButtonMenu = new GUIButtonMenu(window, penColor, myLanguage);
+        myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
 //        setParamBindings(); //How should I make this work
