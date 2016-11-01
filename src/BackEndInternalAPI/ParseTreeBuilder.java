@@ -91,40 +91,6 @@ public class ParseTreeBuilder {
         return myErrors;
     }
 
-    /**
-     * Calls a Logo method by binding inputted arguments to method variables
-     * and returning a ParseTreeNode representing the actions defined by the method
-     *
-     * @param method is the LogoMethod object containing action and variable information
-     *               about the defined Logo method
-     * @return a ParseTreeNode representing the method, ready for execution
-     */
-    private ParseTreeNode buildMethodTree(LogoMethod method) {
-        myCommandIndex++;
-//        for (int i = 0; i < method.numArguments(); i++) { // bind arguments to method variables
-//            if (argumentError()) {
-//                return null;
-//            }
-//            String variable = method.getArgument(i);
-//            String valueStr = myCommands[myCommandIndex];
-//            double value;
-//            if (myMappings.getMyMethodVariables().get(valueStr) != null) {
-//                value = myMappings.getMyMethodVariables().get(valueStr);
-//            } else if (myMappings.getMyVariables().get(valueStr) != null) {
-//                value = myMappings.getMyVariables().get(valueStr);
-//            } else {
-//                try {
-//                    value = Double.parseDouble(myCommands[myCommandIndex]);
-//                } catch (NumberFormatException n) {
-//                    value = 0.0; // trying to access non-initialized variable
-//                }
-//            }
-//            myMappings.getMyMethodVariables().put(variable, value); // method variables placed in temporary map
-//            myCommandIndex++;
-//        }
-        myCommandIndex--;
-        return method.getMethod();
-    }
 
     /**
      * Determines if the current node is calling a method
@@ -151,17 +117,6 @@ public class ParseTreeBuilder {
             }
             return node;
         }
-
-
-//        if (myMappings.getMyMethods().get(node.getRawCommand()) != null) { // calling a method
-//            // get the method associated with the method name specified by the current command
-//            return buildMethodTree(myMappings.getMyMethods().get(node.getRawCommand()));
-//        }
-//        if (definingMethod) { // node is part of a method definition
-//            return node;
-//        }
-//        myErrors.add(myLine + myThrowables.getString("CommandError")); // not calling or defining method, error
-//        return null;
     }
 
     /**

@@ -20,7 +20,7 @@ public class CommandParser {
 
 
     private static ObservableComposite myProperties;
-    private static ObservableMap<String,Double> myVariables;
+    private static ObservableMap<String, Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
     private static HashMap<String, Integer> myMethodVariableDeclarations;
@@ -75,21 +75,6 @@ public class CommandParser {
         return myErrors;
     }
 
-    /**
-     * Removes empty commands from an inputted list of commands
-     *
-     * @param array is the array to sanitized
-     * @return a sanitized array with empty commands removed
-     */
-    private String[] sanitize(String[] array) {
-        ArrayList<String> toSanitize = new ArrayList<String>();
-        for (String command : array) {
-            if (!command.equals("")) toSanitize.add(command);
-        }
-        String[] sanitizedList = new String[toSanitize.size()];
-        toSanitize.toArray(sanitizedList);
-        return sanitizedList;
-    }
 
     /**
      * Initializes a ParseTreeBuilder by creating it, specifying its language,
@@ -109,7 +94,7 @@ public class CommandParser {
 
     private void buildAndExecuteTree(String[] command, ArrayList<Double> results, int line) {
         ParseTreeBuilder builder = initBuilder();
-        ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+        ParseTreeNode parseTree = builder.buildNewParseTree(command, line);
         myErrors.addAll(builder.getErrors());
         if (myErrors.size() == 0) {
             double result = parseTree.getCommandObj().executeCommand(parseTree);
@@ -127,36 +112,8 @@ public class CommandParser {
     public ArrayList<Double> executeCommands(String[] commands) {
         ArrayList<String> commandList = new ArrayList<String>();
 
-
-
-//        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
-//        ArrayList<String> newCommand = new ArrayList<String>();
-////        newCommand.add("[");
-//        for (String command : commands) {
-//            if (!command.trim().equals("")) {
-//                String[] splitCommands = command.trim().split("\\p{Space}");
-//                for (String splitCommand : splitCommands) {
-//                    newCommand.add(splitCommand);
-//                }
-//            } else {
-////                newCommand.add("]");
-//                allCommands.add(newCommand);
-//                newCommand = new ArrayList<String>();
-////                newCommand.add("[");
-//            }
-//        }
-////        newCommand.add("]");
-//        allCommands.add(newCommand);
-//
-//
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
-
-//        for (ArrayList<String> commanders : allCommands) {
-//            String[] coms = new String[commanders.size()];
-//            coms = commanders.toArray(coms);
-//            buildAndExecuteTree(coms,results,1);
-//        }
 
 
         commandList.add("[");
@@ -169,9 +126,9 @@ public class CommandParser {
             }
         }
         commandList.add("]");
-            String[] coms = new String[commandList.size()];
-            coms = commandList.toArray(coms);
-            buildAndExecuteTree(coms,results,1);
+        String[] coms = new String[commandList.size()];
+        coms = commandList.toArray(coms);
+        buildAndExecuteTree(coms, results, 1);
 
 
         return results;
