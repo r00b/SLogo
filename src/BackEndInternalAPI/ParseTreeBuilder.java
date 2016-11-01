@@ -101,10 +101,26 @@ public class ParseTreeBuilder {
                 return null;
             }
             String variable = method.getArgument(i);
-            double value = Double.parseDouble(myCommands[myCommandIndex]);
+
+            String valueStr = myCommands[myCommandIndex];
+            double value;
+
+            if (myMappings.getMyMethodVariables().get(valueStr) != null) {
+                value = myMappings.getMyMethodVariables().get(valueStr);
+            } else if (myMappings.getMyVariables().get(valueStr) != null) {
+                value = myMappings.getMyVariables().get(valueStr);
+            } else {
+                try {
+                    value = Double.parseDouble(myCommands[myCommandIndex]);
+                } catch (NumberFormatException n) {
+                    value = 0.0;
+                }
+            }
+
             myMappings.getMyMethodVariables().put(variable, value); // method variables placed in temporary map
             myCommandIndex++;
         }
+        myCommandIndex--;
         return method.getMethod();
     }
 
@@ -115,12 +131,12 @@ public class ParseTreeBuilder {
      * @return a ParseTreeNode representing the called method, if applicable
      */
     private ParseTreeNode checkIfCallingMethod(ParseTreeNode node) {
-        if (definingMethod) { // node is part of a method definition
-            return node;
-        }
         if (myMappings.getMyMethods().get(node.getRawCommand()) != null) { // calling a method
             // get the method associated with the method name specified by the current command
             return buildMethodTree(myMappings.getMyMethods().get(node.getRawCommand()));
+        }
+        if (definingMethod) { // node is part of a method definition
+            return node;
         }
         myErrors.add(myLine + myThrowables.getString("CommandError")); // not calling or defining method, error
         return null;

@@ -92,6 +92,7 @@ public class GUIManager implements GUIController {
         this.language = language;
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
+
     }
 
     @Override
@@ -107,6 +108,7 @@ public class GUIManager implements GUIController {
 
 		properties = setupBindings();
         commandParser = new CommandParser();
+        myVariables.setVariableSetter(commandParser);
         commandParser.initLanguageBinding(myLanguage);
         commandParser.initTurtlePropertiesBinding(properties);
         commandParser.initVariablesBinding(myVariables);
@@ -117,13 +119,6 @@ public class GUIManager implements GUIController {
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
-//        System.out.println(turtle.getX());
-//        System.out.println(turtle.getY());
-//        //fd.executeCommand(list);
-//        System.out.println(turtle.getX());
-//        System.out.println(turtle.getY());
-//        System.out.println(turtle.getRotate());
-//        myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         stage.setScene(myScene);
         stage.show();
     }
@@ -137,7 +132,7 @@ public class GUIManager implements GUIController {
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
-        myButtonMenu = new GUIButtonMenu(window, penColor);
+        myButtonMenu = new GUIButtonMenu(window, penColor, myLanguage);
         addRunButton();
         addHistoryButton();
         addMoreTurtlesButton();
