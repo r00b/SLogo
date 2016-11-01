@@ -1,11 +1,12 @@
 package BackEndInternalAPI;
-
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.*;
 
+import java.util.Map;
+import java.util.ResourceBundle;
 /**
  * @author Robert H. Steilberg II
  *         <p>
@@ -19,15 +20,16 @@ import java.util.*;
 public class ParseTreeBuilder {
 
     private static final String ERRORS_PATH = "resources/internal/Errors";
+    private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
-    private static CommandTypeDetector myDetector;
-    private static ObservableProperties myProperties;
+    private static ObservableComposite myProperties;
     private static Mappings myMappings;
     private static HashSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
     private static boolean definingMethod; // only true for a TO command
     private static String myLine;
+
 
     public ParseTreeBuilder() {
         myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
@@ -45,15 +47,16 @@ public class ParseTreeBuilder {
         myDetector = new CommandTypeDetector(languageBinding.get());
     }
 
+
     /**
      * Sets observable properties used for communicating with the GUI
      *
      * @param properties
      */
-    public void setTurtleProperties(ObservableProperties properties) {
+
+    public void setTurtleProperties(ObservableComposite properties) {
         myProperties = properties;
     }
-
     /**
      * Set variable and method mappings used for storing variables and
      * methods
@@ -98,10 +101,23 @@ public class ParseTreeBuilder {
                 return null;
             }
             String variable = method.getArgument(i);
-            double value = Double.parseDouble(myCommands[myCommandIndex]);
+            String valueStr = myCommands[myCommandIndex];
+            double value;
+            if (myMappings.getMyMethodVariables().get(valueStr) != null) {
+                value = myMappings.getMyMethodVariables().get(valueStr);
+            } else if (myMappings.getMyVariables().get(valueStr) != null) {
+                value = myMappings.getMyVariables().get(valueStr);
+            } else {
+                try {
+                    value = Double.parseDouble(myCommands[myCommandIndex]);
+                } catch (NumberFormatException n) {
+                    value = 0.0; // trying to access non-initialized variable
+                }
+            }
             myMappings.getMyMethodVariables().put(variable, value); // method variables placed in temporary map
             myCommandIndex++;
         }
+        myCommandIndex--;
         return method.getMethod();
     }
 
@@ -112,12 +128,12 @@ public class ParseTreeBuilder {
      * @return a ParseTreeNode representing the called method, if applicable
      */
     private ParseTreeNode checkIfCallingMethod(ParseTreeNode node) {
-        if (definingMethod) { // node is part of a method definition
-            return node;
-        }
         if (myMappings.getMyMethods().get(node.getRawCommand()) != null) { // calling a method
             // get the method associated with the method name specified by the current command
             return buildMethodTree(myMappings.getMyMethods().get(node.getRawCommand()));
+        }
+        if (definingMethod) { // node is part of a method definition
+            return node;
         }
         myErrors.add(myLine + myThrowables.getString("CommandError")); // not calling or defining method, error
         return null;
@@ -135,7 +151,6 @@ public class ParseTreeBuilder {
     private boolean unknownCommand(ParseTreeNode node) {
         return node.getCommandObj().getClass() == Unknown.class;
     }
-
     /**
      * Builds the subtrees for commands within a list
      *
@@ -155,7 +170,6 @@ public class ParseTreeBuilder {
         myCommandIndex++; // ensure that anything after the list is added to the tree
         return listNode;
     }
-
     /**
      * Determines if the current command spcecifies the beginning of a list
      *
@@ -178,7 +192,6 @@ public class ParseTreeBuilder {
             definingMethod = true;
         }
     }
-
     /**
      * Create a new ParseTreeNode and initialize the raw command and command object.
      * Observable properties and variable mappings are also initialized.
@@ -195,7 +208,6 @@ public class ParseTreeBuilder {
         newNode.getCommandObj().setProperties(myMappings); // information about variables
         return newNode;
     }
-
     /**
      * Determines if the specified command has a sufficient number
      * of arguments to execute
@@ -232,7 +244,6 @@ public class ParseTreeBuilder {
         definingMethod = false; // no longer on a TO command
         return newChild;
     }
-
     /**
      * Initializes the recursive function buildParseTree which returns the
      * root of the complete parse tree representing the inputted command

@@ -20,7 +20,7 @@ public class XCor extends TurtleCommand {
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
-		return properties.getXProperty().get();
+		return properties.getXProperty();
 	}
 
 	@Override

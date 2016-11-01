@@ -18,17 +18,22 @@ import java.util.*;
  */
 public class CommandParser {
 
-    private static ObservableProperties myTurtleProperties;
-    private static ObservableMap<String, Double> myVariables;
+
+    private static ObservableComposite myProperties;
+    private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
     private static SimpleStringProperty myLanguageBinding;
     private static HashSet<String> myErrors;
 
+
     public CommandParser() {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
     }
+
+
+    // TODO SET BINDINGS
 
     /**
      * Initializes the String binding that for language detection
@@ -44,8 +49,8 @@ public class CommandParser {
      *
      * @param properties the ObservableProperties object representing bound Turtle properties
      */
-    public void initTurtlePropertiesBinding(ObservableProperties properties) {
-        myTurtleProperties = properties;
+    public void initTurtlePropertiesBinding(ObservableComposite properties) {
+        myProperties = properties;
     }
 
     /**
@@ -94,10 +99,22 @@ public class CommandParser {
     private ParseTreeBuilder initBuilder() {
         ParseTreeBuilder newBuilder = new ParseTreeBuilder();
         newBuilder.setLanguage(myLanguageBinding);
-        newBuilder.setTurtleProperties(myTurtleProperties);
+        newBuilder.setTurtleProperties(myProperties);
         newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables));
         newBuilder.setErrorSet(myErrors);
         return newBuilder;
+    }
+
+    private void buildAndExecuteTree(String[] command, ArrayList<Double> results, int line) {
+        ParseTreeBuilder builder = initBuilder();
+        ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+        myErrors.addAll(builder.getErrors());
+        if (myErrors.size() == 0) {
+            double result = parseTree.getCommandObj().executeCommand(parseTree);
+            results.add(result);
+        }
+        myMethodVariables.clear(); // clear temporary method variables
+        line++;
     }
 
     /**
@@ -107,29 +124,51 @@ public class CommandParser {
      * @param commands a string containing the commands issued from the editor
      */
     public ArrayList<Double> executeCommands(String[] commands) {
-        ArrayList<String[]> commandList = new ArrayList<String[]>();
+        ArrayList<String> commandList = new ArrayList<String>();
+
+
+
+        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
+        ArrayList<String> newCommand = new ArrayList<String>();
+//        newCommand.add("[");
         for (String command : commands) {
-            commandList.add(command.trim().split("\\p{Space}"));
+            if (!command.trim().equals("")) {
+                String[] splitCommands = command.trim().split("\\p{Space}");
+                for (String splitCommand : splitCommands) {
+                    newCommand.add(splitCommand);
+                }
+            } else {
+//                newCommand.add("]");
+                allCommands.add(newCommand);
+                newCommand = new ArrayList<String>();
+//                newCommand.add("[");
+            }
         }
-        // sanitize inputs
-        // commandList = sanitize(commandList);
-        // [ "sum 2 3", "fd 5" ] => [ [ "sum", "2", "3" ] , [ "fd", "5" ] ]
+//        newCommand.add("]");
+        allCommands.add(newCommand);
+
 
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
-        int line = 1;
-        for (String[] command : commandList) {
-            ParseTreeBuilder builder = initBuilder();
-            ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
-            myErrors.addAll(builder.getErrors());
 
-            if (myErrors.size() == 0) {
-                double result = parseTree.getCommandObj().executeCommand(parseTree);
-                results.add(result);
-            }
-            myMethodVariables.clear(); // clear temporary method variables
-            line++;
+        for (ArrayList<String> commanders : allCommands) {
+            String[] coms = new String[commanders.size()];
+            coms = commanders.toArray(coms);
+            buildAndExecuteTree(coms,results,1);
         }
+
+
+//        commandList.add("[");
+//        for (String command : commands) {
+//            String[] splitCommands = command.trim().split("\\p{Space}");
+//            for (String splitCommand : splitCommands) {
+//                if (!splitCommand.equals("")) {
+//                    commandList.add(splitCommand);
+//                }
+//            }
+//        }
+//        commandList.add("]");
+
 
 
         return results;

@@ -21,9 +21,9 @@ public class Left extends TurtleCommand {
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
-		double value1 = arg1.executeCommand(arg1);
-		properties.getRotateProperty().set(properties.getRotateProperty().get() % 360 - value1);
-		return value1;
+		//double value1 = arg1.executeCommand(arg1);
+		double answer = properties.setRotateProperty(arg1, false, false);
+		return answer;
 
 	}
 
