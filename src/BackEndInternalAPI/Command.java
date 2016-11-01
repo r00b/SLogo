@@ -1,32 +1,35 @@
 package BackEndInternalAPI;
 
-import java.util.List;
-
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This is an interface for the Command object, which specifies
- *         the actions specific to a Logo commandType.
+ *         An interface for the Command object, which specifies
+ *         the actions unique to each Logo command.
  */
 public interface Command {
 
+    /**
+     * Sets an object to a command object. Used primarily for setting observable
+     * properties for turtle commands or for setting variable mappings for defining
+     * variables.
+     *
+     * @param o is the object to set
+     */
     void setProperties(Object o);
 
 
     /**
-     * Executes a commandType that is respective to the type of
-     * Command instance
+     * Performs the actions unique to each Command instance
      *
-     * @param args is an ArrayList of Doubles containing the arguments
-     *             for the computations
-     * @return the result of executing the commandType
+     * @param node is the current ParseTreeNode
+     * @return the result of executing the command
      */
     double executeCommand(ParseTreeNode node);
 
     /**
      * Specifies the number of arguments that a Command takes
      *
-     * @return an int that specifies the number of arguments
+     * @return an int that specifies the number of accepted arguments
      */
     int numArguments();
 }

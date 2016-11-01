@@ -14,7 +14,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -46,7 +51,7 @@ public class GUIEditor implements Editor {
         addTextLabel();
         addTextArea();
         addHelpButton();
-        addClearButton();
+        addButtons();
 //        addRunButton();
     }
 
@@ -115,13 +120,18 @@ public class GUIEditor implements Editor {
         helpWindow.init();
     }
 
-    private void addClearButton(){
+    private void addButtons(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = newButton("Clear", clearImg, 800, 600);
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
-        window.getChildren().add(clear);
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/upload.png"));
+        clearImg = new ImageView(newImage);
+        Button upload = newButton("Upload file", clearImg, 900, 600);
+        upload.setOnMouseClicked(e -> uploadFile());
+        window.getChildren().addAll(clear, upload);
     }
 
     private Button newButton(String text, ImageView imgV, int x, int y){
@@ -137,6 +147,39 @@ public class GUIEditor implements Editor {
         run.setTranslateX(x);
         run.setTranslateY(y);
         return run;
+    }
+
+    private void uploadFile(){
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(stage);
+//        if(file != null){
+//            openf
+//        }
+        if(textArea.getText().equals("> " + defaultCommand)){
+            textArea.setText("> ");
+        }
+        try {
+            Scanner s = new Scanner(file).useDelimiter("\n");
+            while (s.hasNext()) {
+//                if (s.hasNextInt()) { // check if next token is an int
+//                    textArea.appendText(s.nextInt() + " "); // display the found integer
+//                } else {
+                    textArea.appendText(s.next() + " \n"); // else read the next token
+//                }
+//                textArea.appendText(s.next());
+            }
+        } catch (FileNotFoundException ex) {
+            System.err.println(ex);
+        }
+        catch (NullPointerException e){
+            System.out.println("Reached null value in file");
+        }
+    }
+
+    private void fileToEditor(FileChooser fileChooser){
+//        fileChooser.ge
     }
 
     /**

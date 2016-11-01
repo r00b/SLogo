@@ -5,15 +5,13 @@ import java.util.ArrayList;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This class stores information about a Logo commandType parse tree node.
+ *         This class stores information about a node in the parse tree.
  */
 public class ParseTreeNode {
 
-    private Double value;
-    private String command;
-    private String commandType;
+    private String rawCommand;
     private Command commandObj;
-    public ArrayList<ParseTreeNode> children;
+    private ArrayList<ParseTreeNode> children;
     private int numChildren;
 
     /**
@@ -25,9 +23,9 @@ public class ParseTreeNode {
 
     /**
      * Executes the command associated with the node
-     * @param node is the current node, it is passed so that command execution
-     *             has access to information about the ParseTreeNode
      *
+     * @param node is the current node, it is passed through so that
+     *             there is access to the node during command execution
      * @return a double representing the result of executing the command
      */
     public double executeCommand(ParseTreeNode node) {
@@ -35,21 +33,21 @@ public class ParseTreeNode {
     }
 
     /**
-     * Returns the raw command String associated with the node
+     * Returns the raw command string associated with the node
      *
-     * @return the command as a String
+     * @return the raw command as a String
      */
     public String getRawCommand() {
-        return command;
+        return rawCommand;
     }
 
     /**
-     * Sets the command associated with the node
+     * Sets the raw command string associated with the node
      *
-     * @param newCommand is the new command
+     * @param newCommand is the new rawCommand
      */
     public void setRawCommand(String newCommand) {
-        command = newCommand;
+        rawCommand = newCommand;
     }
 
     /**
@@ -62,7 +60,8 @@ public class ParseTreeNode {
     }
 
     /**
-     * Sets the command object associated with the node
+     * Sets the command object associated with the node and gets
+     * the number of children that the node will have
      *
      * @param newCommandObj is the new Command instance object
      */
@@ -72,9 +71,9 @@ public class ParseTreeNode {
     }
 
     /**
-     * Adds a parser tree node to the list of children
+     * Adds a ParseTreeNode to the list of children
      *
-     * @param newChild is the new node to add
+     * @param newChild is the new node to become a child
      */
     public void addChild(ParseTreeNode newChild) {
         children.add(newChild);
@@ -100,9 +99,9 @@ public class ParseTreeNode {
     }
 
     /**
-     * Returns the node's subtree
+     * Returns the node's subtrees
      *
-     * @return the root of the subtree
+     * @return the a list of the node's subtrees
      */
     public ArrayList<ParseTreeNode> getChildren() {
         return children;
