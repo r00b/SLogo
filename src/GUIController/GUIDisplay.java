@@ -154,8 +154,8 @@ public class GUIDisplay implements RenderSprite {
         addTurtles.setTranslateX(1110);
         addTurtles.setTranslateY(125);
         addTurtles.setStyle(overButton);
-        addTurtles.setOnMouseEntered(e -> optionsButton.setStyle(buttonFill));
-        addTurtles.setOnMouseExited(e -> optionsButton.setStyle(overButton));
+        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
+        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
         addTurtles.setOnMouseClicked(e -> addTurtle());
         window.getChildren().add(addTurtles);
     }
