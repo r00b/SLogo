@@ -93,7 +93,7 @@ public abstract class OptionsMenu implements Options {
         startWindow = new Pane();
         startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/background.jpg"));
+                .getResourceAsStream("images/nebula.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
