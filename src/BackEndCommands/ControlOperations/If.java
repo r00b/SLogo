@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents an if statement in Logo.
+ *         This command instance represents an If statement in Logo.
  */
 public class If extends ControlCommand {
 
@@ -15,12 +15,12 @@ public class If extends ControlCommand {
     @Override
     public double executeCommand(ParseTreeNode node) {
     	ParseTreeNode condition = node.getChild(0);
-		ParseTreeNode commandBody = node.getChild(1);
+		ParseTreeNode body = node.getChild(1);
 		Double value = condition.executeCommand(condition);
         if (value == 0) {
             return 0;
         } else {
-            return commandBody.executeCommand(commandBody);
+            return body.executeCommand(body);
         }
     }
 

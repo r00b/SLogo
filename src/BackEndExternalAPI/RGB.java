@@ -1,5 +1,8 @@
 package BackEndExternalAPI;
 
+/**
+ * @author ezra
+ */
 public class RGB {
 	private static double red;
 	private static double green;

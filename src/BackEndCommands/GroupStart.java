@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents the beginning of a list in Logo.
+ *         This command instance represents the beginning of a group in Logo.
  */
-public class ListStart implements Command {
+public class GroupStart implements Command {
 
     private static final int ARGS = 1;
 
@@ -23,7 +23,7 @@ public class ListStart implements Command {
         List<ParseTreeNode> args = node.getChildren();
         double answer = 0;
         for (ParseTreeNode child : args) {
-            answer = child.executeCommand(child);
+            answer += child.executeCommand(child);
         }
         return answer;
     }

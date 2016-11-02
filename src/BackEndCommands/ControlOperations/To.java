@@ -4,8 +4,6 @@ import BackEndCommands.ControlCommand;
 import BackEndInternalAPI.LogoMethod;
 import BackEndInternalAPI.ParseTreeNode;
 
-//import static BackEndInternalAPI.ParseTreeExecutor.myMethods;
-
 /**
  * @author Robert H. Steilberg II
  *         <p>
@@ -22,12 +20,12 @@ public class To extends ControlCommand {
 		ParseTreeNode commandBody = node.getChild(2);
         LogoMethod newMethod = new LogoMethod();
         String methodName = commandName.getRawCommand();
-        for (ParseTreeNode p : variables.getChildren()) {
+        for (ParseTreeNode p : variables.getChildren()) { // store method arguments
             newMethod.addArgument(p.getRawCommand());
         }
         newMethod.setMethod(commandBody);
         getMethods().put(methodName,newMethod);
-        return 1;
+        return 1; // method assignment successful
     }
 
     @Override

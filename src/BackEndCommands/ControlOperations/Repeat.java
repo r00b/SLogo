@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents a repeat statement in Logo.
+ *         This command instance represents a Repeat statement in Logo.
  */
 public class Repeat extends ControlCommand {
 

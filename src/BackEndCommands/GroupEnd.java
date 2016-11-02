@@ -6,9 +6,9 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents a comment in Logo.
+ *         This command instance represents the end of a group in Logo.
  */
-public class Comment implements Command {
+public class GroupEnd implements Command {
 
     private static final int ARGS = 0;
 
@@ -18,7 +18,7 @@ public class Comment implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        return 0;
+        return 0.0;
     }
 
     @Override
