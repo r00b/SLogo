@@ -3,7 +3,6 @@ package BackEndCommands.BooleanOperations;
 import BackEndInternalAPI.Command;
 import BackEndInternalAPI.ParseTreeNode;
 
-import java.util.List;
 
 /**
  * Executes the NotEqual command

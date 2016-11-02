@@ -1,6 +1,5 @@
 package BackEndCommands.TurtleCommands;
 
-import java.util.List;
 
 import BackEndCommands.TurtleCommand;
 import BackEndInternalAPI.ParseTreeNode;
@@ -21,7 +20,6 @@ public class Left extends TurtleCommand {
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
-		//double value1 = arg1.executeCommand(arg1);
 		double answer = properties.setRotateProperty(arg1, false, false);
 		return answer;
 

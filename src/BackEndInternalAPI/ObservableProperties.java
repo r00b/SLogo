@@ -1,16 +1,11 @@
 package BackEndInternalAPI;
 
+
 import GUIController.GUIDisplay;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 
 /**
@@ -23,10 +18,10 @@ public class ObservableProperties implements ObservableManager{
 	private double myId;
 	private BooleanProperty imageVisibleProperty; //observable list of booleans changes https://docs.oracle.com/javase/8/javafx/api/javafx/collections/ListChangeListener.Change.html
 	private DoubleProperty rotateProperty;
-	private DoubleProperty xProperty;
-	private DoubleProperty yProperty;
-	private BooleanProperty pathVisibleProperty;  //observable list of booleans changes
-	private BooleanProperty newLineProperty; //should be double to represent which id needs to update set to 0 after
+	private double xProperty;
+	private double yProperty;
+	private BooleanProperty pathVisibleProperty;  
+	private BooleanProperty newLineProperty; 
 	private BooleanProperty clearScreenProperty;
 	
 	
@@ -34,85 +29,34 @@ public class ObservableProperties implements ObservableManager{
 		myId = id;
 		imageVisibleProperty = new SimpleBooleanProperty(true);
 		rotateProperty = new SimpleDoubleProperty(0);
-		xProperty = new SimpleDoubleProperty(turtle.getX());
-		yProperty = new SimpleDoubleProperty(turtle.getY());
+		xProperty = 0;
+		yProperty = 0;
 		pathVisibleProperty = new SimpleBooleanProperty(true);
 		newLineProperty = new SimpleBooleanProperty(false);
 		clearScreenProperty = new SimpleBooleanProperty(false);
-		//penSizes = new SimpleDoubleProperty(0);
-		turtle.xProperty().bind(xProperty);
-		turtle.yProperty().bind(yProperty);
 		turtle.rotateProperty().bind(rotateProperty);
 		turtle.visibleProperty().bind(imageVisibleProperty);
 		setupListeners(myDisplay);
 	}
 	
 	private void setupListeners(GUIDisplay myDisplay) {
-		// TODO Auto-generated method stub
-//		imageIndex.addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//				// TODO Auto-generated method stub
-//				//myDisplay.setImage();
-//			}
-//			
-//		});
-//		penColor.addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//				// TODO Auto-generated method stub
-//				//myDisplay.setPenColor()
-//			}
-//			
-//		});
-//		penSizes.addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-//				// TODO Auto-generated method stub
-//				//myDisplay.setPenSize()
-//			}
-//			
-//		});
-		newLineProperty.addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+		newLineProperty.addListener((observable, oldValue, newValue) -> {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.drawNewLine();
+					myDisplay.moveTurtle(getXProperty(), getYProperty(), myId);
 				}
 				newLineProperty.set(false);
-			}
-    	});
+		});
 		
-    	pathVisibleProperty.addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				myDisplay.setVisibility(newValue);
-			}
-    	});
+    	pathVisibleProperty.addListener((observable, oldValue, newValue) -> myDisplay.setVisibility(newValue));
     	
-    	clearScreenProperty.addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+    	clearScreenProperty.addListener((observable, oldValue, newValue) -> {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.clearScreen();
+					myDisplay.clearScreen(myId);
 				}
 				clearScreenProperty.set(false);
-			}
-    	});
-	}
-
-	public boolean getNewLineProperty() {
-		return newLineProperty.get();
-	}
-
-
-	public boolean getClearScreenProperty() {
-		return clearScreenProperty.get();
+		});
 	}
 
 	public boolean getImageVisibleProperty() {
@@ -124,17 +68,17 @@ public class ObservableProperties implements ObservableManager{
 	}
 
 	public double getXProperty() {
-		return xProperty.get();
+		return xProperty;
 	}
 	public void setXProperty(double value) {
-		xProperty.set(value);
+		xProperty = value;
 	}
 	public double getYProperty() {
-		return -yProperty.get();
+		return yProperty;
 	}
 	
 	public void setYProperty(double value) {
-		yProperty.set(-value);
+		yProperty = value;
 	}
 	public boolean getPathVisibleProperty() {
 		return pathVisibleProperty.get();
@@ -166,14 +110,13 @@ public class ObservableProperties implements ObservableManager{
 		double angle = getRotateProperty();
 		double answer = Math.sin(Math.toRadians(angle)) * value;
 		//Second and fourth quadrant are actually flipped so you need to multiply by negative one
-		System.out.println("d");
 		return answer;
 	}
 
 	/**
 	 * Calculates the Y distance the turtle travels when it moves. Called by the forward and back commands
 	 * @param hyp
-	 * @return Y disntace traveled
+	 * @return Y distance traveled
 	 */
 	public double calculateYDistance(ParseTreeNode hyp, boolean sign) {
 		double value = hyp.executeCommand(hyp);
@@ -187,19 +130,16 @@ public class ObservableProperties implements ObservableManager{
 
 	@Override
 	public void setNewLineProperty(boolean value) {
-		// TODO Auto-generated method stub
 		newLineProperty.set(value);
 	}
 
 	@Override
 	public void setClearScreenProperty(boolean value) {
-		// TODO Auto-generated method stub
 		clearScreenProperty.set(value);
 	}
 
 	@Override
 	public void setImageVisibleProperty(boolean value) {
-		// TODO Auto-generated method stub
 		imageVisibleProperty.set(value);
 	}
 
@@ -221,7 +161,6 @@ public class ObservableProperties implements ObservableManager{
 
 	@Override
 	public void setPathVisibleProperty(boolean value) {
-		// TODO Auto-generated method stub
 		pathVisibleProperty.set(value);
 	}
 
@@ -254,5 +193,16 @@ public class ObservableProperties implements ObservableManager{
 	}
 	public double getID() {
 		return myId;
+	}
+
+	@Override
+	public double setXY(ParseTreeNode arg1, ParseTreeNode arg2) {
+		double value1 = arg1.executeCommand(arg1);
+		double value2 = arg2.executeCommand(arg2);
+		double distance = calculateTotalDistance(value1, value2);
+		setXProperty(value1);
+		setYProperty(value2);
+		setNewLineProperty(true);
+		return distance;
 	}
 }

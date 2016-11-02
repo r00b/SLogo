@@ -1,6 +1,9 @@
 package GUI;
 
 import FrontEndInternalAPI.ButtonMenu;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -67,14 +70,17 @@ public class GUIButtonMenu implements ButtonMenu{
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
+    private SimpleStringProperty myLanguage;
+
     /**
      *
      * @param p
      * @param borderColor
      */
-    public GUIButtonMenu(Pane p, Paint borderColor){
+    public GUIButtonMenu(Pane p, Paint borderColor, SimpleStringProperty language) {
         this.window = p;
         this.border = borderColor;
+        myLanguage = language;
 //        myOptions = new OptionsPopup();
         drawButtonMenu();
         addTextLabel();
@@ -186,7 +192,10 @@ public class GUIButtonMenu implements ButtonMenu{
         languageBox.setTranslateX(610);
         languageBox.setTranslateY(50);
         window.getChildren().add(languageBox);
+        languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
     }
+
+
 
     /**
      *
