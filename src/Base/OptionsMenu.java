@@ -82,7 +82,7 @@ public abstract class OptionsMenu implements Options {
      * @param s
      */
     public OptionsMenu (Stage s){
-        this.stage = s;
+        stage = s;
     }
 
     /**
