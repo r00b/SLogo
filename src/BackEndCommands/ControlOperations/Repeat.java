@@ -14,15 +14,14 @@ public class Repeat extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		double limit = arg1.getCommandObj().executeCommand(arg1);
+    	ParseTreeNode limitNode = node.getChild(0);
+		ParseTreeNode body = node.getChild(1);
+		double limit = limitNode.getCommandObj().executeCommand(limitNode);
         double result = 0;
         for (double i = 1.0; i < limit + 1; i++) {
             // TODO REMOVE REPCOUNT FROM VARS AT END OF EXECUTION
             getVariables().put(":repcount",i);
-            result = arg2.getCommandObj().executeCommand(arg2);
-            System.out.println(result);
+            result = body.executeCommand(body);
         }
         return result;
     }

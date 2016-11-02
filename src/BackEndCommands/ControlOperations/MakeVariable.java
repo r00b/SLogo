@@ -14,10 +14,10 @@ public class MakeVariable extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-        ParseTreeNode arg1 = node.getChild(0);
-        ParseTreeNode arg2 = node.getChild(1);
-        String varName = arg1.getRawCommand();
-        double varVal = arg2.executeCommand(arg2);
+        ParseTreeNode variable = node.getChild(0);
+        ParseTreeNode value = node.getChild(1);
+        String varName = variable.getRawCommand();
+        double varVal = value.executeCommand(value);
         getVariables().put(varName,varVal);
         return varVal;
     }

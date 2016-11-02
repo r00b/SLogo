@@ -17,15 +17,15 @@ public class To extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		ParseTreeNode arg3 = node.getChild(2);
+    	ParseTreeNode commandName = node.getChild(0);
+		ParseTreeNode variables = node.getChild(1);
+		ParseTreeNode commandBody = node.getChild(2);
         LogoMethod newMethod = new LogoMethod();
-        String methodName = arg1.getRawCommand();
-        for (ParseTreeNode p : arg2.getChildren()) {
+        String methodName = commandName.getRawCommand();
+        for (ParseTreeNode p : variables.getChildren()) {
             newMethod.addArgument(p.getRawCommand());
         }
-        newMethod.setMethod(arg3);
+        newMethod.setMethod(commandBody);
         getMethods().put(methodName,newMethod);
         return 1;
     }

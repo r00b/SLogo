@@ -136,6 +136,7 @@ public class ObservableProperties implements ObservableManager{
 	@Override
 	public void setClearScreenProperty(boolean value) {
 		clearScreenProperty.set(value);
+		rotateProperty.set(0);
 	}
 
 	@Override
