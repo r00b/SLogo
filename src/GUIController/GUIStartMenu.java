@@ -88,26 +88,8 @@ public class GUIStartMenu extends OptionsMenu {
      * @param chosenTurtle
      */
     public void initIDE(String chosenBackground, String chosenTurtle) {
-
-
         GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
         newGUI.init();
-
-//        newGUI.getMyWindow().setOnMouseEntered(e -> myGUI = newGUI);
-//        newGUI.getMyWindow().setOnMouseClicked(e -> setPrimaryIDE(newGUI.myId));
-
-
-//        myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
-//        myGUI.init();
-
-
-//        g = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
-//        g.init();
-
-//        myGUI.getMyWindow().setOnMouseClicked(e -> setPrimaryIDE(myGUI));
-//        newGUI.init();
-//        myIDEs.add(myGUI);
-//        myIDEs.add(newGUI);
     }
 
     private static class BigNameText extends StackPane {
