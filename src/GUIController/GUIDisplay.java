@@ -596,18 +596,11 @@ public class GUIDisplay implements RenderSprite {
         pathColor = myOptions.getPenColor().getValue();
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
-<<<<<<< HEAD
-        System.out.println(myOptions.getTurtleString());
-        System.out.println(myTurtles.get(0));
+
         
         for(int i = 0; i < myTurtles.size(); i++){
-        System.out.println(myTurtles.get(i).getImage());
         myTurtles.get(i).getImage().setImage(myOptions.generateTurtleImage());
-=======
         myTurtle.setImage(myOptions.generateTurtleImage());
-        for (Turtle turtle : myTurtles.values()) {
-            turtle.setImage(myOptions.generateTurtleImage());
->>>>>>> 7b651aa1b5707fb28f796e38a41bcec7fe2b5226
         }
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();

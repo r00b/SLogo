@@ -407,12 +407,7 @@ public class GUIManager implements GUIController {
         public void addButtons() {
 //            Image newImage = new Image(getClass().getClassLoader()
 //                    .getResourceAsStream("images/play.png"));
-<<<<<<< HEAD
-            
-//            Button play = newButton("PLAY", imgV, 30, 40);
-=======
-//            ImageView imgV = new ImageView(newImage);
->>>>>>> 7b651aa1b5707fb28f796e38a41bcec7fe2b5226
+
 //            newImage = new Image(getClass().getClassLoader()
 //                    .getResourceAsStream("images/pause.png"));
 //            imgV = new ImageView(newImage);
@@ -429,12 +424,7 @@ public class GUIManager implements GUIController {
             Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
             ImageView imgV = new ImageView(newImage);
-<<<<<<< HEAD
-            imgV = new ImageView(newImage);
-            Button help = newButton("HELP", imgV, 337, 40);
-=======
             Button help = newButton("HELP", imgV, 150, 40);
->>>>>>> 7b651aa1b5707fb28f796e38a41bcec7fe2b5226
             help.setOnMouseClicked(e -> helpHandler());
             Button save = newButton("Save Defaults", null, 600, 50);
             save.setOnMouseClicked(e -> saveFile());
@@ -448,19 +438,11 @@ public class GUIManager implements GUIController {
                     e1.printStackTrace();
                 }
             });
-<<<<<<< HEAD
-            window.getChildren().add(load);
-//            window.getChildren().add(play);
-//            window.getChildren().add(pause);
-//            window.getChildren().add(stop);
-            window.getChildren().add(help);
-=======
             newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/apply.png"));
             imgV = new ImageView(newImage);
             Button play = newButton("APPLY", imgV, 30, 40);
             window.getChildren().addAll(load, help, play);
->>>>>>> 7b651aa1b5707fb28f796e38a41bcec7fe2b5226
 //        window.getChildren().add(options);
         }
         public Button newButton(String text, ImageView imgV, int x, int y) {
