@@ -138,7 +138,7 @@ public class GUIManager implements GUIController {
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
         window.getChildren().add(background);
         myConsole = new GUIConsole(window, penColor);
-        myEditor = new GUIEditor(window, penColor);
+        myEditor = new GUIEditor(window, penColor, stage);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
