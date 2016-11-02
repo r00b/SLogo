@@ -66,7 +66,8 @@ public class GUIDisplay implements RenderSprite {
     private ImageView myTurtle, displayGraph;
     private DisplayHelp helpWindow;
     private Paint pathColor;
-    private DisplayMenu myOptions;
+    Stage s = new Stage();
+    private DisplayMenu myOptions = new DisplayMenu(s);
     private ArrayList<Line> turtleMotion = new ArrayList<>();
     //    private ArrayList<Turtle> myTurtles = new ArrayList<>();
     private HashMap<Double, Turtle> myTurtles = new HashMap<>();
@@ -516,8 +517,6 @@ public class GUIDisplay implements RenderSprite {
         ImageView optionsImg = new ImageView(newImage);
         optionsButton = newButton("Display Options", optionsImg, 840, 50);
         optionsButton.setOnMouseClicked(e -> {
-            Stage s = new Stage();
-            myOptions = new DisplayMenu(s);
             updateDisplayOptions();
         });
         newImage = new Image(getClass().getClassLoader()
