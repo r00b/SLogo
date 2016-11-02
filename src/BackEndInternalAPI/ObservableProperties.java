@@ -45,7 +45,7 @@ public class ObservableProperties implements ObservableManager{
 			newLineProperty.set(false);
 		});
 
-		pathVisibleProperty.addListener((observable, oldValue, newValue) -> myDisplay.setVisibility(newValue));
+		pathVisibleProperty.addListener((observable, oldValue, newValue) -> myDisplay.setVisibility(newValue, myId));
 
 		clearScreenProperty.addListener((observable, oldValue, newValue) -> {
 			//If new value is true we need to draw a new line
