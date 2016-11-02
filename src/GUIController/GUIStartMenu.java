@@ -26,6 +26,7 @@ public class GUIStartMenu extends OptionsMenu {
     private static final int DROP_DOWN_X_VALUE = 400;
 
     public GUIManager myGUI;
+    private GUIManager g;
     public ArrayList<GUIManager> myIDEs = new ArrayList<>();
 
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
@@ -94,6 +95,11 @@ public class GUIStartMenu extends OptionsMenu {
 //        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
         myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
         myGUI.init();
+
+
+//        g = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
+//        g.init();
+
         myGUI.getMyWindow().setOnMouseClicked(e -> setPrimaryIDE(myGUI));
 //        newGUI.init();
         myIDEs.add(myGUI);
