@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  */
 public class ParseTreeBuilder {
 
-    private static final String ERRORS_PATH = "resources/internal/Errors";
+    private static final String ERRORS_PATH = "resources/internal/ErrorMessages";
     private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
@@ -31,7 +31,6 @@ public class ParseTreeBuilder {
     private static ResourceBundle myThrowables; // contains error messages
 //    private static boolean definingMethod; // only true for a TO command
     private static String methodBeingDefined;
-    private static String myLine;
 
 
     public ParseTreeBuilder() {
@@ -55,7 +54,7 @@ public class ParseTreeBuilder {
     /**
      * Sets observable properties used for communicating with the GUI
      *
-     * @param properties
+     * @param
      */
 
     public void setProperties(ObservableComposite turtleProperties, DisplayProperties displayProperties) {
@@ -109,7 +108,7 @@ public class ParseTreeBuilder {
             }
             myMappings.getMyMethodDeclarations().put(node.getRawCommand(),varCount);
             return node;
-        } else {
+        } else if (myMappings.getMyMethodDeclarations().get(node.getRawCommand()) != null) {
             int numVariables = myMappings.getMyMethodDeclarations().get(node.getRawCommand());
             while (numVariables != 0) {
                 myCommandIndex++;
@@ -117,6 +116,9 @@ public class ParseTreeBuilder {
                 numVariables--;
             }
             return node;
+        } else {
+            myErrors.add(myThrowables.getString("CommandError"));
+            return null;
         }
     }
 
@@ -144,7 +146,7 @@ public class ParseTreeBuilder {
             myCommandIndex++;
             listNode.addChild(buildParseTree()); // create subtrees for each element in the list
             if (myCommandIndex >= myCommands.length - 1) { // list end never given
-                myErrors.add(myLine + myThrowables.getString("ListError"));
+                myErrors.add(myThrowables.getString("ArgumentError"));
                 return null;
             }
 
@@ -173,7 +175,6 @@ public class ParseTreeBuilder {
     private void checkifDefiningMethod(ParseTreeNode node) {
         if (node.getCommandObj().getClass() == To.class) {
             methodBeingDefined = myCommands[myCommandIndex+1];
-//            definingMethod = true;
         }
     }
 
@@ -203,7 +204,7 @@ public class ParseTreeBuilder {
      */
     private boolean argumentError() {
         if (myCommandIndex > myCommands.length - 1) {
-            myErrors.add(myLine + myThrowables.getString("ArgumentError"));
+            myErrors.add(myThrowables.getString("ArgumentError"));
             return true;
         }
         return false;
@@ -241,8 +242,7 @@ public class ParseTreeBuilder {
      * @param commands is a sanitized String array containing the commands issued from the GUI
      * @return the root of the newly built parse tree
      */
-    public ParseTreeNode buildNewParseTree(String[] commands, int line) {
-        myLine = "Line " + line + ": ";
+    public ParseTreeNode buildNewParseTree(String[] commands) {
         myCommands = commands;
         myCommandIndex = 0; // will be index of current command
         return buildParseTree();

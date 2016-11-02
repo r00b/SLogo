@@ -94,9 +94,9 @@ public class CommandParser {
         return newBuilder;
     }
 
-    private void buildAndExecuteTree(String[] command, ArrayList<Double> results, int line) {
+    private void buildAndExecuteTree(String[] command, ArrayList<Double> results) {
         ParseTreeBuilder builder = initBuilder();
-        ParseTreeNode parseTree = builder.buildNewParseTree(command, line);
+        ParseTreeNode parseTree = builder.buildNewParseTree(command);
         myErrors.addAll(builder.getErrors());
         if (myErrors.size() == 0) {
             // TODO NOT ENOUGH ARGS ERROR
@@ -104,7 +104,6 @@ public class CommandParser {
             myMethodVariables.clear(); // clear temporary method variables
             results.add(result);
         }
-        line++;
     }
 
     /**
@@ -132,7 +131,7 @@ public class CommandParser {
         commandList.add("]");
         String[] coms = new String[commandList.size()];
         coms = commandList.toArray(coms);
-        buildAndExecuteTree(coms, results, 1);
+        buildAndExecuteTree(coms, results);
 
 
         return results;
