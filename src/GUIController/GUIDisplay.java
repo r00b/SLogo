@@ -295,15 +295,16 @@ public class GUIDisplay implements RenderSprite {
         newLine.setId("Step" + numSteps);
         newLine.setVisible(visibility);
         //turtleMotion.add(newLine);
-        myTurtles.get(1.0).getLines().add(newLine);
+        myTurtles.get(id).getLines().add(newLine);
         window.getChildren().add(newLine);
     }
 
     /**
      *
      */
-	public void clearScreen() {
-		window.getChildren().removeAll(turtleMotion);
+	public void clearScreen(double id) {
+		window.getChildren().removeAll(myTurtles.get(id).getLines());
+		myTurtles.get(id).getLines();
 		turtleMotion.clear();
 		//clearScreenProperty.set(false);
 	}
