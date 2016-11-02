@@ -2,6 +2,7 @@ package GUIController;
 
 import BackEndInternalAPI.ObservableProperties;
 import Base.OptionsMenu;
+import FrontEndInternalAPI.DisplayMappings;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.DisplayHelp;
 import javafx.animation.KeyFrame;
@@ -70,6 +71,7 @@ public class GUIDisplay implements RenderSprite {
     //    private ArrayList<Turtle> myTurtles = new ArrayList<>();
     private HashMap<Double, Turtle> myTurtles = new HashMap<>();
     private String currentTurtle;
+    private DisplayMappings displayMappings = new DisplayMappings();
 
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -114,7 +116,9 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(displayGraph);
     }
 
-    public ObservableProperties addTurtle(double newID) {
+    //Really Need to Refactor this
+    public ObservableProperties addTurtle(double newID){
+
         ImageView myNewTurtle = new ImageView();
         myNewTurtle.setImage(myTurtle.getImage());
         myNewTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
@@ -123,9 +127,14 @@ public class GUIDisplay implements RenderSprite {
 //        myNewTurtle.setY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myNewTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myNewTurtle.setFitWidth(TURTLE_FIT_SIZE);
+//<<<<<<< HEAD
         ObservableProperties turtleProperty = new ObservableProperties(myNewTurtle, this, newID);
-        Turtle newTurtle = new Turtle(turtleProperty);
-        newTurtle.setImage(myNewTurtle);
+        Turtle newTurtle = new Turtle(turtleProperty, myNewTurtle);
+//        newTurtle.getImage().setImage(myNewTurtle.getImage());/
+//=======
+//        Turtle newTurtle = new Turtle(myNewTurtle);
+//        //newTurtle.setImage(myNewTurtle.getImage());
+//>>>>>>> 6d7baa0e2be735f93a550ac1686f96641304d2da
         newTurtle.setID(newID);
         myTurtles.put(newID, newTurtle);
         makeTooltip(newID);
@@ -771,27 +780,34 @@ public class GUIDisplay implements RenderSprite {
         }
     }
 
-    public void changePenColor(Double newValue) {
-        // TODO Auto-generated method stub
-    }
+	public void changePenColor(Double newValue) {
+		Color color = displayMappings.getPenColor(newValue.intValue());
+		pathColor = color;
+	}
 
-    public Object setPenSize(Double newValue) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void setPenSize(Double newValue) {
+		strokeWidth = newValue.intValue();
+	}
 
-    public Object changeImage(Double newValue) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void changeImage(Double newValue) {
+//		myTurtle.setImage(displayMappings.getTurtleImage(newValue.intValue()));
+        Image newImg = displayMappings.getTurtleImage(newValue.intValue());
+//        ImageView myNewImage = new ImageView(newImg);
 
-    public Object setBackgroundImage(Double newValue) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+		for (Turtle turtle : myTurtles.values()) {
+			turtle.setImage(newImg);
+		}
+	}
 
-    public Object changePalette(RGB newValue) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void setBackgroundImage(Double newValue) {
+		Color color = displayMappings.getBackgroundColor(newValue.intValue());
+
+		//TODO Call whatever sets the color and change it
+        //SET HUES FOR THESE
+	}
+
+	public void changePalette(RGB newValue) {
+        Color color = new Color(newValue.getRed(), newValue.getGreen(), newValue.getBlue(), 1.0);
+		// TODO Auto-generated method stub
+	}
 }
