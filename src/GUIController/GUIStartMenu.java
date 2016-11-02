@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GUIStartMenu extends OptionsMenu {
 
@@ -25,20 +26,16 @@ public class GUIStartMenu extends OptionsMenu {
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
 
-    public GUIManager myGUI;
-    public ArrayList<GUIManager> myIDEs = new ArrayList<>();
 
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
             CycleMethod.NO_CYCLE,
-            new Stop[]{
-                    new Stop(0, Color.WHITE),
-                    new Stop(0.15, Color.HONEYDEW),
-                    new Stop(0.3, Color.LIGHTBLUE),
-                    new Stop(0.45, Color.LIGHTSTEELBLUE),
-                    new Stop(0.6, Color.LIGHTBLUE),
-                    new Stop(0.75, Color.HONEYDEW),
-                    new Stop(1, Color.WHITE)
-            });
+            new Stop(0, Color.WHITE),
+            new Stop(0.15, Color.HONEYDEW),
+            new Stop(0.3, Color.LIGHTBLUE),
+            new Stop(0.45, Color.LIGHTSTEELBLUE),
+            new Stop(0.6, Color.LIGHTBLUE),
+            new Stop(0.75, Color.HONEYDEW),
+            new Stop(1, Color.WHITE));
 
     /**
      *
@@ -91,6 +88,7 @@ public class GUIStartMenu extends OptionsMenu {
      * @param chosenTurtle
      */
     public void initIDE(String chosenBackground, String chosenTurtle) {
+<<<<<<< HEAD
 //        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue());
         myGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
         myGUI.init();
@@ -103,6 +101,10 @@ public class GUIStartMenu extends OptionsMenu {
 
     private void setPrimaryIDE(GUIManager myGUI){
         this.myGUI = myGUI;
+=======
+        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
+        newGUI.init();
+>>>>>>> 7b651aa1b5707fb28f796e38a41bcec7fe2b5226
     }
 
     private static class BigNameText extends StackPane {
