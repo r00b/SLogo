@@ -800,13 +800,24 @@ public class GUIDisplay implements RenderSprite {
 
 	public void setBackgroundImage(Double newValue) {
 		Color color = displayMappings.getBackgroundColor(newValue.intValue());
-
+        double hue = myOptions.map((color.getHue() + 180) % 360, 0, 360, -1, 1);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(myOptions.getDisplayColor().getSaturation());
+        colorAdjust.setBrightness(myOptions.getDisplayColor().getBrightness());
+        displayGraph.setEffect(colorAdjust);
 		//TODO Call whatever sets the color and change it
         //SET HUES FOR THESE
 	}
 
 	public void changePalette(RGB newValue) {
         Color color = new Color(newValue.getRed(), newValue.getGreen(), newValue.getBlue(), 1.0);
+        double hue = myOptions.map((color.getHue() + 180) % 360, 0, 360, -1, 1);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(myOptions.getDisplayColor().getSaturation());
+        colorAdjust.setBrightness(myOptions.getDisplayColor().getBrightness());
+        displayGraph.setEffect(colorAdjust);
 		// TODO Auto-generated method stub
 	}
 }
