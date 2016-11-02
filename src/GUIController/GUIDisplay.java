@@ -156,7 +156,9 @@ public class GUIDisplay implements RenderSprite {
 
     private void makeTooltip(double newID) {
         double yLoc = 0 - getTurtleLocation(newID).getY();
-        Tooltip t = new Tooltip("X: " + getTurtleLocation(newID).getX() + "\n" + "Y: " + yLoc + "\n"
+        double x = myTurtles.get(newID).getProperties().getXProperty();
+        double y = myTurtles.get(newID).getProperties().getYProperty();
+        Tooltip t = new Tooltip("X: " + myTurtles.get(newID).getProperties().getXProperty() + "\n" + "Y: " + myTurtles.get(newID).getProperties().getYProperty() + "\n"
                 + "Rotation: " + myTurtles.get(newID).getImage().getRotate() + "\n" +
                 "Turtle ID: " + newID);
         Tooltip.install(myTurtles.get(newID).getImage(), t);
@@ -318,7 +320,7 @@ public class GUIDisplay implements RenderSprite {
         }
         Line newLine = new Line(xFrom, yFrom, xDest, yDest);
 
-//        makeTooltip(id);
+        makeTooltip(id);
 
 
 
