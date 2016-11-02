@@ -19,10 +19,6 @@ public class SetHeading extends TurtleCommand {
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
-		//double value1 = arg1.executeCommand(arg1);
-		//Need to get actual rotation so use % 
-		//double setDegrees = value1 % 360;
-		//double currentDegrees = properties.getRotateProperty();
 		double answer = properties.setRotateProperty(arg1, true, true);
 		return answer;
 	}

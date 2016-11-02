@@ -14,14 +14,14 @@ public class IfElse extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		ParseTreeNode arg3 = node.getChild(2);
-		Double value1 = arg1.getCommandObj().executeCommand(arg1);
+    	ParseTreeNode condition = node.getChild(0);
+		ParseTreeNode trueCommand = node.getChild(1);
+		ParseTreeNode falseCommand = node.getChild(2);
+		Double value1 = condition.executeCommand(condition);
         if (value1 == 0) {
-            return arg3.getCommandObj().executeCommand(arg3);
+            return falseCommand.executeCommand(falseCommand);
         } else {
-            return arg2.getCommandObj().executeCommand(arg2);
+            return trueCommand.executeCommand(trueCommand);
         }
     }
 
