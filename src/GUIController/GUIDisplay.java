@@ -118,7 +118,6 @@ public class GUIDisplay implements RenderSprite {
         myTurtles.put(newID, newTurtle);
 //        myTurtle.min
         makeTooltip();
-        System.out.println("w = " + newTurtle.getImage().getFitWidth());
         window.getChildren().add(newTurtle.getImage());
 
         return new ObservableProperties(myNewTurtle, this, newID);
@@ -205,24 +204,15 @@ public class GUIDisplay implements RenderSprite {
 
     	numSteps++;
         drawNewLine(x, y, id);
-//        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
-//        System.out.println("translate x of the editor" + X_POS);
-       // myTurtles.get(1);
         myTurtles.get(id).getImage().setX(x);
         myTurtles.get(id).getImage().setY(-y);
-        //System.out
     }
 
     private void drawNewLine(double x, double y, double id){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-//        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
-        System.out.println("my Translate " + myTurtles.get(id).getImage().getTranslateX() + " " + myTurtles.get(id).getImage().getTranslateY());
-        System.out.println("my destination: " + x + " " + y);
         double xFrom =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
         double yFrom =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
-        System.out.println("old points " + xFrom + " "+ yFrom);
-        System.out.println("new points " + (xFrom + x) + " " + (yFrom - y));
         Line newLine = new Line(xFrom, yFrom, myTurtles.get(id).getImage().getTranslateX() + x + 20,  myTurtles.get(id).getImage().getTranslateY() - y + 20);
         newLine.setFill(pathColor);
         newLine.setStroke(pathColor);
@@ -333,8 +323,6 @@ public class GUIDisplay implements RenderSprite {
 
     public void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
-        System.out.println("pen: " + pathColor);
-        System.out.println("display: " + myOptions.getDisplayColor());
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
@@ -526,7 +514,6 @@ public class GUIDisplay implements RenderSprite {
         }
 
         public boolean isPenUp(){
-            System.out.println(penUpBox.isSelected());
             return penUpBox.isSelected();
         }
     }

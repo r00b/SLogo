@@ -7,6 +7,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+/**
+ * @author ezra
+ */
 public class DisplayProperties {
 	private DoubleProperty penSize;
 	private DoubleProperty penColor;

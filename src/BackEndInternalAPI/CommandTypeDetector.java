@@ -15,17 +15,17 @@ import java.util.regex.Pattern;
  *         This class serves as a detector for a certain instance of a Command object.
  *         A specified Logo command's type is detected via regular expressions and then
  *         called via reflection to create an instance of the respective Command object.
- *
- *         Dependencies:
  */
 public class CommandTypeDetector {
 
+    private static final String LANGUAGES_PATH = "resources/languages/";
+    private static final String SYNTAX_PATH = "resources/languages/Syntax";
     private static List<Entry<String, Pattern>> mySymbols;
 
     public CommandTypeDetector(String language) {
         mySymbols = new ArrayList<>();
-        addResources("resources/languages/" + language);
-        addResources("resources/languages/Syntax"); // Logo syntax
+        addResources(LANGUAGES_PATH + language);
+        addResources(SYNTAX_PATH); // Logo syntax
     }
 
     /**
@@ -61,9 +61,9 @@ public class CommandTypeDetector {
      */
     private void addResources(String fileName) {
         ResourceBundle resources = ResourceBundle.getBundle(fileName);
-        Enumeration<String> propIter = resources.getKeys();
-        while (propIter.hasMoreElements()) {
-            String key = propIter.nextElement();
+        Enumeration<String> propertiesIter = resources.getKeys();
+        while (propertiesIter.hasMoreElements()) {
+            String key = propertiesIter.nextElement();
             String regex = resources.getString(key);
             mySymbols.add(new SimpleEntry<>(key, Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
         }
@@ -82,7 +82,7 @@ public class CommandTypeDetector {
                 return mapping.getKey();
             }
         }
-        return "MethodCall"; // either an error or involved with a methods
+        return "MethodCall"; // either a method invocation or not a valid command
     }
 
     /**

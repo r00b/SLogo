@@ -9,14 +9,15 @@ import java.util.Map;
  *         <p>
  *         This class holds information about variable and method mappings that are used
  *         when executing Logo commands. Specifically, this class holds data structures for
- *         normal variable definitions, method definitions, and temporary method variables.
+ *         normal variable definitions, method definitions, temporary method variables, and
+ *         a defined method's number of arguments.
  */
 public class Mappings {
 
     private ObservableMap<String, Double> myVariables;
     private Map<String, Double> myMethodVariables; // temporary map for method variables
     private Map<String, LogoMethod> myMethods;
-    private Map<String, Integer> myMethodDeclarations;
+    private Map<String, Integer> myMethodDeclarations; // maps methods to the number of arguments taken
 
     public Mappings(ObservableMap<String, Double> variables, Map<String, LogoMethod> methods, Map<String, Double> methodVariables, Map<String, Integer> methodDeclarations) {
         myVariables = variables;

@@ -4,12 +4,12 @@ package BackEndInternalAPI;
  * @author Robert H. Steilberg II
  *         <p>
  *         An interface for the Command object, which specifies
- *         the actions unique to each Logo command.
+ *         the actions and arguments unique to each Logo command.
  */
 public interface Command {
 
     /**
-     * Sets an object to a command object. Used primarily for setting observable
+     * Sets an object for a command object. Used primarily for setting observable
      * properties for turtle commands or for setting variable mappings for defining
      * variables.
      *
