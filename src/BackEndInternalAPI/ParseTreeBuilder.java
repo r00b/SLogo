@@ -129,7 +129,7 @@ public class ParseTreeBuilder {
      * otherwise
      */
     private boolean unknownCommand(ParseTreeNode node) {
-        return node.getCommandObj().getClass() == Unknown.class;
+        return node.getCommandObj().getClass() == MethodCall.class;
     }
 
     /**

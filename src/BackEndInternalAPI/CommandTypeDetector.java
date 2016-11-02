@@ -73,7 +73,7 @@ public class CommandTypeDetector {
      * Determine a String's Logo command type
      *
      * @param command is the String to test
-     * @return the String's Logo command type, or "Unknown"
+     * @return the String's Logo command type, or "MethodCall"
      * if no match is found
      */
     public String getCommandType(String command) {
@@ -82,7 +82,7 @@ public class CommandTypeDetector {
                 return mapping.getKey();
             }
         }
-        return "Unknown"; // either an error or involved with a methods
+        return "MethodCall"; // either an error or involved with a methods
     }
 
     /**
