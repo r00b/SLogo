@@ -4,6 +4,7 @@ import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ResourceBundle;
 
@@ -136,6 +137,44 @@ public class ParseTreeBuilder {
     }
 
     /**
+     * Builds the subtrees for commands within a group
+     *
+     * @param groupNode is the node representing the beginning of the group
+     * @return groupNode holding all of its command subtrees as children
+     */
+    private ParseTreeNode buildGroup(ParseTreeNode groupNode) {
+        myCommandIndex++;
+        String command = myCommands[myCommandIndex];
+        while (!myCommands[myCommandIndex + 1].equals(")")) {
+            ParseTreeNode commandNode = initParseTreeNode(command);
+            int numArguments = commandNode.getCommandObj().numArguments();
+            for (int i = 0; i < numArguments; i++) {
+                myCommandIndex++;
+                try {
+                    commandNode.addChild(buildParseTree());
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // not enough arguments given for every call in the group
+                    myErrors.add(myThrowables.getString("ArgumentError"));
+                    return null;
+                }
+            }
+            groupNode.addChild(commandNode); // create subtrees for each element in the list
+        }
+        myCommandIndex++; // ensure that anything after the group is added to the tree
+        return groupNode;
+    }
+
+    /**
+     * Determines if the current command specifies the beginning of a group
+     *
+     * @param node is the node representing the current command
+     * @return true if the node represents the beginning of a group, false otherwise
+     */
+    private boolean groupStart(ParseTreeNode node) {
+        return node.getCommandObj().getClass() == GroupStart.class;
+    }
+
+    /**
      * Builds the subtrees for commands within a list
      *
      * @param listNode is the node representing the beginning of the list
@@ -207,6 +246,7 @@ public class ParseTreeBuilder {
         ParseTreeNode newChild = initParseTreeNode(currCommand);
         checkifDefiningMethod(newChild);
         if (listStart(newChild)) return buildList(newChild);
+        if (groupStart(newChild)) return buildGroup(newChild);
         if (methodCall(newChild)) return checkIfCallingMethod(newChild);
         if (newChild.getNumChildren() == 0) return newChild; // base case, no more commands to add to the tree
         for (int i = 0; i < newChild.getCommandObj().numArguments(); i++) { // create all children

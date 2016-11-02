@@ -11,6 +11,7 @@ public class Turtle {
     private ImageView turtleView;
     private double id;
     private boolean isActive;
+    private boolean visibility = true;
     private List<Line> turtleMotion = new ArrayList<>();
     private ObservableProperties properties;
     public Turtle(ObservableProperties newProperty){
@@ -35,6 +36,14 @@ public class Turtle {
     
     public boolean isActive(){
         return isActive;
+    }
+
+    public void setVisibility(boolean isVisible){
+        visibility = isVisible;
+    }
+
+    public boolean isVisible(){
+        return visibility;
     }
 
     public void drawLine(){

@@ -2,7 +2,6 @@ package GUIController;
 
 import FrontEndExternalAPI.Editor;
 import GUI.EditorHelp;
-//import com.intellij.openapi.vcs.changes.FileHolderComposite;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;

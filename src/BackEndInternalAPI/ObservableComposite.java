@@ -77,7 +77,7 @@ public class ObservableComposite implements ObservableManager{
 
 	@Override
 	public boolean getPathVisibleProperty() {
-		return myTurtles.get(currentID).getImageVisibleProperty();
+		return myTurtles.get(currentID).getPathVisibleProperty();
 	}
 	
 	@Override

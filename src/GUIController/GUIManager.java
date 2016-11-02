@@ -1,5 +1,4 @@
 package GUIController;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,21 +6,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndExternalAPI.CommandParser;
-
 import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
-
 import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
 import GUI.OptionsPopup;
 import javafx.beans.property.SimpleStringProperty;
-//<<<<<<< HEAD
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,19 +22,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-//=======
-
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-//>>>>>>> cb214ea01bc3998ac851846c19dee87231d16a99
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -57,8 +37,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-//import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Created by Delia on 10/15/2016.
@@ -76,7 +54,6 @@ public class GUIManager implements GUIController {
     private Pane window;
     private String backgroundStr, turtleStr, language;
     private Line line;
-
     private GUIConsole myConsole;
     private GUIEditor myEditor;
     private GUIHistory myHistory;
@@ -93,9 +70,7 @@ public class GUIManager implements GUIController {
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
-
     private SimpleStringProperty myLanguage;
-
     /**
      * @param penColor
      * @param background
@@ -119,20 +94,16 @@ public class GUIManager implements GUIController {
         this.language = language;
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
-
     }
-
     @Override
     public void init() {
         //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
         Scene myScene = new Scene(setUpWindow());
-
         myWindow = myScene;
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
-
         turtleProperties = setupBindings();
         displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser(myLanguage, turtleProperties, displayProperties, myVariables);
@@ -147,7 +118,6 @@ public class GUIManager implements GUIController {
         stage.setScene(myScene);
         stage.show();
     }
-
     private Parent setUpWindow() {
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
@@ -165,9 +135,7 @@ public class GUIManager implements GUIController {
         setSizeBindings();
         return window;
     }
-
     //don't think i understand binding that well yet but this doesn't work for some reason
-
     private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
@@ -180,14 +148,11 @@ public class GUIManager implements GUIController {
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
 //        myHistory.getListView().heightProperty().bind
     }
-
     private ObservableComposite setupBindings() {
 //    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-
-
     //    private void handleKeyInput (KeyCode code){
 //        switch (code) {
 //            case ENTER:
@@ -201,7 +166,6 @@ public class GUIManager implements GUIController {
     public String getLanguage() {
         return language;
     }
-
     private void addRunButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
@@ -220,7 +184,6 @@ public class GUIManager implements GUIController {
         run.setTranslateY(350);
         window.getChildren().add(run);
     }
-
     private void addHistoryButton() {
         Button hist = new Button("Load");
         hist.setStyle(overButton);
@@ -234,7 +197,6 @@ public class GUIManager implements GUIController {
         hist.setTranslateY(705);
         window.getChildren().add(hist);
     }
-
     private void addMoreTurtlesButton() {
         TextField enterID = new TextField();
         enterID.setTranslateX(1110);
@@ -260,58 +222,44 @@ public class GUIManager implements GUIController {
 //        });
 //        window.getChildren().add(addTurtles);
     }
-
     @Override
     public void getInitialParams() {
-
     }
-
     @Override
     public void getCurrentCommand() {
-
     }
-
     @Override
     public void passCurrentCommand() {
-
     }
-
     @Override
     public void throwError() {
-
     }
-
     @Override
     public void getErrors() {
-
     }
-
     @Override
     public void storeOldCommand() {
-
     }
-
     @Override
     public void returnAction() {
         String fullText = myEditor.getCurrentText();
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
-
+        for (String command : splitCommands) {
+            myHistory.addCommand(command);
+        }
         double result = commandParser.executeCommands(splitCommands);
-
         if (commandParser.getErrors().size() == 0) {
             myConsole.addConsole(Double.toString(result));
         } else {
             commandParser.getErrors().forEach(myConsole::addConsole);
         }
     }
-
     private void getAndLoadHistoryCommand() {
         String redoCommand = myHistory.getRedoCommand();
         myEditor.redoCommand(redoCommand);
     }
-
     private int lookForLatest(String fullText) {
         int startIndex = -1;
         for (int i = fullText.length() - 1; i >= 0; i--) {
@@ -322,11 +270,9 @@ public class GUIManager implements GUIController {
         }
         return startIndex;
     }
-
     public Scene getMyWindow() {
         return myWindow;
     }
-
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
@@ -345,7 +291,6 @@ public class GUIManager implements GUIController {
                         "Metal Sheets",
                         "Spinning Screens"
                 );
-
         private ObservableList<String> languageOptions =
                 FXCollections.observableArrayList(
                         "Chinese",
@@ -357,7 +302,6 @@ public class GUIManager implements GUIController {
                         "Russian",
                         "Spanish",
                         "Syntax"
-
                 );
         private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
                 "-fx-background-radius: 20;" +
@@ -365,7 +309,6 @@ public class GUIManager implements GUIController {
         private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
                 "-fx-background-radius: 20;" +
                 "-fx-text-fill: white;";
-
         /**
          * @param p
          * @param borderColor
@@ -379,7 +322,6 @@ public class GUIManager implements GUIController {
             addButtons();
             addComboBoxes();
         }
-
         private void drawButtonMenu() {
             backdrop = new Rectangle(1580, 90, Color.WHITE);
             backdrop.setStroke(border);
@@ -392,7 +334,6 @@ public class GUIManager implements GUIController {
             backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
             window.getChildren().add(backdrop);
         }
-
         private void addTextLabel() {
             Text label = new Text("Options");
             label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -401,7 +342,6 @@ public class GUIManager implements GUIController {
             label.setTranslateY(30);
             window.getChildren().add(label);
         }
-
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
             FileChooser fileChooser = new FileChooser();
@@ -423,26 +363,21 @@ public class GUIManager implements GUIController {
                         //myDisplay.setPenColor(line);
                     } else if (count == 3) {
                         turtleStr = "images/" + line;
-
                     }
                     count++;
                 }
                 //TODO: Actually update based on what was loaded
                 buffRead.close();
-
             } catch (IOException ex) {
                 System.out.println(
                         "Error reading file '"
                                 + file + "'");
                 // Or we could just do this:
                 // ex.printStackTrace();
-
             }
         }
-
         public void saveFile() {
             FileChooser fileChooser = new FileChooser();
-
             //Set extension filter
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extFilter);
@@ -454,7 +389,6 @@ public class GUIManager implements GUIController {
                 str = turtleStr;
             } else
                 str = myDisplay.getTurtleStr();
-
             try {
                 FileWriter fileWriter;
                 fileWriter = new FileWriter(file);
@@ -462,38 +396,35 @@ public class GUIManager implements GUIController {
                         backgroundBox.getValue() + "\n" +
                         myDisplay.getPenColor().toString() + "\n" +
                         str.substring(7));
-
                 fileWriter.close();
             } catch (IOException ex) {
                 System.out.println("ERROR");
             }
         }
-
         /**
          *
          */
         @Override
         public void addButtons() {
-            Image newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/play.png"));
-            ImageView imgV = new ImageView(newImage);
-            Button play = newButton("PLAY", imgV, 30, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/pause.png"));
-            imgV = new ImageView(newImage);
-            Button pause = newButton("PAUSE", imgV, 130, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/stop.png"));
-            imgV = new ImageView(newImage);
-            Button stop = newButton("STOP", imgV, 240, 40);
+//            Image newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/play.png"));
+//            ImageView imgV = new ImageView(newImage);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/pause.png"));
+//            imgV = new ImageView(newImage);
+//            Button pause = newButton("PAUSE", imgV, 130, 40);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/stop.png"));
+//            imgV = new ImageView(newImage);
+//            Button stop = newButton("STOP", imgV, 240, 40);
 //        newImage = new Image(getClass().getClassLoader()
 //                .getResourceAsStream("images/options.png"));
 //        imgV = new ImageView(newImage);
 //        Button options = newButton("OPTIONS", imgV, 340, 40);
 //        options.setOnMouseClicked(e -> optionsHandler());
-            newImage = new Image(getClass().getClassLoader()
+            Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
-            imgV = new ImageView(newImage);
+            ImageView imgV = new ImageView(newImage);
             Button help = newButton("HELP", imgV, 337, 40);
             help.setOnMouseClicked(e -> helpHandler());
             Button save = newButton("Save Defaults", null, 750, 50);
@@ -508,15 +439,13 @@ public class GUIManager implements GUIController {
                     e1.printStackTrace();
                 }
             });
-            window.getChildren().add(load);
-            window.getChildren().add(play);
-            window.getChildren().add(pause);
-            window.getChildren().add(stop);
-            window.getChildren().add(help);
+            newImage = new Image(getClass().getClassLoader()
+                    .getResourceAsStream("images/apply.png"));
+            imgV = new ImageView(newImage);
+            Button play = newButton("APPLY", imgV, 30, 40);
+            window.getChildren().addAll(load, help, play);
 //        window.getChildren().add(options);
         }
-
-
         public Button newButton(String text, ImageView imgV, int x, int y) {
             if (imgV != null) {
                 imgV.setFitWidth(40);
@@ -533,13 +462,33 @@ public class GUIManager implements GUIController {
             run.setTranslateY(y);
             return run;
         }
-
         private void addComboBoxes() {
             System.setProperty("glass.accessible.force", "false");
             backgroundBox = new ComboBox<String>(backgroundOptions);
             backgroundBox.setValue(defaultBackground);
             backgroundBox.setTranslateX(440);
             backgroundBox.setTranslateY(50);
+            backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
+                String chosenBackground = "";
+                switch (newbackground){
+                    case "Circuits":
+                        chosenBackground = "images/background.jpg";
+                        break;
+                    case "Floating Cubes":
+                        chosenBackground = "images/floatingCubes.jpg";
+                        break;
+                    case "Nebula":
+                        chosenBackground = "images/nebula.jpg";
+                        break;
+                    case "Metal Sheets":
+                        chosenBackground = "images/dark-wallpaper-2.jpg";
+                        break;
+                    case "Spinning Screens":
+                        chosenBackground = "images/spinningScreens.jpg";
+                        break;
+                }
+                setNewBackground(chosenBackground);
+            });
 //        backgroundBox.setStyle(buttonFill);
 //        backgroundBox.style
             window.getChildren().add(backgroundBox);
@@ -548,8 +497,14 @@ public class GUIManager implements GUIController {
             languageBox.setTranslateX(610);
             languageBox.setTranslateY(50);
             window.getChildren().add(languageBox);
+            languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
 
+        private void setNewBackground(String newBackground){
+            Image newB = new Image(getClass().getClassLoader()
+                    .getResourceAsStream(newBackground));
+            background.setImage(newB);
+        }
         /**
          * @param paint
          * @param background
@@ -559,16 +514,14 @@ public class GUIManager implements GUIController {
         public void setDefaults(Color paint, String background, String turtle, String language) {
             myOptions = new OptionsPopup(s, paint, background, turtle, language);
         }
-//
+        //
 //    private void optionsHandler(){
 //        myOptions.initPopup();
 //    }
-
         private void helpHandler() {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
         }
-
         /**
          * @return
          */
