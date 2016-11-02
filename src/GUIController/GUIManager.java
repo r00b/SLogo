@@ -108,8 +108,7 @@ public class GUIManager implements GUIController {
         displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser(myLanguage, turtleProperties, displayProperties, myVariables);
         myVariables.setVariableSetter(commandParser);
-//        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
-        //properties.getRotateProperty().set(0);
+
         SetXY fd = new SetXY();
         fd.setProperties(turtleProperties);
         ArrayList<Double> list = new ArrayList<Double>();
