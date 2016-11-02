@@ -145,6 +145,7 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
+        addApplyButton();
         addMoreTurtlesButton();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
@@ -218,6 +219,24 @@ public class GUIManager implements GUIController {
         hist.setTranslateY(705);
         window.getChildren().add(hist);
     }
+    
+    private void addApplyButton() {
+        Button hist = new Button("Apply");
+        hist.setStyle(overButton);
+        hist.setOnMouseEntered(e -> {
+            hist.setStyle(buttonFill);
+            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+        });
+        hist.setOnMouseExited(e -> hist.setStyle(overButton));
+        hist.setOnMouseClicked(e -> applyChanges());
+        hist.setTranslateX(1000);
+        hist.setTranslateY(50);
+        window.getChildren().add(hist);
+    }
+
+        private void applyChanges () {
+            myDisplay.getMyOptions().setBackgroundString();
+        }
 
     private void addMoreTurtlesButton() {
         TextField enterID = new TextField();
@@ -372,9 +391,57 @@ public class GUIManager implements GUIController {
             backdrop.setTranslateX(10);
             backdrop.opacityProperty().setValue(0.5);
 //        backdrop.setOnMouseMoved(e -> handle(e));
-            backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-            backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
-            window.getChildren().add(backdrop);
+        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        window.getChildren().add(backdrop);
+    }
+
+    private void addTextLabel(){
+        Text label = new Text("Options");
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+        label.setTranslateX(20);
+        label.setTranslateY(30);
+        window.getChildren().add(label);
+    }
+    
+    public void loadFile() throws FileNotFoundException{
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        //fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Load Defaults");
+        File file = new File("");
+        try{
+        file = fileChooser.showOpenDialog(stage);
+        FileReader fr = new FileReader(file);
+        BufferedReader buffRead = new BufferedReader(fr);
+        String line = null;
+        int count = 0;
+        try{
+        while((line = buffRead.readLine()) != null) {
+            //System.out.println(line);
+            if(count == 0){
+                languageBox.setValue(line);
+            }
+            else if(count == 1){
+                backgroundBox.setValue(line);
+            }
+            else if(count == 2){
+                //myDisplay.setPenColor(line);
+            }
+            else if(count == 3){
+                turtleStr = "images/" + line;
+                
+            }
+            count++;
+        }   
+        //TODO: Actually update based on what was loaded
+        buffRead.close();
+}catch(NullPointerException e){
+            
+        }
+            
         }
 
         private void addTextLabel() {
