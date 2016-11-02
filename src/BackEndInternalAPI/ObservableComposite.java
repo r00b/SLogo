@@ -27,24 +27,12 @@ public class ObservableComposite implements ObservableManager{
 				turtleCount++;
 				activeTurtles.add((double) newValue);
 		});
+		//Creates intial Turtle
 		newTurtle.setValue(1.0);
-		activeTurtles.add(1.0);
-	}
-	@Override
-	public boolean getNewLineProperty() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
-	@Override
-	public boolean getClearScreenProperty() {
-		boolean answer = false;
-		for (Double id : activeTurtles) {
-			currentID = id;
-			answer = myTurtles.get(id).getClearScreenProperty();
-		}
-		return answer;
-	}
+
+	
 
 	@Override
 	public boolean getImageVisibleProperty() {
@@ -195,6 +183,16 @@ public class ObservableComposite implements ObservableManager{
 			}
 		}
 		return id;
+	}
+	
+	@Override
+	public double setXY(ParseTreeNode arg1, ParseTreeNode arg2) {
+		double answer = 0;
+		for (Double id : activeTurtles) {
+			currentID = id;
+			answer = myTurtles.get(id).setXY(arg1, arg2);
+		}
+		return answer;
 	}
 	
 	public double performAsk(ParseTreeNode node) {

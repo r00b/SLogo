@@ -1,12 +1,9 @@
 package BackEndInternalAPI;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
+
 
 public interface ObservableManager {
-	public boolean getNewLineProperty();
 	public void setNewLineProperty(boolean value);
-	public boolean getClearScreenProperty();
 	public void setClearScreenProperty(boolean value);
 	public boolean getImageVisibleProperty();
 	public void setImageVisibleProperty(boolean value);
@@ -37,7 +34,8 @@ public interface ObservableManager {
 	/**
 	 * Calculates the Y distance the turtle travels when it moves. Called by the forward and back commands
 	 * @param hyp
-	 * @return Y disntace traveled
+	 * @return Y distance traveled
 	 */
 	double calculateYDistance(ParseTreeNode hyp, boolean sign);
+	double setXY(ParseTreeNode arg1, ParseTreeNode arg2);
 }

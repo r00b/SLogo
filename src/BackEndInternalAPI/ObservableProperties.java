@@ -59,15 +59,6 @@ public class ObservableProperties implements ObservableManager{
 		});
 	}
 
-	public boolean getNewLineProperty() {
-		return newLineProperty.get();
-	}
-
-
-	public boolean getClearScreenProperty() {
-		return clearScreenProperty.get();
-	}
-
 	public boolean getImageVisibleProperty() {
 		return imageVisibleProperty.get();
 	}
@@ -202,5 +193,16 @@ public class ObservableProperties implements ObservableManager{
 	}
 	public double getID() {
 		return myId;
+	}
+
+	@Override
+	public double setXY(ParseTreeNode arg1, ParseTreeNode arg2) {
+		double value1 = arg1.executeCommand(arg1);
+		double value2 = arg2.executeCommand(arg2);
+		double distance = calculateTotalDistance(value1, value2);
+		setXProperty(value1);
+		setYProperty(value2);
+		setNewLineProperty(true);
+		return distance;
 	}
 }

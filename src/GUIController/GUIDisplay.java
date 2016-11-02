@@ -32,6 +32,9 @@ import javafx.stage.Stage;
 //import java.awt.*;
 //import java.awt.Button;
 import javax.swing.*;
+
+import BackEndExternalAPI.RGB;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -599,7 +602,7 @@ public class GUIDisplay implements RenderSprite {
 		return null;
 	}
 
-	public Object changePalette(Double newValue) {
+	public Object changePalette(RGB newValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}

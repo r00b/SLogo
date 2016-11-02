@@ -1,15 +1,18 @@
 package BackEndInternalAPI;
 
+import BackEndExternalAPI.RGB;
 import GUIController.GUIDisplay;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class DisplayProperties {
 	private DoubleProperty penSize;
 	private DoubleProperty penColor;
 	private DoubleProperty imageIndex;
 	private DoubleProperty backgroundImage;
-	private DoubleProperty paletteIndex;
+	private ObjectProperty<RGB> paletteIndex;
 	
 	public DisplayProperties(GUIDisplay display) {
 		imageIndex = new SimpleDoubleProperty(0);
@@ -20,8 +23,8 @@ public class DisplayProperties {
 		penSize.addListener((observable, oldValue, newValue) -> display.setPenSize((Double) newValue));
 		backgroundImage = new SimpleDoubleProperty(0);
 		backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double)newValue));
-		paletteIndex = new SimpleDoubleProperty(0);
-		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette((Double) newValue));
+		paletteIndex = new SimpleObjectProperty<RGB>();
+		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette(newValue));
 	}
 	
 	public double getPenColor() {
@@ -44,5 +47,9 @@ public class DisplayProperties {
 	}
 	public void setBackgroundImage(double value) {
 		backgroundImage.set(value);
+	}
+	public void setPallete(double r, double g, double b) {
+		RGB palette = new RGB(r, g, b);
+		paletteIndex = new SimpleObjectProperty<>(palette);
 	}
 }
