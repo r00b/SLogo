@@ -60,7 +60,7 @@ public class GUIDisplay implements RenderSprite {
     private DisplayMenu myOptions;
     private ArrayList<Line> turtleMotion = new ArrayList<>();
     //    private ArrayList<Turtle> myTurtles = new ArrayList<>();
-    private HashMap<Double, Turtle> myTurtles = new HashMap<>();
+    private HashMap<Double, Turtle> myTurtles;
     private String currentTurtle;
 
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
@@ -81,6 +81,7 @@ public class GUIDisplay implements RenderSprite {
         this.pathColor = pathColor;
         this.myPath = lineType;
         drawDisplay();
+        myTurtles = new HashMap<Double, Turtle>();
         addDisplayControlButtons();
         addTextLabel();
 //        addMoreTurtlesButton();
@@ -336,7 +337,13 @@ public class GUIDisplay implements RenderSprite {
         pathColor = myOptions.getPenColor().getValue();
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
-        myTurtle.setImage(myOptions.generateTurtleImage());
+        System.out.println(myOptions.getTurtleString());
+        System.out.println(myTurtles.get(0));
+        
+        for(int i = 0; i < myTurtles.size(); i++){
+        System.out.println(myTurtles.get(i).getImage());
+        myTurtles.get(i).getImage().setImage(myOptions.generateTurtleImage());
+        }
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();

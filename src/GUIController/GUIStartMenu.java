@@ -99,7 +99,7 @@ public class GUIStartMenu extends OptionsMenu {
         myIDEs.add(myGUI);
 //        myIDEs.add(newGUI);
     }
-
+    
 
     private void setPrimaryIDE(GUIManager myGUI){
         this.myGUI = myGUI;

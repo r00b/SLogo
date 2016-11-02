@@ -405,25 +405,26 @@ public class GUIManager implements GUIController {
          */
         @Override
         public void addButtons() {
-            Image newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/play.png"));
-            ImageView imgV = new ImageView(newImage);
-            Button play = newButton("PLAY", imgV, 30, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/pause.png"));
-            imgV = new ImageView(newImage);
-            Button pause = newButton("PAUSE", imgV, 130, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/stop.png"));
-            imgV = new ImageView(newImage);
-            Button stop = newButton("STOP", imgV, 240, 40);
+//            Image newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/play.png"));
+            
+//            Button play = newButton("PLAY", imgV, 30, 40);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/pause.png"));
+//            imgV = new ImageView(newImage);
+//            Button pause = newButton("PAUSE", imgV, 130, 40);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/stop.png"));
+//            imgV = new ImageView(newImage);
+//            Button stop = newButton("STOP", imgV, 240, 40);
 //        newImage = new Image(getClass().getClassLoader()
 //                .getResourceAsStream("images/options.png"));
 //        imgV = new ImageView(newImage);
 //        Button options = newButton("OPTIONS", imgV, 340, 40);
 //        options.setOnMouseClicked(e -> optionsHandler());
-            newImage = new Image(getClass().getClassLoader()
+            Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
+            ImageView imgV = new ImageView(newImage);
             imgV = new ImageView(newImage);
             Button help = newButton("HELP", imgV, 337, 40);
             help.setOnMouseClicked(e -> helpHandler());
@@ -440,9 +441,9 @@ public class GUIManager implements GUIController {
                 }
             });
             window.getChildren().add(load);
-            window.getChildren().add(play);
-            window.getChildren().add(pause);
-            window.getChildren().add(stop);
+//            window.getChildren().add(play);
+//            window.getChildren().add(pause);
+//            window.getChildren().add(stop);
             window.getChildren().add(help);
 //        window.getChildren().add(options);
         }
