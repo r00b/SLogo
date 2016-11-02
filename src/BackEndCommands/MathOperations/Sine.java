@@ -19,8 +19,8 @@ public class Sine implements Command {
     }
 
     /**
-	 * Returns the sin with angle being the arg given
-	 */
+     * Returns the sin with angle being the arg given
+     */
     @Override
     public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);

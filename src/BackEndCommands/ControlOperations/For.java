@@ -3,12 +3,10 @@ package BackEndCommands.ControlOperations;
 import BackEndCommands.ControlCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
-
-
 /**
- * @author Robert H. Steilberg II
+ * @author Robert H. Steilberg II, Ezra Lieblich
  *         <p>
- *         This command instance represents a dotimes statement in Logo.
+ *         This command instance represents a For statement in Logo.
  */
 public class For extends ControlCommand {
 
@@ -16,17 +14,17 @@ public class For extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode commandBody = node.getChild(1);
-		String variable = arg1.getChild(0).getRawCommand();
-		getVariables().put(variable, 1.0);
-        double start = arg1.getChild(1).executeCommand(arg1.getChild(1));
-        double end = arg1.getChild(2).executeCommand(arg1.getChild(2));
-        double increment = arg1.getChild(3).executeCommand(arg1.getChild(3));
+        ParseTreeNode parameters = node.getChild(0);
+        ParseTreeNode body = node.getChild(1);
+        String variable = parameters.getChild(0).getRawCommand();
+        getVariables().put(variable, 1.0); // start at 1
+        double start = parameters.getChild(1).executeCommand(parameters.getChild(1));
+        double end = parameters.getChild(2).executeCommand(parameters.getChild(2));
+        double increment = parameters.getChild(3).executeCommand(parameters.getChild(3));
         double result = 0;
         for (double i = start; i < end; i += increment) {
-            getVariables().put(variable,i);
-            result = commandBody.executeCommand(commandBody);
+            getVariables().put(variable, i);
+            result = body.executeCommand(body);
         }
         return result;
     }
