@@ -14,62 +14,37 @@ import java.util.*;
  *         using the specified arguments. This is done by recursively creating a parse tree
  *         and executing down the nodes of the parse tree, checking for errors along the way.
  *         <p>
- *         Dependencies: ParseTreeBuilder, ObservableProperties
+ *         Dependencies: ParseTreeBuilder, ObservableProperties, CommandSanitizer
  */
 public class CommandParser {
 
-
+    private static final String ERRORS_PATH = "resources/internal/ErrorMessages";
     private static ObservableComposite myTurtleProperties;
     private static DisplayProperties myDisplayProperties;
-    private static ObservableMap<String,Double> myVariables;
+    private static ObservableMap<String, Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
     private static HashMap<String, Integer> myMethodVariableDeclarations;
     private static SimpleStringProperty myLanguageBinding;
-    private static HashSet<String> myErrors;
+    private static HashSet<String> myErrors; // errors thrown during execution
+    private static ResourceBundle myThrowables; // error messages
 
 
-    public CommandParser() {
+    public CommandParser(SimpleStringProperty languageBinding, ObservableComposite turtleProperties, DisplayProperties displayProperties, GUIVariables variables) {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
         myMethodVariableDeclarations = new HashMap<String, Integer>();
-    }
-
-
-    // TODO SET BINDINGS
-
-    /**
-     * Initializes the String binding that for language detection
-     *
-     * @param languageBinding the SimpleStringProperty representing the bound String
-     */
-    public void initLanguageBinding(SimpleStringProperty languageBinding) {
+        myThrowables = ResourceBundle.getBundle(ERRORS_PATH);
         myLanguageBinding = languageBinding;
-    }
-
-    /**
-     * Initializes the observable properties for Turtle manipulation
-     *
-     * @param properties the ObservableProperties object representing bound Turtle properties
-     */
-    public void initPropertiesBinding(ObservableComposite turtleProperties, DisplayProperties displayProperties) {
         myTurtleProperties = turtleProperties;
         myDisplayProperties = displayProperties;
-    }
-
-    /**
-     * Initializes the global variable map
-     *
-     * @param variables the GUIVariables object that interfaces variables with the GUI
-     */
-    public void initVariablesBinding(GUIVariables variables) {
         myVariables = FXCollections.observableHashMap();
         myVariables.addListener((MapChangeListener<String, Double>) (change) ->
                 variables.setMap(change.getMap()));
     }
 
     /**
-     * Getter for set containing error messages
+     * Gets the set containing error messages generated during previous execution
      *
      * @return the set containing error messages
      */
@@ -77,11 +52,10 @@ public class CommandParser {
         return myErrors;
     }
 
-
     /**
      * Initializes a ParseTreeBuilder by creating it, specifying its language,
      * binding its Turtle properties, setting its variable maps, and passing in
-     * a set in which errors are placed
+     * a set into which errors are placed
      *
      * @return the newly initialized ParseTreeBuilder
      */
@@ -94,46 +68,38 @@ public class CommandParser {
         return newBuilder;
     }
 
-    private void buildAndExecuteTree(String[] command, ArrayList<Double> results) {
+    /**
+     * Builds a parse tree with sanitized commands and attempts to execute it;
+     * pushes errors back to the GUI if execution was not successful
+     *
+     * @param commands is a String array representing the sanitized commands
+     *                 that will be built into a parse tree and executed
+     * @return the result of execution as a double, is successful
+     */
+    private double buildAndExecuteTree(String[] commands) {
         ParseTreeBuilder builder = initBuilder();
-        ParseTreeNode parseTree = builder.buildNewParseTree(command);
+        ParseTreeNode parseTree = builder.buildNewParseTree(commands);
         myErrors.addAll(builder.getErrors());
-        if (myErrors.size() == 0) {
-            // TODO NOT ENOUGH ARGS ERROR
-            double result = parseTree.getCommandObj().executeCommand(parseTree);
-            myMethodVariables.clear(); // clear temporary method variables
-            results.add(result);
+        if (myErrors.isEmpty()) {
+            try { // execute the tree
+                return parseTree.getCommandObj().executeCommand(parseTree);
+            } catch (IndexOutOfBoundsException e) { // not enough args given for a command
+                myErrors.add(myThrowables.getString("ArgumentError"));
+            }
+            myMethodVariables.clear(); // remove temporary method variables
         }
+        return 0.0; // default return value
     }
 
     /**
-     * Executes the cumulative action associated with a Logo command issued
-     * from the GUI
+     * Executes the cumulative actions associated with given Logo commands
      *
-     * @param commands a string containing the commands issued from the editor
+     * @param commands a String array containing the commands issued from the editor
+     * @return an ArrayList of doubles containing the results from executing the commands
      */
-    public ArrayList<Double> executeCommands(String[] commands) {
-        ArrayList<String> commandList = new ArrayList<String>();
-
-        ArrayList<Double> results = new ArrayList<Double>();
-        myErrors = new HashSet<String>();
-
-
-        commandList.add("[");
-        for (String command : commands) {
-            String[] splitCommands = command.trim().split("\\p{Space}");
-            for (String splitCommand : splitCommands) {
-                if (!splitCommand.equals("")) {
-                    commandList.add(splitCommand);
-                }
-            }
-        }
-        commandList.add("]");
-        String[] coms = new String[commandList.size()];
-        coms = commandList.toArray(coms);
-        buildAndExecuteTree(coms, results);
-
-
-        return results;
+    public double executeCommands(String[] commands) {
+        myErrors = new HashSet<String>(); // clean out old errors
+        commands = new CommandSanitizer().sanitize(commands);
+        return buildAndExecuteTree(commands);
     }
 }

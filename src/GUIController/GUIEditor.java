@@ -2,7 +2,7 @@ package GUIController;
 
 import FrontEndExternalAPI.Editor;
 import GUI.EditorHelp;
-import javafx.beans.property.ReadOnlyDoubleProperty;
+//import com.intellij.openapi.vcs.changes.FileHolderComposite;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -19,6 +19,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -36,7 +38,6 @@ public class GUIEditor implements Editor {
     private String currentDir = System.getProperty("user.home");
     private TextArea textArea;
     private EditorHelp helpWindow;
-    private FileChooser fileChooser = new FileChooser();
     private ImageView helpButton;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -44,13 +45,13 @@ public class GUIEditor implements Editor {
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
+    private Stage myStage;
 
     /**
-     *
      * @param p
      * @param borderColor
      */
-    public GUIEditor(Pane p, Paint borderColor) {
+    public GUIEditor(Pane p, Paint borderColor, Stage stage) {
         this.window = p;
         this.border = borderColor;
         drawEditor();
@@ -59,12 +60,13 @@ public class GUIEditor implements Editor {
         addHelpButton();
         addButtons();
 //        addRunButton();
+        myStage = stage;
     }
 
     /**
      *
      */
-    private void drawEditor(){
+    private void drawEditor() {
         backdrop = new Rectangle(BACKDROP_WIDTH, BACKDROP_HEIGHT, Color.WHITE);
         backdrop.setStroke(border);
         backdrop.setStrokeWidth(5);
@@ -76,7 +78,7 @@ public class GUIEditor implements Editor {
         window.getChildren().add(backdrop);
     }
 
-    private void addTextLabel(){
+    private void addTextLabel() {
         Text label = new Text("Editor");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
@@ -85,7 +87,7 @@ public class GUIEditor implements Editor {
         window.getChildren().add(label);
     }
 
-    private void addTextArea(){
+    private void addTextArea() {
         textArea = new TextArea();
         textArea.setTranslateX(BACKDROP_X + 10);
         textArea.setTranslateY(BACKDROP_Y + 40);
@@ -107,7 +109,7 @@ public class GUIEditor implements Editor {
         window.getChildren().add(textArea);
     }
 
-    private void addHelpButton(){
+    private void addHelpButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/help.png"));
         helpButton = new ImageView(newImage);
@@ -120,27 +122,35 @@ public class GUIEditor implements Editor {
         window.getChildren().add(helpButton);
     }
 
-    private void helpHandler(){
+    private void helpHandler() {
         Stage s = new Stage();
         helpWindow = new EditorHelp(s);
         helpWindow.init();
     }
 
-    private void addButtons(){
+    private void addButtons() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = newButton("Clear", clearImg, BACKDROP_X + 180, BACKDROP_Y);
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
+
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/upload.png"));
+                .getResourceAsStream("images/open.png"));
         clearImg = new ImageView(newImage);
-        Button upload = newButton("Upload file", clearImg, BACKDROP_X + 280, BACKDROP_Y);
-        upload.setOnMouseClicked(e -> uploadFile());
-        window.getChildren().addAll(clear, upload);
+        Button openFileButton = newButton("Open file", clearImg, BACKDROP_X + 330, BACKDROP_Y);
+        openFileButton.setOnMouseClicked(e -> openFile());
+
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/save.png"));
+        clearImg = new ImageView(newImage);
+        Button saveFileButton = newButton("Save file", clearImg, BACKDROP_X + 450, BACKDROP_Y);
+        saveFileButton.setOnMouseClicked(e -> saveFile());
+
+        window.getChildren().addAll(clear, openFileButton, saveFileButton);
     }
 
-    private Button newButton(String text, ImageView imgV, int x, int y){
+    private Button newButton(String text, ImageView imgV, int x, int y) {
         imgV.setFitWidth(25);
         imgV.setFitHeight(25);
         Button run = new Button(text, imgV);
@@ -155,85 +165,58 @@ public class GUIEditor implements Editor {
         return run;
     }
 
-    private void uploadFile(){
-        Stage stage = new Stage();
-//        fileChooser
-//        fileChooser.setInitialDirectory();
-//
-//        FileChooser fileChooser = new FileChooser();
-//
-////Extention filter
-////        FileChooser.ExtensionFilter extentionFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
-////        fileChooser.getExtensionFilters().add(extentionFilter);
-//
-////Set to user directory or go to default if cannot access
-//        File userDirectory = new File(userDirectoryString);
-//        if(!userDirectory.canRead()) {
-//            userDirectory = new File("c:/");
-//        }
-//        fileChooser.setInitialDirectory(userDirectory);
-//
-////Choose the file
-//        File chosenFile = fileChooser.showOpenDialog(stage);
-////Make sure a file was selected, if not return default
-//        String path;
-//        if(chosenFile != null) {
-//            path = chosenFile.getPath();
-//            userDirectoryString = path;
-//        } else {
-//            //default return value
-//            path = null;
-//        }
+    /**
+     * Saves a file of Logo commands
+     *
+     * @author Robert H. Steilberg II
+     */
+    private void saveFile() {
+        FileChooser chooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("LOGO files (*.logo)", "*.logo");
+        chooser.getExtensionFilters().add(extFilter);
+        File file = chooser.showSaveDialog(myStage);
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(getCurrentText().substring(2));
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void openFile() {
+        FileChooser chooser = new FileChooser();
+        File file = chooser.showOpenDialog(myStage);
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("LOGO files (*.logo)", "*.logo");
+//        chooser.getExtensionFilters().add(extFilter);
 
-
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(stage);
-//        String directoryPath;
-//        directoryPath = file.getAbsolutePath();
-//        File init
-//        fileChooser.setInitialDirectory(file);
-//        fileChooser.setInitialDirectory(fileChooser.sets);
-//        if(file != null){
-//            openf
-//        }
-        if(textArea.getText().equals("> " + defaultCommand)){
+        if (textArea.getText().equals("> " + defaultCommand)) {
             textArea.setText("> ");
         }
         try {
             Scanner s = new Scanner(file).useDelimiter("\n");
             while (s.hasNext()) {
-//                if (s.hasNextInt()) { // check if next token is an int
-//                    textArea.appendText(s.nextInt() + " "); // display the found integer
-//                } else {
-                    textArea.appendText(s.next() + " \n"); // else read the next token
-//                }
-//                textArea.appendText(s.next());
+                textArea.appendText(s.next() + " \n"); // else read the next token
             }
         } catch (FileNotFoundException ex) {
             System.err.println(ex);
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Reached null value in file");
         }
     }
 
-    private void fileToEditor(FileChooser fileChooser){
-//        fileChooser.ge
-    }
 
     /**
-     *
      * @return
      */
-    public Rectangle getBackdrop(){
+    public Rectangle getBackdrop() {
         return backdrop;
     }
 
     /**
      *
      */
-    public void startNewCommand(){
+    public void startNewCommand() {
         textArea.setText(textArea.getText() + "\n> ");
     }
 
@@ -257,7 +240,6 @@ public class GUIEditor implements Editor {
     }
 
     /**
-     *
      * @param str
      */
     public void redoCommand(String str) {

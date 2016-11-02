@@ -6,22 +6,22 @@ import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the NotEqual command
- * @author ezra
  *
+ * @author ezra
  */
-public class NotEqual implements Command{
+public class NotEqual implements Command {
 
-	private static final int ARGS = 2;
+    private static final int ARGS = 2;
 
     public void setProperties(Object o) {
         return;
     }
 
-	/**
-	 * Returns 1 if the two commands are not equal 0 otherwise
-	 */
-	@Override
-	public double executeCommand(ParseTreeNode node) {
+    /**
+     * Returns 1 if the two commands are not equal 0 otherwise
+     */
+    @Override
+    public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);
         ParseTreeNode arg2 = node.getChild(1);
         Double value1 = arg1.executeCommand(arg1);
@@ -30,7 +30,7 @@ public class NotEqual implements Command{
             return 0;
         }
         return 1;
-	}
+    }
 
     @Override
     public int numArguments() {

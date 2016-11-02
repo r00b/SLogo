@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents an else if statement in Logo.
+ *         This command instance represents an IfElse statement in Logo.
  */
 public class IfElse extends ControlCommand {
 
@@ -14,14 +14,14 @@ public class IfElse extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		ParseTreeNode arg3 = node.getChild(2);
-		Double value1 = arg1.getCommandObj().executeCommand(arg1);
-        if (value1 == 0) {
-            return arg3.getCommandObj().executeCommand(arg3);
+    	ParseTreeNode condition = node.getChild(0);
+		ParseTreeNode trueCommand = node.getChild(1);
+		ParseTreeNode falseCommand = node.getChild(2);
+		Double result = condition.executeCommand(condition);
+        if (result == 0) {
+            return falseCommand.executeCommand(falseCommand);
         } else {
-            return arg2.getCommandObj().executeCommand(arg2);
+            return trueCommand.executeCommand(trueCommand);
         }
     }
 

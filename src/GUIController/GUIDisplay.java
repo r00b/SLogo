@@ -129,7 +129,6 @@ public class GUIDisplay implements RenderSprite {
         myTurtles.put(newID, newTurtle);
 //        myTurtle.min
         makeTooltip();
-        System.out.println("w = " + newTurtle.getImage().getFitWidth());
         window.getChildren().add(newTurtle.getImage());
 
         return turtleProperty;
@@ -241,6 +240,7 @@ public class GUIDisplay implements RenderSprite {
 //        animation.play();
 //        }
     	numSteps++;
+//<<<<<<< HEAD
 //        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
 //        System.out.println("translate x of the editor" + X_POS);
        // myTurtles.get(1);
@@ -279,10 +279,35 @@ public class GUIDisplay implements RenderSprite {
         if (y != 0 && myTurtles.get(id).getImage().getTranslateY() + myTurtles.get(id).getImage().getY() < displayGraph.getTranslateY()){
             System.out.println("translate less than ");
             myTurtles.get(id).getImage().setY(0);
-            myTurtles.get(id).getProperties().setYProperty(displayGraph.getY());
+            myTurtles.get(id).getProperties().setYProperty(displayGraph.getY() + 20);
             myTurtles.get(id).getImage().setTranslateY(displayGraph.getTranslateY());
         }
+        if (y != 0
+                && myTurtles.get(id).getImage().getTranslateY()
+                + myTurtles.get(id).getImage().getY() > displayGraph.getTranslateY() + displayGraph.getFitHeight()){
+            System.out.println("translate greater than ");
+            myTurtles.get(id).getImage().setY(0);
+            myTurtles.get(id).getProperties().setYProperty(displayGraph.getY() + displayGraph.getFitHeight() - 20);
+            myTurtles.get(id).getImage().setTranslateY(displayGraph.getTranslateY() + displayGraph.getFitHeight() - 30);
+        }
+        if (x != 0 && myTurtles.get(id).getImage().getTranslateX() + myTurtles.get(id).getImage().getX() < displayGraph.getTranslateX()){
+            System.out.println("translate less than ");
+            myTurtles.get(id).getImage().setX(0);
+            myTurtles.get(id).getProperties().setXProperty(displayGraph.getX() + 20);
+            myTurtles.get(id).getImage().setTranslateX(displayGraph.getTranslateX());
+        }
+        if (x != 0 && myTurtles.get(id).getImage().getTranslateX() + myTurtles.get(id).getImage().getX() > displayGraph.getTranslateX() + displayGraph.getFitWidth()){
+            System.out.println("translate greater than ");
+            myTurtles.get(id).getImage().setX(0);
+            myTurtles.get(id).getProperties().setXProperty(displayGraph.getX() + displayGraph.getFitWidth() - 20);
+            myTurtles.get(id).getImage().setTranslateX(displayGraph.getTranslateX() + displayGraph.getFitWidth() - 30);
+        }
 
+//=======
+//        drawNewLine(x, y, id);
+//        myTurtles.get(id).getImage().setX(x);
+//        myTurtles.get(id).getImage().setY(-y);
+//>>>>>>> 240cb00698bd6b9eb5b4c50d79b3367c1d3f28c3
     }
 
     private void drawNewLine(double x, double y, double id){
@@ -290,19 +315,28 @@ public class GUIDisplay implements RenderSprite {
         double yDest = myTurtles.get(id).getImage().getTranslateY() - y + 20;
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-//        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
-        System.out.println("my Translate " + myTurtles.get(id).getImage().getTranslateX() + " " + myTurtles.get(id).getImage().getTranslateY());
-        System.out.println("my destination: " + x + " " + y);
         double xFrom =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
         double yFrom =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
+//<<<<<<< HEAD
         System.out.println("old points " + xFrom + " "+ yFrom);
         System.out.println("new points " + (xFrom + x) + " " + (yFrom - y));
 
-        if (myTurtles.get(id).getImage().getTranslateY() - y + 20 < displayGraph.getTranslateY()){
-            yDest = myTurtles.get(id).getImage().getTranslateY() + displayGraph.getTranslateY()
-                    - myTurtles.get(id).getImage().getTranslateY() + 20;
+        if (yDest < displayGraph.getTranslateY()){
+            yDest = displayGraph.getTranslateY() + 20;
+        }
+        if (yDest > displayGraph.getTranslateY() + displayGraph.getFitHeight()){
+            yDest = displayGraph.getTranslateY() + displayGraph.getFitHeight() - 20;
+        }
+        if (xDest < displayGraph.getTranslateX()){
+            xDest = displayGraph.getTranslateX() + 20;
+        }
+        if (xDest > displayGraph.getTranslateX() + displayGraph.getFitWidth()){
+            xDest = displayGraph.getTranslateX() + displayGraph.getFitWidth() - 20;
         }
         Line newLine = new Line(xFrom, yFrom, xDest, yDest);
+//=======
+//        Line newLine = new Line(xFrom, yFrom, myTurtles.get(id).getImage().getTranslateX() + x + 20,  myTurtles.get(id).getImage().getTranslateY() - y + 20);
+//>>>>>>> 240cb00698bd6b9eb5b4c50d79b3367c1d3f28c3
         newLine.setFill(pathColor);
         newLine.setStroke(pathColor);
         newLine.setStrokeWidth(strokeWidth);
@@ -314,8 +348,6 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().add(window.getChildren().size() - 1, newLine);
 
     }
-
-
 //<<<<<<< HEAD
 
     private void step(double elapsedTime, double x, double y, double id){
@@ -575,8 +607,6 @@ public class GUIDisplay implements RenderSprite {
 
     public void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
-        System.out.println("pen: " + pathColor);
-        System.out.println("display: " + myOptions.getDisplayColor());
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
@@ -691,19 +721,12 @@ public class GUIDisplay implements RenderSprite {
         }
 
         private void addPenSizeSlider(){
-//            JSlider framesPerSecond = new JSlider(JSlider.HORIZONTAL,
-//                    PEN_MIN, PEN_MAX, PEN_INIT);
-//            framesPerSecond.addChangeListener(this);
-
             slider = new Slider(0, 10, 5);
             slider.setShowTickMarks(true);
             slider.setShowTickLabels(true);
             slider.setMajorTickUnit(2);
             slider.setMinorTickCount(1);
-//            slider.setBlockIncrement(1);
             slider.setSnapToTicks(true);
-//            slider.setPrefWidth(200);
-//            slider.tick
             slider.setTranslateX(DROP_DOWN_X_VALUE);
             slider.setTranslateY(200);
 
@@ -768,7 +791,6 @@ public class GUIDisplay implements RenderSprite {
         }
 
         public boolean isPenUp(){
-            System.out.println(penUpBox.isSelected());
             return penUpBox.isSelected();
         }
     }
@@ -796,8 +818,4 @@ public class GUIDisplay implements RenderSprite {
 		// TODO Auto-generated method stub
 		return null;
 	}
-//<<<<<<< HEAD
 }
-//=======
-//}
-//>>>>>>> cb214ea01bc3998ac851846c19dee87231d16a99

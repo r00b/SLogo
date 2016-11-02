@@ -6,29 +6,29 @@ import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the forward command
- * @author ezra
  *
+ * @author ezra
  */
 public class Forward extends TurtleCommand {
-	private static final int ARGS = 1;
+    private static final int ARGS = 1;
 
-	/**
-	 * Calculates the distance moved and changes x and y property. Also lets front end now needs a new line
-	 * Returns the distance moved
-	 */
-	@Override
-	public double executeCommand(ParseTreeNode node) {
-		ParseTreeNode arg1 = node.getChild(0);
-		//double value1 = arg1.executeCommand(arg1);
-		double x = properties.calculateXDistance(arg1, true);
-		double y = properties.calculateYDistance(arg1, true);
-		properties.setNewLineProperty(true);
-		//properties.setNewLineProperty(false);
-		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));	
-	}
+    /**
+     * Calculates the distance moved and changes x and y property. Also lets front end now needs a new line
+     * Returns the distance moved
+     */
+    @Override
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        //double value1 = arg1.executeCommand(arg1);
+        double x = properties.calculateXDistance(arg1, true);
+        double y = properties.calculateYDistance(arg1, true);
+        properties.setNewLineProperty(true);
+        //properties.setNewLineProperty(false);
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
 
-	@Override
-	public int numArguments() {
-		return ARGS;
-	}
+    @Override
+    public int numArguments() {
+        return ARGS;
+    }
 }

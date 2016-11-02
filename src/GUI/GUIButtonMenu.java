@@ -144,7 +144,6 @@ public class GUIButtonMenu implements ButtonMenu{
 //            Stage stage = new Stage();
 //            FileChooser fileChooser = new FileChooser();
 //            fileChooser.setTitle("Save Image");
-////            System.out.println(pic.getId());
 //            File file = fileChooser.showSaveDialog(stage);
 //            if (file != null) {
 //                try {
