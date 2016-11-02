@@ -31,7 +31,8 @@ import java.io.File;
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIButtonMenu implements ButtonMenu{
+public class
+GUIButtonMenu implements ButtonMenu{
     private Pane window;
     private Paint border;
     private Rectangle backdrop;

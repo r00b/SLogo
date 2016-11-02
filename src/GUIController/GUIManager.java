@@ -37,7 +37,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-// ROBERT
 
 /**
  * Created by Delia on 10/15/2016.
@@ -246,6 +245,9 @@ public class GUIManager implements GUIController {
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
+        for (String command : splitCommands) {
+            myHistory.addCommand(command);
+        }
         double result = commandParser.executeCommands(splitCommands);
         if (commandParser.getErrors().size() == 0) {
             myConsole.addConsole(Double.toString(result));
