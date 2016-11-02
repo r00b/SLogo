@@ -9,6 +9,9 @@ import GUIController.GUIDisplay;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+/**
+ * @author ezra
+ */
 public class ObservableComposite implements ObservableManager{
 	private Double currentID;
 	private double turtleCount;

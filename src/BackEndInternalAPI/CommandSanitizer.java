@@ -1,37 +1,40 @@
 package BackEndInternalAPI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.ResourceBundle;
 
 /**
- * Created by Robert on 10/31/16.
+ * @author Robert H. Steilberg II
+ *         <p>
+ *         This class sanitizes an inputted Logo command so that it will run
+ *         even if the command is defined over multiple lines or if the command
+ *         contains empty lines.
  */
 public class CommandSanitizer {
 
+    private static final String SETTINGS_PATH = "resources/internal/Settings";
 
-//        [
-//           sum 2 3
-//        ]
-
-    // ==>
-
-    // [ sum 2 3 ]
-//
-//    public String[] sanitizeCommands(ArrayList<String[]> toSanitize) {
-//        ArrayList<String> newList = new ArrayList<String>();
-//        newList.add("[");
-//
-//        for (String[] commandList : toSanitize) {
-//            for (String s : commandList) {
-//                if (!s.equals("")) {
-//                    newList.add(s);
-//                }
-//            }
-//        }
-//
-//        newList.add("]");
-//
-//        return newList;
-//    }
-
+    /**
+     * Sanitizes a Logo command so that it will run even if it is defined over several
+     * lines or if it contains empty lines
+     * 
+     * @param commands is a String array of the Logo commands
+     * @return a String array of sanitized Logo commands
+     */
+    public String[] sanitize(String[] commands) {
+        ResourceBundle settings = ResourceBundle.getBundle(SETTINGS_PATH);
+        ArrayList<String> sanitizedCommands = new ArrayList<String>();
+        sanitizedCommands.add("["); // put all commands in a list on one "line"
+        for (String command : commands) {
+            String[] splitCommands = command.trim().split(settings.getString("Delimiter"));
+            for (String splitCommand : splitCommands) {
+                if (!splitCommand.equals("")) { // don't add empty lines
+                    sanitizedCommands.add(splitCommand);
+                }
+            }
+        }
+        sanitizedCommands.add("]");
+        String[] result = new String[sanitizedCommands.size()];
+        return sanitizedCommands.toArray(result);
+    }
 }

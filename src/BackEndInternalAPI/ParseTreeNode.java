@@ -5,11 +5,14 @@ import java.util.ArrayList;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This class stores information about a node in the parse tree.
+ *         This class stores information about a node in the parse tree. Specifically,
+ *         this class stores the raw command given via the GUI, the respective Command
+ *         object, children, and number of children associated with a node representing
+ *         a Logo command.
  */
 public class ParseTreeNode {
 
-    private String rawCommand;
+    private String rawCommand; // actual command typed by the user
     private Command commandObj;
     private ArrayList<ParseTreeNode> children;
     private int numChildren;

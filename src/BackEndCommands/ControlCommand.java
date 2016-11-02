@@ -3,20 +3,24 @@ package BackEndCommands;
 import BackEndInternalAPI.*;
 import javafx.collections.ObservableMap;
 
-
 import java.util.Map;
 
 /**
  * @author Robert H. Steilberg II
- * @author ezra
+ * @author Ezra Lieblich
  *         <p>
  *         This command instance represents control command types Logo.
  */
 public abstract class ControlCommand implements Command {
 
-    private Mappings maps;
+    private Mappings maps; // holds variable and method declarations
 
-
+    /**
+     * Sets a mapping object since all control commands need
+     * access to variable and method mappings
+     *
+     * @param o is the object to set
+     */
     @Override
     public void setProperties(Object o) {
         if (o.getClass().equals(Mappings.class)) {
@@ -24,9 +28,7 @@ public abstract class ControlCommand implements Command {
         }
     }
 
-
-
-    protected ObservableMap<String,Double> getVariables() {
+    protected ObservableMap<String, Double> getVariables() {
         return maps.getMyVariables();
     }
 
@@ -38,11 +40,13 @@ public abstract class ControlCommand implements Command {
         return maps.getMyMethods();
     }
 
+    protected Map<String, Integer> getMethodDeclarations() {
+        return maps.getMyMethodDeclarations();
+    }
+
     @Override
     public abstract double executeCommand(ParseTreeNode node);
 
     @Override
     public abstract int numArguments();
-
-
 }
