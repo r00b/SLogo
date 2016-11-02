@@ -1,5 +1,6 @@
 package GUIController;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 
@@ -11,12 +12,12 @@ public class Turtle {
     private double id;
     private boolean isActive;
     private List<Line> turtleMotion = new ArrayList<>();
-    public Turtle(){
-        
+    public Turtle(ImageView turtle){
+        turtleView = turtle;
     }
     
-    public void setImage(ImageView img){
-        turtleView = img;
+    public void setImage(Image img){
+        turtleView.setImage(img);
     }
     
     public ImageView getImage(){
