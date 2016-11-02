@@ -97,7 +97,9 @@ public class CommandParser {
         ParseTreeNode parseTree = builder.buildNewParseTree(command, line);
         myErrors.addAll(builder.getErrors());
         if (myErrors.size() == 0) {
+            // TODO NOT ENOUGH ARGS ERROR
             double result = parseTree.getCommandObj().executeCommand(parseTree);
+            myMethodVariables.clear(); // clear temporary method variables
             results.add(result);
         }
         line++;
