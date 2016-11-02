@@ -286,7 +286,9 @@ public class GUIManager implements GUIController {
         myEditor.startNewCommand();
         String newCommands = fullText.substring(lookForLatest(fullText));
         String[] splitCommands = newCommands.split("\n");
-
+        for(String str : splitCommands){
+            myHistory.addCommand(str);
+        }
         ArrayList<Double> results = commandParser.executeCommands(splitCommands);
         if (commandParser.getErrors().size() == 0) {
             for (double result : results) {
