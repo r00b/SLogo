@@ -219,6 +219,7 @@ public class ObservableComposite implements ObservableManager{
 		ParseTreeNode condition = node.getChild(0);
 		ParseTreeNode command = node.getChild(1);
 		for (Double turtle : myTurtles.keySet()) {
+			currentID = turtle;
 			Double evaluated = condition.executeCommand(condition);
 			if (evaluated.equals(1.0)) {
 				activeTurtles.add(turtle);
