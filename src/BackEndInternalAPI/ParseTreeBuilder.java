@@ -4,6 +4,7 @@ import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ResourceBundle;
 
@@ -142,19 +143,22 @@ public class ParseTreeBuilder {
      * @return groupNode holding all of its command subtrees as children
      */
     private ParseTreeNode buildGroup(ParseTreeNode groupNode) {
+        myCommandIndex++;
+        String command = myCommands[myCommandIndex];
         while (!myCommands[myCommandIndex + 1].equals(")")) {
-            myCommandIndex++;
-
-
-
-            groupNode.addChild(buildParseTree()); // create subtrees for each element in the list
-
-
-
-            if (myCommandIndex >= myCommands.length - 1) { // if expecting more arguments
-                myErrors.add(myThrowables.getString("ArgumentError"));
-                return null;
+            ParseTreeNode commandNode = initParseTreeNode(command);
+            int numArguments = commandNode.getCommandObj().numArguments();
+            for (int i = 0; i < numArguments; i++) {
+                myCommandIndex++;
+                try {
+                    commandNode.addChild(buildParseTree());
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // not enough arguments given for every call in the group
+                    myErrors.add(myThrowables.getString("ArgumentError"));
+                    return null;
+                }
             }
+            groupNode.addChild(commandNode); // create subtrees for each element in the list
         }
         myCommandIndex++; // ensure that anything after the group is added to the tree
         return groupNode;
