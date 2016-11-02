@@ -2,19 +2,12 @@ package BackEndInternalAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import GUIController.GUIDisplay;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-
-
 
 public class ObservableComposite implements ObservableManager{
 	private Double currentID;
@@ -27,78 +20,27 @@ public class ObservableComposite implements ObservableManager{
 	private DoubleProperty backgroundImage;
 	private DoubleProperty paletteIndex;
 	private DoubleProperty newTurtle;
-	private GUIDisplay myDisplay;
 	
-	public ObservableComposite(GUIDisplay thisDisplay) {
-//		Double val = 1.0;
-//		currentID = val;
-		this.myDisplay = thisDisplay;
+	public ObservableComposite(GUIDisplay display) {
+
 		myTurtles = new HashMap<Double, ObservableProperties>();
 		activeTurtles = new ArrayList<Double>();
-//		myTurtles.put(val, first);
-//		activeTurtles.add(val);
-//		turtleCount = 1;
-		//activeTurtles = new HashSet<Double>();
 		imageIndex = new SimpleDoubleProperty(0);
-		imageIndex.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				//myDisplay.setImage();
-			}
-			
-		});
+		imageIndex.addListener((observable, oldValue, newValue) -> display.changeImage((Double) newValue));
 		penColor = new SimpleDoubleProperty(0);
-		penColor.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				//myDisplay.setPenColor()
-			}
-			
-		});
+		penColor.addListener((observable, oldValue, newValue) -> display.changePenColor((Double) newValue));
 		penSize = new SimpleDoubleProperty(0);
-		penSize.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				//myDisplay.setPenSize()
-			}
-			
-		});
+		penSize.addListener((observable, oldValue, newValue) -> display.setPenSize((Double) newValue));
 		backgroundImage = new SimpleDoubleProperty(0);
-		backgroundImage.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				//myDisplay.setBackgroundImage
-			}
-		});
+		backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double)newValue));
 		paletteIndex = new SimpleDoubleProperty(0);
-		paletteIndex.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				//myDisplay.setPalette
-			}
-		});
+		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette((Double) newValue));
 		newTurtle = new SimpleDoubleProperty(0);
-		newTurtle.addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				// TODO Auto-generated method stub
-				ObservableProperties result = myDisplay.addTurtle((double) newValue); //returns a new ObservableProperties class
-				 myTurtles.put((double) newValue, result);
+		newTurtle.addListener((observable, oldValue, newValue) -> {
+				ObservableProperties result = display.addTurtle((double) newValue); //returns a new ObservableProperties class
+				myTurtles.put((double) newValue, result);
 				turtleCount++;
-			}
-
-		});
+			});
 		newTurtle.setValue(1.0);
 		activeTurtles.add(1.0);
 	}
@@ -255,8 +197,10 @@ public class ObservableComposite implements ObservableManager{
 	public double setRotateProperty(ParseTreeNode node, boolean isAbsolute, boolean sign) {
 		double answer = 0;
 		for (Double id : activeTurtles) {
+			currentID = id;
 			answer = myTurtles.get(id).setRotateProperty(node, isAbsolute, sign);
 		}
+		currentID = activeTurtles.get(0);
 		return answer;
 	}
 	@Override

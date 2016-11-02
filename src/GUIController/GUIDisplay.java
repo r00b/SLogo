@@ -4,6 +4,8 @@ import BackEndInternalAPI.ObservableProperties;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.RenderSprite;
 import GUI.DisplayHelp;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,6 +30,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 //
 //import java.awt.*;
 //import java.awt.Button;
@@ -40,12 +43,17 @@ import java.util.HashMap;
  * Created by Delia on 10/15/2016.
  */
 public class GUIDisplay implements RenderSprite {
+    private static final int FRAMES_PER_SECOND = 60;
+    private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private static final int BOUNCER_SPEED = 300;
     private static final int TURTLE_FIT_SIZE = 40;
     private static final int X_POS = 620;
     private static final int Y_POS = 110;
     private static boolean visibility = true;
     private int numSteps = 0;
     private int strokeWidth = 5;
+    private Timeline animation = new Timeline();
     private Pane window;
     private Line myPath;
     private ImageView helpButton;
@@ -107,6 +115,8 @@ public class GUIDisplay implements RenderSprite {
         myNewTurtle.setImage(myTurtle.getImage());
         myNewTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myNewTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
+//        myNewTurtle.setX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
+//        myNewTurtle.setY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
         myNewTurtle.setFitHeight(TURTLE_FIT_SIZE);
         myNewTurtle.setFitWidth(TURTLE_FIT_SIZE);
         Turtle newTurtle = new Turtle();
@@ -198,16 +208,140 @@ public class GUIDisplay implements RenderSprite {
 //     * @param x
 //     * @param y
 //     */
-//    public void moveTurtle(int x, int y){
-//        numSteps++;
-//        drawNewLine(new Point((int)myTurtle.getTranslateX(),
-//                (int)myTurtle.getTranslateY()), new Point(x, y));
-////        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
-////        System.out.println("translate x of the editor" + X_POS);
-//        uTranslateX(X_POS + x);
-//        myTurtle.setTranslateY(Y_POS + y);
-//    }
+    public void moveTurtle(double x, double y, double id){
+//        public void animate(){
+        System.out.println("moveTurtle() coordinates: " + x + ", " + y);
+        double turtleX = myTurtles.get(id).getImage().getTranslateX();
+        double turtleY = myTurtles.get(id).getImage().getTranslateY();
+//        double newX = turtleX + x;
+//        double newY = turtleY - y;
+//        System.out.println("newX = " + newX);
+//        System.out.println("newY = " + newY);
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                ee -> {
+                    double newX = turtleX + x;
+                    double newY = turtleY - y;
+                    System.out.println("turtleY = " + turtleY);
+                    System.out.println("Y = " + y);
 
+                    System.out.println("after keyframe: \nnewX = " + newX);
+                    System.out.println("newY = " + newY);
+                    step(SECOND_DELAY, newX, newY, id);
+                });
+
+        //whenever the animation plays, it's what we want to happen in each moment in time.
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+//        }
+    	numSteps++;
+//        System.out.println("turtle original position:" + (int) myTurtle.getTranslateX());
+//        System.out.println("translate x of the editor" + X_POS);
+       // myTurtles.get(1);
+        System.out.println();
+
+        drawNewLine(x, y, id);
+//        myTurtles.get(id).getImage().setX(x);
+//        myTurtles.get(id).getImage().setY(-y);
+
+
+
+    }
+
+
+    private void step(double elapsedTime, double x, double y, double id){
+        int xMult = 1;
+        int yMult = 1;
+        boolean up = false, down = false, left = false, right = false;
+        double currentX = myTurtles.get(id).getImage().getTranslateX();
+        double currentY = myTurtles.get(id).getImage().getTranslateY();
+//        double x = currentX + xChange;
+//        double y = currentY - yChange;
+//        double currentX =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
+//        double currentY =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
+        System.out.println("dest coordinates: " + x + ", " + y);
+        System.out.println("Turtle coordinates: " + currentX + ", " + currentY);
+        if(x < currentX) {
+            xMult = -1;
+            left = true;
+        }
+        if(x > currentX) right = true;
+        if (y < currentY) {
+            yMult = -1;
+            up = true;
+            System.out.println("true set");
+        }
+        if (y < currentY) down = true;
+        double singleStepChange = BOUNCER_SPEED * elapsedTime;
+        double stepX = currentX + (xMult * singleStepChange);
+        double stepY = currentY + (yMult * singleStepChange);
+
+        if(currentX == x && currentY == y) animation.stop();
+        if (currentX != x) myTurtles.get(id).getImage().setTranslateX(stepX);
+        if(currentY != y) myTurtles.get(id).getImage().setTranslateY(stepY);
+
+        if (up){
+            if(left){
+                if(currentY <= y && currentX <= x){
+                    animation.stop();
+                    System.out.println("up left");
+                }
+            }
+            else if(right){
+                if(currentY <= y && currentX >= x){
+                    animation.stop();
+                    System.out.println("up right");
+                }
+            }
+
+            if(currentY <= y){
+                animation.stop();
+                System.out.println("up: turtle y = " + currentY + " dest y = " + y);
+            }
+        }
+        if (down){
+            if(left){
+                if(currentY >= y && currentX <= x){
+                    animation.stop();
+                    System.out.println("down left");
+                }
+            }
+            else if(right){
+                if(currentY >= y && currentX >= x){
+                    animation.stop();
+                    System.out.println("down right");
+                }
+            }
+        }
+//        drawNewLine(stepX, stepY, id);
+//        for(int i = 0; i < gems.size(); i++){
+//            gems.get(i).setY(singleStepChange(gems, elapsedTime, i));
+//
+//            gemBelowScreen(i, gems);
+//
+//            //end this loop so the gems don't keep falling in the background when
+//            //user levels up!!
+//            if(gameover || levelup) break;
+//        }
+//        myLevel.stepOnce(s);
+//        myLevel.updatePoints(score.wasBonus(), score.pointsJustAdded());
+//        if(myLevel.gameover) gameOver();
+//        if(myLevel.isLeveledUp() && isLevel2){
+//            victoryScene();
+//        }
+//        else if(myLevel.isLeveledUp()){
+//            animation.stop();
+//            levelUp();
+//        }
+    }
+
+    public void stepOnce(double elapsedTime) {
+
+    }
+
+//    protected double singleStepChange(ImageView turtle, double elapsedTime) {
+//        return turtle + BOUNCER_SPEED * elapsedTime;
+//    }
     /**
      *
      */
@@ -260,8 +394,8 @@ public class GUIDisplay implements RenderSprite {
 
 
         if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
-        window.getChildren().remove(myTurtle);
-        window.getChildren().add(myTurtle);
+        //window.getChildren().remove(myTurtle);
+        //window.getChildren().add(myTurtle);
     	
     	//bool.set(false);
     }
@@ -270,22 +404,26 @@ public class GUIDisplay implements RenderSprite {
 
     /**
      *
-     * @param origin
-     * @param destination
      */
-    public void drawNewLine(Point origin, Point destination){
+    private void drawNewLine(double x, double y, double id){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
-        System.out.println("my origin: " + origin.getX() + " " + origin.getY());
-        System.out.println("my destination: " + destination.getX() + " " + destination.getY());
-        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
-                destination.getX() + 20, destination.getY() + 20);
+//        System.out.println("my origin: " + myTurtles.get(1.0).getImage().getX() + " " + myTurtles.get(1.0).getImage().getY());
+        System.out.println("my Translate " + myTurtles.get(id).getImage().getTranslateX() + " " + myTurtles.get(id).getImage().getTranslateY());
+        System.out.println("my destination: " + x + " " + y);
+        double xFrom =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
+        double yFrom =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
+        System.out.println("old points " + xFrom + " "+ yFrom);
+        System.out.println("new points " + (xFrom + x) + " " + (yFrom - y));
+        Line newLine = new Line(xFrom, yFrom, myTurtles.get(id).getImage().getTranslateX() + x + 20,  myTurtles.get(id).getImage().getTranslateY() - y + 20);
         newLine.setFill(pathColor);
         newLine.setStroke(pathColor);
         newLine.setStrokeWidth(5);
         newLine.setId("Step" + numSteps);
+        newLine.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newLine.setVisible(visibility);
-        turtleMotion.add(newLine);
+        //turtleMotion.add(newLine);
+        myTurtles.get(1.0).getLines().add(newLine);
         window.getChildren().add(newLine);
     }
 
@@ -584,4 +722,27 @@ public class GUIDisplay implements RenderSprite {
         }
     }
 
+	public void changePenColor(Double newValue) {
+		// TODO Auto-generated method stub
+	}
+
+	public Object setPenSize(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object changeImage(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object setBackgroundImage(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object changePalette(Double newValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -187,6 +187,7 @@ public class GUIManager implements GUIController {
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+//        myHistory.getListView().heightProperty().bind
     }
 
     private ObservableComposite setupBindings() {
