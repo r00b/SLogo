@@ -125,8 +125,8 @@ public class GUIManager implements GUIController {
         myEditor = new GUIEditor(window, penColor, stage);
         myHistory = new GUIHistory(window, penColor);
         myVariables = new GUIVariables(window, penColor);
-        myDisplay = new GUIDisplay(window, turtle, penColor, line);
         myButtonMenu = new GUIButtonMenu(window, penColor);
+        myDisplay = new GUIDisplay(window, turtle, penColor, line);
         addRunButton();
         addHistoryButton();
         addMoreTurtlesButton();
@@ -198,9 +198,9 @@ public class GUIManager implements GUIController {
     }
     private void addMoreTurtlesButton() {
         TextField enterID = new TextField();
-        enterID.setTranslateX(1110);
-        enterID.setTranslateY(125);
-        enterID.setPromptText("Enter your new turtle's ID");
+        enterID.setTranslateX(1190);
+        enterID.setTranslateY(53);
+        enterID.setPromptText("Enter a new turtle's ID");
         enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -424,12 +424,12 @@ public class GUIManager implements GUIController {
             Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
             ImageView imgV = new ImageView(newImage);
-            Button help = newButton("HELP", imgV, 337, 40);
+            Button help = newButton("HELP", imgV, 150, 40);
             help.setOnMouseClicked(e -> helpHandler());
-            Button save = newButton("Save Defaults", null, 750, 50);
+            Button save = newButton("Save Defaults", null, 600, 50);
             save.setOnMouseClicked(e -> saveFile());
             window.getChildren().add(save);
-            Button load = newButton("Load Defaults", null, 860, 50);
+            Button load = newButton("Load Defaults", null, 715, 50);
             load.setOnMouseClicked(e -> {
                 try {
                     loadFile();
@@ -465,7 +465,7 @@ public class GUIManager implements GUIController {
             System.setProperty("glass.accessible.force", "false");
             backgroundBox = new ComboBox<String>(backgroundOptions);
             backgroundBox.setValue(defaultBackground);
-            backgroundBox.setTranslateX(440);
+            backgroundBox.setTranslateX(270);
             backgroundBox.setTranslateY(50);
             backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
                 String chosenBackground = "";
@@ -493,7 +493,7 @@ public class GUIManager implements GUIController {
             window.getChildren().add(backgroundBox);
             languageBox = new ComboBox<String>(languageOptions);
             languageBox.setValue(defaultLanguage);
-            languageBox.setTranslateX(610);
+            languageBox.setTranslateX(460);
             languageBox.setTranslateY(50);
             window.getChildren().add(languageBox);
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));

@@ -178,7 +178,7 @@ public class GUIDisplay implements RenderSprite {
         optionsButton.setOnMouseExited(e -> optionsButton.setStyle(overButton));
         optionsButton.setOnMouseClicked(e -> updateDisplayOptions());
         optionsButton.setTranslateX(760);
-        optionsButton.setTranslateY(120);
+        optionsButton.setTranslateY(50);
         window.getChildren().add(optionsButton);
     }
 
@@ -506,8 +506,7 @@ public class GUIDisplay implements RenderSprite {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 300,
-                (int) displayGraph.getTranslateY() + 10);
+        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 380, 50);
         clear.setOnMouseClicked(e -> {
             window.getChildren().removeAll(turtleMotion);
             turtleMotion.clear();
@@ -515,7 +514,7 @@ public class GUIDisplay implements RenderSprite {
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/options.png"));
         ImageView optionsImg = new ImageView(newImage);
-        optionsButton = newButton("Display Options", optionsImg, 760, 120);
+        optionsButton = newButton("Display Options", optionsImg, 840, 50);
         optionsButton.setOnMouseClicked(e -> {
             Stage s = new Stage();
             myOptions = new DisplayMenu(s);
@@ -524,7 +523,7 @@ public class GUIDisplay implements RenderSprite {
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/reset.png"));
         ImageView resetImg = new ImageView(newImage);
-        Button reset = newButton("Reset", resetImg, 1010, 120);
+        Button reset = newButton("Reset", resetImg, 1090, 50);
         reset.setOnMouseClicked(e -> resetIDE());
 //        optionsButton.setTranslateX(760);
 //        optionsButton.setTranslateY(120);
