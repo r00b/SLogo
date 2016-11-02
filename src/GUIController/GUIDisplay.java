@@ -238,8 +238,9 @@ public class GUIDisplay implements RenderSprite {
     /**
      *
      */
-	public void clearScreen() {
-		window.getChildren().removeAll(turtleMotion);
+	public void clearScreen(double id) {
+		window.getChildren().removeAll(myTurtles.get(id).getLines());
+		myTurtles.get(id).getLines();
 		turtleMotion.clear();
 		//clearScreenProperty.set(false);
 	}

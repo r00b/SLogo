@@ -21,6 +21,7 @@ public class ObservableComposite implements ObservableManager{
 		myTurtles = new HashMap<Double, ObservableProperties>();
 		activeTurtles = new ArrayList<Double>();
 		newTurtle = new SimpleDoubleProperty(0);
+
 		newTurtle.addListener((observable, oldValue, newValue) -> {
 				ObservableProperties result = display.addTurtle((double) newValue); //returns a new ObservableProperties class
 				myTurtles.put((double) newValue, result);

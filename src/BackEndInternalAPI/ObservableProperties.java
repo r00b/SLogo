@@ -53,7 +53,7 @@ public class ObservableProperties implements ObservableManager{
     	clearScreenProperty.addListener((observable, oldValue, newValue) -> {
 				//If new value is true we need to draw a new line
 				if (newValue) {
-					myDisplay.clearScreen();
+					myDisplay.clearScreen(myId);
 				}
 				clearScreenProperty.set(false);
 		});
