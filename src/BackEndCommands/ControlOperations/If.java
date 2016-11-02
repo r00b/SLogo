@@ -14,13 +14,13 @@ public class If extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		Double value1 = arg1.getCommandObj().executeCommand(arg1);
-        if (value1 == 0) {
+    	ParseTreeNode condition = node.getChild(0);
+		ParseTreeNode commandBody = node.getChild(1);
+		Double value = condition.executeCommand(condition);
+        if (value == 0) {
             return 0;
         } else {
-            return arg2.getCommandObj().executeCommand(arg2);
+            return commandBody.executeCommand(commandBody);
         }
     }
 

@@ -140,7 +140,7 @@ public class GUIHistory implements History {
         });
         oldCommands.add(0, newCommand);
         list.setItems(oldCommands);
-//        window.getChildren().add(list);
+        //window.getChildren().add(list);
     }
 
     private void unBold(){

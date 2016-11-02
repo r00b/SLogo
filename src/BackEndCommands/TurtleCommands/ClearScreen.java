@@ -24,6 +24,7 @@ public class ClearScreen extends TurtleCommand {
 		properties.setYProperty(0);
 		properties.setNewLineProperty(true);
 		properties.setClearScreenProperty(true);
+		//properties.setRotateProperty(0, true, true);
 		return answer;
 	}
 

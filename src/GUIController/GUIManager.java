@@ -283,6 +283,7 @@ public class GUIManager implements GUIController {
         String[] splitCommands = newCommands.split("\n");
 
         double result = commandParser.executeCommands(splitCommands);
+
         if (commandParser.getErrors().size() == 0) {
             myConsole.addConsole(Double.toString(result));
         } else {
