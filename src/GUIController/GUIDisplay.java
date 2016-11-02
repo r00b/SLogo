@@ -114,6 +114,13 @@ public class GUIDisplay implements RenderSprite {
         displayGraph.setTranslateX(X_POS);
 //        displayGraph.setstr
         displayGraph.opacityProperty().setValue(0.9);
+        Color color = Color.SLATEBLUE;
+        double hue = myOptions.map((color.getHue() + 180) % 360, 0, 360, -1, 1);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(myOptions.getDisplayColor().getSaturation());
+        colorAdjust.setBrightness(myOptions.getDisplayColor().getBrightness());
+        displayGraph.setEffect(colorAdjust);
         window.getChildren().add(displayGraph);
     }
 
@@ -645,7 +652,7 @@ public class GUIDisplay implements RenderSprite {
         private static final int PEN_MIN = 0;
         private static final int PEN_MAX = 10;
         private static final int PEN_INIT = 5;
-        private ColorPicker displayColor;
+        private ColorPicker displayColor = new ColorPicker();
         private Slider slider;
         private CheckBox penUpBox;
 
@@ -654,6 +661,7 @@ public class GUIDisplay implements RenderSprite {
          */
         public DisplayMenu(Stage s) {
             super(s);
+            displayColor.setValue(Color.MIDNIGHTBLUE);
         }
 
         public void addNodes() {
