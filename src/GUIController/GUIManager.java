@@ -7,24 +7,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import com.sun.javafx.logging.Logger;
+
 import BackEndCommands.TurtleCommands.SetXY;
-import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.CommandTypeDetector;
+
+import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
-import BackEndInternalAPI.ObservableManager;
 
 import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
-import GUI.GUIButtonMenu;
 import GUI.HelpMenu;
 import GUI.OptionsPopup;
 import javafx.beans.property.SimpleStringProperty;
+//<<<<<<< HEAD
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -37,6 +32,16 @@ import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+//=======
+
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+//>>>>>>> cb214ea01bc3998ac851846c19dee87231d16a99
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,19 +57,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
 //import org.apache.commons.lang.ArrayUtils;
 
 /**
@@ -88,7 +81,8 @@ public class GUIManager implements GUIController {
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
-    private ObservableComposite properties;
+    private ObservableComposite turtleProperties;
+    private DisplayProperties displayProperties;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
     private Scene myWindow;
@@ -140,16 +134,17 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
 
-		properties = setupBindings();
+		turtleProperties = setupBindings();
+		displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser();
         myVariables.setVariableSetter(commandParser);
         commandParser.initLanguageBinding(myLanguage);
-        commandParser.initTurtlePropertiesBinding(properties);
+        commandParser.initPropertiesBinding(turtleProperties, displayProperties);
         commandParser.initVariablesBinding(myVariables);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
-        fd.setProperties(properties);
+        fd.setProperties(turtleProperties);
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
@@ -254,7 +249,7 @@ public class GUIManager implements GUIController {
                 @Override
                 public void handle(KeyEvent event) {
                     if(event.getCode() == KeyCode.ENTER){
-                        properties.setNewTurtle(Double.parseDouble(enterID.getText()));
+                        turtleProperties.setNewTurtle(Double.parseDouble(enterID.getText()));
                     }
                 }
             });

@@ -22,6 +22,7 @@ public class ClearScreen extends TurtleCommand {
 		double answer = properties.calculateTotalDistance(0, 0);
 		properties.setXProperty(0);
 		properties.setYProperty(0);
+		properties.setNewLineProperty(true);
 		properties.setClearScreenProperty(true);
 		return answer;
 	}

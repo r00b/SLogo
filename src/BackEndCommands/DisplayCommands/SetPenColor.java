@@ -3,17 +3,17 @@ package BackEndCommands.DisplayCommands;
 import BackEndCommands.DisplayCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
-public class SetBackground extends DisplayCommand{
+public class SetPenColor extends DisplayCommand{
 	private static final int ARGS = 1;
 
 	/**
-	 * Sets the background color of the display
+	 * Sets the pen color of the display
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
 		double value = arg1.executeCommand(arg1);
-		properties.setBackgroundImage(value);
+		properties.setPenColor(value);
 		return value;	
 	}
 

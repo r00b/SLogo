@@ -19,10 +19,12 @@ import java.util.*;
 public class CommandParser {
 
 
-    private static ObservableComposite myProperties;
+    private static ObservableComposite myTurtleProperties;
+    private static DisplayProperties myDisplayProperties;
     private static ObservableMap<String,Double> myVariables;
     private static HashMap<String, Double> myMethodVariables; // temporary map for method variables
     private static HashMap<String, LogoMethod> myMethods;
+    private static HashMap<String, Integer> myMethodVariableDeclarations;
     private static SimpleStringProperty myLanguageBinding;
     private static HashSet<String> myErrors;
 
@@ -30,6 +32,7 @@ public class CommandParser {
     public CommandParser() {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
+        myMethodVariableDeclarations = new HashMap<String, Integer>();
     }
 
 
@@ -49,8 +52,9 @@ public class CommandParser {
      *
      * @param properties the ObservableProperties object representing bound Turtle properties
      */
-    public void initTurtlePropertiesBinding(ObservableComposite properties) {
-        myProperties = properties;
+    public void initPropertiesBinding(ObservableComposite turtleProperties, DisplayProperties displayProperties) {
+        myTurtleProperties = turtleProperties;
+        myDisplayProperties = displayProperties;
     }
 
     /**
@@ -73,21 +77,6 @@ public class CommandParser {
         return myErrors;
     }
 
-    /**
-     * Removes empty commands from an inputted list of commands
-     *
-     * @param array is the array to sanitized
-     * @return a sanitized array with empty commands removed
-     */
-    private String[] sanitize(String[] array) {
-        ArrayList<String> toSanitize = new ArrayList<String>();
-        for (String command : array) {
-            if (!command.equals("")) toSanitize.add(command);
-        }
-        String[] sanitizedList = new String[toSanitize.size()];
-        toSanitize.toArray(sanitizedList);
-        return sanitizedList;
-    }
 
     /**
      * Initializes a ParseTreeBuilder by creating it, specifying its language,
@@ -99,22 +88,22 @@ public class CommandParser {
     private ParseTreeBuilder initBuilder() {
         ParseTreeBuilder newBuilder = new ParseTreeBuilder();
         newBuilder.setLanguage(myLanguageBinding);
-        newBuilder.setTurtleProperties(myProperties);
-        newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables));
+        newBuilder.setProperties(myTurtleProperties, myDisplayProperties);
+        newBuilder.setMappings(new Mappings(myVariables, myMethods, myMethodVariables, myMethodVariableDeclarations));
         newBuilder.setErrorSet(myErrors);
         return newBuilder;
     }
 
-    private void buildAndExecuteTree(String[] command, ArrayList<Double> results, int line) {
+    private void buildAndExecuteTree(String[] command, ArrayList<Double> results) {
         ParseTreeBuilder builder = initBuilder();
-        ParseTreeNode parseTree = builder.buildNewParseTree(command,line);
+        ParseTreeNode parseTree = builder.buildNewParseTree(command);
         myErrors.addAll(builder.getErrors());
         if (myErrors.size() == 0) {
+            // TODO NOT ENOUGH ARGS ERROR
             double result = parseTree.getCommandObj().executeCommand(parseTree);
+            myMethodVariables.clear(); // clear temporary method variables
             results.add(result);
         }
-        myMethodVariables.clear(); // clear temporary method variables
-        line++;
     }
 
     /**
@@ -126,49 +115,23 @@ public class CommandParser {
     public ArrayList<Double> executeCommands(String[] commands) {
         ArrayList<String> commandList = new ArrayList<String>();
 
-
-
-        ArrayList<ArrayList<String>> allCommands = new ArrayList<ArrayList<String>>();
-        ArrayList<String> newCommand = new ArrayList<String>();
-//        newCommand.add("[");
-        for (String command : commands) {
-            if (!command.trim().equals("")) {
-                String[] splitCommands = command.trim().split("\\p{Space}");
-                for (String splitCommand : splitCommands) {
-                    newCommand.add(splitCommand);
-                }
-            } else {
-//                newCommand.add("]");
-                allCommands.add(newCommand);
-                newCommand = new ArrayList<String>();
-//                newCommand.add("[");
-            }
-        }
-//        newCommand.add("]");
-        allCommands.add(newCommand);
-
-
         ArrayList<Double> results = new ArrayList<Double>();
         myErrors = new HashSet<String>();
 
-        for (ArrayList<String> commanders : allCommands) {
-            String[] coms = new String[commanders.size()];
-            coms = commanders.toArray(coms);
-            buildAndExecuteTree(coms,results,1);
+
+        commandList.add("[");
+        for (String command : commands) {
+            String[] splitCommands = command.trim().split("\\p{Space}");
+            for (String splitCommand : splitCommands) {
+                if (!splitCommand.equals("")) {
+                    commandList.add(splitCommand);
+                }
+            }
         }
-
-
-//        commandList.add("[");
-//        for (String command : commands) {
-//            String[] splitCommands = command.trim().split("\\p{Space}");
-//            for (String splitCommand : splitCommands) {
-//                if (!splitCommand.equals("")) {
-//                    commandList.add(splitCommand);
-//                }
-//            }
-//        }
-//        commandList.add("]");
-
+        commandList.add("]");
+        String[] coms = new String[commandList.size()];
+        coms = commandList.toArray(coms);
+        buildAndExecuteTree(coms, results);
 
 
         return results;
