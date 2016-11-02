@@ -19,8 +19,8 @@ public class Tangent implements Command {
     }
 
     /**
-	 * Returns the tan of the arg angle in degrees
-	 */
+     * Returns the tan of the arg angle in degrees
+     */
     @Override
     public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);

@@ -6,24 +6,24 @@ import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes IsPenDown command
- * @author ezra
  *
+ * @author ezra
  */
 public class PenDown extends TurtleCommand {
-	private static final int ARGS = 0;
+    private static final int ARGS = 0;
 
-	/**
-	 * Sets path visible property to false
-	 * Returns 0
-	 */
-	@Override
-	public double executeCommand(ParseTreeNode node) {
-		properties.setPathVisibleProperty(true);
-		return 1;
-	}
+    /**
+     * Sets path visible property to false
+     * Returns 0
+     */
+    @Override
+    public double executeCommand(ParseTreeNode node) {
+        properties.setPathVisibleProperty(true);
+        return 1;
+    }
 
-	@Override
-	public int numArguments() {
-		return ARGS;
-	}
+    @Override
+    public int numArguments() {
+        return ARGS;
+    }
 }

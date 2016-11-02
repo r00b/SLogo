@@ -19,8 +19,8 @@ public class Cosine implements Command {
     }
 
     /**
-	 * Returns cos of angle of degrees
-	 */
+     * Returns cos of angle of degrees
+     */
     @Override
     public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);

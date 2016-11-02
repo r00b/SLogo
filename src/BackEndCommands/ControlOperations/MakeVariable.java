@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents the make command in Logo.
+ *         This command instance represents the MakeVariable command in Logo.
  */
 public class MakeVariable extends ControlCommand {
 
