@@ -20,11 +20,11 @@ public class ListStart implements Command {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	List<ParseTreeNode> args = node.getChildren();
-    	double answer = 0;
-    	for (ParseTreeNode child : args) {
-    		answer = child.executeCommand(child);
-    	}
+        List<ParseTreeNode> args = node.getChildren();
+        double answer = 0;
+        for (ParseTreeNode child : args) {
+            answer = child.executeCommand(child);
+        }
         return answer;
     }
 

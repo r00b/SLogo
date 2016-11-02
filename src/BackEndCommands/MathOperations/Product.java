@@ -8,28 +8,28 @@ import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the Product Command
- * @author ezra
  *
+ * @author ezra
  */
 public class Product implements Command {
 
-	private static final int ARGS = 2;
+    private static final int ARGS = 2;
 
     public void setProperties(Object o) {
         return;
     }
 
-	/**
-	 * Returns the two arguments multiplied by each other
-	 */
-	@Override
-	public double executeCommand(ParseTreeNode node) {
+    /**
+     * Returns the two arguments multiplied by each other
+     */
+    @Override
+    public double executeCommand(ParseTreeNode node) {
         ParseTreeNode arg1 = node.getChild(0);
         ParseTreeNode arg2 = node.getChild(1);
         double value1 = arg1.executeCommand(arg1);
         double value2 = arg2.executeCommand(arg2);
         return value1 * value2;
-	}
+    }
 
     @Override
     public int numArguments() {

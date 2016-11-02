@@ -6,29 +6,25 @@ import BackEndInternalAPI.ParseTreeNode;
 
 /**
  * Executes the SetHeading Command
- * @author ezra
  *
+ * @author ezra
  */
 public class SetHeading extends TurtleCommand {
-	private static final int ARGS = 1;
+    private static final int ARGS = 1;
 
-	/**
-	 * Turns turtle to absolute heading
-	 * Returns degrees moved. Note that returns the amount of degrees moved clockwise to get to new point
-	 */
-	@Override
-	public double executeCommand(ParseTreeNode node) {
-		ParseTreeNode arg1 = node.getChild(0);
-		//double value1 = arg1.executeCommand(arg1);
-		//Need to get actual rotation so use % 
-		//double setDegrees = value1 % 360;
-		//double currentDegrees = properties.getRotateProperty();
-		double answer = properties.setRotateProperty(arg1, true, true);
-		return answer;
-	}
+    /**
+     * Turns turtle to absolute heading
+     * Returns degrees moved. Note that returns the amount of degrees moved clockwise to get to new point
+     */
+    @Override
+    public double executeCommand(ParseTreeNode node) {
+        ParseTreeNode arg1 = node.getChild(0);
+        double answer = properties.setRotateProperty(arg1, true, true);
+        return answer;
+    }
 
-	@Override
-	public int numArguments() {
-		return ARGS;
-	}
+    @Override
+    public int numArguments() {
+        return ARGS;
+    }
 }

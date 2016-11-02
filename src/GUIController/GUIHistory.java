@@ -178,7 +178,6 @@ public class GUIHistory implements History {
      */
     public void callCommand(String str) {
         redoCommand = str;
-        //System.out.println(redoCommand);
     }
 
     /**

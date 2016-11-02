@@ -101,15 +101,6 @@ public class GUIConsole implements Console{
         window.getChildren().add(list);
     }
 
-    @Override
-    /**
-     *
-     */
-    public void printResult() {
-        
-    }
-
-
     private void addTextLabel(){
         Text label = new Text("Console");
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));

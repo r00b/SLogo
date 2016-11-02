@@ -6,7 +6,7 @@ import BackEndInternalAPI.ParseTreeNode;
 /**
  * @author Robert H. Steilberg II
  *         <p>
- *         This command instance represents a repeat statement in Logo.
+ *         This command instance represents a Repeat statement in Logo.
  */
 public class Repeat extends ControlCommand {
 
@@ -15,14 +15,13 @@ public class Repeat extends ControlCommand {
 
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode arg1 = node.getChild(0);
-		ParseTreeNode arg2 = node.getChild(1);
-		double limit = arg1.getCommandObj().executeCommand(arg1);
+    	ParseTreeNode limitNode = node.getChild(0);
+		ParseTreeNode body = node.getChild(1);
+		double limit = limitNode.executeCommand(limitNode);
         double result = 0;
         for (double i = 1.0; i < limit + 1; i++) {
             getVariables().put(REPCOUNT_VARNAME,i);
-            result = arg2.getCommandObj().executeCommand(arg2);
-            System.out.println(result);
+            result = body.executeCommand(body);
         }
         getVariables().remove(REPCOUNT_VARNAME);
         return result;
