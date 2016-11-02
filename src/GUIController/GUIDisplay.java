@@ -156,7 +156,9 @@ public class GUIDisplay implements RenderSprite {
 
     private void makeTooltip(double newID) {
         double yLoc = 0 - getTurtleLocation(newID).getY();
-        Tooltip t = new Tooltip("X: " + getTurtleLocation(newID).getX() + "\n" + "Y: " + yLoc + "\n"
+        double x = myTurtles.get(newID).getProperties().getXProperty();
+        double y = myTurtles.get(newID).getProperties().getYProperty();
+        Tooltip t = new Tooltip("X: " + myTurtles.get(newID).getProperties().getXProperty() + "\n" + "Y: " + myTurtles.get(newID).getProperties().getYProperty() + "\n"
                 + "Rotation: " + myTurtles.get(newID).getImage().getRotate() + "\n" +
                 "Turtle ID: " + newID);
         Tooltip.install(myTurtles.get(newID).getImage(), t);
@@ -318,7 +320,7 @@ public class GUIDisplay implements RenderSprite {
         }
         Line newLine = new Line(xFrom, yFrom, xDest, yDest);
 
-//        makeTooltip(id);
+        makeTooltip(id);
 
 
 
@@ -589,9 +591,9 @@ public class GUIDisplay implements RenderSprite {
         pathColor = myOptions.getPenColor().getValue();
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
-//        myTurtle.setImage(myOptions.generateTurtleImage());
+        myTurtle.setImage(myOptions.generateTurtleImage());
         for (Turtle turtle : myTurtles.values()) {
-            turtle.getImage().setImage(myOptions.generateTurtleImage());
+            turtle.setImage(myOptions.generateTurtleImage());
         }
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
@@ -792,7 +794,8 @@ public class GUIDisplay implements RenderSprite {
 //		myTurtle.setImage(displayMappings.getTurtleImage(newValue.intValue()));
         Image newImg = displayMappings.getTurtleImage(newValue.intValue());
 //        ImageView myNewImage = new ImageView(newImg);
-
+        
+        myTurtle.setImage(newImg);
 		for (Turtle turtle : myTurtles.values()) {
 			turtle.setImage(newImg);
 		}
