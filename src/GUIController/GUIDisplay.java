@@ -213,71 +213,6 @@ public class GUIDisplay implements RenderSprite {
         //System.out
     }
 
-    /**
-     *
-     */
-    public void drawNewLine(){
-    	double centerX =  20;
-		double centerY = 20;
-        boolean yBoundUpper = false;
-		Line newPath;
-        double yDest = myTurtle.getY() + myTurtle.getTranslateY() + centerY;
-        System.out.println("line dest is " + yDest);
-//        System.out.println("getY() is " + yDest);
-//        System.out.println("getTranslateY() is " + myTurtle.getTranslateY());
-//        if(yDest < Y_POS){
-//            yDest = Y_POS + centerY;
-//            yBoundUpper = true;
-//        }
-
-    	if (turtleMotion.size() < 1) {
-
-    		newPath = new Line(centerX + myTurtle.getTranslateX(),
-                    centerY + myTurtle.getTranslateY(),
-                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
-                    myTurtle.getY() + myTurtle.getTranslateY() + centerY);
-//            newPath = new Line(centerX + myTurtle.getTranslateX(),
-//                    centerY + myTurtle.getTranslateY(),
-//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
-//                    yDest);
-    	}
-    	else{
-    		newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
-                    turtleMotion.get(turtleMotion.size() - 1).getEndY(),
-    				myTurtle.getX() + myTurtle.getTranslateX() + centerX,
-                    myTurtle.getY() + myTurtle.getTranslateY() + centerY);
-//            newPath = new Line(turtleMotion.get(turtleMotion.size() - 1).getEndX(),
-//                    turtleMotion.get(turtleMotion.size() - 1).getEndY(),
-//                    myTurtle.getX() + myTurtle.getTranslateX() + centerX,
-//                    yDest);
-    	}
-
-//    	System.out.println(pathColor);
-    	newPath.setFill(pathColor);
-        newPath.setStroke(pathColor);
-        newPath.setStrokeWidth(strokeWidth);
-//        newPath.setStrokeDashOffset(2);
-        newPath.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
-        newPath.setId("Step" + numSteps);
-        newPath.setVisible(visibility);
-        turtleMotion.add(newPath);
-        window.getChildren().add(newPath);
-
-
-        if(yBoundUpper) myTurtle.setTranslateY(Y_POS);
-        //window.getChildren().remove(myTurtle);
-        //window.getChildren().add(myTurtle);
-    	
-    	//bool.set(false);
-    }
-
-    //DONT NEED IT ANYMORE
-
-    /**
-     *
-     * @param origin
-     * @param destination
-     */
     private void drawNewLine(double x, double y, double id){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
 //                X_POS + destination.getX() + 20, Y_POS + destination.getY() + 20);
@@ -295,8 +230,9 @@ public class GUIDisplay implements RenderSprite {
         newLine.setId("Step" + numSteps);
         newLine.setVisible(visibility);
         //turtleMotion.add(newLine);
-        myTurtles.get(id).getLines().add(newLine);
-        window.getChildren().add(newLine);
+        myTurtles.get(1.0).getLines().add(newLine);
+        window.getChildren().add(window.getChildren().size()-1,newLine);
+
     }
 
     /**
