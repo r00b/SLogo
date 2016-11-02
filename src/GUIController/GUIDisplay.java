@@ -590,9 +590,9 @@ public class GUIDisplay implements RenderSprite {
         pathColor = myOptions.getPenColor().getValue();
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
-//        myTurtle.setImage(myOptions.generateTurtleImage());
+        myTurtle.setImage(myOptions.generateTurtleImage());
         for (Turtle turtle : myTurtles.values()) {
-            turtle.getImage().setImage(myOptions.generateTurtleImage());
+            turtle.setImage(myOptions.generateTurtleImage());
         }
         myPath = myOptions.getLineBox().getValue();
         createDisplayShading();
@@ -793,7 +793,8 @@ public class GUIDisplay implements RenderSprite {
 //		myTurtle.setImage(displayMappings.getTurtleImage(newValue.intValue()));
         Image newImg = displayMappings.getTurtleImage(newValue.intValue());
 //        ImageView myNewImage = new ImageView(newImg);
-
+        
+        myTurtle.setImage(newImg);
 		for (Turtle turtle : myTurtles.values()) {
 			turtle.setImage(newImg);
 		}
