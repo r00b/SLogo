@@ -12,7 +12,7 @@ import java.util.List;
  *         This command instance represents non-conventional commands in Logo
  *         (i.e. method calls for user-defined functions).
  */
-public class Unknown extends ControlCommand {
+public class MethodCall extends ControlCommand {
 
     private static final int ARGS = 0;
 
@@ -49,7 +49,6 @@ public class Unknown extends ControlCommand {
         }
 
         double result = method.getMethod().executeCommand(method.getMethod());
-        getMethodVariables().clear(); // clear temporary method variables
         return result;
     }
 
