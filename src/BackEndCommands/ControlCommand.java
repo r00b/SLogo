@@ -1,15 +1,14 @@
 package BackEndCommands;
 
 import BackEndInternalAPI.*;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableMap;
 
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 /**
  * @author Robert H. Steilberg II
+ * @author ezra
  *         <p>
  *         This command instance represents control command types Logo.
  */

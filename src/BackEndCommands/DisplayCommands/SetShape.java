@@ -3,17 +3,17 @@ package BackEndCommands.DisplayCommands;
 import BackEndCommands.DisplayCommand;
 import BackEndInternalAPI.ParseTreeNode;
 
-public class SetBackground extends DisplayCommand{
+public class SetShape extends DisplayCommand{
 	private static final int ARGS = 1;
 
 	/**
-	 * Sets the background color of the display
+	 * Sets the image of the turtle
 	 */
 	@Override
 	public double executeCommand(ParseTreeNode node) {
 		ParseTreeNode arg1 = node.getChild(0);
 		double value = arg1.executeCommand(arg1);
-		properties.setBackgroundImage(value);
+		properties.setImageIndex(value);
 		return value;	
 	}
 

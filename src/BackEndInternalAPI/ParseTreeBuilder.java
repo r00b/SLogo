@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.util.*;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +24,8 @@ public class ParseTreeBuilder {
     private static CommandTypeDetector myDetector;
     private static String[] myCommands;
     private static int myCommandIndex;
-    private static ObservableComposite myProperties;
+    private static ObservableComposite myTurtleProperties;
+    private static DisplayProperties myDisplayProperties;
     private static Mappings myMappings;
     private static HashSet<String> myErrors;
     private static ResourceBundle myThrowables; // contains error messages
@@ -58,8 +58,9 @@ public class ParseTreeBuilder {
      * @param properties
      */
 
-    public void setTurtleProperties(ObservableComposite properties) {
-        myProperties = properties;
+    public void setProperties(ObservableComposite turtleProperties, DisplayProperties displayProperties) {
+        myTurtleProperties = turtleProperties;
+        myDisplayProperties = displayProperties;
     }
 
     /**
@@ -188,8 +189,9 @@ public class ParseTreeBuilder {
         ParseTreeNode newNode = new ParseTreeNode();
         newNode.setRawCommand(currCommand);
         newNode.setCommandObj(myDetector.getCommandObj(currCommand));
-        newNode.getCommandObj().setProperties(myProperties); // observable properties
+        newNode.getCommandObj().setProperties(myTurtleProperties); // observable turtle properties
         newNode.getCommandObj().setProperties(myMappings); // information about variables
+        newNode.getCommandObj().setProperties(myDisplayProperties); //observable 
         return newNode;
     }
 

@@ -7,34 +7,31 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import com.sun.javafx.logging.Logger;
+
 import BackEndCommands.TurtleCommands.SetXY;
-import BackEndInternalAPI.ObservableProperties;
 import BackEndExternalAPI.CommandParser;
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.CommandTypeDetector;
+
+import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
-import BackEndInternalAPI.ObservableManager;
 
 import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
-import GUI.GUIButtonMenu;
 import GUI.HelpMenu;
 import GUI.OptionsPopup;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -45,19 +42,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.Level;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+
 //import org.apache.commons.lang.ArrayUtils;
 
 /**
@@ -81,6 +66,8 @@ public class GUIManager implements GUIController {
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
+    private ObservableComposite turtleProperties;
+    private DisplayProperties displayProperties;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
     private Scene myWindow;
@@ -132,16 +119,17 @@ public class GUIManager implements GUIController {
 //        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
 
-		ObservableComposite properties = setupBindings();
+		turtleProperties = setupBindings();
+		displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser();
         myVariables.setVariableSetter(commandParser);
         commandParser.initLanguageBinding(myLanguage);
-        commandParser.initTurtlePropertiesBinding(properties);
+        commandParser.initPropertiesBinding(turtleProperties, displayProperties);
         commandParser.initVariablesBinding(myVariables);
 //        commandParser.setProperties(properties); note: robert commented this out and used in constructor instead
         //properties.getRotateProperty().set(0);
         SetXY fd = new SetXY();
-        fd.setProperties(properties);
+        fd.setProperties(turtleProperties);
         ArrayList<Double> list = new ArrayList<Double>();
         list.add(50.0);
         list.add(-75.0);
@@ -161,6 +149,7 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
+        addMoreTurtlesButton();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
@@ -173,16 +162,16 @@ public class GUIManager implements GUIController {
         background.fitHeightProperty().bind(window.heightProperty());
         myDisplay.bindNodes(window.widthProperty());
 //        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
-        myEditor.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
-        myEditor.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
-        myEditor.bindNodes(window.widthProperty(), window.heightProperty());
+        myConsole.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
+        myConsole.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
     }
 
     private ObservableComposite setupBindings() {
-    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
-    	ObservableComposite answer = new ObservableComposite(property);
+//    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
+    	ObservableComposite answer = new ObservableComposite(myDisplay);
     	System.out.println("");
     	return answer;
     }
@@ -216,8 +205,8 @@ public class GUIManager implements GUIController {
         });
         run.setOnMouseExited(e -> run.setStyle(overButton));
         run.setOnMouseClicked(e -> returnAction());
-        run.setTranslateX(700);
-        run.setTranslateY(600);
+        run.setTranslateX(80);
+        run.setTranslateY(350);
         window.getChildren().add(run);
     }
 
@@ -233,6 +222,32 @@ public class GUIManager implements GUIController {
         hist.setTranslateX(528);
         hist.setTranslateY(705);
         window.getChildren().add(hist);
+    }
+
+        private void addMoreTurtlesButton(){
+            TextField enterID = new TextField();
+            enterID.setTranslateX(1110);
+            enterID.setTranslateY(125);
+            enterID.setPromptText("Enter your new turtle's ID");
+            enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if(event.getCode() == KeyCode.ENTER){
+                        turtleProperties.setNewTurtle(Double.parseDouble(enterID.getText()));
+                    }
+                }
+            });
+            window.getChildren().add(enterID);
+//        Button addTurtles = new Button("Add Turtles");
+//        addTurtles.setTranslateX(1110);
+//        addTurtles.setTranslateY(125);
+//        addTurtles.setStyle(overButton);
+//        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
+//        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
+//        addTurtles.setOnMouseClicked(e -> {
+//
+//        });
+//        window.getChildren().add(addTurtles);
     }
 
     @Override
