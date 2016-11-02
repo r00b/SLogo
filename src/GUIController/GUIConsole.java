@@ -172,4 +172,6 @@ public class GUIConsole implements Console{
     public Rectangle getBackdrop(){
         return backdrop;
     }
+
+    
 }

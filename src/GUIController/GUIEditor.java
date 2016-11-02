@@ -90,7 +90,7 @@ public class GUIEditor implements Editor {
         textArea = new TextArea();
         textArea.setTranslateX(BACKDROP_X + 10);
         textArea.setTranslateY(BACKDROP_Y + 40);
-        textArea.setPrefSize(BACKDROP_WIDTH - 30, BACKDROP_HEIGHT - 40);
+        textArea.setPrefSize(BACKDROP_WIDTH - 30, BACKDROP_HEIGHT - 50);
         textArea.setWrapText(true);
         textArea.setText("> " + defaultCommand);
         textArea.positionCaret(textArea.getText().length());

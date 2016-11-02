@@ -191,4 +191,8 @@ public class GUIHistory implements History {
     private void clear(){
         oldCommands.clear();
     }
+
+    public ListView getListView(){
+        return list;
+    }
 }

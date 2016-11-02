@@ -145,6 +145,7 @@ public class GUIManager implements GUIController {
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+//        myHistory.getListView().heightProperty().bind
     }
     private ObservableComposite setupBindings() {
 //    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
@@ -404,26 +405,25 @@ public class GUIManager implements GUIController {
          */
         @Override
         public void addButtons() {
-            Image newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/play.png"));
-            ImageView imgV = new ImageView(newImage);
-            Button play = newButton("PLAY", imgV, 30, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/pause.png"));
-            imgV = new ImageView(newImage);
-            Button pause = newButton("PAUSE", imgV, 130, 40);
-            newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/stop.png"));
-            imgV = new ImageView(newImage);
-            Button stop = newButton("STOP", imgV, 240, 40);
+//            Image newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/play.png"));
+//            ImageView imgV = new ImageView(newImage);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/pause.png"));
+//            imgV = new ImageView(newImage);
+//            Button pause = newButton("PAUSE", imgV, 130, 40);
+//            newImage = new Image(getClass().getClassLoader()
+//                    .getResourceAsStream("images/stop.png"));
+//            imgV = new ImageView(newImage);
+//            Button stop = newButton("STOP", imgV, 240, 40);
 //        newImage = new Image(getClass().getClassLoader()
 //                .getResourceAsStream("images/options.png"));
 //        imgV = new ImageView(newImage);
 //        Button options = newButton("OPTIONS", imgV, 340, 40);
 //        options.setOnMouseClicked(e -> optionsHandler());
-            newImage = new Image(getClass().getClassLoader()
+            Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
-            imgV = new ImageView(newImage);
+            ImageView imgV = new ImageView(newImage);
             Button help = newButton("HELP", imgV, 337, 40);
             help.setOnMouseClicked(e -> helpHandler());
             Button save = newButton("Save Defaults", null, 750, 50);
@@ -438,11 +438,11 @@ public class GUIManager implements GUIController {
                     e1.printStackTrace();
                 }
             });
-            window.getChildren().add(load);
-            window.getChildren().add(play);
-            window.getChildren().add(pause);
-            window.getChildren().add(stop);
-            window.getChildren().add(help);
+            newImage = new Image(getClass().getClassLoader()
+                    .getResourceAsStream("images/apply.png"));
+            imgV = new ImageView(newImage);
+            Button play = newButton("APPLY", imgV, 30, 40);
+            window.getChildren().addAll(load, help, play);
 //        window.getChildren().add(options);
         }
         public Button newButton(String text, ImageView imgV, int x, int y) {
@@ -467,6 +467,27 @@ public class GUIManager implements GUIController {
             backgroundBox.setValue(defaultBackground);
             backgroundBox.setTranslateX(440);
             backgroundBox.setTranslateY(50);
+            backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
+                String chosenBackground = "";
+                switch (newbackground){
+                    case "Circuits":
+                        chosenBackground = "images/background.jpg";
+                        break;
+                    case "Floating Cubes":
+                        chosenBackground = "images/floatingCubes.jpg";
+                        break;
+                    case "Nebula":
+                        chosenBackground = "images/nebula.jpg";
+                        break;
+                    case "Metal Sheets":
+                        chosenBackground = "images/dark-wallpaper-2.jpg";
+                        break;
+                    case "Spinning Screens":
+                        chosenBackground = "images/spinningScreens.jpg";
+                        break;
+                }
+                setNewBackground(chosenBackground);
+            });
 //        backgroundBox.setStyle(buttonFill);
 //        backgroundBox.style
             window.getChildren().add(backgroundBox);
@@ -475,6 +496,13 @@ public class GUIManager implements GUIController {
             languageBox.setTranslateX(610);
             languageBox.setTranslateY(50);
             window.getChildren().add(languageBox);
+            languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
+        }
+
+        private void setNewBackground(String newBackground){
+            Image newB = new Image(getClass().getClassLoader()
+                    .getResourceAsStream(newBackground));
+            background.setImage(newB);
         }
         /**
          * @param paint
