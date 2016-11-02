@@ -149,6 +149,7 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         addRunButton();
         addHistoryButton();
+        addApplyButton();
         addMoreTurtlesButton();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
@@ -223,6 +224,24 @@ public class GUIManager implements GUIController {
         hist.setTranslateY(705);
         window.getChildren().add(hist);
     }
+    
+    private void addApplyButton() {
+        Button hist = new Button("Apply");
+        hist.setStyle(overButton);
+        hist.setOnMouseEntered(e -> {
+            hist.setStyle(buttonFill);
+            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+        });
+        hist.setOnMouseExited(e -> hist.setStyle(overButton));
+        hist.setOnMouseClicked(e -> applyChanges());
+        hist.setTranslateX(1000);
+        hist.setTranslateY(50);
+        window.getChildren().add(hist);
+    }
+
+        private void applyChanges () {
+            myDisplay.getMyOptions().setBackgroundString();
+        }
 
         private void addMoreTurtlesButton(){
             TextField enterID = new TextField();
@@ -401,7 +420,9 @@ private class GUIButtonMenu implements ButtonMenu{
         //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         //fileChooser.getExtensionFilters().add(extFilter);
         fileChooser.setTitle("Load Defaults");
-        File file = fileChooser.showOpenDialog(stage);
+        File file = new File("");
+        try{
+        file = fileChooser.showOpenDialog(stage);
         FileReader fr = new FileReader(file);
         BufferedReader buffRead = new BufferedReader(fr);
         String line = null;
@@ -426,6 +447,9 @@ private class GUIButtonMenu implements ButtonMenu{
         }   
         //TODO: Actually update based on what was loaded
         buffRead.close();
+}catch(NullPointerException e){
+            
+        }
             
         }
         catch(IOException ex) {

@@ -27,6 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 //
 //import java.awt.*;
@@ -86,6 +87,7 @@ public class GUIDisplay implements RenderSprite {
 //        addMoreTurtlesButton();
 //        addTurtle();
         addHelpButton();
+        
     }
 
     public void setInitialTurtle(String initialTurtle){
@@ -117,19 +119,27 @@ public class GUIDisplay implements RenderSprite {
         newTurtle.setID(newID);
         myTurtles.put(newID, newTurtle);
 //        myTurtle.min
-        makeTooltip();
+        makeTooltip(newID);
         System.out.println("w = " + newTurtle.getImage().getFitWidth());
         window.getChildren().add(newTurtle.getImage());
-
+        myTurtles.get(newID).getImage().setOnMouseClicked(e -> togglePen());
         return new ObservableProperties(myNewTurtle, this, newID);
+        
+    }
+    
+    
+    //PEN TOGGLES HERE
+    //TODO Need to call observable properties to update penup and pendown
+    private void togglePen(){
+         visibility = !visibility;
     }
 
-    private void makeTooltip(){
-        Tooltip t = new Tooltip("X: " + getTurtleLocation().getX() + "\n" + "Y: " + getTurtleLocation().getY() + "\n");
-        t.setText(t.getText() + "Line Width: " + strokeWidth + "\n");
-        t.setText(t.getText() + "Pen Color: " + pathColor + "\n");
-        t.setText(t.getText() + "Rotation: " + myTurtle.getRotate() + "\n");
-        Tooltip.install(myTurtle, t);
+    private void makeTooltip(double newID){
+        double yLoc = 0 - getTurtleLocation(newID).getY();
+        Tooltip t = new Tooltip("X: " + getTurtleLocation(newID).getX() + "\n" + "Y: " + yLoc + "\n"
+        + "Rotation: " + myTurtles.get(newID).getImage().getRotate() + "\n" + 
+        "Turtle ID: " + newID);
+        Tooltip.install(myTurtles.get(newID).getImage(), t);
     }
     
     private void addTextLabel(){
@@ -182,6 +192,10 @@ public class GUIDisplay implements RenderSprite {
             return null;
     }
     
+    public DisplayMenu getMyOptions(){
+        return myOptions;
+    }
+    
     private void helpHandler(){
         Stage s = new Stage();
         helpWindow = new DisplayHelp(s);
@@ -211,7 +225,9 @@ public class GUIDisplay implements RenderSprite {
         myTurtles.get(id).getImage().setX(x);
         myTurtles.get(id).getImage().setY(-y);
         //System.out
+        makeTooltip(id);
     }
+   
 
     private void drawNewLine(double x, double y, double id){
 //        Line newLine = new Line(origin.getX() + 20, origin.getY() + 20,
@@ -309,10 +325,11 @@ public class GUIDisplay implements RenderSprite {
 
     /**
      *
+     * @param newID 
      * @return
      */
-    public Point getTurtleLocation(){
-        return new Point((int)myTurtle.getTranslateX(), (int)myTurtle.getTranslateY());
+    public Point getTurtleLocation(double newID){
+        return new Point((int)myTurtles.get(newID).getImage().getX(), (int)myTurtles.get(newID).getImage().getY());
     }
 
     @Override
@@ -333,8 +350,8 @@ public class GUIDisplay implements RenderSprite {
 
     public void applyDisplayChanges(){
         pathColor = myOptions.getPenColor().getValue();
-        System.out.println("pen: " + pathColor);
-        System.out.println("display: " + myOptions.getDisplayColor());
+        //System.out.println("pen: " + pathColor);
+        //System.out.println("display: " + myOptions.getDisplayColor());
 //        applyDisplayChanges(myOptions.getTurtleBox().getValue());
         myOptions.setTurtleString();
         myTurtle.setImage(myOptions.generateTurtleImage());
@@ -342,7 +359,7 @@ public class GUIDisplay implements RenderSprite {
         createDisplayShading();
         strokeWidth = myOptions.getStrokeWidth();
         setVisibility(!myOptions.isPenUp());
-        makeTooltip();
+        //makeTooltip();
     }
 
     private void createDisplayShading(){
@@ -385,7 +402,7 @@ public class GUIDisplay implements RenderSprite {
 //        addDisplayControlButtons();
     }
 
-    private class DisplayMenu extends OptionsMenu{
+    class DisplayMenu extends OptionsMenu{
 
         private static final int DROP_DOWN_X_VALUE = 400;
         private static final int PEN_MIN = 0;
@@ -554,4 +571,5 @@ public class GUIDisplay implements RenderSprite {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }
