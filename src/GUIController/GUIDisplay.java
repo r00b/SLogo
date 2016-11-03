@@ -186,7 +186,7 @@ public class GUIDisplay implements RenderSprite {
         optionsButton.setOnMouseExited(e -> optionsButton.setStyle(overButton));
         optionsButton.setOnMouseClicked(e -> updateDisplayOptions());
         optionsButton.setTranslateX(760);
-        optionsButton.setTranslateY(50);
+        optionsButton.setTranslateY(40);
         window.getChildren().add(optionsButton);
     }
 
@@ -340,7 +340,7 @@ public class GUIDisplay implements RenderSprite {
         newLine.setId("Step" + numSteps);
         newLine.getStrokeDashArray().addAll(myPath.getStrokeDashArray());
         newLine.setVisible(myTurtles.get(id).isVisible());
-        //turtleMotion.add(newLine);
+        turtleMotion.add(newLine);
         myTurtles.get(1.0).getLines().add(newLine);
         window.getChildren().add(window.getChildren().size() - 1, newLine);
 
@@ -514,7 +514,7 @@ public class GUIDisplay implements RenderSprite {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 380, 50);
+        Button clear = newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 380, 40);
         clear.setOnMouseClicked(e -> {
             window.getChildren().removeAll(turtleMotion);
             turtleMotion.clear();
@@ -522,14 +522,14 @@ public class GUIDisplay implements RenderSprite {
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/options.png"));
         ImageView optionsImg = new ImageView(newImage);
-        optionsButton = newButton("Display Options", optionsImg, 840, 50);
+        optionsButton = newButton("Display Options", optionsImg, 840, 40);
         optionsButton.setOnMouseClicked(e -> {
             updateDisplayOptions();
         });
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/reset.png"));
         ImageView resetImg = new ImageView(newImage);
-        Button reset = newButton("Reset", resetImg, 1090, 50);
+        Button reset = newButton("Reset", resetImg, 1090, 40);
         reset.setOnMouseClicked(e -> resetIDE());
 //        optionsButton.setTranslateX(760);
 //        optionsButton.setTranslateY(120);

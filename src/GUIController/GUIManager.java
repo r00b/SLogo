@@ -43,12 +43,8 @@ import javafx.stage.Stage;
  * Created by Delia on 10/15/2016.
  */
 public class GUIManager implements GUIController {
-    /**
-     * http://www.javaworld.com/article/2071784/enterprise-java/java-xml-mapping-made-easy-with-jaxb-2-0.html
-     * https://docs.oracle.com/javase/tutorial/jaxp/xslt/generatingXML.html#gghhj
-     */
-    public static final int IDE_WIDTH = 1400;
-    public static final int IDE_HEIGHT = 800;
+    private static final int IDE_WIDTH = 1400;
+    private static final int IDE_HEIGHT = 800;
     private ImageView background, turtle;
     private Stage stage;
     private Scene myWindow;
@@ -70,12 +66,6 @@ public class GUIManager implements GUIController {
 
     private SimpleStringProperty myLanguage;
     private String backgroundStr, turtleStr, language;
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
     /**
      * @param penColor
      * @param background
@@ -133,77 +123,63 @@ public class GUIManager implements GUIController {
         myButtonMenu = new GUIButtonMenu(window, penColor);
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
         addRunButton();
-        addHistoryButton();
+        addLoadButton();
         addMoreTurtlesField();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
     }
-    //don't think i understand binding that well yet but this doesn't work for some reason
+
     private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
         myDisplay.bindNodes(window.widthProperty());
-//        myDisplay.getGraph().fitWidthProperty().bind(window.widthProperty().subtract(630));
         myConsole.getBackdrop().widthProperty().bind(window.widthProperty().subtract(630));
         myConsole.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
-//        myHistory.getListView().heightProperty().bind
     }
+
     private ObservableComposite setupBindings() {
-//    	ObservableProperties property = new ObservableProperties(turtle, myDisplay, 1);
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-    //    private void handleKeyInput (KeyCode code){
-//        switch (code) {
-//            case ENTER:
-//                newCommand = commandMaker.getCommandObj(myEditor.enterPressed());
-//                myEditor.startNewCommand();
-//                turtle.setTranslateX(turtle.getTranslateX() - 10);
-//                break;
-//            default:
-//        }
-//    }
+
+     //do we still need this
     public String getLanguage() {
         return language;
     }
-    private void addRunButton() {
+
+    private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/play.png"));
         ImageView imgV = new ImageView(newImage);
-        imgV.setFitWidth(25);
-        imgV.setFitHeight(25);
-        Button run = new Button("Run", imgV);
-        run.setStyle(overButton);
+        Button run = myFactory.makeButton("Run", imgV, 80, 350);
         run.setOnMouseEntered(e -> {
-            run.setStyle(buttonFill);
+            run.setStyle(myFactory.getButtonFill());
             myEditor.getBackdrop().opacityProperty().setValue(0.8);
         });
-        run.setOnMouseExited(e -> run.setStyle(overButton));
         run.setOnMouseClicked(e -> returnAction());
-        run.setTranslateX(80);
-        run.setTranslateY(350);
         window.getChildren().add(run);
     }
-    private void addHistoryButton() {
-        Button hist = new Button("Load");
-        hist.setStyle(overButton);
+
+    private void addLoadButton() {
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/load.png"));
+        ImageView imgV = new ImageView(newImage);
+        Button hist = myFactory.makeButton("Load", imgV, 400, 600);
         hist.setOnMouseEntered(e -> {
-            hist.setStyle(buttonFill);
+            hist.setStyle(myFactory.getButtonFill());
             myEditor.getBackdrop().opacityProperty().setValue(0.8);
         });
-        hist.setOnMouseExited(e -> hist.setStyle(overButton));
         hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
-        hist.setTranslateX(528);
-        hist.setTranslateY(705);
-        window.getChildren().add(hist);
+        window.getChildren().addAll(hist);
     }
+
     private void addMoreTurtlesField() {
         TextField enterID = myFactory.makeTextField(
-                "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 53);
+                "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 43);
         enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -214,6 +190,7 @@ public class GUIManager implements GUIController {
         });
         window.getChildren().add(enterID);
     }
+
     @Override
     public void getInitialParams() {
     }
@@ -232,6 +209,7 @@ public class GUIManager implements GUIController {
     @Override
     public void storeOldCommand() {
     }
+
     @Override
     public void returnAction() {
         String fullText = myEditor.getCurrentText();
@@ -248,10 +226,12 @@ public class GUIManager implements GUIController {
             commandParser.getErrors().forEach(myConsole::addConsole);
         }
     }
+
     private void getAndLoadHistoryCommand() {
         String redoCommand = myHistory.getRedoCommand();
         myEditor.redoCommand(redoCommand);
     }
+
     private int lookForLatest(String fullText) {
         int startIndex = -1;
         for (int i = fullText.length() - 1; i >= 0; i--) {
@@ -262,18 +242,19 @@ public class GUIManager implements GUIController {
         }
         return startIndex;
     }
+
     public Scene getMyWindow() {
         return myWindow;
     }
+
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
         private Rectangle backdrop;
         private Stage s = new Stage();
+
         private String defaultBackground = "Nebula";
         private String defaultLanguage = "English";
-        private OptionsPopup myOptions;
-        private HelpMenu myHelpMenu;
         private ComboBox<String> backgroundBox, languageBox;
         private ObservableList<String> backgroundOptions =
                 FXCollections.observableArrayList(
@@ -295,12 +276,10 @@ public class GUIManager implements GUIController {
                         "Spanish",
                         "Syntax"
                 );
-        private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-                "-fx-background-radius: 20;" +
-                "-fx-text-fill: white;";
-        private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-                "-fx-background-radius: 20;" +
-                "-fx-text-fill: white;";
+
+        private HelpMenu myHelpMenu;
+        private NodeFactory myFactory = new NodeFactory();
+
         /**
          * @param p
          * @param borderColor
@@ -308,37 +287,23 @@ public class GUIManager implements GUIController {
         public GUIButtonMenu(Pane p, Paint borderColor) {
             this.window = p;
             this.border = borderColor;
-//        myOptions = new OptionsPopup();
             drawButtonMenu();
             addTextLabel();
             addButtons();
             addComboBoxes();
         }
         private void drawButtonMenu() {
-            backdrop = new Rectangle(1580, 90, Color.WHITE);
-            backdrop.setStroke(border);
-            backdrop.setStrokeWidth(5);
-            backdrop.setTranslateY(10);
-            backdrop.setTranslateX(10);
-            backdrop.opacityProperty().setValue(0.5);
-//        backdrop.setOnMouseMoved(e -> handle(e));
-            backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-            backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+            backdrop = myFactory.makeBackdrop(border, 1580, 90, 10, 10);
             window.getChildren().add(backdrop);
         }
         private void addTextLabel() {
-            Text label = new Text("Options");
-            label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+            Text label = myFactory.makeTitle("Options", 20, 30);
             label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-            label.setTranslateX(20);
-            label.setTranslateY(30);
             window.getChildren().add(label);
         }
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
             FileChooser fileChooser = new FileChooser();
-            //FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            //fileChooser.getExtensionFilters().add(extFilter);
             fileChooser.setTitle("Load Defaults");
             File file = fileChooser.showOpenDialog(stage);
             FileReader fr = new FileReader(file);
@@ -401,11 +366,17 @@ public class GUIManager implements GUIController {
             Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
             ImageView imgV = new ImageView(newImage);
-            Button help = newButton("HELP", imgV, 150, 40);
+            Button help = myFactory.makeButton("HELP", imgV, 130, 40);
             help.setOnMouseClicked(e -> helpHandler());
-            Button save = newButton("Save Defaults", null, 600, 50);
+            newImage = new Image(getClass().getClassLoader()
+                    .getResourceAsStream("images/save.png"));
+            imgV = new ImageView(newImage);
+            Button save = myFactory.makeButton("Save Defaults", imgV, 555, 40);
             save.setOnMouseClicked(e -> saveFile());
-            Button load = newButton("Load Defaults", null, 715, 50);
+            newImage = new Image(getClass().getClassLoader()
+                    .getResourceAsStream("images/load.png"));
+            imgV = new ImageView(newImage);
+            Button load = myFactory.makeButton("Load defaults", imgV, 697, 40);
             load.setOnMouseClicked(e -> {
                 try {
                     loadFile();
@@ -417,31 +388,16 @@ public class GUIManager implements GUIController {
             newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/apply.png"));
             imgV = new ImageView(newImage);
-            Button play = newButton("APPLY", imgV, 30, 40);
+            Button play = myFactory.makeButton("APPLY", imgV, 20, 40);
             window.getChildren().addAll(save, load, help, play);
         }
-        public Button newButton(String text, ImageView imgV, int x, int y) {
-            if (imgV != null) {
-                imgV.setFitWidth(40);
-                imgV.setFitHeight(40);
-            }
-            Button run = new Button(text, imgV);
-            run.setStyle(overButton);
-            run.setOnMouseEntered(e -> {
-                run.setStyle(buttonFill);
-                backdrop.opacityProperty().setValue(0.8);
-            });
-            run.setOnMouseExited(e -> run.setStyle(overButton));
-            run.setTranslateX(x);
-            run.setTranslateY(y);
-            return run;
-        }
+
         private void addComboBoxes() {
             System.setProperty("glass.accessible.force", "false");
             backgroundBox = new ComboBox<String>(backgroundOptions);
             backgroundBox.setValue(defaultBackground);
-            backgroundBox.setTranslateX(270);
-            backgroundBox.setTranslateY(50);
+            backgroundBox.setTranslateX(230);
+            backgroundBox.setTranslateY(45);
             backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
                 String chosenBackground = "";
                 switch (newbackground){
@@ -465,8 +421,8 @@ public class GUIManager implements GUIController {
             });
             languageBox = new ComboBox<String>(languageOptions);
             languageBox.setValue(defaultLanguage);
-            languageBox.setTranslateX(460);
-            languageBox.setTranslateY(50);
+            languageBox.setTranslateX(415);
+            languageBox.setTranslateY(45);
             window.getChildren().addAll(backgroundBox, languageBox);
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
@@ -476,19 +432,7 @@ public class GUIManager implements GUIController {
                     .getResourceAsStream(newBackground));
             background.setImage(newB);
         }
-        /**
-         * @param paint
-         * @param background
-         * @param turtle
-         * @param language
-         */
-        public void setDefaults(Color paint, String background, String turtle, String language) {
-            myOptions = new OptionsPopup(s, paint, background, turtle, language);
-        }
-        //
-//    private void optionsHandler(){
-//        myOptions.initPopup();
-//    }
+
         private void helpHandler() {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
