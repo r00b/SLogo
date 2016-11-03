@@ -544,6 +544,7 @@ public class GUIDisplay implements RenderSprite {
         run.setStyle(overButton);
         run.setOnMouseEntered(e -> {
             run.setStyle(buttonFill);
+            
         });
         run.setOnMouseExited(e -> run.setStyle(overButton));
         run.setTranslateX(x);

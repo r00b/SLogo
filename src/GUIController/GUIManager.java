@@ -14,7 +14,6 @@ import Base.NodeFactory;
 import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
-import GUI.OptionsPopup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -33,8 +32,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -92,12 +89,10 @@ public class GUIManager implements GUIController {
     }
     @Override
     public void init() {
-        //create histoy, console, editor, display, myVariables, button menu
         stage = new Stage();
         stage.setTitle("Slogo");
         Scene myScene = new Scene(setUpWindow());
         myWindow = myScene;
-//        myWindow.setOnMouseClicked(e -> );
         stage.setScene(myWindow);
         turtleProperties = setupBindings();
         displayProperties = new DisplayProperties(myDisplay);
@@ -112,6 +107,7 @@ public class GUIManager implements GUIController {
         stage.setScene(myScene);
         stage.show();
     }
+
     private Parent setUpWindow() {
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
@@ -125,7 +121,6 @@ public class GUIManager implements GUIController {
         addRunButton();
         addLoadButton();
         addMoreTurtlesField();
-//        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
     }
@@ -149,6 +144,10 @@ public class GUIManager implements GUIController {
      //do we still need this
     public String getLanguage() {
         return language;
+    }
+
+    public Rectangle getOptionsBackdrop(){
+        return getOptionsBackdrop();
     }
 
     private void addRunButton(){
@@ -180,12 +179,9 @@ public class GUIManager implements GUIController {
     private void addMoreTurtlesField() {
         TextField enterID = myFactory.makeTextField(
                 "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 43);
-        enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    turtleProperties.setNewTurtle(Double.parseDouble(enterID.getText()));
-                }
+        enterID.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                turtleProperties.setNewTurtle(Double.parseDouble(enterID.getText()));
             }
         });
         window.getChildren().add(enterID);
@@ -367,16 +363,28 @@ public class GUIManager implements GUIController {
                     .getResourceAsStream("images/help.png"));
             ImageView imgV = new ImageView(newImage);
             Button help = myFactory.makeButton("HELP", imgV, 130, 40);
+            help.setOnMouseEntered(e -> {
+                help.setStyle(myFactory.getButtonFill());
+                backdrop.opacityProperty().setValue(0.8);
+            });
             help.setOnMouseClicked(e -> helpHandler());
             newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/save.png"));
             imgV = new ImageView(newImage);
             Button save = myFactory.makeButton("Save Defaults", imgV, 555, 40);
+            save.setOnMouseEntered(e -> {
+                save.setStyle(myFactory.getButtonFill());
+                backdrop.opacityProperty().setValue(0.8);
+            });
             save.setOnMouseClicked(e -> saveFile());
             newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/load.png"));
             imgV = new ImageView(newImage);
             Button load = myFactory.makeButton("Load defaults", imgV, 697, 40);
+            load.setOnMouseEntered(e -> {
+                load.setStyle(myFactory.getButtonFill());
+                backdrop.opacityProperty().setValue(0.8);
+            });
             load.setOnMouseClicked(e -> {
                 try {
                     loadFile();
@@ -389,6 +397,10 @@ public class GUIManager implements GUIController {
                     .getResourceAsStream("images/apply.png"));
             imgV = new ImageView(newImage);
             Button play = myFactory.makeButton("APPLY", imgV, 20, 40);
+            play.setOnMouseEntered(e -> {
+                play.setStyle(myFactory.getButtonFill());
+                backdrop.opacityProperty().setValue(0.8);
+            });
             window.getChildren().addAll(save, load, help, play);
         }
 
@@ -398,6 +410,8 @@ public class GUIManager implements GUIController {
             backgroundBox.setValue(defaultBackground);
             backgroundBox.setTranslateX(230);
             backgroundBox.setTranslateY(45);
+            backgroundBox.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+            backgroundBox.setOnMouseExited(ee -> backdrop.opacityProperty().setValue(0.5));
             backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
                 String chosenBackground = "";
                 switch (newbackground){
@@ -424,6 +438,8 @@ public class GUIManager implements GUIController {
             languageBox.setTranslateX(415);
             languageBox.setTranslateY(45);
             window.getChildren().addAll(backgroundBox, languageBox);
+            languageBox.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
+            languageBox.setOnMouseExited(ee -> backdrop.opacityProperty().setValue(0.5));
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
 
