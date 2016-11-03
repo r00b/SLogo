@@ -26,12 +26,14 @@ public class CommandSanitizer {
         ArrayList<String> sanitizedCommands = new ArrayList<String>();
         sanitizedCommands.add("["); // put all commands in a list on one "line"
         for (String command : commands) {
-            if (!(command.trim().charAt(0) == '#')) { // entire line is comment
-                String[] splitCommands = command.trim().split(settings.getString("Delimiter"));
-                for (String splitCommand : splitCommands) {
-                    if (splitCommand.equals("#")) break; // inline comment
-                    if (!splitCommand.equals("")) { // don't add empty lines
-                        sanitizedCommands.add(splitCommand);
+            if (!command.equals(" ")) {
+                if (!(command.trim().charAt(0) == '#')) { // entire line is comment
+                    String[] splitCommands = command.trim().split(settings.getString("Delimiter"));
+                    for (String splitCommand : splitCommands) {
+                        if (splitCommand.equals("#")) break; // inline comment
+                        if (!splitCommand.equals("")) { // don't add empty lines
+                            sanitizedCommands.add(splitCommand);
+                        }
                     }
                 }
             }
