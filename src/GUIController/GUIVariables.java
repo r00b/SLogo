@@ -1,6 +1,7 @@
 package GUIController;
 
 import BackEndExternalAPI.CommandParser;
+import Base.NodeFactory;
 import FrontEndExternalAPI.Variables;
 import GUI.VariablesHelp;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -29,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javafx.event.Event;
+import jdk.internal.util.xml.BasicXmlPropertiesProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,22 +40,19 @@ import java.util.stream.Collectors;
  * Created by Delia on 10/15/2016.
  */
 public class GUIVariables implements Variables {
+    private static final int BACKDROP_X = 10;
+    private static final int BACKDROP_Y = 110;
+
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
-    private VariablesHelp helpWindow;
     private TableView table = new TableView();
+    private TextField addVariableName, addVariableValue;
     private TableColumn variableNameCol, valueCol;
     private ObservableList<Variable> data = FXCollections.observableArrayList();
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String textFieldFill = "-fx-background-color: linear-gradient(#00110e, #4d66cc);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
+
+    private VariablesHelp helpWindow;
+    private NodeFactory myFactory = new NodeFactory();
     private CommandParser myVariableSetter;
 
     /**
@@ -76,36 +75,22 @@ public class GUIVariables implements Variables {
     }
 
     private void drawVariables() {
-        backdrop = new Rectangle(600, 230, Color.WHITE);
-        backdrop.setStroke(border);
-        backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(110);
-        backdrop.setTranslateX(10);
-        backdrop.opacityProperty().setValue(0.5);
-        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        backdrop = myFactory.makeBackdrop(border, 600, 230, BACKDROP_X, BACKDROP_Y);
         window.getChildren().add(backdrop);
     }
 
     private void addTextLabel() {
-        Text label = new Text("Declared Variables");
-        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        Text label = myFactory.makeTitle("Declared Variables", BACKDROP_X + 10, BACKDROP_Y + 20);
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(20);
-        label.setTranslateY(130);
         window.getChildren().add(label);
     }
 
     private void addHelpButton() {
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        ImageView helpButton = myFactory.makeHelpButton(
+                backdrop.getTranslateX() + backdrop.getWidth() - 35,
+                backdrop.getTranslateY() + 10);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
-        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
-        helpButton.setFitWidth(30);
-        helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
     }
 
@@ -171,11 +156,13 @@ public class GUIVariables implements Variables {
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getVariableName().equals(name.substring(1))) {
                 contains = true;
+                System.out.println("variable found");
                 data.get(i).setVariableValue(value);
                 break;
             }
         }
         if (!contains) {
+            System.out.println("variable not found");
             data.add(new Variable(name.substring(1), value));
         }
         table.setItems(data);
@@ -184,66 +171,57 @@ public class GUIVariables implements Variables {
     }
 
     private void addVariableManually() {
-        final TextField addVariableName = new TextField();
-        addVariableName.setPromptText("Enter variable name");
-        addVariableName.setMaxWidth(variableNameCol.getPrefWidth() - 30);
-        addVariableName.setTranslateX(50);
-        addVariableName.setTranslateY(310);
-        addVariableName.setStyle(textFieldFill);
-        final TextField addVariableVal = new TextField();
-        addVariableVal.setMaxWidth(valueCol.getPrefWidth() - 30);
-        addVariableVal.setPromptText("Enter variable value");
-        addVariableVal.setTranslateX(300);
-        addVariableVal.setTranslateY(310);
-        addVariableVal.setStyle(textFieldFill);
+        addVariableName = myFactory.makeTextField(
+                "Enter variable name", variableNameCol.getPrefWidth() - 30,
+                BACKDROP_X + 40, BACKDROP_Y + 200);
+        addVariableValue = myFactory.makeTextField(
+                "Enter variable value", valueCol.getPrefWidth() - 30,
+                BACKDROP_X + 290, BACKDROP_Y + 200);
 
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/add.png"));
         ImageView addImg = new ImageView(newImage);
-        final Button addButton = newButton("Add", addImg, 520, 310);
-
-        addButton.setOnAction(e -> {
-            data.add(new Variable(addVariableName.getText(),
-                    Double.parseDouble(addVariableVal.getText())));
-            String command = "make " + addVariableName.getText() + " " + addVariableVal.getText();
-            String[] commands = new String[1];
-            commands[0] = command;
-            myVariableSetter.executeCommands(commands);
-            addVariableName.clear();
-            addVariableVal.clear();
+        Button addButton = myFactory.makeButton("Add", addImg, 520, 310);
+        addButton.setOnMouseEntered(e -> {
+            addButton.setStyle(myFactory.getButtonFill());
+            backdrop.opacityProperty().setValue(0.8);
         });
 
+        addButton.setOnAction(e -> addButtonHandler());
+
         table.setEditable(true);
-        window.getChildren().addAll(addVariableName, addVariableVal, addButton);
+        window.getChildren().addAll(addVariableName, addVariableValue, addButton);
+    }
 
-
-
+    private void addButtonHandler(){
+        data.add(new Variable(addVariableName.getText(),
+                Double.parseDouble(addVariableValue.getText())));
+        String command = "make " + addVariableName.getText() + " " + addVariableValue.getText();
+        String[] commands = new String[1];
+        commands[0] = command;
+        myVariableSetter.executeCommands(commands);
+        addVariableName.clear();
+        addVariableValue.clear();
     }
 
     private void addClearButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 200, (int) backdrop.getTranslateY());
-        clear.setOnMouseClicked(e -> data.clear());
-        window.getChildren().add(clear);
-    }
-
-    private Button newButton(String text, ImageView imgV, int x, int y) {
-        imgV.setFitWidth(25);
-        imgV.setFitHeight(25);
-        Button run = new Button(text, imgV);
-        run.setStyle(overButton);
-        run.setOnMouseEntered(e -> {
-            run.setStyle(buttonFill);
+//        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 200, (int) backdrop.getTranslateY());
+        Button clear = myFactory.makeButton("Clear", clearImg,
+                backdrop.getTranslateX() + 200, backdrop.getTranslateY());
+        clear.setOnMouseEntered(e -> {
+            clear.setStyle(myFactory.getButtonFill());
             backdrop.opacityProperty().setValue(0.8);
         });
-        run.setOnMouseExited(e -> run.setStyle(overButton));
-        run.setTranslateX(x);
-        run.setTranslateY(y);
-        return run;
+        clear.setOnMouseClicked(e -> {
+            table.refresh();
+            data.clear();
+            System.out.println(data.size() + " data items");
+        });
+        window.getChildren().add(clear);
     }
-
 
     @Override
     /**

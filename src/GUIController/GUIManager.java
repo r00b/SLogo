@@ -10,6 +10,7 @@ import BackEndCommands.TurtleCommands.SetXY;
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
+import Base.NodeFactory;
 import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
@@ -48,29 +49,33 @@ public class GUIManager implements GUIController {
      */
     public static final int IDE_WIDTH = 1400;
     public static final int IDE_HEIGHT = 800;
-    private Color penColor;
     private ImageView background, turtle;
     private Stage stage;
+    private Scene myWindow;
     private Pane window;
-    private String backgroundStr, turtleStr, language;
     private Line line;
+    private Color penColor;
+
     private GUIConsole myConsole;
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
-    private ObservableComposite turtleProperties;
-    private DisplayProperties displayProperties;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-    private Scene myWindow;
+
+    private NodeFactory myFactory = new NodeFactory();
     private CommandParser commandParser;
+    private ObservableComposite turtleProperties;
+    private DisplayProperties displayProperties;
+
+    private SimpleStringProperty myLanguage;
+    private String backgroundStr, turtleStr, language;
     private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
     private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
-    private SimpleStringProperty myLanguage;
     /**
      * @param penColor
      * @param background
@@ -129,7 +134,7 @@ public class GUIManager implements GUIController {
         myDisplay = new GUIDisplay(window, turtle, penColor, line);
         addRunButton();
         addHistoryButton();
-        addMoreTurtlesButton();
+        addMoreTurtlesField();
 //        setParamBindings(); //How should I make this work
         setSizeBindings();
         return window;
@@ -196,11 +201,9 @@ public class GUIManager implements GUIController {
         hist.setTranslateY(705);
         window.getChildren().add(hist);
     }
-    private void addMoreTurtlesButton() {
-        TextField enterID = new TextField();
-        enterID.setTranslateX(1190);
-        enterID.setTranslateY(53);
-        enterID.setPromptText("Enter a new turtle's ID");
+    private void addMoreTurtlesField() {
+        TextField enterID = myFactory.makeTextField(
+                "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 53);
         enterID.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -210,16 +213,6 @@ public class GUIManager implements GUIController {
             }
         });
         window.getChildren().add(enterID);
-//        Button addTurtles = new Button("Add Turtles");
-//        addTurtles.setTranslateX(1110);
-//        addTurtles.setTranslateY(125);
-//        addTurtles.setStyle(overButton);
-//        addTurtles.setOnMouseEntered(e -> addTurtles.setStyle(buttonFill));
-//        addTurtles.setOnMouseExited(e -> addTurtles.setStyle(overButton));
-//        addTurtles.setOnMouseClicked(e -> {
-//
-//        });
-//        window.getChildren().add(addTurtles);
     }
     @Override
     public void getInitialParams() {
@@ -405,22 +398,6 @@ public class GUIManager implements GUIController {
          */
         @Override
         public void addButtons() {
-//            Image newImage = new Image(getClass().getClassLoader()
-//                    .getResourceAsStream("images/play.png"));
-//            ImageView imgV = new ImageView(newImage);
-//            newImage = new Image(getClass().getClassLoader()
-//                    .getResourceAsStream("images/pause.png"));
-//            imgV = new ImageView(newImage);
-//            Button pause = newButton("PAUSE", imgV, 130, 40);
-//            newImage = new Image(getClass().getClassLoader()
-//                    .getResourceAsStream("images/stop.png"));
-//            imgV = new ImageView(newImage);
-//            Button stop = newButton("STOP", imgV, 240, 40);
-//        newImage = new Image(getClass().getClassLoader()
-//                .getResourceAsStream("images/options.png"));
-//        imgV = new ImageView(newImage);
-//        Button options = newButton("OPTIONS", imgV, 340, 40);
-//        options.setOnMouseClicked(e -> optionsHandler());
             Image newImage = new Image(getClass().getClassLoader()
                     .getResourceAsStream("images/help.png"));
             ImageView imgV = new ImageView(newImage);
@@ -428,7 +405,6 @@ public class GUIManager implements GUIController {
             help.setOnMouseClicked(e -> helpHandler());
             Button save = newButton("Save Defaults", null, 600, 50);
             save.setOnMouseClicked(e -> saveFile());
-            window.getChildren().add(save);
             Button load = newButton("Load Defaults", null, 715, 50);
             load.setOnMouseClicked(e -> {
                 try {
@@ -442,8 +418,7 @@ public class GUIManager implements GUIController {
                     .getResourceAsStream("images/apply.png"));
             imgV = new ImageView(newImage);
             Button play = newButton("APPLY", imgV, 30, 40);
-            window.getChildren().addAll(load, help, play);
-//        window.getChildren().add(options);
+            window.getChildren().addAll(save, load, help, play);
         }
         public Button newButton(String text, ImageView imgV, int x, int y) {
             if (imgV != null) {
@@ -488,14 +463,11 @@ public class GUIManager implements GUIController {
                 }
                 setNewBackground(chosenBackground);
             });
-//        backgroundBox.setStyle(buttonFill);
-//        backgroundBox.style
-            window.getChildren().add(backgroundBox);
             languageBox = new ComboBox<String>(languageOptions);
             languageBox.setValue(defaultLanguage);
             languageBox.setTranslateX(460);
             languageBox.setTranslateY(50);
-            window.getChildren().add(languageBox);
+            window.getChildren().addAll(backgroundBox, languageBox);
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
 
