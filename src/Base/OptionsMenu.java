@@ -38,6 +38,7 @@ public abstract class OptionsMenu implements Options {
     private String defaultLanguage = "English";
     private String chosenBackground = "";
     private String chosenTurtle = "";
+    private NodeFactory myFactory = new NodeFactory();
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",
@@ -68,14 +69,6 @@ public abstract class OptionsMenu implements Options {
                     "Syntax"
 
             );
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-font: 35 arial;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-font: 35 arial;" +
-            "-fx-text-fill: white;";
 
     /**
      *
@@ -99,7 +92,6 @@ public abstract class OptionsMenu implements Options {
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
         startWindow.getChildren().add(backgroundImageMainScreen);
         addNodes();
-
         return startWindow;
     }
 
@@ -165,7 +157,6 @@ public abstract class OptionsMenu implements Options {
 
     }
 
-
     public String getTurtleString(){
         return chosenTurtle;
     }
@@ -185,7 +176,6 @@ public abstract class OptionsMenu implements Options {
     }
 
     public void addLineStylePicker(){
-
         System.setProperty("glass.accessible.force", "false");
         Line line0 = new Line(20, 40, 120, 40);
         Line line1 = new Line(20, 40, 120, 40);
@@ -210,8 +200,7 @@ public abstract class OptionsMenu implements Options {
         lineBox.setTranslateX(DROP_DOWN_X_VALUE);
         lineBox.setTranslateY(300);
         Label backgroundLabel = generateLabel("Select pen style", 125, 300);
-        getStartWindow().getChildren().add(backgroundLabel);
-        getStartWindow().getChildren().add(lineBox);
+        getStartWindow().getChildren().addAll(backgroundLabel, lineBox);
     }
 
     /**
@@ -221,8 +210,7 @@ public abstract class OptionsMenu implements Options {
     public void changePenColor() {
         penColor = generateColorPicker(defaultPen, DROP_DOWN_X_VALUE, 250);
         Label penLabel = generateLabel("Select pen color", 125, 250);
-        startWindow.getChildren().add(penColor);
-        startWindow.getChildren().add(penLabel);
+        startWindow.getChildren().addAll(penColor, penLabel);
     }
 
     /**
@@ -240,28 +228,18 @@ public abstract class OptionsMenu implements Options {
         return penColor;
     }
 
-    public ColorPicker generateColorPicker(int x, int y){
-        penColor = new ColorPicker();
-        penColor.setTranslateX(x);
-        penColor.setTranslateY(y);
-//        penColor.setValue(defaultColor);
-        return penColor;
-    }
-
     /**
      *
      */
     @Override
     public void changeBackground() {
-
         System.setProperty("glass.accessible.force", "false");
         backgroundBox = new ComboBox(backgroundOptions);
         backgroundBox.setValue(defaultBackground);
         backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
         backgroundBox.setTranslateY(400);
         Label backgroundLabel = generateLabel("Select background image", 125, 400);
-        startWindow.getChildren().add(backgroundLabel);
-        startWindow.getChildren().add(backgroundBox);
+        startWindow.getChildren().addAll(backgroundLabel, backgroundBox);
     }
 
     /**
@@ -275,12 +253,8 @@ public abstract class OptionsMenu implements Options {
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(350);
         Label turtleLabel = generateLabel("Select turtle image", 125, 350);
-        startWindow.getChildren().add(turtleLabel);
-        startWindow.getChildren().add(turtleBox);
-
+        startWindow.getChildren().addAll(turtleLabel, turtleBox);
     }
-
-
 
     /**
      *
@@ -290,12 +264,12 @@ public abstract class OptionsMenu implements Options {
      * @return
      */
     public Label generateLabel(String text, int x, int y){
-        Label penLabel = new Label(text);
-        penLabel.setTranslateX(x);
-        penLabel.setTranslateY(y);
-        penLabel.setTextFill(Color.WHITE);
-        penLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        return penLabel;
+        Label label = new Label(text);
+        label.setTranslateX(x);
+        label.setTranslateY(y);
+        label.setTextFill(Color.WHITE);
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        return label;
     }
 
     /**
@@ -309,32 +283,30 @@ public abstract class OptionsMenu implements Options {
         languageBox.setTranslateX(DROP_DOWN_X_VALUE);
         languageBox.setTranslateY(450);
         Label languageLabel = generateLabel("Select language", 125, 450);
-        startWindow.getChildren().add(languageLabel);
-        startWindow.getChildren().add(languageBox);
-
+        startWindow.getChildren().addAll(languageLabel, languageBox);
     }
 
-    /**
-     *
-     * @return
-     */
-    public ImageView getChosenTurtle(){
-        Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream(chosenTurtle));
-        ImageView backgroundImageIDE = new ImageView(newImg);
-        return backgroundImageIDE;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ImageView getChosenBackground(){
-        Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream(chosenBackground));
-        ImageView backgroundImageIDE = new ImageView(newImg);
-        return backgroundImageIDE;
-    }
+//    /**
+//     *
+//     * @return
+//     */
+//    public ImageView getChosenTurtle(){
+//        Image newImg = new Image(getClass().getClassLoader()
+//                .getResourceAsStream(chosenTurtle));
+//        ImageView backgroundImageIDE = new ImageView(newImg);
+//        return backgroundImageIDE;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public ImageView getChosenBackground(){
+//        Image newImg = new Image(getClass().getClassLoader()
+//                .getResourceAsStream(chosenBackground));
+//        ImageView backgroundImageIDE = new ImageView(newImg);
+//        return backgroundImageIDE;
+//    }
 
     /**
      *
@@ -378,21 +350,21 @@ public abstract class OptionsMenu implements Options {
         return languageBox;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getOverButton() {
-        return overButton;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getButtonFill() {
-        return buttonFill;
-    }
+//    /**
+//     *
+//     * @return
+//     */
+//    public String getOverButton() {
+//        return overButton;
+//    }
+//
+//    /**
+//     *
+//     * @return
+//     */
+//    public String getButtonFill() {
+//        return buttonFill;
+//    }
 
     /**
      *

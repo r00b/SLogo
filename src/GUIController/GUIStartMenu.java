@@ -1,5 +1,6 @@
 package GUIController;
 
+import Base.NodeFactory;
 import Base.OptionsMenu;
 import FrontEndExternalAPI.StartMenu;
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ public class GUIStartMenu extends OptionsMenu {
     private static final int START_MENU_WIDTH = 700;
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
+
+    private NodeFactory myFactory = new NodeFactory();
 
 
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
@@ -62,9 +65,9 @@ public class GUIStartMenu extends OptionsMenu {
      */
     public void addLaunchButton(){
         Button newButton = new Button("Launch SLogo");
-        newButton.setStyle(getOverButton());
-        newButton.setOnMouseEntered(e -> newButton.setStyle(getButtonFill()));
-        newButton.setOnMouseExited(e -> newButton.setStyle(getOverButton()));
+        newButton.setStyle(myFactory.getOverBigButton());
+        newButton.setOnMouseEntered(e -> newButton.setStyle(myFactory.getBigButtonFill()));
+        newButton.setOnMouseExited(e -> newButton.setStyle(myFactory.getOverBigButton()));
         newButton.setTranslateX(300);
         newButton.setTranslateY(500);
         newButton.setOnMouseClicked(e -> setParameters());
