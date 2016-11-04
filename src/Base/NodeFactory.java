@@ -2,6 +2,8 @@ package Base;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -11,6 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.w3c.dom.css.Rect;
+
+import java.awt.*;
 
 /**
  * Created by Delia on 11/3/2016.
@@ -75,6 +79,15 @@ public class NodeFactory {
         return label;
     }
 
+    public Text makePopupText(String text, int x, int y, int fontsize){
+        Text title = new Text(text);
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, fontsize));
+        title.setFill(Color.WHITE);
+        title.setTranslateX(x);
+        title.setTranslateY(y);
+        return title;
+    }
+
     public TextField makeTextField(String promptText, double prefWidth, int x, int y){
         TextField newTextField = new TextField();
         newTextField.setPromptText(promptText);
@@ -98,10 +111,39 @@ public class NodeFactory {
     }
 
     public Rectangle makeBlueBackdrop(int width, int height, int x, int y){
-        return null;
+        Rectangle backdrop = new Rectangle(width, height, Color.MIDNIGHTBLUE);
+        backdrop.setTranslateY(x);
+        backdrop.setTranslateX(y);
+        backdrop.opacityProperty().setValue(0.5);
+        return backdrop;
+    }
+
+    public ColorAdjust makeEffect(Color color){
+        double hue = map((color.getHue() + 180) % 360, 0, 360, -1, 1);
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(hue);
+        colorAdjust.setSaturation(color.getSaturation());
+        colorAdjust.setBrightness(color.getBrightness());
+        return colorAdjust;
+    }
+
+    private double map(double value, double start, double stop, double targetStart, double targetStop) {
+        return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
     }
 
     public String getButtonFill(){
         return buttonFill;
+    }
+
+    public String getOverButton(){
+        return overButton;
+    }
+
+    public String getOverBigButton(){
+        return overBigButton;
+    }
+
+    public String getBigButtonFill(){
+        return bigButtonFill;
     }
 }

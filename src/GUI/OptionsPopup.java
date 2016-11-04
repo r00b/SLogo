@@ -1,4 +1,5 @@
 package GUI;
+import Base.NodeFactory;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.Options;
 import javafx.scene.Scene;
@@ -11,6 +12,9 @@ import javax.swing.text.html.Option;
  * Created by Delia on 10/17/2016.
  */
 public class OptionsPopup extends OptionsMenu {
+
+    private NodeFactory myFactory = new NodeFactory();
+
     /**
      *
      * @param s
@@ -46,9 +50,9 @@ public class OptionsPopup extends OptionsMenu {
     @Override
     public void addLaunchButton() {
         Button newButton = new Button("Apply");
-        newButton.setStyle(getOverButton());
-        newButton.setOnMouseEntered(e -> newButton.setStyle(getButtonFill()));
-        newButton.setOnMouseExited(e -> newButton.setStyle(getOverButton()));
+        newButton.setStyle(myFactory.getOverButton());
+        newButton.setOnMouseEntered(e -> newButton.setStyle(myFactory.getButtonFill()));
+        newButton.setOnMouseExited(e -> newButton.setStyle(myFactory.getOverButton()));
         newButton.setTranslateX(300);
         newButton.setTranslateY(500);
 //        newButton.setOnMouseClicked(e -> setParameters());
