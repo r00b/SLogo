@@ -56,8 +56,14 @@ public class NodeFactory {
         return newButton;
     }
 
-    public Button makeButton(String text, int x, int y){
-        return null;
+    public Button makeBigButton(String text, int x, int y){
+        Button bigButton = new Button(text);
+        bigButton.setStyle(overBigButton);
+        bigButton.setOnMouseEntered(e -> bigButton.setStyle(bigButtonFill));
+        bigButton.setOnMouseExited(e -> bigButton.setStyle(overBigButton));
+        bigButton.setTranslateX(x);
+        bigButton.setTranslateY(y);
+        return bigButton;
     }
 
     public ImageView makeHelpButton(double x, double y){
@@ -112,8 +118,8 @@ public class NodeFactory {
 
     public Rectangle makeBlueBackdrop(int width, int height, int x, int y){
         Rectangle backdrop = new Rectangle(width, height, Color.MIDNIGHTBLUE);
-        backdrop.setTranslateY(x);
-        backdrop.setTranslateX(y);
+        backdrop.setTranslateX(x);
+        backdrop.setTranslateY(y);
         backdrop.opacityProperty().setValue(0.5);
         return backdrop;
     }

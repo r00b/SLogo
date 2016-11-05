@@ -64,12 +64,12 @@ public class GUIStartMenu extends OptionsMenu {
      *
      */
     public void addLaunchButton(){
-        Button newButton = new Button("Launch SLogo");
-        newButton.setStyle(myFactory.getOverBigButton());
-        newButton.setOnMouseEntered(e -> newButton.setStyle(myFactory.getBigButtonFill()));
-        newButton.setOnMouseExited(e -> newButton.setStyle(myFactory.getOverBigButton()));
-        newButton.setTranslateX(300);
-        newButton.setTranslateY(500);
+        Button newButton = myFactory.makeBigButton("Launch Slogo", 300, 500); //new Button("Launch SLogo");
+//        newButton.setStyle(myFactory.getOverBigButton());
+//        newButton.setOnMouseEntered(e -> newButton.setStyle(myFactory.getBigButtonFill()));
+//        newButton.setOnMouseExited(e -> newButton.setStyle(myFactory.getOverBigButton()));
+//        newButton.setTranslateX(300);
+//        newButton.setTranslateY(500);
         newButton.setOnMouseClicked(e -> setParameters());
         getStartWindow().getChildren().add(newButton);
     }
@@ -78,10 +78,10 @@ public class GUIStartMenu extends OptionsMenu {
      *
      */
     public void addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
-        backdrop.setTranslateY(230);
-        backdrop.setTranslateX(100);
-        backdrop.opacityProperty().setValue(0.5);
+        Rectangle backdrop = myFactory.makeBlueBackdrop(500, 290, 100, 230); //new Rectangle(500, 290, Color.MIDNIGHTBLUE);
+//        backdrop.setTranslateY(230);
+//        backdrop.setTranslateX(100);
+//        backdrop.opacityProperty().setValue(0.5);
         getStartWindow().getChildren().add(backdrop);
     }
 
