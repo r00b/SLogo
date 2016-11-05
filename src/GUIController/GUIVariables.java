@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
 public class GUIVariables implements Variables {
     private static final int BACKDROP_X = 10;
     private static final int BACKDROP_Y = 110;
-
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
@@ -50,7 +49,6 @@ public class GUIVariables implements Variables {
     private TextField addVariableName, addVariableValue;
     private TableColumn variableNameCol, valueCol;
     private ObservableList<Variable> data = FXCollections.observableArrayList();
-
     private VariablesHelp helpWindow;
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser myVariableSetter;
@@ -70,6 +68,10 @@ public class GUIVariables implements Variables {
         addClearButton();
     }
 
+    /**
+     *
+     * @param variableSetter
+     */
     public void setVariableSetter(CommandParser variableSetter) {
         myVariableSetter = variableSetter;
     }
@@ -101,7 +103,6 @@ public class GUIVariables implements Variables {
     }
 
     private void createTableView() {
-        //WHY CANT I GET THIS TO BE FUCKING EDITABLE  TODO remove expletive before submitting
         variableNameCol = new TableColumn("Variable Name");
         variableNameCol.setPrefWidth(250);
         variableNameCol.setCellValueFactory(
@@ -147,9 +148,6 @@ public class GUIVariables implements Variables {
     }
 
     @Override
-    /**
-     *
-     */
     public void addVariable(String name, double value) {
 
         boolean contains = false;
@@ -205,12 +203,7 @@ public class GUIVariables implements Variables {
     }
 
     private void addClearButton() {
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
-        ImageView clearImg = new ImageView(newImage);
-//        Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 200, (int) backdrop.getTranslateY());
-        Button clear = myFactory.makeButton("Clear", clearImg,
-                backdrop.getTranslateX() + 200, backdrop.getTranslateY());
+        Button clear = myFactory.makeClearButton(backdrop.getTranslateX() + 200, backdrop.getTranslateY());
         clear.setOnMouseEntered(e -> {
             clear.setStyle(myFactory.getButtonFill());
             backdrop.opacityProperty().setValue(0.8);
@@ -218,20 +211,13 @@ public class GUIVariables implements Variables {
         clear.setOnMouseClicked(e -> {
             table.refresh();
             data.clear();
-            System.out.println(data.size() + " data items");
         });
         window.getChildren().add(clear);
     }
 
-    @Override
     /**
      *
      */
-    public ArrayList<Integer> getAllVariables() {
-//        return Arrays.asList(data.toArray());
-        return null;
-    }
-
     public void setMap(ObservableMap<? extends String, ? extends Double> map) {
         data.clear();
         data.addAll(map.keySet().stream().map(variable ->
@@ -240,15 +226,12 @@ public class GUIVariables implements Variables {
         table.setItems(data);
     }
 
-
     /**
      *
      */
     public static class Variable {
-
         private final SimpleStringProperty variableName;
         private final SimpleDoubleProperty variableValue;
-//        private final SimpleStringProperty email;
 
         /**
          * @param vName
@@ -257,7 +240,6 @@ public class GUIVariables implements Variables {
         private Variable(String vName, double vValue) {
             this.variableName = new SimpleStringProperty(vName);
             this.variableValue = new SimpleDoubleProperty(vValue);
-//            this.email = new SimpleStringProperty(email);
         }
 
         /**
@@ -272,13 +254,6 @@ public class GUIVariables implements Variables {
          */
         public void setVariableName(String fName) {
             variableName.set(fName);
-        }
-
-        /**
-         * @return
-         */
-        public double getVariableValue() {
-            return variableValue.get();
         }
 
         /**

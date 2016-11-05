@@ -33,7 +33,6 @@ public abstract class OptionsMenu implements Options {
     private String defaultLanguage = "English";
     private String chosenBackground = "";
     private String chosenTurtle = "";
-    private NodeFactory myFactory = new NodeFactory();
     private ObservableList<String> backgroundOptions =
             FXCollections.observableArrayList(
                     "Circuits",

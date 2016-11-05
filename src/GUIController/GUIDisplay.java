@@ -239,15 +239,12 @@ public class GUIDisplay implements RenderSprite {
     }
 
     private void addDisplayControlButtons() {
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
-        ImageView clearImg = new ImageView(newImage);
-        Button clear = myFactory.makeButton("Clear", clearImg, displayGraph.getTranslateX() + 380, 40);
+        Button clear = myFactory.makeClearButton(displayGraph.getTranslateX() + 380, 40);
         clear.setOnMouseClicked(e -> {
             window.getChildren().removeAll(turtleMotion);
             turtleMotion.clear();
         });
-        newImage = new Image(getClass().getClassLoader()
+        Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/options.png"));
         ImageView optionsImg = new ImageView(newImage);
         optionsButton = myFactory.makeButton("Display Options", optionsImg, 840, 40);

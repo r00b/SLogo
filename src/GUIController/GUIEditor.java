@@ -1,5 +1,5 @@
 package GUIController;
-
+import Base.NodeFactory;
 import FrontEndExternalAPI.Editor;
 import GUI.EditorHelp;
 import javafx.scene.control.Button;
@@ -7,15 +7,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -26,25 +22,19 @@ import java.util.Scanner;
  * Created by Delia on 10/15/2016.
  */
 public class GUIEditor implements Editor {
-    private static final int BACKDROP_X = 10;//620;
-    private static final int BACKDROP_Y = 350;//600;
-    private static final int BACKDROP_WIDTH = 600;//970;
-    private static final int BACKDROP_HEIGHT = 240;//280;
+    private static final int BACKDROP_X = 10;
+    private static final int BACKDROP_Y = 350;
+    private static final int BACKDROP_WIDTH = 600;
+    private static final int BACKDROP_HEIGHT = 240;
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
     private String defaultCommand = "Enter command here";
-    private String currentDir = System.getProperty("user.home");
     private TextArea textArea;
-    private EditorHelp helpWindow;
     private ImageView helpButton;
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
     private Stage myStage;
+    private EditorHelp helpWindow;
+    private NodeFactory myFactory = new NodeFactory();
 
     /**
      * @param p
@@ -58,7 +48,6 @@ public class GUIEditor implements Editor {
         addTextArea();
         addHelpButton();
         addButtons();
-//        addRunButton();
         myStage = stage;
     }
 
@@ -66,23 +55,13 @@ public class GUIEditor implements Editor {
      *
      */
     private void drawEditor() {
-        backdrop = new Rectangle(BACKDROP_WIDTH, BACKDROP_HEIGHT, Color.WHITE);
-        backdrop.setStroke(border);
-        backdrop.setStrokeWidth(5);
-        backdrop.setTranslateX(BACKDROP_X);
-        backdrop.setTranslateY(BACKDROP_Y);
-        backdrop.opacityProperty().setValue(0.5);
-        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        backdrop = myFactory.makeBackdrop(border, BACKDROP_WIDTH, BACKDROP_HEIGHT, BACKDROP_X, BACKDROP_Y);
         window.getChildren().add(backdrop);
     }
 
     private void addTextLabel() {
-        Text label = new Text("Editor");
-        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        Text label = myFactory.makeTitle("Editor", BACKDROP_X + 10, BACKDROP_Y + 20);
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(BACKDROP_X + 10);
-        label.setTranslateY(BACKDROP_Y + 20);
         window.getChildren().add(label);
     }
 
@@ -109,15 +88,10 @@ public class GUIEditor implements Editor {
     }
 
     private void addHelpButton() {
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
-        helpButton = new ImageView(newImage);
+        helpButton = myFactory.makeHelpButton(backdrop.getTranslateX() + backdrop.getWidth() - 35,
+                backdrop.getTranslateY() + 10);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
-        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
-        helpButton.setFitWidth(30);
-        helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
     }
 
@@ -128,40 +102,34 @@ public class GUIEditor implements Editor {
     }
 
     private void addButtons() {
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
-        ImageView clearImg = new ImageView(newImage);
-        Button clear = newButton("Clear", clearImg, BACKDROP_X + 180, BACKDROP_Y);
+        Button clear = myFactory.makeClearButton(BACKDROP_X + 180, BACKDROP_Y);
+        clear.setOnMouseEntered(e -> {
+            clear.setStyle(myFactory.getButtonFill());
+            backdrop.opacityProperty().setValue(0.8);
+        });
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
 
-        newImage = new Image(getClass().getClassLoader()
+        Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/open.png"));
-        clearImg = new ImageView(newImage);
-        Button openFileButton = newButton("Open file", clearImg, BACKDROP_X + 330, BACKDROP_Y);
+        ImageView clearImg = new ImageView(newImage);
+        Button openFileButton = myFactory.makeButton("Open file", clearImg, BACKDROP_X + 330, BACKDROP_Y);
+        openFileButton.setOnMouseEntered(e -> {
+            openFileButton.setStyle(myFactory.getButtonFill());
+            backdrop.opacityProperty().setValue(0.8);
+        });
         openFileButton.setOnMouseClicked(e -> openFile());
 
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/save.png"));
         clearImg = new ImageView(newImage);
-        Button saveFileButton = newButton("Save file", clearImg, BACKDROP_X + 450, BACKDROP_Y);
+        Button saveFileButton = myFactory.makeButton("Save file", clearImg, BACKDROP_X + 450, BACKDROP_Y);
+        saveFileButton.setOnMouseEntered(e -> {
+            saveFileButton.setStyle(myFactory.getButtonFill());
+            backdrop.opacityProperty().setValue(0.8);
+        });
         saveFileButton.setOnMouseClicked(e -> saveFile());
 
         window.getChildren().addAll(clear, openFileButton, saveFileButton);
-    }
-
-    private Button newButton(String text, ImageView imgV, int x, int y) {
-        imgV.setFitWidth(25);
-        imgV.setFitHeight(25);
-        Button run = new Button(text, imgV);
-        run.setStyle(overButton);
-        run.setOnMouseEntered(e -> {
-            run.setStyle(buttonFill);
-            backdrop.opacityProperty().setValue(0.8);
-        });
-        run.setOnMouseExited(e -> run.setStyle(overButton));
-        run.setTranslateX(x);
-        run.setTranslateY(y);
-        return run;
     }
 
     /**
@@ -180,15 +148,14 @@ public class GUIEditor implements Editor {
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 
     private void openFile() {
         FileChooser chooser = new FileChooser();
         File file = chooser.showOpenDialog(myStage);
-//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("LOGO files (*.logo)", "*.logo");
-//        chooser.getExtensionFilters().add(extFilter);
-
         if (textArea.getText().equals("> " + defaultCommand)) {
             textArea.setText("> ");
         }
@@ -204,7 +171,6 @@ public class GUIEditor implements Editor {
         }
     }
 
-
     /**
      * @return
      */
@@ -219,21 +185,7 @@ public class GUIEditor implements Editor {
         textArea.setText(textArea.getText() + "\n> ");
     }
 
-//    /**
-//     *
-//     * @param width
-//     * @param height
-//     */
-//    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
-//        textArea.prefWidthProperty().bind(width.subtract(650));
-//        textArea.prefHeightProperty().bind(height.subtract(660));
-//        helpButton.translateXProperty().bind(width.subtract(50));
-//    }
-
     @Override
-    /**
-     *
-     */
     public String getCurrentText() {
         return textArea.getText();
     }
@@ -244,6 +196,4 @@ public class GUIEditor implements Editor {
     public void redoCommand(String str) {
         textArea.setText(textArea.getText() + "\n> " + str);
     }
-
-
 }

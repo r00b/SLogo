@@ -131,6 +131,7 @@ public class GUIManager implements GUIController {
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myHistory.bindNodes(window.heightProperty());
     }
 
     private ObservableComposite setupBindings() {
@@ -159,13 +160,13 @@ public class GUIManager implements GUIController {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/load.png"));
         ImageView imgV = new ImageView(newImage);
-        Button hist = myFactory.makeButton("Load", imgV, 400, 600);
+        Button hist = myFactory.makeButton("Load", imgV, 100, 600);
         hist.setOnMouseEntered(e -> {
             hist.setStyle(myFactory.getButtonFill());
-            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+            myHistory.getBackdrop().opacityProperty().setValue(0.8);
         });
         hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
-        window.getChildren().addAll(hist);
+        window.getChildren().add(hist);
     }
 
     private void addMoreTurtlesField() {

@@ -56,6 +56,13 @@ public class NodeFactory {
         return newButton;
     }
 
+    public Button makeClearButton(double x, double y){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        return makeButton("Clear", clearImg, x, y);
+    }
+
     public Button makeBigButton(String text, int x, int y){
         Button bigButton = new Button(text);
         bigButton.setStyle(overBigButton);
