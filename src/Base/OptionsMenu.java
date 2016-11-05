@@ -1,7 +1,6 @@
 package Base;
 
 import FrontEndInternalAPI.Options;
-import GUIController.GUIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -12,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -86,7 +84,7 @@ public abstract class OptionsMenu implements Options {
         startWindow = new Pane();
         startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/nebula.jpg"));
+                .getResourceAsStream("Images/nebula.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
@@ -118,19 +116,19 @@ public abstract class OptionsMenu implements Options {
     public void setBackgroundString(){
         switch (getBackgroundBox().getValue()){
             case "Circuits":
-                chosenBackground = "images/background.jpg";
+                chosenBackground = "Images/background.jpg";
                 break;
             case "Floating Cubes":
-                chosenBackground = "images/floatingCubes.jpg";
+                chosenBackground = "Images/floatingCubes.jpg";
                 break;
             case "Nebula":
-                chosenBackground = "images/nebula.jpg";
+                chosenBackground = "Images/nebula.jpg";
                 break;
             case "Metal Sheets":
-                chosenBackground = "images/dark-wallpaper-2.jpg";
+                chosenBackground = "Images/dark-wallpaper-2.jpg";
                 break;
             case "Spinning Screens":
-                chosenBackground = "images/spinningScreens.jpg";
+                chosenBackground = "Images/spinningScreens.jpg";
                 break;
         }
     }
@@ -138,19 +136,19 @@ public abstract class OptionsMenu implements Options {
     public void setTurtleString(){
         switch (getTurtleBox().getValue()){
             case "Turtle":
-                chosenTurtle = "images/turtle.png";
+                chosenTurtle = "Images/turtle.png";
                 break;
             case "Drake":
-                chosenTurtle = "images/drake.png";
+                chosenTurtle = "Images/drake.png";
                 break;
             case "Heart":
-                chosenTurtle = "images/heart.png";
+                chosenTurtle = "Images/heart.png";
                 break;
             case "Young Rob":
-                chosenTurtle = "images/robby.png";
+                chosenTurtle = "Images/robby.png";
                 break;
             case "Prof. Duvall":
-                chosenTurtle = "images/duvall.png";
+                chosenTurtle = "Images/duvall.png";
                 break;
 
         }

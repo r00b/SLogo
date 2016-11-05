@@ -1,9 +1,9 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import java.util.ArrayList;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class holds information about a user-set Logo function. This object
  *         can be used to call a Logo method after it has been defined.

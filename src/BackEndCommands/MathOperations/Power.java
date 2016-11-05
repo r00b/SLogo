@@ -1,9 +1,7 @@
 package BackEndCommands.MathOperations;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
-
-import java.util.List;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the Pow command

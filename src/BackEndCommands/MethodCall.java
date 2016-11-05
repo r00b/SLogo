@@ -1,10 +1,10 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.LogoMethod;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.LogoMethod;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This command instance represents method calls for user-defined
  *         functions and invalid commands.

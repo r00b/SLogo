@@ -1,7 +1,7 @@
 package BackEndCommands.BooleanOperations;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the And command

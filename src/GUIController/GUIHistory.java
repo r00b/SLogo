@@ -1,8 +1,6 @@
 package GUIController;
 
-import java.util.ArrayList;
 import FrontEndExternalAPI.History;
-import GUI.EditorHelp;
 import GUI.HistoryHelp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,7 +78,7 @@ public class GUIHistory implements History {
 
     private void addHelpButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
+                .getResourceAsStream("Images/help.png"));
         ImageView helpButton = new ImageView(newImage);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));

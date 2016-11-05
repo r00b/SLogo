@@ -1,10 +1,10 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class sanitizes an inputted Logo command so that it will run
  *         even if the command is defined over multiple lines or if the command

@@ -1,0 +1,20 @@
+#SLogo DESIGN.md
+
+##Project team members:
+* Robert Steilberg | rhs16
+* Delia Li | dl202
+* Ezria Lieblich | eml36
+* Grayson Wise | gkw
+
+##High-level design goals
+* Our project is divided into 11 packages. The BackEndCommands package contains all of the Command objects that represent Logo commands. The BackEndInterface contains classes that the front end will interact with when using the back end. The BackEndInterpreter package contains all the classes used to build and execute a parse tree made of inputted Logo commands. The Base package is a front end package used for creating JavaFX nodes and other JavaFX elements. The FrontEndExternalAPI, FrontEndInternalAPI, GUI, and GUIController packages all contain classes for creating the front end that interfaces with the back end. Specifically, the GUI package contains classes dealing with help menus. The GUIController package is the overall package that handles the GUI and its initialization. The front end and back end interface together through the BackEndInterface package that has the CommandParser class. The CommandParser class is initialized once for each workspace and will subsequently accept Logo commands to interpret and reflect back to the front end. The only data exchanged between the front and back end is done through the executeCommands() method of CommandParser within the BackEndInterface package, and through observable properties that are initialized with CommandParser and used to reflect turtle and display changes between the front and back end. Finally, the GUI front end classes depend on the images within the Images package, and the BackEndInterpreter package depends on the properties files in the resources package that define regular expression definitions, class locations, or other settings.
+* One of our high-level design goals for the back end was to make it simple such that there would be a single method called by the front end to execute a series of commands. This design choice is reflected in the buildAndExecuteTree() method.
+
+##Adding new features to the project
+* To add a new command to the project, a new class for the command must be created that implements the overall Command class (or one of the sub-classes like ControlCommand or TurtleCommand, depending on the type of the new command). Then, it is only necessary to store the path to that class in the ClassLocations.properties properties file so that reflection will know exactly where the new command class is located when it is to be called. More complex commands, like those that interrupt the control flow of the program, may necessitate further manipulation of the ParseTreeBuilder class, but the actions associated with the new command need only be coded in the executeCommand() method of the new command class for the tree to correctly build and execute a parse tree using those commands. The number of arguments that the command expects should also be hard-coded in the new command class.
+
+##Design choices
+* For the back end, a major design choice was to implement that parse tree in such a way that the parse tree would only need to be built before it is ready for execution. That way, after building the parse tree, it is only necessary to execute the head of the tree to trigger cascading recursive calls that would ultimately execute all of the commands represented throughout the tree. We wanted to make a more explicit implementation for error checking, like encapsulating error checking in its own class, but we ultimately decided to error check within the ParseTreeBuilder class to that we would be able to catch the greatest number of unique errors as possible and as simply as possible.
+
+##Assumptions or decisions made
+* To resolve issues with commands issued over multiple lines (i.e. a list that spans multiple lines), we decided to sanitize inputted commands after being issued from the GUI such that they are all placed on one line and executed sequentially. To achieve this, we put all of the commands in one big list, thus assuming that the user will be satisfied from always getting a single return value after pressing the "run" button.

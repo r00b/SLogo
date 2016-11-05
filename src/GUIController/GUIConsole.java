@@ -1,9 +1,7 @@
 package GUIController;
 
-import BackEndExternalAPI.CommandParser;
 import FrontEndExternalAPI.Console;
 import GUI.ConsoleHelp;
-import GUI.EditorHelp;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,7 +110,7 @@ public class GUIConsole implements Console{
 
     private void addHelpButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
+                .getResourceAsStream("Images/help.png"));
         helpButton = new ImageView(newImage);
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
@@ -131,7 +129,7 @@ public class GUIConsole implements Console{
 
     private void addClearButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
+                .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 100, (int) backdrop.getTranslateY());
         clear.setOnMouseClicked(e -> listOfCommands.clear());
