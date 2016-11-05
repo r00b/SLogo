@@ -15,7 +15,6 @@ import FrontEndExternalAPI.GUIController;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,7 +25,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -48,21 +46,19 @@ public class GUIManager implements GUIController {
     private Pane window;
     private Line line;
     private Color penColor;
-
     private GUIConsole myConsole;
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser commandParser;
     private ObservableComposite turtleProperties;
     private DisplayProperties displayProperties;
-
     private SimpleStringProperty myLanguage;
     private String backgroundStr, turtleStr, language;
+
     /**
      * @param penColor
      * @param background
@@ -87,6 +83,7 @@ public class GUIManager implements GUIController {
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
+
     @Override
     public void init() {
         stage = new Stage();
@@ -139,11 +136,6 @@ public class GUIManager implements GUIController {
     private ObservableComposite setupBindings() {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
-    }
-
-     //do we still need this
-    public String getLanguage() {
-        return language;
     }
 
     public Rectangle getOptionsBackdrop(){
@@ -239,10 +231,6 @@ public class GUIManager implements GUIController {
         return startIndex;
     }
 
-    public Scene getMyWindow() {
-        return myWindow;
-    }
-
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
@@ -325,8 +313,6 @@ public class GUIManager implements GUIController {
                 System.out.println(
                         "Error reading file '"
                                 + file + "'");
-                // Or we could just do this:
-                // ex.printStackTrace();
             }
         }
         public void saveFile() {

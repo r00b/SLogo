@@ -1,7 +1,5 @@
 package Base;
-
 import FrontEndInternalAPI.Options;
-import GUIController.GUIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -12,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,11 +19,9 @@ import javafx.stage.Stage;
  * Created by Delia on 10/17/2016.
  */
 public abstract class OptionsMenu implements Options {
-
     private static final int START_MENU_WIDTH = 700;
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
-
     private Pane startWindow;
     private Stage stage;
     private ColorPicker penColor;
@@ -67,7 +62,6 @@ public abstract class OptionsMenu implements Options {
                     "Russian",
                     "Spanish",
                     "Syntax"
-
             );
 
     /**
@@ -95,7 +89,7 @@ public abstract class OptionsMenu implements Options {
         return startWindow;
     }
 
-    public void addNodes(){
+    private void addNodes(){
         addTitle();
         addRectangle();
         addLineStylePicker();
@@ -175,6 +169,9 @@ public abstract class OptionsMenu implements Options {
         defaultLanguage = language;
     }
 
+    /**
+     *
+     */
     public void addLineStylePicker(){
         System.setProperty("glass.accessible.force", "false");
         Line line0 = new Line(20, 40, 120, 40);
@@ -272,9 +269,6 @@ public abstract class OptionsMenu implements Options {
         return label;
     }
 
-    /**
-     *
-     */
     @Override
     public void changeLanguage() {
         System.setProperty("glass.accessible.force", "false");
@@ -285,28 +279,6 @@ public abstract class OptionsMenu implements Options {
         Label languageLabel = generateLabel("Select language", 125, 450);
         startWindow.getChildren().addAll(languageLabel, languageBox);
     }
-
-//    /**
-//     *
-//     * @return
-//     */
-//    public ImageView getChosenTurtle(){
-//        Image newImg = new Image(getClass().getClassLoader()
-//                .getResourceAsStream(chosenTurtle));
-//        ImageView backgroundImageIDE = new ImageView(newImg);
-//        return backgroundImageIDE;
-//    }
-//
-//    /**
-//     *
-//     * @return
-//     */
-//    public ImageView getChosenBackground(){
-//        Image newImg = new Image(getClass().getClassLoader()
-//                .getResourceAsStream(chosenBackground));
-//        ImageView backgroundImageIDE = new ImageView(newImg);
-//        return backgroundImageIDE;
-//    }
 
     /**
      *
@@ -340,6 +312,9 @@ public abstract class OptionsMenu implements Options {
         return turtleBox;
     }
 
+    /**
+     *
+     */
     public ComboBox<Line> getLineBox() { return lineBox; }
 
     /**
@@ -349,22 +324,6 @@ public abstract class OptionsMenu implements Options {
     public ComboBox<String> getLanguageBox() {
         return languageBox;
     }
-
-//    /**
-//     *
-//     * @return
-//     */
-//    public String getOverButton() {
-//        return overButton;
-//    }
-//
-//    /**
-//     *
-//     * @return
-//     */
-//    public String getButtonFill() {
-//        return buttonFill;
-//    }
 
     /**
      *
