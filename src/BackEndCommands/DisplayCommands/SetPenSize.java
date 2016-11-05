@@ -1,7 +1,7 @@
 package BackEndCommands.DisplayCommands;
 
 import BackEndCommands.DisplayCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * @author ezra

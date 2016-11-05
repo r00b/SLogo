@@ -3,7 +3,6 @@ package Base;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -12,9 +11,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import org.w3c.dom.css.Rect;
-
-import java.awt.*;
 
 /**
  * Created by Delia on 11/3/2016.
@@ -62,7 +58,7 @@ public class NodeFactory {
 
     public ImageView makeHelpButton(double x, double y){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
+                .getResourceAsStream("Images/help.png"));
         ImageView helpButton = new ImageView(newImage);
         helpButton.setTranslateX(x);
         helpButton.setTranslateY(y);

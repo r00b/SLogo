@@ -1,6 +1,6 @@
-package BackEndExternalAPI;
+package BackEndInterface;
 
-import BackEndInternalAPI.*;
+import BackEndInterpreter.*;
 import GUIController.GUIVariables;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -8,7 +8,7 @@ import javafx.collections.*;
 import java.util.*;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class interprets a Logo command and executes the action(s) associated with it
  *         using the specified arguments. This is done by recursively creating a parse tree

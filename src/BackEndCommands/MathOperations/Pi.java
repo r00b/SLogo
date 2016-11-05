@@ -1,9 +1,7 @@
 package BackEndCommands.MathOperations;
 
-import java.util.List;
-
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the Pi command

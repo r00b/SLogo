@@ -1,7 +1,7 @@
 package BackEndCommands.TurtleQueries;
 
 import BackEndCommands.TurtleCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the IsPenDown command

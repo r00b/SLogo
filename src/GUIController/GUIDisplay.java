@@ -1,6 +1,6 @@
 package GUIController;
 
-import BackEndInternalAPI.ObservableProperties;
+import BackEndInterpreter.ObservableProperties;
 import Base.NodeFactory;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.DisplayMappings;
@@ -19,11 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import BackEndExternalAPI.RGB;
+import BackEndInterface.RGB;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,7 +67,7 @@ public class GUIDisplay implements RenderSprite {
 
     private void drawDisplay() {
         Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/graphPaper.gif"));
+                .getResourceAsStream("Images/graphPaper.gif"));
         displayGraph = new ImageView(newImg);
         displayGraph.setFitWidth(770);
         displayGraph.setFitHeight(480);
@@ -239,7 +237,7 @@ public class GUIDisplay implements RenderSprite {
 
     private void addDisplayControlButtons() {
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
+                .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = myFactory.makeButton("Clear", clearImg, displayGraph.getTranslateX() + 380, 40); //newButton("Clear", clearImg, (int) displayGraph.getTranslateX() + 380, 40);
         clear.setOnMouseClicked(e -> {
@@ -247,12 +245,12 @@ public class GUIDisplay implements RenderSprite {
             turtleMotion.clear();
         });
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/options.png"));
+                .getResourceAsStream("Images/options.png"));
         ImageView optionsImg = new ImageView(newImage);
         optionsButton = myFactory.makeButton("Display Options", optionsImg, 840, 40);
         optionsButton.setOnMouseClicked(e -> updateDisplayOptions());
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/reset.png"));
+                .getResourceAsStream("Images/reset.png"));
         ImageView resetImg = new ImageView(newImage);
         Button reset = myFactory.makeButton("Reset", resetImg, 1090, 40);
         reset.setOnMouseClicked(e -> resetIDE());
@@ -303,11 +301,11 @@ public class GUIDisplay implements RenderSprite {
         window.getChildren().removeAll(turtleMotion);
         turtleMotion.clear();
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/graphPaper.gif"));
+                .getResourceAsStream("Images/graphPaper.gif"));
         displayGraph.setEffect(null);
         displayGraph.setImage(newImage);
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/turtle.png"));
+                .getResourceAsStream("Images/turtle.png"));
         myTurtle.setImage(newImage);
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
