@@ -1,4 +1,4 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import java.lang.reflect.Constructor;
 import java.util.Enumeration;
@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
- * @author Robert H. Steilberg II, Robert Duvall
+ * @author Robert Steilberg, Robert Duvall
  *         <p>
  *         This class serves as a detector for a certain instance of a Command object.
  *         A specified Logo command's type is detected via regular expressions and then

@@ -1,7 +1,7 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         An interface for the Command object, which specifies
  *         the actions and arguments unique to each Logo command.

@@ -1,12 +1,12 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 import java.util.List;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This command instance represents the beginning of a list in Logo.
  */

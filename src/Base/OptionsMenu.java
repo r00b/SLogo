@@ -1,7 +1,5 @@
 package Base;
-
 import FrontEndInternalAPI.Options;
-import GUIController.GUIManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -12,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,11 +19,9 @@ import javafx.stage.Stage;
  * Created by Delia on 10/17/2016.
  */
 public abstract class OptionsMenu implements Options {
-
     private static final int START_MENU_WIDTH = 700;
     private static final int START_MENU_HEIGHT = 600;
     private static final int DROP_DOWN_X_VALUE = 400;
-
     private Pane startWindow;
     private Stage stage;
     private ColorPicker penColor;
@@ -66,16 +61,7 @@ public abstract class OptionsMenu implements Options {
                     "Russian",
                     "Spanish",
                     "Syntax"
-
             );
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-font: 35 arial;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-font: 35 arial;" +
-            "-fx-text-fill: white;";
 
     /**
      *
@@ -85,24 +71,21 @@ public abstract class OptionsMenu implements Options {
         stage = s;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public Parent setUpWindow(){
         startWindow = new Pane();
         startWindow.setPrefSize(START_MENU_WIDTH, START_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/nebula.jpg"));
+                .getResourceAsStream("Images/nebula.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(START_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(START_MENU_HEIGHT);
         startWindow.getChildren().add(backgroundImageMainScreen);
         addNodes();
-
         return startWindow;
     }
 
+    @Override
     public void addNodes(){
         addTitle();
         addRectangle();
@@ -114,78 +97,64 @@ public abstract class OptionsMenu implements Options {
         addLaunchButton();
     }
 
-    /**
-     *
-     */
+    @Override
     public void setParameters() {
         setBackgroundString();
         setTurtleString();
         initIDE(chosenBackground, chosenTurtle);
     }
 
+    @Override
     public void setBackgroundString(){
         switch (getBackgroundBox().getValue()){
             case "Circuits":
-                chosenBackground = "images/background.jpg";
+                chosenBackground = "Images/background.jpg";
                 break;
             case "Floating Cubes":
-                chosenBackground = "images/floatingCubes.jpg";
+                chosenBackground = "Images/floatingCubes.jpg";
                 break;
             case "Nebula":
-                chosenBackground = "images/nebula.jpg";
+                chosenBackground = "Images/nebula.jpg";
                 break;
             case "Metal Sheets":
-                chosenBackground = "images/dark-wallpaper-2.jpg";
+                chosenBackground = "Images/dark-wallpaper-2.jpg";
                 break;
             case "Spinning Screens":
-                chosenBackground = "images/spinningScreens.jpg";
+                chosenBackground = "Images/spinningScreens.jpg";
                 break;
         }
     }
 
+    @Override
     public void setTurtleString(){
         switch (getTurtleBox().getValue()){
             case "Turtle":
-                chosenTurtle = "images/turtle.png";
+                chosenTurtle = "Images/turtle.png";
                 break;
             case "Drake":
-                chosenTurtle = "images/drake.png";
+                chosenTurtle = "Images/drake.png";
                 break;
             case "Heart":
-                chosenTurtle = "images/heart.png";
+                chosenTurtle = "Images/heart.png";
                 break;
             case "Young Rob":
-                chosenTurtle = "images/robby.png";
+                chosenTurtle = "Images/robby.png";
                 break;
             case "Prof. Duvall":
-                chosenTurtle = "images/duvall.png";
+                chosenTurtle = "Images/duvall.png";
                 break;
 
         }
 
     }
 
-
+    @Override
     public String getTurtleString(){
         return chosenTurtle;
     }
 
-    /**
-     *
-     * @param paint
-     * @param background
-     * @param turtle
-     * @param language
-     */
-    public void setDefaults(Color paint, String background, String turtle, String language){
-        defaultPen = paint;
-        defaultBackground = background;
-        defaultTurtle = turtle;
-        defaultLanguage = language;
-    }
-
+    @Override
     public void addLineStylePicker(){
-
         System.setProperty("glass.accessible.force", "false");
         Line line0 = new Line(20, 40, 120, 40);
         Line line1 = new Line(20, 40, 120, 40);
@@ -210,28 +179,17 @@ public abstract class OptionsMenu implements Options {
         lineBox.setTranslateX(DROP_DOWN_X_VALUE);
         lineBox.setTranslateY(300);
         Label backgroundLabel = generateLabel("Select pen style", 125, 300);
-        getStartWindow().getChildren().add(backgroundLabel);
-        getStartWindow().getChildren().add(lineBox);
+        getStartWindow().getChildren().addAll(backgroundLabel, lineBox);
     }
 
-    /**
-     *
-     */
     @Override
     public void changePenColor() {
         penColor = generateColorPicker(defaultPen, DROP_DOWN_X_VALUE, 250);
         Label penLabel = generateLabel("Select pen color", 125, 250);
-        startWindow.getChildren().add(penColor);
-        startWindow.getChildren().add(penLabel);
+        startWindow.getChildren().addAll(penColor, penLabel);
     }
 
-    /**
-     *
-     * @param defaultColor
-     * @param x
-     * @param y
-     * @return
-     */
+    @Override
     public ColorPicker generateColorPicker(Color defaultColor, int x, int y){
         ColorPicker penColor = new ColorPicker();
         penColor.setTranslateX(x);
@@ -240,33 +198,17 @@ public abstract class OptionsMenu implements Options {
         return penColor;
     }
 
-    public ColorPicker generateColorPicker(int x, int y){
-        penColor = new ColorPicker();
-        penColor.setTranslateX(x);
-        penColor.setTranslateY(y);
-//        penColor.setValue(defaultColor);
-        return penColor;
-    }
-
-    /**
-     *
-     */
     @Override
     public void changeBackground() {
-
         System.setProperty("glass.accessible.force", "false");
         backgroundBox = new ComboBox(backgroundOptions);
         backgroundBox.setValue(defaultBackground);
         backgroundBox.setTranslateX(DROP_DOWN_X_VALUE);
         backgroundBox.setTranslateY(400);
         Label backgroundLabel = generateLabel("Select background image", 125, 400);
-        startWindow.getChildren().add(backgroundLabel);
-        startWindow.getChildren().add(backgroundBox);
+        startWindow.getChildren().addAll(backgroundLabel, backgroundBox);
     }
 
-    /**
-     *
-     */
     @Override
     public void changeSpriteImage() {
         System.setProperty("glass.accessible.force", "false");
@@ -275,32 +217,19 @@ public abstract class OptionsMenu implements Options {
         turtleBox.setTranslateX(DROP_DOWN_X_VALUE);
         turtleBox.setTranslateY(350);
         Label turtleLabel = generateLabel("Select turtle image", 125, 350);
-        startWindow.getChildren().add(turtleLabel);
-        startWindow.getChildren().add(turtleBox);
-
+        startWindow.getChildren().addAll(turtleLabel, turtleBox);
     }
 
-
-
-    /**
-     *
-     * @param text
-     * @param x
-     * @param y
-     * @return
-     */
+    @Override
     public Label generateLabel(String text, int x, int y){
-        Label penLabel = new Label(text);
-        penLabel.setTranslateX(x);
-        penLabel.setTranslateY(y);
-        penLabel.setTextFill(Color.WHITE);
-        penLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-        return penLabel;
+        Label label = new Label(text);
+        label.setTranslateX(x);
+        label.setTranslateY(y);
+        label.setTextFill(Color.WHITE);
+        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        return label;
     }
 
-    /**
-     *
-     */
     @Override
     public void changeLanguage() {
         System.setProperty("glass.accessible.force", "false");
@@ -309,120 +238,51 @@ public abstract class OptionsMenu implements Options {
         languageBox.setTranslateX(DROP_DOWN_X_VALUE);
         languageBox.setTranslateY(450);
         Label languageLabel = generateLabel("Select language", 125, 450);
-        startWindow.getChildren().add(languageLabel);
-        startWindow.getChildren().add(languageBox);
-
+        startWindow.getChildren().addAll(languageLabel, languageBox);
     }
 
-    /**
-     *
-     * @return
-     */
-    public ImageView getChosenTurtle(){
-        Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream(chosenTurtle));
-        ImageView backgroundImageIDE = new ImageView(newImg);
-        return backgroundImageIDE;
-    }
 
-    /**
-     *
-     * @return
-     */
-    public ImageView getChosenBackground(){
-        Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream(chosenBackground));
-        ImageView backgroundImageIDE = new ImageView(newImg);
-        return backgroundImageIDE;
-    }
-
-    /**
-     *
-     * @return
-     */
+    @Override
     public ColorPicker getPenColor(){
         return penColor;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public Pane getStartWindow() {
         return startWindow;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public ComboBox<String> getBackgroundBox() {
         return backgroundBox;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public ComboBox<String> getTurtleBox() {
         return turtleBox;
     }
 
+    @Override
     public ComboBox<Line> getLineBox() { return lineBox; }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public ComboBox<String> getLanguageBox() {
         return languageBox;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getOverButton() {
-        return overButton;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getButtonFill() {
-        return buttonFill;
-    }
-
-    /**
-     *
-     * @return
-     */
+    @Override
     public Stage getStage(){
         return stage;
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public abstract void addTitle();
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public abstract void addRectangle();
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public abstract void addLaunchButton();
 
-    /**
-     *
-     * @return
-     */
     public abstract void initIDE(String background, String turtle);
 }

@@ -1,10 +1,30 @@
 package FrontEndExternalAPI;
 
+import javafx.scene.shape.Rectangle;
+
 /**
  * @author Delia
  */
 public interface Editor{
-//    public Editor();
 
-    public String getCurrentText();
+    /**
+     * @return
+     */
+    Rectangle getBackdrop();
+
+    /**
+     *
+     */
+    void startNewCommand();
+
+    /**
+     *
+     * @return
+     */
+    String getCurrentText();
+
+    /**
+     * @param str
+     */
+    void redoCommand(String str);
 }

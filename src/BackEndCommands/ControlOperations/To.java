@@ -1,11 +1,11 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.LogoMethod;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.LogoMethod;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This command instance represents a method assignment statement in Logo.
  */

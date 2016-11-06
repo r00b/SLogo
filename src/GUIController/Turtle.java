@@ -1,19 +1,17 @@
 package GUIController;
-
-import BackEndInternalAPI.ObservableProperties;
-
+import BackEndInterpreter.ObservableProperties;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Grayson on 11/01/2016.
+ */
 public class Turtle {
     private ImageView turtleView;
     private double id;
-    private boolean isActive;
     private boolean visibility = true;
     private List<Line> turtleMotion = new ArrayList<>();
     private ObservableProperties properties;
@@ -37,10 +35,6 @@ public class Turtle {
     public void setID(double i){
         id = i;
     }
-    
-    public boolean isActive(){
-        return isActive;
-    }
 
     public void setVisibility(boolean isVisible){
         visibility = isVisible;
@@ -50,9 +44,6 @@ public class Turtle {
         return visibility;
     }
 
-    public void drawLine(){
-
-    }
     public List<Line> getLines() {
     	return turtleMotion;
     }

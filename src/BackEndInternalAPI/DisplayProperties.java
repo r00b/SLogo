@@ -1,6 +1,6 @@
 package BackEndInternalAPI;
 
-import BackEndExternalAPI.RGB;
+import BackEndInterface.RGB;
 import GUIController.GUIDisplay;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -25,9 +25,9 @@ public class DisplayProperties {
 		penSize = new SimpleDoubleProperty(0);
 		penSize.addListener((observable, oldValue, newValue) -> display.setPenSize((Double) newValue));
 		backgroundImage = new SimpleDoubleProperty(0);
-		backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double)newValue));
+		backgroundImage.addListener((observable, oldValue, newValue) -> display.changePalette((Double)newValue));
 		paletteIndex = new SimpleObjectProperty<RGB>();
-		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette(newValue));
+		paletteIndex.addListener((observable, oldValue, newValue) -> display.changePaletteRGB(newValue));
 	}
 	
 	public double getPenColor() {

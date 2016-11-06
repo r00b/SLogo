@@ -1,7 +1,7 @@
 package BackEndCommands.TurtleCommands;
 
 import BackEndCommands.TurtleCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the right command

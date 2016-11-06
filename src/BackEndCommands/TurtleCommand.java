@@ -1,8 +1,8 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ObservableComposite;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ObservableComposite;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * An abstract class that all Turtle Commands and Turtle Queries extend. This parent class is needed
