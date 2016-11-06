@@ -3,6 +3,9 @@ package BackEndCommands.TurtleCommands;
 import BackEndCommands.TurtleCommand;
 import BackEndInterpreter.ParseTreeNode;
 
+/**
+ * @author ezra
+ */
 public class Tell extends TurtleCommand {
     private static final int ARGS = 1;
 
