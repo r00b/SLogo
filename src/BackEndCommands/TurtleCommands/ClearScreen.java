@@ -2,7 +2,7 @@ package BackEndCommands.TurtleCommands;
 
 
 import BackEndCommands.TurtleCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the ClearScreen command
@@ -24,7 +24,6 @@ public class ClearScreen extends TurtleCommand {
         properties.setYProperty(0);
         properties.setNewLineProperty(true);
         properties.setClearScreenProperty(true);
-        //properties.setRotateProperty(0, true, true);
         return answer;
     }
 

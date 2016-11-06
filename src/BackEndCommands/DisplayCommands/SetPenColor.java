@@ -1,9 +1,10 @@
 package BackEndCommands.DisplayCommands;
 
 import BackEndCommands.DisplayCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
+ * Sets the pen color of the lines to the color index specified
  * @author ezra
  */
 public class SetPenColor extends DisplayCommand {
@@ -11,6 +12,7 @@ public class SetPenColor extends DisplayCommand {
 
     /**
      * Sets the pen color of the display
+     * Returns the index
      */
     @Override
     public double executeCommand(ParseTreeNode node) {

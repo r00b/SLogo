@@ -1,9 +1,7 @@
 package BackEndCommands.MathOperations;
 
-import java.util.List;
-
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 
 /**
@@ -20,7 +18,7 @@ public class Random implements Command {
     }
 
     /**
-     * Returns a random double between zero and argument specifiec
+     * Returns a random double between zero and argument specified
      */
     @Override
     public double executeCommand(ParseTreeNode node) {

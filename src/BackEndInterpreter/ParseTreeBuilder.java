@@ -1,15 +1,15 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import BackEndCommands.*;
 import BackEndCommands.ControlOperations.To;
 import javafx.beans.property.SimpleStringProperty;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ResourceBundle;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
+ * @author ezra
  *         <p>
  *         This class builds a parse tree of a specified Logo commandType. This is done
  *         by reducing the Logo commandType down into its subparts and then recursively

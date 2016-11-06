@@ -1,10 +1,10 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II, Ezra Lieblich
+ * @author Robert Steilberg, Ezra Lieblich
  *         <p>
  *         This command instance represents a For statement in Logo.
  */

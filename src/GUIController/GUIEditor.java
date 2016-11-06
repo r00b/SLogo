@@ -110,7 +110,7 @@ public class GUIEditor implements Editor {
 
     private void addHelpButton() {
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
+                .getResourceAsStream("Images/help.png"));
         helpButton = new ImageView(newImage);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
@@ -129,19 +129,19 @@ public class GUIEditor implements Editor {
 
     private void addButtons() {
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
+                .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = newButton("Clear", clearImg, BACKDROP_X + 180, BACKDROP_Y);
         clear.setOnMouseClicked(e -> textArea.setText("> Enter command here"));
 
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/open.png"));
+                .getResourceAsStream("Images/open.png"));
         clearImg = new ImageView(newImage);
         Button openFileButton = newButton("Open file", clearImg, BACKDROP_X + 330, BACKDROP_Y);
         openFileButton.setOnMouseClicked(e -> openFile());
 
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/save.png"));
+                .getResourceAsStream("Images/save.png"));
         clearImg = new ImageView(newImage);
         Button saveFileButton = newButton("Save file", clearImg, BACKDROP_X + 450, BACKDROP_Y);
         saveFileButton.setOnMouseClicked(e -> saveFile());
@@ -167,7 +167,7 @@ public class GUIEditor implements Editor {
     /**
      * Saves a file of Logo commands
      *
-     * @author Robert H. Steilberg II
+     * @author Robert Steilberg
      */
     private void saveFile() {
         FileChooser chooser = new FileChooser();

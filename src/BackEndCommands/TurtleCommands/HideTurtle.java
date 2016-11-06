@@ -2,7 +2,7 @@ package BackEndCommands.TurtleCommands;
 
 
 import BackEndCommands.TurtleCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the HideTurtle command
@@ -18,7 +18,6 @@ public class HideTurtle extends TurtleCommand {
      */
     @Override
     public double executeCommand(ParseTreeNode node) {
-        //Need to update imageview visible property
         properties.setImageVisibleProperty(false);
         return 0;
     }

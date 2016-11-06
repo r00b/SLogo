@@ -1,9 +1,10 @@
 package BackEndCommands.DisplayCommands;
 
 import BackEndCommands.DisplayCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
+ * Sets the background display images color
  * @author ezra
  */
 public class SetBackground extends DisplayCommand {

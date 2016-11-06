@@ -1,9 +1,10 @@
 package BackEndCommands.DisplayCommands;
 
 import BackEndCommands.DisplayCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
+ * Returns the index of the pencolor  display
  * @author ezra
  */
 public class PenColor extends DisplayCommand {

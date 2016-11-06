@@ -1,10 +1,11 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
+ * @author ezra
  *         <p>
  *         This command instance represents a comment in Logo.
  */

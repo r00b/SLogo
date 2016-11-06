@@ -1,10 +1,10 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  * @author ezra
  *         <p>
  *         This command instance represents a DoTimes statement in Logo.
@@ -15,7 +15,7 @@ public class DoTimes extends ControlCommand {
 
     /**
      * Runs the commands in the second children by the amount specified in the first child's second child.
-     * Also updates the specified variable which is the first childs first child
+     * Also updates the specified variable which is the first child's first child
      */
     @Override
     public double executeCommand(ParseTreeNode node) {

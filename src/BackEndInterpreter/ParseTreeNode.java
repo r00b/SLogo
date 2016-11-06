@@ -1,9 +1,9 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import java.util.ArrayList;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class stores information about a node in the parse tree. Specifically,
  *         this class stores the raw command given via the GUI, the respective Command

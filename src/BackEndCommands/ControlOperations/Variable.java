@@ -1,16 +1,20 @@
 package BackEndCommands.ControlOperations;
 
 import BackEndCommands.ControlCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
+ * @author ezra
  *         <p>
  *         This command instance represents a Variable in Logo.
  */
 public class Variable extends ControlCommand {
     private static final int ARGS = 0;
 
+    /**
+     * Finds variables from either method variable list or the global variable lists
+     */
     @Override
     public double executeCommand(ParseTreeNode node) {
         String varKey = node.getRawCommand();

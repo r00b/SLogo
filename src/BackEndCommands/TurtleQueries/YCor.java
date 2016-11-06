@@ -1,7 +1,7 @@
 package BackEndCommands.TurtleQueries;
 
 import BackEndCommands.TurtleCommand;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the YCor command
@@ -12,7 +12,7 @@ public class YCor extends TurtleCommand {
     private static final int ARGS = 0;
 
     /**
-     * Gets the y property value and returns it
+     * Gets the y property value of the current active turtle and returns it
      */
     @Override
     public double executeCommand(ParseTreeNode node) {
