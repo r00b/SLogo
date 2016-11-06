@@ -117,7 +117,7 @@ public class GUIEditor implements Editor {
         openFileButton.setOnMouseClicked(e -> openFile());
 
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/save.png"));
+                .getResourceAsStream("Images/save.png"));
         clearImg = new ImageView(newImage);
         Button saveFileButton = myFactory.makeButton("Save file", clearImg, BACKDROP_X + 450, BACKDROP_Y);
         saveFileButton.setOnMouseEntered(e -> {
@@ -132,7 +132,7 @@ public class GUIEditor implements Editor {
     /**
      * Saves a file of Logo commands
      *
-     * @author Robert H. Steilberg II
+     * @author Robert Steilberg
      */
     private void saveFile() {
         FileChooser chooser = new FileChooser();

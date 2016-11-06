@@ -97,7 +97,7 @@ public class GUIConsole implements Console{
 
     private void addClearButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
+                .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = myFactory.makeButton("Clear", clearImg,
                 backdrop.getTranslateX() + 100, backdrop.getTranslateY());

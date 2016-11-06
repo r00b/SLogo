@@ -1,6 +1,6 @@
 package FrontEndExternalAPI;
 
-import BackEndExternalAPI.CommandParser;
+import BackEndInterface.CommandParser;
 import javafx.collections.ObservableMap;
 
 /**

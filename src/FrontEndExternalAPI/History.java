@@ -36,5 +36,5 @@ public interface History {
      *
      * @return
      */
-    String getRedoCommand();    `
+    String getRedoCommand();
 }

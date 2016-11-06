@@ -1,6 +1,5 @@
 package GUI;
 
-import FrontEndInternalAPI.ButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,7 +57,7 @@ public class HelpMenu {
         helpWindow = new Pane();
         helpWindow.setPrefSize(HELP_MENU_WIDTH, HELP_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/background.jpg"));
+                .getResourceAsStream("Images/background.jpg"));
         ImageView backgroundImageMainScreen = new ImageView(background);
         backgroundImageMainScreen.setFitWidth(HELP_MENU_WIDTH + 50);
         backgroundImageMainScreen.setFitHeight(HELP_MENU_HEIGHT);

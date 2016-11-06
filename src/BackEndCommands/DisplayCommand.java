@@ -1,9 +1,9 @@
 package BackEndCommands;
 
 
-import BackEndInternalAPI.Command;
-import BackEndInternalAPI.DisplayProperties;
-import BackEndInternalAPI.ParseTreeNode;
+import BackEndInterpreter.Command;
+import BackEndInterpreter.DisplayProperties;
+import BackEndInterpreter.ParseTreeNode;
 
 
 /**

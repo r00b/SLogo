@@ -1,5 +1,5 @@
 package GUIController;
-import BackEndExternalAPI.CommandParser;
+import BackEndInterface.CommandParser;
 import Base.NodeFactory;
 import FrontEndExternalAPI.Variables;
 import GUI.VariablesHelp;
@@ -22,7 +22,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 /**
  * Created by Delia on 10/15/2016.
@@ -40,13 +39,14 @@ public class GUIVariables implements Variables {
     private VariablesHelp helpWindow;
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser myVariableSetter;
+
     /**
      * @param p
-     * @param bodercolor
+     * @param bordercolor
      */
-    public GUIVariables(Pane p, Paint bodercolor) {
+    public GUIVariables(Pane p, Paint bordercolor) {
         this.window = p;
-        this.border = bodercolor;
+        this.border = bordercolor;
         drawVariables();
         addTextLabel();
         addHelpButton();
@@ -133,14 +133,12 @@ public class GUIVariables implements Variables {
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).getVariableName().equals(name.substring(1))) {
                 contains = true;
-                System.out.println("variable found");
                 data.get(i).setVariableValue(value);
                 break;
             }
         }
         if (!contains) {
-            System.out.println("variable not found");
-            data.add(new Variable(name.substring(1), value));
+            data.add(new Variable(name, value));
         }
         table.setItems(data);
         table.setEditable(true);
@@ -154,7 +152,7 @@ public class GUIVariables implements Variables {
                 "Enter variable value", valueCol.getPrefWidth() - 30,
                 BACKDROP_X + 290, BACKDROP_Y + 200);
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/add.png"));
+                .getResourceAsStream("Images/add.png"));
         ImageView addImg = new ImageView(newImage);
         Button addButton = myFactory.makeButton("Add", addImg, 520, 310);
         addButton.setOnMouseEntered(e -> {
@@ -167,9 +165,8 @@ public class GUIVariables implements Variables {
     }
 
     private void addButtonHandler(){
-        data.add(new Variable(addVariableName.getText(),
-                Double.parseDouble(addVariableValue.getText())));
-        String command = "make " + addVariableName.getText() + " " + addVariableValue.getText();
+        addVariable(addVariableName.getText(), Double.parseDouble(addVariableValue.getText()));
+        String command = "make :" + addVariableName.getText() + " " + addVariableValue.getText();
         String[] commands = new String[1];
         commands[0] = command;
         myVariableSetter.executeCommands(commands);
@@ -179,7 +176,7 @@ public class GUIVariables implements Variables {
 
     private void addClearButton() {
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/clear.png"));
+                .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
         Button clear = myFactory.makeButton("Clear", clearImg,
                 backdrop.getTranslateX() + 200, backdrop.getTranslateY());
@@ -190,7 +187,6 @@ public class GUIVariables implements Variables {
         clear.setOnMouseClicked(e -> {
             table.refresh();
             data.clear();
-            System.out.println(data.size() + " data items");
         });
         window.getChildren().add(clear);
     }

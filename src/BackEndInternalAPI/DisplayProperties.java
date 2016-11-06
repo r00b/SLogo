@@ -1,6 +1,6 @@
 package BackEndInternalAPI;
 
-import BackEndExternalAPI.RGB;
+import BackEndInterface.RGB;
 import GUIController.GUIDisplay;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;

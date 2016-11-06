@@ -1,7 +1,7 @@
 package FrontEndInternalAPI;
 
-import BackEndExternalAPI.RGB;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndInterface.RGB;
+import BackEndInterpreter.ObservableProperties;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.paint.Paint;
 

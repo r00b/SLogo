@@ -37,10 +37,6 @@ public class NodeFactory implements Factory{
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
-    public NodeFactory(){
-
-    }
-
     @Override
     public Button makeButton(String text, ImageView img, double x, double y){
         img.setFitWidth(25);
@@ -75,7 +71,7 @@ public class NodeFactory implements Factory{
     @Override
     public ImageView makeHelpButton(double x, double y){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/help.png"));
+                .getResourceAsStream("Images/help.png"));
         ImageView helpButton = new ImageView(newImage);
         helpButton.setTranslateX(x);
         helpButton.setTranslateY(y);

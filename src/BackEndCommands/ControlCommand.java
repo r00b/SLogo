@@ -1,12 +1,12 @@
 package BackEndCommands;
 
-import BackEndInternalAPI.*;
+import BackEndInterpreter.*;
 import javafx.collections.ObservableMap;
 
 import java.util.Map;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  * @author Ezra Lieblich
  *         <p>
  *         This command instance represents control command types Logo.

@@ -39,6 +39,10 @@ public interface Options {
      */
     void setTurtleString();
 
+    /**
+     *
+     * @return
+     */
     String getTurtleString();
 
     /**
@@ -46,6 +50,9 @@ public interface Options {
      */
     void addLineStylePicker();
 
+    /**
+     *
+     */
     void changePenColor();
 
     /**
@@ -139,10 +146,4 @@ public interface Options {
      * @return
      */
     void addLaunchButton();
-
-    /**
-     *
-     * @return
-     */
-    void initIDE(String background, String turtle);
 }

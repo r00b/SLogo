@@ -1,6 +1,6 @@
-package BackEndExternalAPI;
+package BackEndInterface;
 
-import BackEndInternalAPI.*;
+import BackEndInterpreter.*;
 import GUIController.GUIVariables;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.*;
@@ -8,7 +8,7 @@ import javafx.collections.*;
 import java.util.*;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class interprets a Logo command and executes the action(s) associated with it
  *         using the specified arguments. This is done by recursively creating a parse tree
@@ -28,7 +28,6 @@ public class CommandParser {
     private static SimpleStringProperty myLanguageBinding;
     private static HashSet<String> myErrors; // errors thrown during execution
     private static ResourceBundle myThrowables; // error messages
-
 
     public CommandParser(SimpleStringProperty languageBinding, ObservableComposite turtleProperties, DisplayProperties displayProperties, GUIVariables variables) {
         myMethodVariables = new HashMap<String, Double>();
@@ -79,7 +78,7 @@ public class CommandParser {
     private double buildAndExecuteTree(String[] commands) {
         ParseTreeBuilder builder = initBuilder();
         ParseTreeNode parseTree = builder.buildNewParseTree(commands);
-        myErrors.addAll(builder.getErrors());
+        myErrors.addAll(builder.getErrorSet());
         if (myErrors.isEmpty()) {
             try { // execute the tree
                 return parseTree.getCommandObj().executeCommand(parseTree);

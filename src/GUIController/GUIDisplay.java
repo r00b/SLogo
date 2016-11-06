@@ -1,6 +1,7 @@
 package GUIController;
-
-import BackEndInternalAPI.ObservableProperties;
+//
+//import BackEndInternalAPI.DisplayProperties;
+import BackEndInterpreter.ObservableProperties;
 import Base.NodeFactory;
 import Base.OptionsMenu;
 import FrontEndInternalAPI.DisplayMappings;
@@ -21,7 +22,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import BackEndExternalAPI.RGB;
+import BackEndInterface.RGB;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -67,7 +68,7 @@ public class GUIDisplay implements Display {
 
     private void drawDisplay() {
         Image newImg = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/graphPaper.gif"));
+                .getResourceAsStream("Images/graphPaper.gif"));
         displayGraph = new ImageView(newImg);
         displayGraph.setFitWidth(GRAPH_WIDTH);
         displayGraph.setFitHeight(GRAPH_HEIGHT);
@@ -234,12 +235,14 @@ public class GUIDisplay implements Display {
         });
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/options.png"));
+        newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("Images/options.png"));
         ImageView optionsImg = new ImageView(newImage);
         optionsButton = myFactory.makeButton("Display Options", optionsImg, 840, 40);
         optionsButton.setOnMouseEntered(e -> optionsButton.setStyle(myFactory.getButtonFill()));
         optionsButton.setOnMouseClicked(e -> updateDisplayOptions());
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/reset.png"));
+                .getResourceAsStream("Images/reset.png"));
         ImageView resetImg = new ImageView(newImage);
         Button reset = myFactory.makeButton("Reset", resetImg, 1090, 40);
         reset.setOnMouseEntered(e -> reset.setStyle(myFactory.getButtonFill()));
@@ -270,11 +273,11 @@ public class GUIDisplay implements Display {
         window.getChildren().removeAll(turtleMotion);
         turtleMotion.clear();
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/graphPaper.gif"));
+                .getResourceAsStream("Images/graphPaper.gif"));
         displayGraph.setEffect(null);
         displayGraph.setImage(newImage);
         newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/turtle.png"));
+                .getResourceAsStream("Images/turtle.png"));
         myTurtle.setImage(newImage);
         myTurtle.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
         myTurtle.setTranslateY(displayGraph.getTranslateY() + (displayGraph.getFitHeight() / 2));
@@ -370,8 +373,7 @@ public class GUIDisplay implements Display {
         @Override
         public void addTitle() {
             Text title = myFactory.makePopupText(
-                    "Select your preferences for the display.",
-                    30, 130, 20);
+                    "Select your preferences for the display.", 30, 130, 20);
             getStartWindow().getChildren().add(title);
         }
 

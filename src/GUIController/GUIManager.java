@@ -6,14 +6,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ForkJoinPool;
 
 import BackEndCommands.TurtleCommands.SetXY;
-import BackEndExternalAPI.CommandParser;
-import BackEndInternalAPI.DisplayProperties;
-import BackEndInternalAPI.ObservableComposite;
+import BackEndInterface.CommandParser;
+import BackEndInterpreter.DisplayProperties;
+import BackEndInterpreter.ObservableComposite;
 import Base.NodeFactory;
-import FrontEndExternalAPI.GUIController;
 import FrontEndExternalAPI.Manager;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
@@ -141,14 +139,10 @@ public class GUIManager implements Manager {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-//
-//    public Rectangle getOptionsBackdrop(){
-//        return getOptionsBackdrop();
-//    }
 
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/play.png"));
+                .getResourceAsStream("Images/play.png"));
         ImageView imgV = new ImageView(newImage);
         Button run = myFactory.makeButton("Run", imgV, 80, 350);
         run.setOnMouseEntered(e -> {
@@ -161,7 +155,7 @@ public class GUIManager implements Manager {
 
     private void addLoadButton() {
         Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("images/load.png"));
+                .getResourceAsStream("Images/load.png"));
         ImageView imgV = new ImageView(newImage);
         Button hist = myFactory.makeButton("Load", imgV, 100, 600);
         hist.setOnMouseEntered(e -> {
@@ -291,7 +285,7 @@ public class GUIManager implements Manager {
                     } else if (count == 2) {
                         //myDisplay.setPenColor(line);
                     } else if (count == 3) {
-                        turtleStr = "images/" + line;
+                        turtleStr = "Images/" + line;
                     }
                     count++;
                 }
@@ -333,7 +327,7 @@ public class GUIManager implements Manager {
         @Override
         public void addButtons() {
             Image newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/help.png"));
+                    .getResourceAsStream("Images/help.png"));
             ImageView imgV = new ImageView(newImage);
             Button help = myFactory.makeButton("HELP", imgV, 130, 40);
             help.setOnMouseEntered(e -> {
@@ -342,7 +336,7 @@ public class GUIManager implements Manager {
             });
             help.setOnMouseClicked(e -> helpHandler());
             newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/save.png"));
+                    .getResourceAsStream("Images/save.png"));
             imgV = new ImageView(newImage);
             Button save = myFactory.makeButton("Save Defaults", imgV, 555, 40);
             save.setOnMouseEntered(e -> {
@@ -351,7 +345,7 @@ public class GUIManager implements Manager {
             });
             save.setOnMouseClicked(e -> saveFile());
             newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/load.png"));
+                    .getResourceAsStream("Images/load.png"));
             imgV = new ImageView(newImage);
             Button load = myFactory.makeButton("Load defaults", imgV, 697, 40);
             load.setOnMouseEntered(e -> {
@@ -367,7 +361,7 @@ public class GUIManager implements Manager {
                 }
             });
             newImage = new Image(getClass().getClassLoader()
-                    .getResourceAsStream("images/apply.png"));
+                    .getResourceAsStream("Images/apply.png"));
             imgV = new ImageView(newImage);
             Button play = myFactory.makeButton("APPLY", imgV, 20, 40);
             play.setOnMouseEntered(e -> {
@@ -389,19 +383,19 @@ public class GUIManager implements Manager {
                 String chosenBackground = "";
                 switch (newbackground){
                     case "Circuits":
-                        chosenBackground = "images/background.jpg";
+                        chosenBackground = "Images/background.jpg";
                         break;
                     case "Floating Cubes":
-                        chosenBackground = "images/floatingCubes.jpg";
+                        chosenBackground = "Images/floatingCubes.jpg";
                         break;
                     case "Nebula":
-                        chosenBackground = "images/nebula.jpg";
+                        chosenBackground = "Images/nebula.jpg";
                         break;
                     case "Metal Sheets":
-                        chosenBackground = "images/dark-wallpaper-2.jpg";
+                        chosenBackground = "Images/dark-wallpaper-2.jpg";
                         break;
                     case "Spinning Screens":
-                        chosenBackground = "images/spinningScreens.jpg";
+                        chosenBackground = "Images/spinningScreens.jpg";
                         break;
                 }
                 setNewBackground(chosenBackground);

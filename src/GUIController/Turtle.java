@@ -1,5 +1,5 @@
 package GUIController;
-import BackEndInternalAPI.ObservableProperties;
+import BackEndInterpreter.ObservableProperties;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

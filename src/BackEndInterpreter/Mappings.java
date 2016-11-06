@@ -1,11 +1,11 @@
-package BackEndInternalAPI;
+package BackEndInterpreter;
 
 import javafx.collections.ObservableMap;
 
 import java.util.Map;
 
 /**
- * @author Robert H. Steilberg II
+ * @author Robert Steilberg
  *         <p>
  *         This class holds information about variable and method mappings that are used
  *         when executing Logo commands. Specifically, this class holds data structures for
