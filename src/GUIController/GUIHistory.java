@@ -1,16 +1,15 @@
 package GUIController;
-
+import Base.NodeFactory;
 import FrontEndExternalAPI.History;
 import GUI.HistoryHelp;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -25,21 +24,11 @@ public class GUIHistory implements History {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
-    private static int numCommands = 0;
     private ListView<Button> list;
     private ObservableList<Button> oldCommands;
-    private HistoryHelp helpWindow;
     private String redoCommand;
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonClicked = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;" +
-            "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
+    private HistoryHelp helpWindow;
+    private NodeFactory myFactory = new NodeFactory();
 
     /**
      *
@@ -52,40 +41,25 @@ public class GUIHistory implements History {
         drawHistory();
         addTextLabel();
         addHelpButton();
-        addClearButton();
         addListView();
+        addClearButton();
     }
 
     private void drawHistory(){
-        backdrop = new Rectangle(600, 580, Color.WHITE);
-        backdrop.setStroke(border);
-        backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(600);
-        backdrop.setTranslateX(10);
-        backdrop.opacityProperty().setValue(0.5);
-        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        backdrop = myFactory.makeBackdrop(border, 600, 580, 10, 600);
         window.getChildren().add(backdrop);
     }
     private void addTextLabel(){
-        Text label = new Text("History");
-        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        Text label = myFactory.makeTitle("History", 20, 620);
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(20);
-        label.setTranslateY(620);
         window.getChildren().add(label);
     }
 
     private void addHelpButton(){
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("Images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        ImageView helpButton = myFactory.makeHelpButton(backdrop.getTranslateX() + backdrop.getWidth() - 35,
+                backdrop.getTranslateY() + 10);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
-        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
-        helpButton.setFitWidth(30);
-        helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
     }
 
@@ -96,41 +70,29 @@ public class GUIHistory implements History {
     }
     
     private void addClearButton(){
-        Button clearButton = new Button("Clear");
-        clearButton.setStyle(overButton);
+        Button clearButton = myFactory.makeClearButton(200, 600);
         clearButton.setOnMouseEntered(e -> {
-            clearButton.setStyle(buttonFill);
+            backdrop.opacityProperty().setValue(0.8);
+            clearButton.setStyle(myFactory.getButtonFill());
         });
-        clearButton.setOnMouseExited(e -> clearButton.setStyle(overButton));
-        
-        clearButton.setTranslateX(525);
-        clearButton.setTranslateY(610);
         clearButton.setOnMouseClicked(e -> clear());
         window.getChildren().add(clearButton);
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public Rectangle getBackdrop(){
         return backdrop;
     }
 
-
     @Override
-    /**
-     *
-     */
     public void addCommand(String text) {
-        numCommands++;
         Button newCommand = new Button(text);
-        newCommand.setStyle(overButton);
+        newCommand.setStyle(myFactory.getOverButton());
         newCommand.setOnMouseEntered(e -> {
-            newCommand.setStyle(buttonFill);
+            newCommand.setStyle(myFactory.getButtonFill());
             backdrop.opacityProperty().setValue(0.8);
         });
-        newCommand.setOnMouseExited(e -> newCommand.setStyle(overButton));
+        newCommand.setOnMouseExited(e -> newCommand.setStyle(myFactory.getOverButton()));
         newCommand.setOnMouseClicked(e -> {
             unBold();
             newCommand.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -138,7 +100,6 @@ public class GUIHistory implements History {
         });
         oldCommands.add(0, newCommand);
         list.setItems(oldCommands);
-        //window.getChildren().add(list);
     }
 
     private void unBold(){
@@ -152,7 +113,7 @@ public class GUIHistory implements History {
         list.setOrientation(Orientation.HORIZONTAL);
         list.setTranslateX(20);
         list.setTranslateY(625);
-        list.setPrefSize(500, 155);
+        list.setPrefSize(580, 155);
         list.opacityProperty().setValue(0.5);
         list.setOnMouseEntered(e -> {
             list.opacityProperty().setValue(0.8);
@@ -160,20 +121,16 @@ public class GUIHistory implements History {
         });
         list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         oldCommands = FXCollections.observableArrayList();
-//        list.opacityProperty().setValue(0.8);
         oldCommands = FXCollections.observableArrayList();
-//        list.setOnMouseEntered(e -> {
-//            list.opacityProperty().setValue(0.8);
-//            backdrop.opacityProperty().setValue(0.8);
-//        });
-//        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
         window.getChildren().add(list);
     }
 
     @Override
-    /**
-     *
-     */
+    public void bindNodes(ReadOnlyDoubleProperty height){
+        list.prefHeightProperty().bind(height.subtract(650));
+    }
+
+    @Override
     public void callCommand(String str) {
         redoCommand = str;
     }
@@ -188,9 +145,5 @@ public class GUIHistory implements History {
     
     private void clear(){
         oldCommands.clear();
-    }
-
-    public ListView getListView(){
-        return list;
     }
 }
