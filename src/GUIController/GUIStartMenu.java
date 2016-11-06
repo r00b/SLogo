@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 public class GUIStartMenu extends OptionsMenu {
     private NodeFactory myFactory = new NodeFactory();
-
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
             CycleMethod.NO_CYCLE,
             new Stop(0, Color.WHITE),
@@ -22,7 +21,6 @@ public class GUIStartMenu extends OptionsMenu {
             new Stop(0.6, Color.LIGHTBLUE),
             new Stop(0.75, Color.HONEYDEW),
             new Stop(1, Color.WHITE));
-
     /**
      *
      * @param s
@@ -30,7 +28,6 @@ public class GUIStartMenu extends OptionsMenu {
     public GUIStartMenu(Stage s) {
         super(s);
     }
-
     @Override
     /**
      *
@@ -40,9 +37,7 @@ public class GUIStartMenu extends OptionsMenu {
         title.setTranslateX(125);
         title.setTranslateY(75);
         getStartWindow().getChildren().add(title);
-
     }
-
     /**
      *
      */
@@ -51,7 +46,6 @@ public class GUIStartMenu extends OptionsMenu {
         newButton.setOnMouseClicked(e -> setParameters());
         getStartWindow().getChildren().add(newButton);
     }
-
     /**
      *
      */
@@ -59,24 +53,17 @@ public class GUIStartMenu extends OptionsMenu {
         Rectangle backdrop = myFactory.makeBlueBackdrop(500, 290, 100, 230);
         getStartWindow().getChildren().add(backdrop);
     }
-
     /**
      *
      * @param chosenBackground
      * @param chosenTurtle
      */
     public void initIDE(String chosenBackground, String chosenTurtle) {
-<<<<<<< HEAD
-
-        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
-=======
         GUIManager newGUI = new GUIManager(getPenColor().getValue(),
                 chosenBackground, chosenTurtle, getLanguageBox().getValue(),
                 getLineBox().getValue());
->>>>>>> a3e0048a10e986055172077c015ec0fe075bc206
         newGUI.init();
     }
-
     private static class BigNameText extends StackPane {
         /**
          * @param Name
