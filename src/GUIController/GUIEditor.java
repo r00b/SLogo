@@ -51,9 +51,6 @@ public class GUIEditor implements Editor {
         myStage = stage;
     }
 
-    /**
-     *
-     */
     private void drawEditor() {
         backdrop = myFactory.makeBackdrop(border, BACKDROP_WIDTH, BACKDROP_HEIGHT, BACKDROP_X, BACKDROP_Y);
         window.getChildren().add(backdrop);
@@ -171,16 +168,12 @@ public class GUIEditor implements Editor {
         }
     }
 
-    /**
-     * @return
-     */
+    @Override
     public Rectangle getBackdrop() {
         return backdrop;
     }
 
-    /**
-     *
-     */
+    @Override
     public void startNewCommand() {
         textArea.setText(textArea.getText() + "\n> ");
     }
@@ -190,9 +183,7 @@ public class GUIEditor implements Editor {
         return textArea.getText();
     }
 
-    /**
-     * @param str
-     */
+    @Override
     public void redoCommand(String str) {
         textArea.setText(textArea.getText() + "\n> " + str);
     }

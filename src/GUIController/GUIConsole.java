@@ -13,8 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -50,10 +48,7 @@ public class GUIConsole implements Console{
         addClearButton();
     }
 
-    /**
-     *
-     * @param text
-     */
+    @Override
     public void addConsole(String text) {
         listOfCommands.add(text);
         list.setItems(listOfCommands);
@@ -104,8 +99,8 @@ public class GUIConsole implements Console{
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
-        Button clear = myFactory.makeButton("Clear", clearImg, backdrop.getTranslateX() + 100, backdrop.getTranslateY());
-        //newButton("Clear", clearImg, (int) backdrop.getTranslateX() + 100, (int) backdrop.getTranslateY());
+        Button clear = myFactory.makeButton("Clear", clearImg,
+                backdrop.getTranslateX() + 100, backdrop.getTranslateY());
         clear.setOnMouseEntered(e -> {
             backdrop.opacityProperty().setValue(0.8);
             clear.setStyle(myFactory.getButtonFill());
@@ -114,21 +109,14 @@ public class GUIConsole implements Console{
         window.getChildren().add(clear);
     }
 
-    /**
-     *
-     * @param width
-     * @param height
-     */
+    @Override
     public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
         list.prefWidthProperty().bind(width.subtract(650));
         list.prefHeightProperty().bind(height.subtract(655));
         helpButton.translateXProperty().bind(width.subtract(50));
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public Rectangle getBackdrop(){
         return backdrop;
     }

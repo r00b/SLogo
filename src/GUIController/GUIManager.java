@@ -6,12 +6,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ForkJoinPool;
+
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndExternalAPI.CommandParser;
 import BackEndInternalAPI.DisplayProperties;
 import BackEndInternalAPI.ObservableComposite;
 import Base.NodeFactory;
 import FrontEndExternalAPI.GUIController;
+import FrontEndExternalAPI.Manager;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,7 +40,7 @@ import javafx.stage.Stage;
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIManager implements GUIController {
+public class GUIManager implements Manager {
     private static final int IDE_WIDTH = 1400;
     private static final int IDE_HEIGHT = 800;
     private ImageView background, turtle;
@@ -138,10 +141,10 @@ public class GUIManager implements GUIController {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-
-    public Rectangle getOptionsBackdrop(){
-        return getOptionsBackdrop();
-    }
+//
+//    public Rectangle getOptionsBackdrop(){
+//        return getOptionsBackdrop();
+//    }
 
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
@@ -178,25 +181,6 @@ public class GUIManager implements GUIController {
             }
         });
         window.getChildren().add(enterID);
-    }
-
-    @Override
-    public void getInitialParams() {
-    }
-    @Override
-    public void getCurrentCommand() {
-    }
-    @Override
-    public void passCurrentCommand() {
-    }
-    @Override
-    public void throwError() {
-    }
-    @Override
-    public void getErrors() {
-    }
-    @Override
-    public void storeOldCommand() {
     }
 
     @Override
@@ -261,7 +245,6 @@ public class GUIManager implements GUIController {
                         "Spanish",
                         "Syntax"
                 );
-
         private HelpMenu myHelpMenu;
         private NodeFactory myFactory = new NodeFactory();
 
@@ -277,15 +260,19 @@ public class GUIManager implements GUIController {
             addButtons();
             addComboBoxes();
         }
+
         private void drawButtonMenu() {
             backdrop = myFactory.makeBackdrop(border, 1580, 90, 10, 10);
             window.getChildren().add(backdrop);
         }
+
         private void addTextLabel() {
             Text label = myFactory.makeTitle("Options", 20, 30);
             label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
             window.getChildren().add(label);
         }
+
+        @Override
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
             FileChooser fileChooser = new FileChooser();
@@ -316,6 +303,7 @@ public class GUIManager implements GUIController {
                                 + file + "'");
             }
         }
+
         public void saveFile() {
             FileChooser fileChooser = new FileChooser();
             //Set extension filter
@@ -341,9 +329,7 @@ public class GUIManager implements GUIController {
                 System.out.println("ERROR");
             }
         }
-        /**
-         *
-         */
+
         @Override
         public void addButtons() {
             Image newImage = new Image(getClass().getClassLoader()
@@ -440,9 +426,8 @@ public class GUIManager implements GUIController {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
         }
-        /**
-         * @return
-         */
+
+        @Override
         public Rectangle getBackdrop() {
             return backdrop;
         }

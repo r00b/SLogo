@@ -79,14 +79,10 @@ public class GUIHistory implements History {
         window.getChildren().add(clearButton);
     }
 
-    /**
-     *
-     * @return
-     */
+    @Override
     public Rectangle getBackdrop(){
         return backdrop;
     }
-
 
     @Override
     public void addCommand(String text) {
@@ -129,10 +125,7 @@ public class GUIHistory implements History {
         window.getChildren().add(list);
     }
 
-    /**
-     *
-     * @param height
-     */
+    @Override
     public void bindNodes(ReadOnlyDoubleProperty height){
         list.prefHeightProperty().bind(height.subtract(650));
     }
