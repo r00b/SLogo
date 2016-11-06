@@ -1,14 +1,29 @@
 package FrontEndExternalAPI;
 
-import java.util.ArrayList;
+import BackEndInterface.CommandParser;
+import javafx.collections.ObservableMap;
 
 /**
  * @author Delia
  */
 public interface Variables {
-//    public Variables ();
 
-    public void addVariable(String name, double value);
+    /**
+     *
+     * @param variableSetter
+     */
+    void setVariableSetter(CommandParser variableSetter);
 
-    public ArrayList<Integer> getAllVariables();
+    /**
+     *
+     * @param name
+     * @param value
+     */
+    void addVariable(String name, double value);
+
+    /**
+     *
+     * @param map
+     */
+    void setMap(ObservableMap<? extends String, ? extends Double> map);
 }

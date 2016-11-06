@@ -6,12 +6,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndInterface.CommandParser;
 import BackEndInterpreter.DisplayProperties;
 import BackEndInterpreter.ObservableComposite;
 import Base.NodeFactory;
-import FrontEndExternalAPI.GUIController;
+import FrontEndExternalAPI.Manager;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,7 +38,7 @@ import javafx.stage.Stage;
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIManager implements GUIController {
+public class GUIManager implements Manager {
     private static final int IDE_WIDTH = 1400;
     private static final int IDE_HEIGHT = 800;
     private ImageView background, turtle;
@@ -46,21 +47,19 @@ public class GUIManager implements GUIController {
     private Pane window;
     private Line line;
     private Color penColor;
-
     private GUIConsole myConsole;
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser commandParser;
     private ObservableComposite turtleProperties;
     private DisplayProperties displayProperties;
-
     private SimpleStringProperty myLanguage;
     private String backgroundStr, turtleStr, language;
+
     /**
      * @param penColor
      * @param background
@@ -85,6 +84,7 @@ public class GUIManager implements GUIController {
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
+
     @Override
     public void init() {
         stage = new Stage();
@@ -132,20 +132,12 @@ public class GUIManager implements GUIController {
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myHistory.bindNodes(window.heightProperty());
     }
 
     private ObservableComposite setupBindings() {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
-    }
-
-     //do we still need this
-    public String getLanguage() {
-        return language;
-    }
-
-    public Rectangle getOptionsBackdrop(){
-        return getOptionsBackdrop();
     }
 
     private void addRunButton(){
@@ -165,13 +157,13 @@ public class GUIManager implements GUIController {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/load.png"));
         ImageView imgV = new ImageView(newImage);
-        Button hist = myFactory.makeButton("Load", imgV, 400, 600);
+        Button hist = myFactory.makeButton("Load", imgV, 100, 600);
         hist.setOnMouseEntered(e -> {
             hist.setStyle(myFactory.getButtonFill());
-            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+            myHistory.getBackdrop().opacityProperty().setValue(0.8);
         });
         hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
-        window.getChildren().addAll(hist);
+        window.getChildren().add(hist);
     }
 
     private void addMoreTurtlesField() {
@@ -183,25 +175,6 @@ public class GUIManager implements GUIController {
             }
         });
         window.getChildren().add(enterID);
-    }
-
-    @Override
-    public void getInitialParams() {
-    }
-    @Override
-    public void getCurrentCommand() {
-    }
-    @Override
-    public void passCurrentCommand() {
-    }
-    @Override
-    public void throwError() {
-    }
-    @Override
-    public void getErrors() {
-    }
-    @Override
-    public void storeOldCommand() {
     }
 
     @Override
@@ -237,10 +210,6 @@ public class GUIManager implements GUIController {
         return startIndex;
     }
 
-    public Scene getMyWindow() {
-        return myWindow;
-    }
-
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
@@ -270,7 +239,6 @@ public class GUIManager implements GUIController {
                         "Spanish",
                         "Syntax"
                 );
-
         private HelpMenu myHelpMenu;
         private NodeFactory myFactory = new NodeFactory();
 
@@ -286,15 +254,19 @@ public class GUIManager implements GUIController {
             addButtons();
             addComboBoxes();
         }
+
         private void drawButtonMenu() {
             backdrop = myFactory.makeBackdrop(border, 1580, 90, 10, 10);
             window.getChildren().add(backdrop);
         }
+
         private void addTextLabel() {
             Text label = myFactory.makeTitle("Options", 20, 30);
             label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
             window.getChildren().add(label);
         }
+
+        @Override
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
             FileChooser fileChooser = new FileChooser();
@@ -323,10 +295,9 @@ public class GUIManager implements GUIController {
                 System.out.println(
                         "Error reading file '"
                                 + file + "'");
-                // Or we could just do this:
-                // ex.printStackTrace();
             }
         }
+
         public void saveFile() {
             FileChooser fileChooser = new FileChooser();
             //Set extension filter
@@ -352,9 +323,7 @@ public class GUIManager implements GUIController {
                 System.out.println("ERROR");
             }
         }
-        /**
-         *
-         */
+
         @Override
         public void addButtons() {
             Image newImage = new Image(getClass().getClassLoader()
@@ -451,9 +420,8 @@ public class GUIManager implements GUIController {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
         }
-        /**
-         * @return
-         */
+
+        @Override
         public Rectangle getBackdrop() {
             return backdrop;
         }

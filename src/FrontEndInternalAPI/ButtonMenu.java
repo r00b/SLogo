@@ -1,15 +1,29 @@
 package FrontEndInternalAPI;
-
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+import java.io.FileNotFoundException;
 
 /**
  * @author Delia
  */
 public interface ButtonMenu {
-//    public ButtonMenuk();
 
-//    public Button newButton(String text, ImageView img, int x, int y);
+    /**
+     *
+     */
+    void loadFile() throws FileNotFoundException;
 
-    public void addButtons();
+    /**
+     *
+     */
+    void saveFile();
+
+    /**
+     *
+     */
+    void addButtons();
+
+    /**
+     * @return
+     */
+    Rectangle getBackdrop();
 }

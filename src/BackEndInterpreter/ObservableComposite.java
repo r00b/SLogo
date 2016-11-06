@@ -10,7 +10,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
- * The composite aspect of the Deisgn Principle. This class deals with multiple turtles and calls
+ * The composite aspect of the Design Principle. This class deals with multiple turtles and calls
  * on the Observable Properties class to perform individual turtle commands
  * @author ezra
  */

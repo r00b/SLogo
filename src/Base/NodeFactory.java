@@ -1,5 +1,5 @@
 package Base;
-
+import FrontEndInternalAPI.Factory;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 /**
  * Created by Delia on 11/3/2016.
  */
-public class NodeFactory {
+public class NodeFactory implements Factory{
 
     private String overBigButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
             "-fx-background-radius: 20;" +
@@ -37,10 +37,7 @@ public class NodeFactory {
             "-fx-background-radius: 20;" +
             "-fx-text-fill: white;";
 
-    public NodeFactory(){
-
-    }
-
+    @Override
     public Button makeButton(String text, ImageView img, double x, double y){
         img.setFitWidth(25);
         img.setFitHeight(25);
@@ -52,10 +49,26 @@ public class NodeFactory {
         return newButton;
     }
 
-    public Button makeButton(String text, int x, int y){
-        return null;
+    @Override
+    public Button makeClearButton(double x, double y){
+        Image newImage = new Image(getClass().getClassLoader()
+                .getResourceAsStream("images/clear.png"));
+        ImageView clearImg = new ImageView(newImage);
+        return makeButton("Clear", clearImg, x, y);
     }
 
+    @Override
+    public Button makeBigButton(String text, int x, int y){
+        Button bigButton = new Button(text);
+        bigButton.setStyle(overBigButton);
+        bigButton.setOnMouseEntered(e -> bigButton.setStyle(bigButtonFill));
+        bigButton.setOnMouseExited(e -> bigButton.setStyle(overBigButton));
+        bigButton.setTranslateX(x);
+        bigButton.setTranslateY(y);
+        return bigButton;
+    }
+
+    @Override
     public ImageView makeHelpButton(double x, double y){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/help.png"));
@@ -67,6 +80,7 @@ public class NodeFactory {
         return helpButton;
     }
 
+    @Override
     public Text makeTitle(String text, int x, int y){
         Text label = new Text(text);
         label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
@@ -75,6 +89,7 @@ public class NodeFactory {
         return label;
     }
 
+    @Override
     public Text makePopupText(String text, int x, int y, int fontsize){
         Text title = new Text(text);
         title.setFont(Font.font("Verdana", FontWeight.BOLD, fontsize));
@@ -84,6 +99,7 @@ public class NodeFactory {
         return title;
     }
 
+    @Override
     public TextField makeTextField(String promptText, double prefWidth, int x, int y){
         TextField newTextField = new TextField();
         newTextField.setPromptText(promptText);
@@ -94,6 +110,7 @@ public class NodeFactory {
         return newTextField;
     }
 
+    @Override
     public Rectangle makeBackdrop(Paint border, int width, int height, int x, int y){
         Rectangle backdrop = new Rectangle(width, height, Color.WHITE);
         backdrop.setStroke(border);
@@ -106,14 +123,16 @@ public class NodeFactory {
         return backdrop;
     }
 
+    @Override
     public Rectangle makeBlueBackdrop(int width, int height, int x, int y){
         Rectangle backdrop = new Rectangle(width, height, Color.MIDNIGHTBLUE);
-        backdrop.setTranslateY(x);
-        backdrop.setTranslateX(y);
+        backdrop.setTranslateX(x);
+        backdrop.setTranslateY(y);
         backdrop.opacityProperty().setValue(0.5);
         return backdrop;
     }
 
+    @Override
     public ColorAdjust makeEffect(Color color){
         double hue = map((color.getHue() + 180) % 360, 0, 360, -1, 1);
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -127,19 +146,13 @@ public class NodeFactory {
         return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
     }
 
+    @Override
     public String getButtonFill(){
         return buttonFill;
     }
 
+    @Override
     public String getOverButton(){
         return overButton;
-    }
-
-    public String getOverBigButton(){
-        return overBigButton;
-    }
-
-    public String getBigButtonFill(){
-        return bigButtonFill;
     }
 }

@@ -1,15 +1,7 @@
 package GUIController;
-
 import Base.NodeFactory;
 import Base.OptionsMenu;
-import FrontEndExternalAPI.StartMenu;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.*;
 import javafx.scene.shape.Rectangle;
@@ -18,17 +10,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class GUIStartMenu extends OptionsMenu {
-
-    private static final int START_MENU_WIDTH = 700;
-    private static final int START_MENU_HEIGHT = 600;
-    private static final int DROP_DOWN_X_VALUE = 400;
-
     private NodeFactory myFactory = new NodeFactory();
-
 
     private static final LinearGradient textAndBoxGradient = new LinearGradient(0d, 1d, 1d, 0d, true,
             CycleMethod.NO_CYCLE,
@@ -64,12 +47,7 @@ public class GUIStartMenu extends OptionsMenu {
      *
      */
     public void addLaunchButton(){
-        Button newButton = new Button("Launch SLogo");
-        newButton.setStyle(myFactory.getOverBigButton());
-        newButton.setOnMouseEntered(e -> newButton.setStyle(myFactory.getBigButtonFill()));
-        newButton.setOnMouseExited(e -> newButton.setStyle(myFactory.getOverBigButton()));
-        newButton.setTranslateX(300);
-        newButton.setTranslateY(500);
+        Button newButton = myFactory.makeBigButton("Launch Slogo", 300, 500);
         newButton.setOnMouseClicked(e -> setParameters());
         getStartWindow().getChildren().add(newButton);
     }
@@ -78,10 +56,7 @@ public class GUIStartMenu extends OptionsMenu {
      *
      */
     public void addRectangle(){
-        Rectangle backdrop = new Rectangle(500, 290, Color.MIDNIGHTBLUE);
-        backdrop.setTranslateY(230);
-        backdrop.setTranslateX(100);
-        backdrop.opacityProperty().setValue(0.5);
+        Rectangle backdrop = myFactory.makeBlueBackdrop(500, 290, 100, 230);
         getStartWindow().getChildren().add(backdrop);
     }
 
@@ -91,7 +66,9 @@ public class GUIStartMenu extends OptionsMenu {
      * @param chosenTurtle
      */
     public void initIDE(String chosenBackground, String chosenTurtle) {
-        GUIManager newGUI = new GUIManager(getPenColor().getValue(), chosenBackground, chosenTurtle, getLanguageBox().getValue(), getLineBox().getValue());
+        GUIManager newGUI = new GUIManager(getPenColor().getValue(),
+                chosenBackground, chosenTurtle, getLanguageBox().getValue(),
+                getLineBox().getValue());
         newGUI.init();
     }
 
@@ -106,5 +83,4 @@ public class GUIStartMenu extends OptionsMenu {
             getChildren().add(titleText);
         }
     }
-
 }
