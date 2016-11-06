@@ -20,6 +20,9 @@ public class DisplayMappings {
 	private static ResourceBundle resources;
 
 	
+	/**
+	 * Populates the maps and uses the ImageMappings.properties to get corresponding values
+	 */
 	public DisplayMappings() {
 		resources =  ResourceBundle.getBundle("resources/internal/ImageMappings");
 		penColorMappings = setupColors();
