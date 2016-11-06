@@ -29,7 +29,6 @@ public class CommandParser {
     private static HashSet<String> myErrors; // errors thrown during execution
     private static ResourceBundle myThrowables; // error messages
 
-
     public CommandParser(SimpleStringProperty languageBinding, ObservableComposite turtleProperties, DisplayProperties displayProperties, GUIVariables variables) {
         myMethodVariables = new HashMap<String, Double>();
         myMethods = new HashMap<String, LogoMethod>();
@@ -79,7 +78,7 @@ public class CommandParser {
     private double buildAndExecuteTree(String[] commands) {
         ParseTreeBuilder builder = initBuilder();
         ParseTreeNode parseTree = builder.buildNewParseTree(commands);
-        myErrors.addAll(builder.getErrors());
+        myErrors.addAll(builder.getErrorSet());
         if (myErrors.isEmpty()) {
             try { // execute the tree
                 return parseTree.getCommandObj().executeCommand(parseTree);
