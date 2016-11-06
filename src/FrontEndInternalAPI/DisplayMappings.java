@@ -36,7 +36,6 @@ public class DisplayMappings {
 	}
 
 	private void setupTurtleImage() {
-		// TODO Auto-generated method stub
 		turtleImageMappings = new ArrayList<Image>();		
 		turtleImageMappings.add(new Image(getClass().getClassLoader()
 											.getResourceAsStream(resources.getString("image0"))));
