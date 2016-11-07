@@ -30,7 +30,7 @@ public class GUIStartMenu extends OptionsMenu {
     }
     @Override
     /**
-     *
+     * This method adds the title to the top of the welcome screen.
      */
     public void addTitle() {
         BigNameText title = new BigNameText("Welcome to \n\tSLogo");
@@ -39,7 +39,8 @@ public class GUIStartMenu extends OptionsMenu {
         getStartWindow().getChildren().add(title);
     }
     /**
-     *
+     * This method creates and adds a "Launch" button for someone to start SLogo
+     * from the welcome screen. 
      */
     public void addLaunchButton(){
         Button newButton = myFactory.makeBigButton("Launch Slogo", 300, 500);
@@ -47,14 +48,16 @@ public class GUIStartMenu extends OptionsMenu {
         getStartWindow().getChildren().add(newButton);
     }
     /**
-     *
+     * This method adds the backdrop to the welcome menu to make it look nicer. 
      */
     public void addRectangle(){
         Rectangle backdrop = myFactory.makeBlueBackdrop(500, 290, 100, 230);
         getStartWindow().getChildren().add(backdrop);
     }
     /**
-     *
+     * This method is the result of clicking the Launch button. It creates a new 
+     * instance of, and then initializes, the GUIManager class, which is 
+     * the over-arching display class that contains all parts of our GUI display.  
      * @param chosenBackground
      * @param chosenTurtle
      */
