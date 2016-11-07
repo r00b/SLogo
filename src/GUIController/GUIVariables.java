@@ -1,4 +1,4 @@
-//THIS ENTIRE FILE IS PART OF MY MASTERPIECE
+//This entire file is part of my masterpiece.
 //DELIA LI
 
 package GUIController;
