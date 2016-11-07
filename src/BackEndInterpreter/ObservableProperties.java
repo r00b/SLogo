@@ -1,3 +1,5 @@
+//Line 17 is part of my masterpiece as it also implements FrontendObservableProperties
+//Ezra Lieblich
 package BackEndInterpreter;
 
 import GUIController.GUIDisplay;
@@ -13,7 +15,7 @@ import javafx.scene.image.ImageView;
  *
  * @author ezra
  */
-public class ObservableProperties implements ObservableManager {
+public class ObservableProperties implements ObservableManager, FrontendObservableProperties {
     private double myId;
     private BooleanProperty imageVisibleProperty; 
     private DoubleProperty rotateProperty;

@@ -1,6 +1,7 @@
+// This is part of my masterpiece line 92 and 93
+//Ezra Lieblich
 package GUIController;
-//
-//import BackEndInternalAPI.DisplayProperties;
+import BackEndInterpreter.FrontendObservableProperties;
 import BackEndInterpreter.ObservableProperties;
 import Base.NodeFactory;
 import Base.OptionsMenu;
@@ -89,7 +90,7 @@ public class GUIDisplay implements Display {
         newTurtleImg.setFitHeight(TURTLE_FIT_SIZE);
         newTurtleImg.setFitWidth(TURTLE_FIT_SIZE);
         ObservableProperties turtleProperty = new ObservableProperties(newTurtleImg, this, newID);
-        Turtle newTurtle = new Turtle(turtleProperty, newTurtleImg);
+        Turtle newTurtle = new Turtle((FrontendObservableProperties)turtleProperty, newTurtleImg);
         newTurtle.setID(newID);
         myTurtles.put(newID, newTurtle);
         makeTooltip(newID);
