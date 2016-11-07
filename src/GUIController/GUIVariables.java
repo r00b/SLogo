@@ -1,3 +1,6 @@
+//THIS ENTIRE FILE IS PART OF MY MASTERPIECE
+//DELIA LI
+
 package GUIController;
 import BackEndInterface.CommandParser;
 import Base.NodeFactory;
@@ -24,8 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.stream.Collectors;
 
-/**
- * Created by Delia on 10/15/2016.
+/** Created by Delia on 10/15/2016.
  *
  *  This is the GUIVariables class in the GUIController package.
  *  This class controls the representation of variables in a table format and allows
@@ -56,8 +58,7 @@ public class GUIVariables implements Variables {
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser myVariableSetter;
 
-    /**
-     * This is the constructor. It sets items that must be passed in from GUIManager
+    /** This is the constructor. It sets items that must be passed in from GUIManager
      * and creates all of the nodes present within the Variables box.
      * @param p
      * @param borderColor
@@ -221,15 +222,14 @@ public class GUIVariables implements Variables {
         table.setItems(data);
     }
 
-    /**
-     * Nested class Variable.java helps GUIVariables.java organize the data
+    /** Nested class Variable.java helps GUIVariables.java organize the data
      * contained within the TableView.
      */
     public static class Variable {
         private final SimpleStringProperty variableName;
         private final SimpleDoubleProperty variableValue;
 
-        /**
+        /**Constructor sets initial properties
          * @param variableName
          * @param variableValue
          */
@@ -238,28 +238,28 @@ public class GUIVariables implements Variables {
             this.variableValue = new SimpleDoubleProperty(variableValue);
         }
 
-        /**
+        /** Returns the name of the variable, like x for x = 10.
          * @return
          */
         public String getVariableName() {
             return variableName.get();
         }
 
-        /**
+        /** Sets name of the variable
          * @param fName
          */
         public void setVariableName(String fName) {
             variableName.set(fName);
         }
 
-        /**
+        /**Returns value of the variable, like 10 for x = 10.
          * @return
          */
         public double getVariableValue() {
             return variableValue.get();
         }
 
-        /**
+        /**Sets value of the variable.
          * @param fName
          */
         public void setVariableValue(double fName) {
