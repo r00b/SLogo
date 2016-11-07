@@ -20,6 +20,9 @@ public class DisplayMappings {
 	private static ResourceBundle resources;
 
 	
+	/**
+	 * Populates the maps and uses the ImageMappings.properties to get corresponding values
+	 */
 	public DisplayMappings() {
 		resources =  ResourceBundle.getBundle("resources/internal/ImageMappings");
 		penColorMappings = setupColors();
@@ -33,7 +36,6 @@ public class DisplayMappings {
 	}
 
 	private void setupTurtleImage() {
-		// TODO Auto-generated method stub
 		turtleImageMappings = new ArrayList<Image>();		
 		turtleImageMappings.add(new Image(getClass().getClassLoader()
 											.getResourceAsStream(resources.getString("image0"))));

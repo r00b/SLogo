@@ -34,9 +34,15 @@
 
 ##Relevant info about the project
 * No command-line arguments are needed. The project simply needs to be run, and LOGO commands can be inputted in the Editor pane and then executed through pressing the Run button. The Flower example file is a particularly interesting file to run.
+* Note that ask and askWith revert the list of active turtles to the previous list of active Turtles. That means that
+if a tell is nested in an ask it will still get reverted to the tell before the ask. This was a design choice that was
+made after Prof Duvall responed to a Piazza post
 
 ##Known bugs
 * TODO
+* Display mappings are not updated properly when the front end changes the penColor or Background color.
+This is because the front end allows to change to any color whereas the backend only maps to a limited amount of colors.
+We decided to just leave the index when they call get pen color if they change it in the front end
 
 ##Extra features
 * Extra front end features include multiple workspaces, display commands that interact with the display of the turtle (i.e. color, shape, pen properties, etc.), saving and loading workspace preferences, choosing a turtle to command by clicking on it, and getting information about a turtle by hovering over it.

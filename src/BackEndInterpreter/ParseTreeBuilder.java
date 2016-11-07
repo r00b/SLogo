@@ -22,6 +22,7 @@ import java.util.*;
 
 /**
  * @author Robert Steilberg
+ * @author ezra
  *         <p>
  *         This class builds a parse tree of a specified Logo commandType. This is done
  *         by reducing the Logo commandType down into its subparts and then recursively
