@@ -81,6 +81,7 @@ public class GUIManager implements Manager {
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
+    
     @Override
     public void init() {
         stage = new Stage();

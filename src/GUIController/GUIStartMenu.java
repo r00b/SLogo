@@ -22,7 +22,7 @@ public class GUIStartMenu extends OptionsMenu {
             new Stop(0.75, Color.HONEYDEW),
             new Stop(1, Color.WHITE));
     /**
-     *
+     * This starts a new GUIStartMenu by calling it's superclass's constructor.
      * @param s
      */
     public GUIStartMenu(Stage s) {
