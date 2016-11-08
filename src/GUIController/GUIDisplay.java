@@ -343,7 +343,7 @@ public class GUIDisplay implements Display {
         myOptions.initPopup();
     }
 
-    class DisplayMenu extends OptionsMenu {
+    private class DisplayMenu extends OptionsMenu {
         private static final int DROP_DOWN_X_VALUE = 400;
         private ColorPicker displayColor = new ColorPicker();
         private Slider slider;
