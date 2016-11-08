@@ -53,8 +53,7 @@ We decided to just leave the index when they call get pen color if they change i
 
 ##Impressions
 * Robert: I thoroughly enjoyed working on this project; this is by far the largest and most complex project that I have ever worked on. I think it was a great exercise for learning advanced teamwork skills and bringing together multiple components of a project after being implemented completely separately. I think the extensions were also a fun challenge to implement and really tested how well we could extend our design without abandoning it.
-<<<<<<< HEAD
-* Grayson: I found this to be a very challenging, yet rewarding, project. This project was larger than anything else I have ever worked on and really tested my coding, design, and communication skills. I also discovered, when comparing this experience with that of the last project, that I enjoy front-end coding much more than back-end, and will hopefully get to work on the front-end for VOOGASalad.   
-=======
+
+* Grayson: I found this to be a very challenging, yet rewarding, project. This project was larger than anything else I have ever worked on and really tested my coding, design, and communication skills. I also discovered, when comparing this experience with that of the last project, that I enjoy front-end coding much more than back-end, and will hopefully get to work on the front-end for VOOGASalad. 
+  
 * Delia: I learned so much while working on this project, from the team discussions to researching the best way to implement front end features to gaining valuable skills in pair programming and design considerations. It really tested our planning skills from the initial meeting since every subsequent feature depended on how well we designed our project. This project was also a lot of fun because it challenged me to not only create something both easy to use and functionally powerful, but also to make it graphically and artistically pleasing to the user.
->>>>>>> 4adb580e178e81da9eb22fa0bbebda4fb575f27f
