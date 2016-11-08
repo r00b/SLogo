@@ -34,7 +34,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 /**
  * Created by Delia on 10/15/2016.
  */
@@ -47,7 +46,6 @@ public class GUIHistory implements History {
     private String redoCommand;
     private HistoryHelp helpWindow;
     private NodeFactory myFactory = new NodeFactory();
-
     /**
      * This is the constructor that creates the section of the overall GUI that is 
      * designated to handle the "history," meaning it contains a list of old commands, 
@@ -64,7 +62,6 @@ public class GUIHistory implements History {
         addListView();
         addClearButton();
     }
-
     private void drawHistory(){
         backdrop = myFactory.makeBackdrop(border, 600, 580, 10, 600);
         window.getChildren().add(backdrop);
@@ -74,7 +71,6 @@ public class GUIHistory implements History {
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         window.getChildren().add(label);
     }
-
     private void addHelpButton(){
         ImageView helpButton = myFactory.makeHelpButton(backdrop.getTranslateX() + backdrop.getWidth() - 35,
                 backdrop.getTranslateY() + 10);
@@ -82,7 +78,6 @@ public class GUIHistory implements History {
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         window.getChildren().add(helpButton);
     }
-
     private void helpHandler(){
         Stage s = new Stage();
         helpWindow = new HistoryHelp(s);
@@ -98,7 +93,6 @@ public class GUIHistory implements History {
         clearButton.setOnMouseClicked(e -> clear());
         window.getChildren().add(clearButton);
     }
-
     @Override
     /**
      * This method returns the backdrop of this section of the GUI. This 
@@ -107,7 +101,6 @@ public class GUIHistory implements History {
     public Rectangle getBackdrop(){
         return backdrop;
     }
-
     @Override
     /**
      * This method adds the most recently run command to the list contained in 
@@ -139,14 +132,12 @@ public class GUIHistory implements History {
     private void makeOpaque(){
         backdrop.opacityProperty().setValue(0.8);
     }
-
     private void unboldAllButClickedCommand(Button command){
         for(int i = 0; i < list.getItems().size(); i++){
             list.getItems().get(i).setFont(Font.font("Verdana", 15));
         }
         command.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
     }
-
     private void addListView(){
         list = new ListView<Button>();
         setListPrefs();
@@ -166,7 +157,6 @@ public class GUIHistory implements History {
         });
         list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
     }
-
     @Override
     /**
      * This method is used to bind the location of the history portion of the 
@@ -176,7 +166,6 @@ public class GUIHistory implements History {
     public void bindNodes(ReadOnlyDoubleProperty height){
         list.prefHeightProperty().bind(height.subtract(650));
     }
-
     @Override
     /**
      * This method is passed in the most recent command from the GUIEditor, and
@@ -187,7 +176,6 @@ public class GUIHistory implements History {
     public void callCommand(String str) {
         redoCommand = str;
     }
-
     /**
      * This returns the saved string "redoCommand," which contains the text of the
      * most recently clicked button in the list, allowing the GUI to know which 
