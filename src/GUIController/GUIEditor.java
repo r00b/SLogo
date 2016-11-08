@@ -61,6 +61,8 @@ public class GUIEditor implements Editor {
     private EditorHelp helpWindow;
 
     /**
+     * This is the constructor that sets up the designated section of the 
+     * GUI as the editor, where the user can input code and run it. 
      * @param p
      * @param borderColor
      */
