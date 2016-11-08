@@ -15,6 +15,7 @@ public class Turtle {
     private boolean visibility = true;
     private List<Line> turtleMotion = new ArrayList<>();
     private ObservableProperties properties;
+
     public Turtle(ObservableProperties newProperty, ImageView myImage) {
         turtleView = myImage;
         properties = newProperty;
