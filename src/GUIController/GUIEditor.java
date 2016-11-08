@@ -24,18 +24,19 @@ import java.util.Scanner;
 
 /**
  * This is the GUIEditor class in the GUIController package.
- * This class controls the inputting of commands by allowing the user to type directly
- * into a text area or open a file.
- * The GUIEditor class contains a small caret "> " at the beginning of each command
- * after the use clicks the "Run" button.
- * This lets the user know how which commands will be parsed the next time "Run" is
- * clicked.
- * Additionally, the "Clear" button lets users clear the text area at any time.
- * The "Open file" button lets users choose a file from their own directory to run
- * as a set of Slogo commands.
- * The "Save file" button lets users to save what currently exists in the text area
- * as a text file in their own directory.
- * The question mark provides useful tips to users about how to use the editor.
+ * This class controls the inputting of commands by allowing the user to type directly into a text area or open a file.
+ * The GUIEditor class contains a small caret "> " at the beginning of each command after the use clicks the "Run" button.
+ * This lets the user know how which commands will be parsed the next time "Run" is clicked. Additionally, the "Clear"
+ * button lets users clear the text area at any time. The "Open file" button lets users choose a file from their own
+ * directory to run as a set of Slogo commands. The "Save file" button lets users to save what currently exists in the
+ * text area as a text file in their own directory. The question mark provides useful tips to users about how to use the
+ * editor.
+ *
+ * I think this class represents good design because it is significantly refactored and contains no magic values that
+ * still should be refactored. It is simple and very easy to use, both for the developer and the user. I handle errors
+ * in try/catch blocks like we learned in class to do, providing helpful statements should any of those errors happen,
+ * in a way that is accessible to the user. It demonstrates that I have learned how to navigate a TextArea object and
+ * style it in a way such that commands look like they're appearing on a command line in other editors. 
  *
  * Created by Delia on 10/15/2016.
  */
