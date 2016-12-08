@@ -1,5 +1,5 @@
 package GUIController;
-import BackEndInterpreter.ObservableProperties;
+import BackEndInterpreter.FrontendObservableProperties;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -90,4 +90,3 @@ public class Turtle {
     }
 
 }
-
