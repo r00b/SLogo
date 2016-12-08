@@ -29,7 +29,7 @@ import java.util.*;
  *         building a tree where each tree node is a irreducible Logo commandType.
  *         <p>
  *         Dependencies: Command classes, CommandTypeDetector, LogoMethod, Mappings,
- *         ObservableProperties, ParseTreeNode, ListBuilder, GroupBuilder, MethodCaller
+ *         ObservableProperties, ParseTreeNode, MethodCaller, ListBuilder, GroupBuilder
  */
 public class ParseTreeBuilder {
 
