@@ -11,7 +11,7 @@ import BackEndInterface.CommandParser;
 import BackEndInterpreter.DisplayProperties;
 import BackEndInterpreter.ObservableComposite;
 import Base.NodeFactory;
-import FrontEndExternalAPI.GUIController;
+import FrontEndExternalAPI.Manager;
 import FrontEndInternalAPI.ButtonMenu;
 import GUI.HelpMenu;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,11 +33,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIManager implements GUIController {
+public class GUIManager implements Manager {
     private static final int IDE_WIDTH = 1400;
     private static final int IDE_HEIGHT = 800;
     private ImageView background, turtle;
@@ -46,19 +45,16 @@ public class GUIManager implements GUIController {
     private Pane window;
     private Line line;
     private Color penColor;
-
     private GUIConsole myConsole;
     private GUIEditor myEditor;
     private GUIHistory myHistory;
     private GUIVariables myVariables;
     private GUIDisplay myDisplay;
     private GUIButtonMenu myButtonMenu;
-
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser commandParser;
     private ObservableComposite turtleProperties;
     private DisplayProperties displayProperties;
-
     private SimpleStringProperty myLanguage;
     private String backgroundStr, turtleStr, language;
     /**
@@ -85,6 +81,7 @@ public class GUIManager implements GUIController {
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
+    
     @Override
     public void init() {
         stage = new Stage();
@@ -96,7 +93,6 @@ public class GUIManager implements GUIController {
         displayProperties = new DisplayProperties(myDisplay);
         commandParser = new CommandParser(myLanguage, turtleProperties, displayProperties, myVariables);
         myVariables.setVariableSetter(commandParser);
-
         SetXY fd = new SetXY();
         fd.setProperties(turtleProperties);
         ArrayList<Double> list = new ArrayList<Double>();
@@ -105,7 +101,6 @@ public class GUIManager implements GUIController {
         stage.setScene(myScene);
         stage.show();
     }
-
     private Parent setUpWindow() {
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
@@ -122,7 +117,6 @@ public class GUIManager implements GUIController {
         setSizeBindings();
         return window;
     }
-
     private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
@@ -132,22 +126,12 @@ public class GUIManager implements GUIController {
         myConsole.bindNodes(window.widthProperty(), window.heightProperty());
         myButtonMenu.getBackdrop().widthProperty().bind(window.widthProperty().subtract(20));
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
+        myHistory.bindNodes(window.heightProperty());
     }
-
     private ObservableComposite setupBindings() {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-
-     //do we still need this
-    public String getLanguage() {
-        return language;
-    }
-
-    public Rectangle getOptionsBackdrop(){
-        return getOptionsBackdrop();
-    }
-
     private void addRunButton(){
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/play.png"));
@@ -160,20 +144,18 @@ public class GUIManager implements GUIController {
         run.setOnMouseClicked(e -> returnAction());
         window.getChildren().add(run);
     }
-
     private void addLoadButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/load.png"));
         ImageView imgV = new ImageView(newImage);
-        Button hist = myFactory.makeButton("Load", imgV, 400, 600);
+        Button hist = myFactory.makeButton("Load", imgV, 100, 600);
         hist.setOnMouseEntered(e -> {
             hist.setStyle(myFactory.getButtonFill());
-            myEditor.getBackdrop().opacityProperty().setValue(0.8);
+            myHistory.getBackdrop().opacityProperty().setValue(0.8);
         });
         hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
-        window.getChildren().addAll(hist);
+        window.getChildren().add(hist);
     }
-
     private void addMoreTurtlesField() {
         TextField enterID = myFactory.makeTextField(
                 "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 43);
@@ -184,26 +166,6 @@ public class GUIManager implements GUIController {
         });
         window.getChildren().add(enterID);
     }
-
-    @Override
-    public void getInitialParams() {
-    }
-    @Override
-    public void getCurrentCommand() {
-    }
-    @Override
-    public void passCurrentCommand() {
-    }
-    @Override
-    public void throwError() {
-    }
-    @Override
-    public void getErrors() {
-    }
-    @Override
-    public void storeOldCommand() {
-    }
-
     @Override
     public void returnAction() {
         String fullText = myEditor.getCurrentText();
@@ -220,12 +182,10 @@ public class GUIManager implements GUIController {
             commandParser.getErrors().forEach(myConsole::addConsole);
         }
     }
-
     private void getAndLoadHistoryCommand() {
         String redoCommand = myHistory.getRedoCommand();
         myEditor.redoCommand(redoCommand);
     }
-
     private int lookForLatest(String fullText) {
         int startIndex = -1;
         for (int i = fullText.length() - 1; i >= 0; i--) {
@@ -236,17 +196,11 @@ public class GUIManager implements GUIController {
         }
         return startIndex;
     }
-
-    public Scene getMyWindow() {
-        return myWindow;
-    }
-
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
         private Rectangle backdrop;
         private Stage s = new Stage();
-
         private String defaultBackground = "Nebula";
         private String defaultLanguage = "English";
         private ComboBox<String> backgroundBox, languageBox;
@@ -270,10 +224,8 @@ public class GUIManager implements GUIController {
                         "Spanish",
                         "Syntax"
                 );
-
         private HelpMenu myHelpMenu;
         private NodeFactory myFactory = new NodeFactory();
-
         /**
          * @param p
          * @param borderColor
@@ -295,6 +247,7 @@ public class GUIManager implements GUIController {
             label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
             window.getChildren().add(label);
         }
+        @Override
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
             FileChooser fileChooser = new FileChooser();
@@ -323,8 +276,6 @@ public class GUIManager implements GUIController {
                 System.out.println(
                         "Error reading file '"
                                 + file + "'");
-                // Or we could just do this:
-                // ex.printStackTrace();
             }
         }
         public void saveFile() {
@@ -352,9 +303,6 @@ public class GUIManager implements GUIController {
                 System.out.println("ERROR");
             }
         }
-        /**
-         *
-         */
         @Override
         public void addButtons() {
             Image newImage = new Image(getClass().getClassLoader()
@@ -401,7 +349,6 @@ public class GUIManager implements GUIController {
             });
             window.getChildren().addAll(save, load, help, play);
         }
-
         private void addComboBoxes() {
             System.setProperty("glass.accessible.force", "false");
             backgroundBox = new ComboBox<String>(backgroundOptions);
@@ -440,20 +387,16 @@ public class GUIManager implements GUIController {
             languageBox.setOnMouseExited(ee -> backdrop.opacityProperty().setValue(0.5));
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
-
         private void setNewBackground(String newBackground){
             Image newB = new Image(getClass().getClassLoader()
                     .getResourceAsStream(newBackground));
             background.setImage(newB);
         }
-
         private void helpHandler() {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
         }
-        /**
-         * @return
-         */
+        @Override
         public Rectangle getBackdrop() {
             return backdrop;
         }

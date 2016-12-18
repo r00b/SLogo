@@ -1,23 +1,39 @@
-package GUIController;
+//This entire file is part of my code masterpiece
+//Grayson Wise
 
+/**While this file was created by Delia, all of the functionality was 
+ * implemented by me. In addition, I refactored this code heavily, and 
+ * therefore I feel it is an acceptable code masterpiece. 
+ * 
+ * I think this code is well designed for a few reasons. First off, every method is 
+ * short, to the point, and does exactly what is expected of it. Also, the code makes
+ * good use of lambda expressions, which are crucial to implementing button functionality.
+ * 
+ * Commits: 
+ *      00ef8c9286502823e853e50ad35c5fba5e3e74d8
+ *              "History works again, now we aren't doomed to repeat it."
+ *      befe502d872a74e85f06ccfbfdc8b5ce024b2116
+ *              "Can now load hold commands from history to run again."
+ */
+
+package GUIController;
+import Base.NodeFactory;
 import FrontEndExternalAPI.History;
 import GUI.HistoryHelp;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 /**
  * Created by Delia on 10/15/2016.
  */
@@ -25,70 +41,43 @@ public class GUIHistory implements History {
     private Pane window;
     private Paint border;
     private Rectangle backdrop;
-    private static int numCommands = 0;
     private ListView<Button> list;
     private ObservableList<Button> oldCommands;
-    private HistoryHelp helpWindow;
     private String redoCommand;
-    private String overButton = "-fx-background-color: linear-gradient(#0079b3, #00110e);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonFill = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;";
-    private String buttonClicked = "-fx-background-color: linear-gradient(#00110e, #0079b3);" +
-            "-fx-background-radius: 20;" +
-            "-fx-text-fill: white;" +
-            "-fx-border: 12px solid; -fx-border-color: white; -fx-background-radius: 15.0;";
-
+    private HistoryHelp helpWindow;
+    private NodeFactory myFactory = new NodeFactory();
     /**
-     *
+     * This is the constructor that creates the section of the overall GUI that is 
+     * designated to handle the "history," meaning it contains a list of old commands, 
+     * and allows a user to click on them to reload them into the editor to run again. 
      * @param p
-     * @param bordercoloir
+     * @param bordercolor
      */
-    public GUIHistory(Pane p, Paint bordercoloir){
+    public GUIHistory(Pane p, Paint bordercolor){
         this.window = p;
-        this.border = bordercoloir;
+        this.border = bordercolor;
         drawHistory();
         addTextLabel();
         addHelpButton();
-        addClearButton();
         addListView();
+        addClearButton();
     }
-
     private void drawHistory(){
-        backdrop = new Rectangle(600, 580, Color.WHITE);
-        backdrop.setStroke(border);
-        backdrop.setStrokeWidth(5);
-        backdrop.setTranslateY(600);
-        backdrop.setTranslateX(10);
-        backdrop.opacityProperty().setValue(0.5);
-        backdrop.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        backdrop.setOnMouseExited(e -> backdrop.opacityProperty().setValue(0.5));
+        backdrop = myFactory.makeBackdrop(border, 600, 580, 10, 600);
         window.getChildren().add(backdrop);
     }
     private void addTextLabel(){
-        Text label = new Text("History");
-        label.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
+        Text label = myFactory.makeTitle("History", 20, 620);
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        label.setTranslateX(20);
-        label.setTranslateY(620);
         window.getChildren().add(label);
     }
-
     private void addHelpButton(){
-        Image newImage = new Image(getClass().getClassLoader()
-                .getResourceAsStream("Images/help.png"));
-        ImageView helpButton = new ImageView(newImage);
+        ImageView helpButton = myFactory.makeHelpButton(backdrop.getTranslateX() + backdrop.getWidth() - 35,
+                backdrop.getTranslateY() + 10);
         helpButton.setOnMouseClicked(e -> helpHandler());
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
-        helpButton.setTranslateX(backdrop.getTranslateX() + backdrop.getWidth() - 35);
-        helpButton.setTranslateY(backdrop.getTranslateY() + 10);
-        helpButton.setFitWidth(30);
-        helpButton.setFitHeight(30);
         window.getChildren().add(helpButton);
     }
-
     private void helpHandler(){
         Stage s = new Stage();
         helpWindow = new HistoryHelp(s);
@@ -96,90 +85,101 @@ public class GUIHistory implements History {
     }
     
     private void addClearButton(){
-        Button clearButton = new Button("Clear");
-        clearButton.setStyle(overButton);
+        Button clearButton = myFactory.makeClearButton(200, 600);
         clearButton.setOnMouseEntered(e -> {
-            clearButton.setStyle(buttonFill);
+            makeOpaque();
+            clearButton.setStyle(myFactory.getButtonFill());
         });
-        clearButton.setOnMouseExited(e -> clearButton.setStyle(overButton));
-        
-        clearButton.setTranslateX(525);
-        clearButton.setTranslateY(610);
         clearButton.setOnMouseClicked(e -> clear());
         window.getChildren().add(clearButton);
     }
-
+    @Override
     /**
-     *
-     * @return
+     * This method returns the backdrop of this section of the GUI. This 
+     * method is inherited from the overarching superclass history.java. 
      */
     public Rectangle getBackdrop(){
         return backdrop;
     }
-
-
     @Override
     /**
-     *
+     * This method adds the most recently run command to the list contained in 
+     * the history. The command string passed in is made into a new button that 
+     * is added to the front of the list, and the button is set to have the 
+     * correct behavior when clicked. 
+     * @param text
      */
     public void addCommand(String text) {
-        numCommands++;
         Button newCommand = new Button(text);
-        newCommand.setStyle(overButton);
-        newCommand.setOnMouseEntered(e -> {
-            newCommand.setStyle(buttonFill);
-            backdrop.opacityProperty().setValue(0.8);
-        });
-        newCommand.setOnMouseExited(e -> newCommand.setStyle(overButton));
-        newCommand.setOnMouseClicked(e -> {
-            unBold();
-            newCommand.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
-            callCommand(newCommand.getText());
-        });
+        setCommandButtonStyle(newCommand);
         oldCommands.add(0, newCommand);
         list.setItems(oldCommands);
-        //window.getChildren().add(list);
     }
-
-    private void unBold(){
+    
+    private void setCommandButtonStyle(Button command){
+        command.setStyle(myFactory.getOverButton());
+        command.setOnMouseEntered(e -> {
+            makeOpaque();
+            command.setStyle(myFactory.getButtonFill());
+            });
+        command.setOnMouseExited(e -> command.setStyle(myFactory.getOverButton()));
+        command.setOnMouseClicked(e -> {
+            unboldAllButClickedCommand(command);
+            callCommand(command.getText());
+            });
+    }
+    
+    private void makeOpaque(){
+        backdrop.opacityProperty().setValue(0.8);
+    }
+    private void unboldAllButClickedCommand(Button command){
         for(int i = 0; i < list.getItems().size(); i++){
             list.getItems().get(i).setFont(Font.font("Verdana", 15));
         }
+        command.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
     }
-
     private void addListView(){
         list = new ListView<Button>();
+        setListPrefs();
+        oldCommands = FXCollections.observableArrayList();
+        window.getChildren().add(list);
+    }
+    
+    private void setListPrefs(){
         list.setOrientation(Orientation.HORIZONTAL);
         list.setTranslateX(20);
         list.setTranslateY(625);
-        list.setPrefSize(500, 155);
+        list.setPrefSize(580, 155);
         list.opacityProperty().setValue(0.5);
         list.setOnMouseEntered(e -> {
             list.opacityProperty().setValue(0.8);
-            backdrop.opacityProperty().setValue(0.8);
+            makeOpaque();
         });
         list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
-        oldCommands = FXCollections.observableArrayList();
-//        list.opacityProperty().setValue(0.8);
-        oldCommands = FXCollections.observableArrayList();
-//        list.setOnMouseEntered(e -> {
-//            list.opacityProperty().setValue(0.8);
-//            backdrop.opacityProperty().setValue(0.8);
-//        });
-//        list.setOnMouseExited(e -> list.opacityProperty().setValue(0.5));
-        window.getChildren().add(list);
     }
-
     @Override
     /**
-     *
+     * This method is used to bind the location of the history portion of the 
+     * window to the same spot in the overall GUI, even when the window is resized.  
+     * @param height
+     */
+    public void bindNodes(ReadOnlyDoubleProperty height){
+        list.prefHeightProperty().bind(height.subtract(650));
+    }
+    @Override
+    /**
+     * This method is passed in the most recent command from the GUIEditor, and
+     * sets the variable "redoCommand" equal to it, so that the history has a 
+     * command to use as the most recent unless a different one is clicked. 
+     * @param str
      */
     public void callCommand(String str) {
         redoCommand = str;
     }
-
     /**
-     *
+     * This returns the saved string "redoCommand," which contains the text of the
+     * most recently clicked button in the list, allowing the GUI to know which 
+     * command has been clicked and needs to be loaded into the editor.
      * @return
      */
     public String getRedoCommand(){
@@ -188,9 +188,5 @@ public class GUIHistory implements History {
     
     private void clear(){
         oldCommands.clear();
-    }
-
-    public ListView getListView(){
-        return list;
     }
 }
