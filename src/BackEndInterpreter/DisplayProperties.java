@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
- * @author ezra
+ * @author ezra, Robert Steilberg
  */
 public class DisplayProperties {
     private DoubleProperty penSize;
@@ -16,6 +16,8 @@ public class DisplayProperties {
     private DoubleProperty imageIndex;
     private DoubleProperty backgroundImage;
     private ObjectProperty<RGB> paletteIndex;
+    private DoubleProperty stamp;
+    private DoubleProperty clearStamp;
 
     public DisplayProperties(GUIDisplay display) {
         imageIndex = new SimpleDoubleProperty(0);
@@ -28,6 +30,11 @@ public class DisplayProperties {
         backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double) newValue));
         paletteIndex = new SimpleObjectProperty<RGB>();
         paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette(newValue));
+
+        stamp = new SimpleDoubleProperty(0);
+        stamp.addListener(((observable, oldValue, newValue) -> display.stamp(imageIndex.get())));
+        clearStamp = new SimpleDoubleProperty(0);
+        clearStamp.addListener(((observable, oldValue, newValue) -> display.clearStamps()));
     }
 
     public double getPenColor() {
@@ -58,4 +65,27 @@ public class DisplayProperties {
         RGB palette = new RGB(r, g, b);
         paletteIndex = new SimpleObjectProperty<>(palette);
     }
+
+    /**
+     * Triggered when a stamp is made; increments number of stamps made
+     *
+     * @return the image index of the turtle used to make the stamp
+     */
+    public double makeStamp() {
+        stamp.set(1);
+        return imageIndex.get();
+    }
+
+    /**
+     * Triggered when all stamps are cleared; resets number of stamps made
+     *
+     * @return the number of stamps cleared
+     */
+    public double clearStamps() {
+        double result = stamp.get();
+        clearStamp.set(1); // trigger front end action
+        stamp.set(0); // reset the number of stamps made
+        return result;
+    }
+
 }

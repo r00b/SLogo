@@ -22,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import BackEndInterface.RGB;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,7 +81,7 @@ public class GUIDisplay implements RenderSprite {
     }
 
     //Really Need to Refactor this
-    public ObservableProperties addTurtle(double newID){
+    public ObservableProperties addTurtle(double newID) {
         ImageView newTurtleImg = new ImageView();
         newTurtleImg.setImage(myTurtle.getImage());
         newTurtleImg.setTranslateX(displayGraph.getTranslateX() + (displayGraph.getFitWidth() / 2));
@@ -165,15 +166,15 @@ public class GUIDisplay implements RenderSprite {
             out = true;
         if (out)
             window.getChildren().remove(myTurtles.get(id).getImage());
-        else if(!window.getChildren().contains(myTurtles.get(id).getImage()))
+        else if (!window.getChildren().contains(myTurtles.get(id).getImage()))
             window.getChildren().add(myTurtles.get(id).getImage());
     }
 
-    private void drawNewLine(double x, double y, double id){
+    private void drawNewLine(double x, double y, double id) {
         double xDest = myTurtles.get(id).getImage().getTranslateX() + x + 20;
         double yDest = myTurtles.get(id).getImage().getTranslateY() - y + 20;
-        double xFrom =  myTurtles.get(id).getImage().getTranslateX() +  myTurtles.get(id).getImage().getX() + 20;
-        double yFrom =  myTurtles.get(id).getImage().getTranslateY() +  myTurtles.get(id).getImage().getY() + 20;
+        double xFrom = myTurtles.get(id).getImage().getTranslateX() + myTurtles.get(id).getImage().getX() + 20;
+        double yFrom = myTurtles.get(id).getImage().getTranslateY() + myTurtles.get(id).getImage().getY() + 20;
         boolean fullyOut = false;
         boolean destOut = (xDest < displayGraph.getTranslateX()
                 || xDest > displayGraph.getTranslateX() + displayGraph.getFitWidth())
@@ -183,32 +184,32 @@ public class GUIDisplay implements RenderSprite {
                 || xFrom > displayGraph.getTranslateX() + displayGraph.getFitWidth())
                 || (yFrom < displayGraph.getTranslateY()
                 || yFrom > displayGraph.getTranslateY() + displayGraph.getFitHeight());
-        if (destOut && originOut){
+        if (destOut && originOut) {
             fullyOut = true;
         }
-        if (yDest < displayGraph.getTranslateY()){
+        if (yDest < displayGraph.getTranslateY()) {
             yDest = displayGraph.getTranslateY();
         }
-        if (yDest > displayGraph.getTranslateY() + displayGraph.getFitHeight()){
+        if (yDest > displayGraph.getTranslateY() + displayGraph.getFitHeight()) {
             yDest = displayGraph.getTranslateY() + displayGraph.getFitHeight();
         }
-        if (xDest < displayGraph.getTranslateX()){
+        if (xDest < displayGraph.getTranslateX()) {
             xDest = displayGraph.getTranslateX();
         }
-        if (xDest > displayGraph.getTranslateX() + displayGraph.getFitWidth()){
+        if (xDest > displayGraph.getTranslateX() + displayGraph.getFitWidth()) {
             xDest = displayGraph.getTranslateX() + displayGraph.getFitWidth();
         }
 
-        if (yFrom < displayGraph.getTranslateY()){
+        if (yFrom < displayGraph.getTranslateY()) {
             yFrom = displayGraph.getTranslateY();
         }
-        if (yFrom > displayGraph.getTranslateY() + displayGraph.getFitHeight()){
+        if (yFrom > displayGraph.getTranslateY() + displayGraph.getFitHeight()) {
             yFrom = displayGraph.getTranslateY() + displayGraph.getFitHeight();
         }
-        if (xFrom < displayGraph.getTranslateX()){
+        if (xFrom < displayGraph.getTranslateX()) {
             xFrom = displayGraph.getTranslateX();
         }
-        if (xFrom > displayGraph.getTranslateX() + displayGraph.getFitWidth()){
+        if (xFrom > displayGraph.getTranslateX() + displayGraph.getFitWidth()) {
             xFrom = displayGraph.getTranslateX() + displayGraph.getFitWidth();
         }
         Line newLine = new Line(xFrom, yFrom, xDest, yDest);
@@ -222,7 +223,7 @@ public class GUIDisplay implements RenderSprite {
         newLine.setVisible(myTurtles.get(id).isVisible());
         turtleMotion.add(newLine);
         myTurtles.get(1.0).getLines().add(newLine);
-        if(!fullyOut)
+        if (!fullyOut)
             window.getChildren().add(window.getChildren().size() - 1, newLine);
     }
 
@@ -401,7 +402,7 @@ public class GUIDisplay implements RenderSprite {
             getStartWindow().getChildren().add(newButton);
         }
 
-        private void addPenSizeSlider(){
+        private void addPenSizeSlider() {
             slider = new Slider(0, 10, 5);
             slider.setShowTickMarks(true);
             slider.setShowTickLabels(true);
@@ -452,5 +453,13 @@ public class GUIDisplay implements RenderSprite {
         public int getStrokeWidth() {
             return (int) slider.getValue();
         }
+    }
+
+    public void stamp(double imageIndex) {
+        // front end uses imageIndex to stamp the current turtle
+    }
+
+    public void clearStamps() {
+        // front end clears all stamps that have been made
     }
 }
