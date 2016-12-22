@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Sets the background display images color
+ *
  * @author ezra
  */
 public class SetBackground extends DisplayCommand {

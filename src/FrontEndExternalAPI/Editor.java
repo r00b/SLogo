@@ -16,35 +16,36 @@ import javafx.scene.shape.Rectangle;
  * The "Save file" button lets users to save what currently exists in the text area
  * as a text file in their own directory.
  * The question mark provides useful tips to users about how to use the editor.
+ *
  * @author Delia
  */
-public interface Editor{
+public interface Editor {
 
     /**
      * Returns the translucent rectangle upon which every Editor node is drawn
+     *
      * @return backdrop
      */
     Rectangle getBackdrop();
 
     /**
-     *Creates the necessary changes in the text area by appending the caret
+     * Creates the necessary changes in the text area by appending the caret
      * to show the user that a new command has started.
      */
     void startNewCommand();
 
     /**
-     *Returns all text currently located in the textArea, including previously
+     * Returns all text currently located in the textArea, including previously
      * executed commands
+     *
      * @return textArea.getText()
      */
     String getCurrentText();
 
     /**
-     * @param str
-     *
-     * String parameter passed in from History is previously executed command
-     * that user wishes to run again. Concatenates it to textArea if it were a
-     * new command.
+     * @param str String parameter passed in from History is previously executed command
+     *            that user wishes to run again. Concatenates it to textArea if it were a
+     *            new command.
      */
     void redoCommand(String str);
 }

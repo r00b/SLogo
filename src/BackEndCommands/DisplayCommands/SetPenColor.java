@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Sets the pen color of the lines to the color index specified
+ *
  * @author ezra
  */
 public class SetPenColor extends DisplayCommand {

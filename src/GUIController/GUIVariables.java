@@ -1,4 +1,5 @@
 package GUIController;
+
 import BackEndInterface.CommandParser;
 import Base.NodeFactory;
 import FrontEndExternalAPI.Variables;
@@ -22,6 +23,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.stream.Collectors;
 
 /**
@@ -46,8 +48,10 @@ public class GUIVariables implements Variables {
     private NodeFactory myFactory = new NodeFactory();
     private CommandParser myVariableSetter;
 
-    /** This is the constructor. It sets items that must be passed in from GUIManager
+    /**
+     * This is the constructor. It sets items that must be passed in from GUIManager
      * and creates all of the nodes present within the Variables box.
+     *
      * @param p
      * @param borderColor
      */
@@ -108,18 +112,18 @@ public class GUIVariables implements Variables {
         window.getChildren().add(table);
     }
 
-    private void createTableColumns(){
+    private void createTableColumns() {
         variableNameCol = generateColumn("Variable Name");
         variableNameCol.setCellValueFactory(
                 new PropertyValueFactory<Variable, String>("variableName"));
         variableNameCol.setOnEditCommit(new EventHandler<CellEditEvent<Variable, String>>() {
-                    @Override
-                    public void handle(CellEditEvent<Variable, String> t) {
-                        ((Variable) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())
-                        ).setVariableName(t.getNewValue());
-                    }
-                });
+            @Override
+            public void handle(CellEditEvent<Variable, String> t) {
+                ((Variable) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                ).setVariableName(t.getNewValue());
+            }
+        });
         valueCol = generateColumn("Value");
         valueCol.setCellValueFactory(new PropertyValueFactory<Variable, Double>("variableValue"));
         valueCol.setOnEditCommit(
@@ -134,7 +138,7 @@ public class GUIVariables implements Variables {
         table.getColumns().addAll(variableNameCol, valueCol);
     }
 
-    private TableColumn generateColumn(String title){
+    private TableColumn generateColumn(String title) {
         TableColumn newCol = new TableColumn(title);
         newCol.setPrefWidth(COLUMN_WIDTH);
         newCol.setEditable(true);
@@ -178,7 +182,7 @@ public class GUIVariables implements Variables {
         window.getChildren().addAll(addVariableName, addVariableValue, addButton);
     }
 
-    private void addButtonHandler(){
+    private void addButtonHandler() {
         addVariable(addVariableName.getText(), Double.parseDouble(addVariableValue.getText()));
         String command = "make :" + addVariableName.getText() + " " + addVariableValue.getText();
         String[] commands = new String[1];
@@ -210,14 +214,17 @@ public class GUIVariables implements Variables {
         table.setItems(data);
     }
 
-    /** Nested class Variable.java helps GUIVariables.java organize the data
+    /**
+     * Nested class Variable.java helps GUIVariables.java organize the data
      * contained within the TableView.
      */
     public static class Variable {
         private final SimpleStringProperty variableName;
         private final SimpleDoubleProperty variableValue;
 
-        /**Constructor sets initial properties
+        /**
+         * Constructor sets initial properties
+         *
          * @param variableName
          * @param variableValue
          */
@@ -226,28 +233,36 @@ public class GUIVariables implements Variables {
             this.variableValue = new SimpleDoubleProperty(variableValue);
         }
 
-        /** Returns the name of the variable, like x for x = 10.
+        /**
+         * Returns the name of the variable, like x for x = 10.
+         *
          * @return
          */
         public String getVariableName() {
             return variableName.get();
         }
 
-        /** Sets name of the variable
+        /**
+         * Sets name of the variable
+         *
          * @param fName
          */
         public void setVariableName(String fName) {
             variableName.set(fName);
         }
 
-        /**Returns value of the variable, like 10 for x = 10.
+        /**
+         * Returns value of the variable, like 10 for x = 10.
+         *
          * @return
          */
         public double getVariableValue() {
             return variableValue.get();
         }
 
-        /**Sets value of the variable.
+        /**
+         * Sets value of the variable.
+         *
          * @param fName
          */
         public void setVariableValue(double fName) {

@@ -24,10 +24,10 @@ public class DoTimes extends ControlCommand {
         ParseTreeNode body = node.getChild(1);
         String variable = varNode.getRawCommand();
         double limit = limitNode.executeCommand(limitNode);
-		getVariables().put(variable, 1.0); // start at 1
+        getVariables().put(variable, 1.0); // start at 1
         double result = 0;
         for (double i = getVariables().get(variable); i <= limit; i++) {
-            getVariables().put(variable,i); // update variable as body is executed
+            getVariables().put(variable, i); // update variable as body is executed
             result = body.executeCommand(body);
         }
         return result;

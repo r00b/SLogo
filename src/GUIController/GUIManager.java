@@ -1,4 +1,5 @@
 package GUIController;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import BackEndCommands.TurtleCommands.SetXY;
 import BackEndInterface.CommandParser;
 import BackEndInterpreter.DisplayProperties;
@@ -33,6 +35,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 /**
  * Created by Delia on 10/15/2016.
  */
@@ -57,6 +60,7 @@ public class GUIManager implements Manager {
     private DisplayProperties displayProperties;
     private SimpleStringProperty myLanguage;
     private String backgroundStr, turtleStr, language;
+
     /**
      * @param penColor
      * @param background
@@ -81,7 +85,7 @@ public class GUIManager implements Manager {
         myLanguage = new SimpleStringProperty(language);
         this.line = lineType;
     }
-    
+
     @Override
     public void init() {
         stage = new Stage();
@@ -101,6 +105,7 @@ public class GUIManager implements Manager {
         stage.setScene(myScene);
         stage.show();
     }
+
     private Parent setUpWindow() {
         window = new Pane();
         window.setPrefSize(IDE_WIDTH, IDE_HEIGHT);
@@ -117,6 +122,7 @@ public class GUIManager implements Manager {
         setSizeBindings();
         return window;
     }
+
     private void setSizeBindings() {
         background.fitWidthProperty().bind(window.widthProperty());
         background.fitHeightProperty().bind(window.heightProperty());
@@ -128,11 +134,13 @@ public class GUIManager implements Manager {
         myHistory.getBackdrop().heightProperty().bind(window.heightProperty().subtract(610));
         myHistory.bindNodes(window.heightProperty());
     }
+
     private ObservableComposite setupBindings() {
         ObservableComposite answer = new ObservableComposite(myDisplay);
         return answer;
     }
-    private void addRunButton(){
+
+    private void addRunButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/play.png"));
         ImageView imgV = new ImageView(newImage);
@@ -144,6 +152,7 @@ public class GUIManager implements Manager {
         run.setOnMouseClicked(e -> returnAction());
         window.getChildren().add(run);
     }
+
     private void addLoadButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/load.png"));
@@ -156,6 +165,7 @@ public class GUIManager implements Manager {
         hist.setOnMouseClicked(e -> getAndLoadHistoryCommand());
         window.getChildren().add(hist);
     }
+
     private void addMoreTurtlesField() {
         TextField enterID = myFactory.makeTextField(
                 "Enter a new turtle's ID", 200, IDE_WIDTH - 210, 43);
@@ -166,6 +176,7 @@ public class GUIManager implements Manager {
         });
         window.getChildren().add(enterID);
     }
+
     @Override
     public void returnAction() {
         String fullText = myEditor.getCurrentText();
@@ -182,10 +193,12 @@ public class GUIManager implements Manager {
             commandParser.getErrors().forEach(myConsole::addConsole);
         }
     }
+
     private void getAndLoadHistoryCommand() {
         String redoCommand = myHistory.getRedoCommand();
         myEditor.redoCommand(redoCommand);
     }
+
     private int lookForLatest(String fullText) {
         int startIndex = -1;
         for (int i = fullText.length() - 1; i >= 0; i--) {
@@ -196,6 +209,7 @@ public class GUIManager implements Manager {
         }
         return startIndex;
     }
+
     private class GUIButtonMenu implements ButtonMenu {
         private Pane window;
         private Paint border;
@@ -226,6 +240,7 @@ public class GUIManager implements Manager {
                 );
         private HelpMenu myHelpMenu;
         private NodeFactory myFactory = new NodeFactory();
+
         /**
          * @param p
          * @param borderColor
@@ -238,15 +253,18 @@ public class GUIManager implements Manager {
             addButtons();
             addComboBoxes();
         }
+
         private void drawButtonMenu() {
             backdrop = myFactory.makeBackdrop(border, 1580, 90, 10, 10);
             window.getChildren().add(backdrop);
         }
+
         private void addTextLabel() {
             Text label = myFactory.makeTitle("Options", 20, 30);
             label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
             window.getChildren().add(label);
         }
+
         @Override
         public void loadFile() throws FileNotFoundException {
             Stage stage = new Stage();
@@ -278,6 +296,7 @@ public class GUIManager implements Manager {
                                 + file + "'");
             }
         }
+
         public void saveFile() {
             FileChooser fileChooser = new FileChooser();
             //Set extension filter
@@ -303,6 +322,7 @@ public class GUIManager implements Manager {
                 System.out.println("ERROR");
             }
         }
+
         @Override
         public void addButtons() {
             Image newImage = new Image(getClass().getClassLoader()
@@ -349,6 +369,7 @@ public class GUIManager implements Manager {
             });
             window.getChildren().addAll(save, load, help, play);
         }
+
         private void addComboBoxes() {
             System.setProperty("glass.accessible.force", "false");
             backgroundBox = new ComboBox<String>(backgroundOptions);
@@ -359,7 +380,7 @@ public class GUIManager implements Manager {
             backgroundBox.setOnMouseExited(ee -> backdrop.opacityProperty().setValue(0.5));
             backgroundBox.valueProperty().addListener((ov, oldbackground, newbackground) -> {
                 String chosenBackground = "";
-                switch (newbackground){
+                switch (newbackground) {
                     case "Circuits":
                         chosenBackground = "Images/background.jpg";
                         break;
@@ -387,15 +408,18 @@ public class GUIManager implements Manager {
             languageBox.setOnMouseExited(ee -> backdrop.opacityProperty().setValue(0.5));
             languageBox.valueProperty().addListener((ov, oldLang, newLang) -> myLanguage.set(newLang));
         }
-        private void setNewBackground(String newBackground){
+
+        private void setNewBackground(String newBackground) {
             Image newB = new Image(getClass().getClassLoader()
                     .getResourceAsStream(newBackground));
             background.setImage(newB);
         }
+
         private void helpHandler() {
             myHelpMenu = new HelpMenu(s);
             myHelpMenu.init();
         }
+
         @Override
         public Rectangle getBackdrop() {
             return backdrop;

@@ -5,14 +5,14 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Executes the Tell Command
- * @author ezra
  *
+ * @author ezra
  */
 public class Tell extends TurtleCommand {
     private static final int ARGS = 1;
 
     /**
-     *Calls the ObservableComposite command to perform the tell command
+     * Calls the ObservableComposite command to perform the tell command
      */
     @Override
     public double executeCommand(ParseTreeNode node) {

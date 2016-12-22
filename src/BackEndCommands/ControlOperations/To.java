@@ -21,16 +21,16 @@ public class To extends ControlCommand {
      */
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode commandName = node.getChild(0);
-		ParseTreeNode variables = node.getChild(1);
-		ParseTreeNode commandBody = node.getChild(2);
+        ParseTreeNode commandName = node.getChild(0);
+        ParseTreeNode variables = node.getChild(1);
+        ParseTreeNode commandBody = node.getChild(2);
         LogoMethod newMethod = new LogoMethod();
         String methodName = commandName.getRawCommand();
         for (ParseTreeNode p : variables.getChildren()) { // store method arguments
             newMethod.addArgument(p.getRawCommand());
         }
         newMethod.setMethod(commandBody);
-        getMethods().put(methodName,newMethod);
+        getMethods().put(methodName, newMethod);
         return 1; // method assignment successful
     }
 

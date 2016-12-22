@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Sets the pen size of the lines
+ *
  * @author ezra
  */
 public class SetPenSize extends DisplayCommand {

@@ -1,4 +1,5 @@
 package GUIController;
+
 import Base.NodeFactory;
 import FrontEndExternalAPI.Console;
 import GUI.ConsoleHelp;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
 /**
  * Created by Delia on 10/15/2016.
  */
-public class GUIConsole implements Console{
+public class GUIConsole implements Console {
     private static final int BACKDROP_X = 620;
     private static final int BACKDROP_Y = 600;
     private static final int BACKDROP_WIDTH = 600;
@@ -35,11 +36,12 @@ public class GUIConsole implements Console{
 
     /**
      * This makes a new GUIConsole which contains the output of any commands that the
-     * user inputs into the editor. 
+     * user inputs into the editor.
+     *
      * @param p
      * @param borderColor
      */
-    public GUIConsole(Pane p, Paint borderColor){
+    public GUIConsole(Pane p, Paint borderColor) {
         this.window = p;
         this.border = borderColor;
         drawConsole();
@@ -55,12 +57,12 @@ public class GUIConsole implements Console{
         list.setItems(listOfCommands);
     }
 
-    private void drawConsole(){
+    private void drawConsole() {
         backdrop = myFactory.makeBackdrop(border, BACKDROP_WIDTH, BACKDROP_HEIGHT, BACKDROP_X, BACKDROP_Y);
         window.getChildren().add(backdrop);
     }
 
-    private void addListView(){
+    private void addListView() {
         list = new ListView<String>();
         list.setOrientation(Orientation.VERTICAL);
         list.setTranslateX(BACKDROP_X + 10);
@@ -76,27 +78,27 @@ public class GUIConsole implements Console{
         window.getChildren().add(list);
     }
 
-    private void addTextLabel(){
+    private void addTextLabel() {
         Text label = myFactory.makeTitle("Console", BACKDROP_X + 10, BACKDROP_Y + 20);
         label.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         window.getChildren().add(label);
     }
 
-    private void addHelpButton(){
+    private void addHelpButton() {
         helpButton = myFactory.makeHelpButton(backdrop.getTranslateX() + backdrop.getWidth() - 35,
                 backdrop.getTranslateY() + 10);
         helpButton.setOnMouseEntered(e -> backdrop.opacityProperty().setValue(0.8));
         helpButton.setOnMouseClicked(e -> helpHandler());
         window.getChildren().add(helpButton);
     }
-    
-    private void helpHandler(){
+
+    private void helpHandler() {
         Stage s = new Stage();
         helpWindow = new ConsoleHelp(s);
         helpWindow.init();
     }
 
-    private void addClearButton(){
+    private void addClearButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/clear.png"));
         ImageView clearImg = new ImageView(newImage);
@@ -111,14 +113,14 @@ public class GUIConsole implements Console{
     }
 
     @Override
-    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height){
+    public void bindNodes(ReadOnlyDoubleProperty width, ReadOnlyDoubleProperty height) {
         list.prefWidthProperty().bind(width.subtract(650));
         list.prefHeightProperty().bind(height.subtract(655));
         helpButton.translateXProperty().bind(width.subtract(50));
     }
 
     @Override
-    public Rectangle getBackdrop(){
+    public Rectangle getBackdrop() {
         return backdrop;
     }
 }

@@ -23,7 +23,7 @@ public class MakeVariable extends ControlCommand {
         ParseTreeNode value = node.getChild(1);
         String varName = variable.getRawCommand();
         double varVal = value.executeCommand(value);
-        getVariables().put(varName,varVal);
+        getVariables().put(varName, varVal);
         return varVal;
     }
 

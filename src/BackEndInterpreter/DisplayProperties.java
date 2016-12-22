@@ -27,9 +27,9 @@ public class DisplayProperties {
         penSize = new SimpleDoubleProperty(0);
         penSize.addListener((observable, oldValue, newValue) -> display.setPenSize((Double) newValue));
         backgroundImage = new SimpleDoubleProperty(0);
-        backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double) newValue));
+//        backgroundImage.addListener((observable, oldValue, newValue) -> display.setBackgroundImage((Double) newValue));
         paletteIndex = new SimpleObjectProperty<RGB>();
-        paletteIndex.addListener((observable, oldValue, newValue) -> display.changePalette(newValue));
+        paletteIndex.addListener((observable, oldValue, newValue) -> display.changePaletteRGB(newValue));
 
         stamp = new SimpleDoubleProperty(0);
         stamp.addListener(((observable, oldValue, newValue) -> display.stamp(imageIndex.get())));

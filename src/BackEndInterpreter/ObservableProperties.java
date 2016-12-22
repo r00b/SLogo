@@ -1,5 +1,3 @@
-//Line 17 is part of my masterpiece as it also implements FrontendObservableProperties
-//Ezra Lieblich
 package BackEndInterpreter;
 
 import GUIController.GUIDisplay;
@@ -17,7 +15,7 @@ import javafx.scene.image.ImageView;
  */
 public class ObservableProperties implements ObservableManager, FrontendObservableProperties {
     private double myId;
-    private BooleanProperty imageVisibleProperty; 
+    private BooleanProperty imageVisibleProperty;
     private DoubleProperty rotateProperty;
     private double xProperty;
     private double yProperty;
@@ -28,9 +26,10 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Creates all the ObservableProperties and also sets up the change Listeners. Also uses binding for the visibleProperty and rotateProperty
-     * @param turtle ImageView to bind properties. NOTE, this is only used as constructor and not instantiated 
+     *
+     * @param turtle    ImageView to bind properties. NOTE, this is only used as constructor and not instantiated
      * @param myDisplay display so listeners can call methods in the display. NOTE, Display is not instance variable and is only used to setupListeners
-     * @param id Id of the turtle that is created
+     * @param id        Id of the turtle that is created
      */
     public ObservableProperties(ImageView turtle, GUIDisplay myDisplay, double id) {
         myId = id;
@@ -48,6 +47,7 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Creates listeners and calls corresponding FrontEnd methods
+     *
      * @param myDisplay Display that contains methods that listeners need to call
      */
     private void setupListeners(GUIDisplay myDisplay) {
@@ -119,6 +119,7 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Calculates the distance x, y point given and current position. Method is called by the Home, ClearScreen, SetXY commands
+     *
      * @param x1
      * @param y1
      * @return The distance between two points
@@ -130,6 +131,7 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
     /**
      * Calculates the X distance the turtle travels when it moves. Called by forward and back commands
      * Also negates the value depending on whether it is a forward or backward command
+     *
      * @param hyp Distance of the hypotenuse
      * @return X distance traveled
      */
@@ -146,6 +148,7 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
     /**
      * Calculates the Y distance the turtle travels when it moves. Called by the forward and back commands
      * Also negates the value depending on whether it is a forward or backward command
+     *
      * @param hyp Distance of the hypotenuse
      * @return Y distance traveled
      */
@@ -186,9 +189,10 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Sets the rotateProperty to value specified by the node.
-     * @param node Value to rotate
+     *
+     * @param node       Value to rotate
      * @param isAbsolute Determines whether we rotate just by value specified or add based off current pos
-     * @param sign Determines whether we rotate clockwise or counterclockwise from current heading
+     * @param sign       Determines whether we rotate clockwise or counterclockwise from current heading
      */
     @Override
     public double setRotateProperty(ParseTreeNode node, boolean isAbsolute, boolean sign) {
@@ -216,7 +220,8 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Called by the Towards the command
-     * Calculates the degrees from the origin of the two nodes specified and sets the rotate property to that 
+     * Calculates the degrees from the origin of the two nodes specified and sets the rotate property to that
+     *
      * @param node1 the X value
      * @param node2 The Y value
      * @return the Degrees moved
@@ -234,11 +239,12 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Adjusts the angle depending on the quadrant the coordinate is
+     *
      * @return The actual angle to set the turtle
      */
     private double adjustAngleQuadrant(double x, double y, double angle) {
         double answer;
-    	 // Second quadrant
+        // Second quadrant
         if (x > 0 && y < 0) {
             answer = 90 - angle;
         }
@@ -256,6 +262,7 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
         }
         return answer;
     }
+
     /**
      * @return the id of the turtle
      */
@@ -265,9 +272,10 @@ public class ObservableProperties implements ObservableManager, FrontendObservab
 
     /**
      * Sets the x and y Property to the coordinates specified
+     *
      * @param arg1 The value is xCord
      * @param arg2 The value is yCord
-     * @return the Distance traveled 
+     * @return the Distance traveled
      */
     @Override
     public double setXY(ParseTreeNode arg1, ParseTreeNode arg2) {

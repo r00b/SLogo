@@ -20,6 +20,7 @@ public class GreaterThan implements Command {
     /**
      * Executes its two children and returns 1 if the first value is
      * greater, 0 otherwise
+     *
      * @param node The current node
      */
     @Override

@@ -19,10 +19,10 @@ public class IfElse extends ControlCommand {
      */
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode condition = node.getChild(0);
-		ParseTreeNode trueCommand = node.getChild(1);
-		ParseTreeNode falseCommand = node.getChild(2);
-		Double result = condition.executeCommand(condition);
+        ParseTreeNode condition = node.getChild(0);
+        ParseTreeNode trueCommand = node.getChild(1);
+        ParseTreeNode falseCommand = node.getChild(2);
+        Double result = condition.executeCommand(condition);
         if (result == 0) {
             return falseCommand.executeCommand(falseCommand);
         } else {

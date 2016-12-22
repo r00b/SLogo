@@ -6,9 +6,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *	Starts the program and sets the stage
- *  @author Delia
+ * Starts the program and sets the stage
  *
+ * @author Delia
  */
 public class Main extends Application {
     Stage stage;

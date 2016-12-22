@@ -2,6 +2,7 @@
 //DELIA LI
 
 package GUIController;
+
 import Base.NodeFactory;
 import FrontEndExternalAPI.Editor;
 import GUI.EditorHelp;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -31,13 +33,7 @@ import java.util.Scanner;
  * directory to run as a set of Slogo commands. The "Save file" button lets users to save what currently exists in the
  * text area as a text file in their own directory. The question mark provides useful tips to users about how to use the
  * editor.
- *
- * I think this class represents good design because it is significantly refactored and contains no magic values that
- * still should be refactored. It is simple and very easy to use, both for the developer and the user. I handle errors
- * in try/catch blocks like we learned in class to do, providing helpful statements should any of those errors happen,
- * in a way that is accessible to the user. It demonstrates that I have learned how to navigate a TextArea object and
- * style it in a way such that commands look like they're appearing on a command line in other editors. 
- *
+ * <p>
  * Created by Delia on 10/15/2016.
  */
 public class GUIEditor implements Editor {
@@ -61,8 +57,9 @@ public class GUIEditor implements Editor {
     private EditorHelp helpWindow;
 
     /**
-     * This is the constructor that sets up the designated section of the 
-     * GUI as the editor, where the user can input code and run it. 
+     * This is the constructor that sets up the designated section of the
+     * GUI as the editor, where the user can input code and run it.
+     *
      * @param p
      * @param borderColor
      */
@@ -126,7 +123,7 @@ public class GUIEditor implements Editor {
         helpWindow.init();
     }
 
-    private void addClearButton(){
+    private void addClearButton() {
         Button clear = myFactory.makeClearButton(BACKDROP_X + 180, BACKDROP_Y);
         clear.setOnMouseEntered(e -> {
             clear.setStyle(myFactory.getButtonFill());
@@ -136,7 +133,7 @@ public class GUIEditor implements Editor {
         window.getChildren().add(clear);
     }
 
-    private void addSaveFileButton(){
+    private void addSaveFileButton() {
         newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("Images/save.png"));
         ImageView clearImg = new ImageView(newImage);
@@ -165,12 +162,12 @@ public class GUIEditor implements Editor {
             fileWriter.close();
         } catch (IOException e) {
             generateAlert("IOException", "You have encountered an IOException.");
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             generateAlert("NullPointerException", "You have not saved the file.");
         }
     }
 
-    private void addOpenFileButton(){
+    private void addOpenFileButton() {
         Image newImage = new Image(getClass().getClassLoader()
                 .getResourceAsStream("images/open.png"));
         ImageView clearImg = new ImageView(newImage);
@@ -202,7 +199,7 @@ public class GUIEditor implements Editor {
         }
     }
 
-    private void generateAlert(String title, String content){
+    private void generateAlert(String title, String content) {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();

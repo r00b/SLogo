@@ -14,7 +14,6 @@ public class ConsoleHelp extends HelpMenu {
             "know what you typed incorrectly in your command.";
 
     /**
-     *
      * @param s
      */
     public ConsoleHelp(Stage s) {
@@ -24,19 +23,18 @@ public class ConsoleHelp extends HelpMenu {
     /**
      *
      */
-    public void addNodes(){
+    public void addNodes() {
         getWindow().getChildren().add(addRectangle());
         getWindow().getChildren().add(addTip(instructions, 110, 110));
     }
 
     /**
-     *
      * @param text
      * @param x
      * @param y
      * @return
      */
-    public Text addTip(String text, int x, int y){
+    public Text addTip(String text, int x, int y) {
         Text instructionText = new Text(text);
         instructionText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         instructionText.setFill(Color.WHITE);

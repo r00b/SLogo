@@ -33,27 +33,25 @@ public class HelpMenu {
     //desktop.getDesktop().browse(new URI("http://...");
 
     /**
-     *
      * @param s
      */
-    public HelpMenu(Stage s){
+    public HelpMenu(Stage s) {
         myStage = s;
     }
 
     /**
      *
      */
-    public void init(){
+    public void init() {
         myStage.setTitle("Help");
         myStage.setScene(new Scene(setUpWindow()));
         myStage.show();
     }
 
     /**
-     *
      * @return
      */
-    public Parent setUpWindow(){
+    public Parent setUpWindow() {
         helpWindow = new Pane();
         helpWindow.setPrefSize(HELP_MENU_WIDTH, HELP_MENU_HEIGHT);
         Image background = new Image(getClass().getClassLoader()
@@ -70,7 +68,7 @@ public class HelpMenu {
     /**
      *
      */
-    public void addNodes(){
+    public void addNodes() {
         Text titleText = new Text("Which option do you need help with?");
         titleText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         titleText.setFill(Color.WHITE);
@@ -95,13 +93,12 @@ public class HelpMenu {
     }
 
     /**
-     *
      * @param text
      * @param x
      * @param y
      * @return
      */
-    public Button addButton(String text, int x, int y){
+    public Button addButton(String text, int x, int y) {
         Button newButton;
         newButton = new Button(text);
         newButton.setStyle(overButton);
@@ -115,10 +112,9 @@ public class HelpMenu {
     }
 
     /**
-     *
      * @return
      */
-    public Rectangle addRectangle(){
+    public Rectangle addRectangle() {
         Rectangle backdrop = new Rectangle(520, 410, Color.MIDNIGHTBLUE);
         backdrop.setTranslateY(70);
         backdrop.setTranslateX(80);
@@ -126,55 +122,53 @@ public class HelpMenu {
         return backdrop;
     }
 
-    private void editorHandler(){
+    private void editorHandler() {
         Stage s = new Stage();
         editorHelp = new EditorHelp(s);
         editorHelp.init();
     }
 
-    private void historyHandler(){
+    private void historyHandler() {
         Stage s = new Stage();
         historyHelp = new HistoryHelp(s);
         historyHelp.init();
     }
 
-    private void variablesHandler(){
+    private void variablesHandler() {
         Stage s = new Stage();
         variablesHelp = new VariablesHelp(s);
         variablesHelp.init();
     }
 
-    private void displayHandler(){
+    private void displayHandler() {
         Stage s = new Stage();
         displayHelp = new DisplayHelp(s);
         displayHelp.init();
     }
 
-    private void consoleHandler(){
+    private void consoleHandler() {
         Stage s = new Stage();
         consoleHelp = new ConsoleHelp(s);
         consoleHelp.init();
     }
 
-    private void commandHandler(){
+    private void commandHandler() {
         Stage s = new Stage();
         commandHelp = new CommandHelp(s);
         commandHelp.init();
     }
 
     /**
-     *
      * @return
      */
-    public Stage getStage(){
+    public Stage getStage() {
         return myStage;
     }
 
     /**
-     *
      * @return
      */
-    public Pane getWindow(){
+    public Pane getWindow() {
         return helpWindow;
     }
 }

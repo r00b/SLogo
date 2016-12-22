@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Returns the index of the pencolor  display
+ *
  * @author ezra
  */
 public class PenColor extends DisplayCommand {

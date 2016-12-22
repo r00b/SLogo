@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Changes the background color display to the color and RGB palette specified
+ *
  * @author ezra
  */
 public class SetPalette extends DisplayCommand {

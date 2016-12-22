@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ListStart implements Command {
 
-	//Note that a list has an unknown amount of children so this is merely a placeholder
+    //Note that a list has an unknown amount of children so this is merely a placeholder
     private static final int ARGS = 1;
 
     public void setProperties(Object o) {

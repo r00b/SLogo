@@ -7,11 +7,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class DisplayHelp extends HelpMenu {
-    private String instructions = "This will show the results of your inputs by \n " + 
-"moving the turtle to follow your commands.";
+    private String instructions = "This will show the results of your inputs by \n " +
+            "moving the turtle to follow your commands.";
 
     /**
-     *
      * @param s
      */
     public DisplayHelp(Stage s) {
@@ -21,19 +20,18 @@ public class DisplayHelp extends HelpMenu {
     /**
      *
      */
-    public void addNodes(){
+    public void addNodes() {
         getWindow().getChildren().add(addRectangle());
         getWindow().getChildren().add(addTip(instructions, 110, 110));
     }
 
     /**
-     *
      * @param text
      * @param x
      * @param y
      * @return
      */
-    public Text addTip(String text, int x, int y){
+    public Text addTip(String text, int x, int y) {
         Text instructionText = new Text(text);
         instructionText.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         instructionText.setFill(Color.WHITE);

@@ -16,7 +16,8 @@ public interface Factory {
 
     /**
      * This makes a button with the string "text," the image "img," and places
-     * it at the location marked by x and y. 
+     * it at the location marked by x and y.
+     *
      * @param text
      * @param img
      * @param x
@@ -26,9 +27,10 @@ public interface Factory {
     Button makeButton(String text, ImageView img, double x, double y);
 
     /**
-     * This is a method to make a specific type of button that will need to be used 
-     * in multiple different classes, with the functionality to clear whichever 
-     * section of the GUI it is assigned to. 
+     * This is a method to make a specific type of button that will need to be used
+     * in multiple different classes, with the functionality to clear whichever
+     * section of the GUI it is assigned to.
+     *
      * @param x
      * @param y
      * @return
@@ -36,7 +38,6 @@ public interface Factory {
     Button makeClearButton(double x, double y);
 
     /**
-     * 
      * @param text
      * @param x
      * @param y
@@ -45,9 +46,10 @@ public interface Factory {
     Button makeBigButton(String text, int x, int y);
 
     /**
-     * This is a method to make a specific type of button that will need to be used 
+     * This is a method to make a specific type of button that will need to be used
      * in multiple different classes, with the functionality to load the help screen
-     * of whichever section of the GUI it is assigned to. 
+     * of whichever section of the GUI it is assigned to.
+     *
      * @param x
      * @param y
      * @return
@@ -57,6 +59,7 @@ public interface Factory {
     /**
      * This makes a title for the different sections of the GUI, and puts the given
      * string at the given location.
+     *
      * @param text
      * @param x
      * @param y
@@ -65,8 +68,9 @@ public interface Factory {
     Text makeTitle(String text, int x, int y);
 
     /**
-     * This makes text specifically for pop up windows, and sets the 
+     * This makes text specifically for pop up windows, and sets the
      * text to the location and size given.
+     *
      * @param text
      * @param x
      * @param y
@@ -76,7 +80,8 @@ public interface Factory {
     Text makePopupText(String text, int x, int y, int fontsize);
 
     /**
-     * This method makes a textField. 
+     * This method makes a textField.
+     *
      * @param promptText
      * @param prefWidth
      * @param x
@@ -86,7 +91,8 @@ public interface Factory {
     TextField makeTextField(String promptText, double prefWidth, int x, int y);
 
     /**
-     * This method makes a backdrop. 
+     * This method makes a backdrop.
+     *
      * @param border
      * @param width
      * @param height
@@ -97,7 +103,8 @@ public interface Factory {
     Rectangle makeBackdrop(Paint border, int width, int height, int x, int y);
 
     /**
-     *This method makes a blue backdrop. 
+     * This method makes a blue backdrop.
+     *
      * @param width
      * @param height
      * @param x
@@ -107,7 +114,8 @@ public interface Factory {
     Rectangle makeBlueBackdrop(int width, int height, int x, int y);
 
     /**
-     * This method allows the colors to be adjusted based on the user's actions. 
+     * This method allows the colors to be adjusted based on the user's actions.
+     *
      * @param color
      * @return
      */
@@ -115,13 +123,15 @@ public interface Factory {
 
     /**
      * This gets the standard look for a button, so they are all the same.
+     *
      * @return
      */
     String getButtonFill();
 
     /**
-     *This gets the standard look for a button when the mouse
+     * This gets the standard look for a button when the mouse
      * is hovering over it, so they are all the same look.
+     *
      * @return
      */
     String getOverButton();

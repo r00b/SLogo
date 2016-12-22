@@ -1,17 +1,3 @@
-// This entire file is part of my masterpiece.
-// Robert Steilberg
-/**
- * This class is the core of the interpreter. It builds the parse tree which is subsequently executed
- * to get the effects of a Logo command specified by CommandParser. It checks for special cases, like
- * lists, groups, and method definitions, and calls the appropriate helper subclasses when necessary
- * (shown by the use of MethodCaller, ListBuilder, and GroupBuilder in the buildParseTree() method).
- * I think it is well designed because buildParseTree() is concise; it's also easy to understand the
- * underlying logic of the method by skimming through it. All instance variables are private and only
- * accessible through getters and setters. Separate functionality is encapsulated in different methods
- * or different classes, specifically MethodCaller, ListBuilder, and GroupBuilder. Methods and variables
- * are given clear names so that it's easy to understand their functionality.
- */
-
 package BackEndInterpreter;
 
 import BackEndCommands.*;
@@ -22,7 +8,6 @@ import java.util.*;
 
 /**
  * @author Robert Steilberg
- * @author ezra
  *         <p>
  *         This class builds a parse tree of a specified Logo commandType. This is done
  *         by reducing the Logo commandType down into its subparts and then recursively

@@ -5,6 +5,7 @@ import BackEndInterpreter.ParseTreeNode;
 
 /**
  * Gets the current image index of the turtle
+ *
  * @author ezra
  */
 public class Shape extends DisplayCommand {

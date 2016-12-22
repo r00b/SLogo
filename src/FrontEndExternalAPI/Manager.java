@@ -4,7 +4,7 @@ package FrontEndExternalAPI;
  * The GUIManager class is crucial to the front end. It is a controller that facilitates
  * communication between the various other front end classes, the front end internal classes,
  * and the back end.
- *
+ * <p>
  * Created by Delia on 11/5/2016.
  */
 public interface Manager {

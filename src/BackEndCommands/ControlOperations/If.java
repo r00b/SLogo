@@ -18,9 +18,9 @@ public class If extends ControlCommand {
      */
     @Override
     public double executeCommand(ParseTreeNode node) {
-    	ParseTreeNode condition = node.getChild(0);
-		ParseTreeNode body = node.getChild(1);
-		Double value = condition.executeCommand(condition);
+        ParseTreeNode condition = node.getChild(0);
+        ParseTreeNode body = node.getChild(1);
+        Double value = condition.executeCommand(condition);
         if (value == 0) {
             return 0;
         } else {

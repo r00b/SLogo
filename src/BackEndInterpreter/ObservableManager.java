@@ -4,11 +4,11 @@ package BackEndInterpreter;
  * Interface component of the composite design. Contains all the methods related to turtle commands
  * that both the individual turtle and multiple turtle components use. See ObservableComposite and ObservableProperties
  * for details on each of the methods as they serve different purposes
- * @author ezra
  *
+ * @author ezra
  */
 public interface ObservableManager {
-	
+
     void setNewLineProperty(boolean value);
 
     void setClearScreenProperty(boolean value);
@@ -38,8 +38,8 @@ public interface ObservableManager {
     /**
      * Calculates the distance between two points. Method is called by the Home, ClearScreen, SetXY commands
      *
-     * @param x  
-     * @param y 
+     * @param x
+     * @param y
      * @return The distance between point specified and current turtle position
      */
     double calculateTotalDistance(double x, double y1);
@@ -47,8 +47,8 @@ public interface ObservableManager {
     /**
      * Calculates the X distance the turtle travels when it moves. Called by forward and back commands
      *
-     * @param hyp Distance of the hypotenuse
-     * @param sign 
+     * @param hyp  Distance of the hypotenuse
+     * @param sign
      * @return X distance traveled
      */
     double calculateXDistance(ParseTreeNode hyp, boolean sign);
@@ -63,6 +63,7 @@ public interface ObservableManager {
 
     /**
      * Performs the SetXY command
+     *
      * @param arg1
      * @param arg2
      * @return

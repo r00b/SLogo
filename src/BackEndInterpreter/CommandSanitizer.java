@@ -31,7 +31,7 @@ public class CommandSanitizer {
                     String[] splitCommands = command.trim().split(settings.getString("Delimiter"));
                     for (String splitCommand : splitCommands) {
                         if (splitCommand.equals("#")) break; // inline comment
-                            sanitizedCommands.add(splitCommand);
+                        sanitizedCommands.add(splitCommand);
                     }
                 }
             }
