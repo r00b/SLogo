@@ -1,4 +1,4 @@
-# CellSociety
+# SLogo IDE
 
 ### Robert Steilberg, Delia Li, Ezra Lieblich, Grayson Wise
 
